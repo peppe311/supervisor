@@ -47,7 +47,7 @@ url = "2.5"
 uuid = { version = "1.18", features = ["v4"] }
 vnc-rs = "0.5.3"
 winit = "0.30"
-wry = "0.56.1"
+wry = "0.57.0"
 
 [target.'cfg(windows)'.dependencies]
 webview2-com = "0.38.2"
