@@ -1,0 +1,6 @@
+The version directories contain JSON Schema and TypeScript artifacts generated
+by the official OpenAI Codex App Server CLI, without Supervisor modifications.
+Copyright OpenAI. Licensed under Apache License 2.0; see LICENSE-APACHE here.
+Upstream source: https://github.com/openai/codex
+Generation commands, versions and compatibility notes are in README.md.
+This attribution does not imply OpenAI endorsement of Supervisor.

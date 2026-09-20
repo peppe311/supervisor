@@ -1,0 +1,8 @@
+[
+  {
+    "schema":"SkillsListResponse",
+    "params":{"data":[{"cwd":"C:\\fixture","skills":[{"name":"fixture-skill","description":"Review fixture changes <script>ignored markup</script>","path":"C:\\fixture\\.agents\\skills\\fixture\\SKILL.md","scope":"repo","enabled":true,"pluginId":null}],"errors":[{"path":"C:\\fixture\\.agents\\skills\\invalid\\SKILL.md","message":"Invalid fixture metadata"}]}]}
+  },
+  {"schema":"SkillsConfigWriteResponse","params":{"effectiveEnabled":false}},
+  {"schema":"SkillsChangedNotification","params":{}}
+]

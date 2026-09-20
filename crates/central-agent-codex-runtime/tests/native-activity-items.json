@@ -1,0 +1,12 @@
+[
+  {"type":"webSearch","id":"search","query":"Rust native clients","action":{"type":"search","query":"Rust native clients","queries":["Rust native clients","Svelte event streams"]},"results":[{"opaque":"PRIVATE_SEARCH_PAYLOAD"}]},
+  {"type":"webSearch","id":"open","query":"documentation","action":{"type":"openPage","url":"https://example.com/docs"},"results":null},
+  {"type":"webSearch","id":"find","query":"protocol","action":{"type":"findInPage","url":"https://example.com/docs","pattern":"item/completed"},"results":null},
+  {"type":"collabAgentToolCall","id":"spawn","tool":"spawnAgent","status":"completed","senderThreadId":"events-thread","receiverThreadIds":["child-1"],"prompt":"Inspect the parser","model":"fixture-model","reasoningEffort":"high","agentsStates":{"child-1":{"status":"running","message":"Checking callers"}}},
+  {"type":"collabAgentToolCall","id":"wait","tool":"wait","status":"interrupted","senderThreadId":"events-thread","receiverThreadIds":["child-1","child-2"],"prompt":null,"model":null,"reasoningEffort":null,"agentsStates":{"child-1":{"status":"errored","message":"Parser test failed"},"child-2":{"status":"completed","message":"Tests passed"}}},
+  {"type":"subAgentActivity","id":"child-event","kind":"completed","agentThreadId":"child-2","agentPath":"/root/parser"},
+  {"type":"functionCallOutput","id":"output","name":"inspect","namespace":"fixtures","output":[{"type":"input_text","text":"<script>unsafe()</script>\nPublic tool output"},{"type":"input_image","image_url":"https://example.com/PRIVATE_IMAGE_URL"},{"type":"input_audio","audio_url":"data:audio/wav;base64,PRIVATE_AUDIO"},{"type":"encrypted_content","encrypted_content":"PRIVATE_CIPHERTEXT"}]},
+  {"type":"sleep","id":"sleep","durationMs":60000},
+  {"type":"imageGeneration","id":"image","status":"failed","revisedPrompt":"A minimal shape","result":"PRIVATE_IMAGE_BASE64","failure":{"type":"usageLimitExceeded","limitId":"images","resetsAt":1800000000},"savedPath":"C:\\fixtures\\image.png"},
+  {"type":"dynamicToolCall","id":"dynamic","namespace":null,"tool":"fixture-tool","arguments":{"private":"PRIVATE_DYNAMIC_ARGUMENTS"},"status":"completed","contentItems":[{"type":"inputText","text":"Historical tool result"},{"type":"inputImage","imageUrl":"https://example.com/PRIVATE_DYNAMIC_IMAGE"}],"success":false,"durationMs":100}
+]

@@ -1,0 +1,96 @@
+[package]
+name = "central-agent"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.95"
+license = "MPL-2.0"
+description = "A local-first browser for a permissioned AI agent"
+repository = "https://github.com/peppe311/supervisor"
+
+[workspace]
+members = ["crates/central-agent-codex-runtime"]
+exclude = ["vendor/ironrdp-client", "vendor/vnc-rs"]
+resolver = "3"
+
+# Keep routine builds compact. Tests inherit this profile without losing
+# debug assertions or overflow checks. Full symbols can be enabled on demand.
+[profile.dev]
+debug = 0
+incremental = false
+
+[profile.release]
+strip = "debuginfo"
+
+[dependencies]
+anyhow = "1.0"
+ammonia = "4.1"
+base64 = "0.22"
+central-agent-codex-runtime = { path = "crates/central-agent-codex-runtime" }
+directories = "6.0"
+image = { version = "0.25", default-features = false, features = ["jpeg", "png"] }
+ironrdp = { version = "0.17", default-features = false, features = ["client", "native-tls", "pdu"] }
+portable-pty = "0.9"
+pulldown-cmark = "0.13"
+regex = "1.11"
+rfd = "0.15"
+serde = { version = "1.0", features = ["derive", "rc"] }
+serde_json = "1.0"
+sha2 = "0.10"
+similar = "2.7"
+smallvec = "1.15"
+tempfile = "3.23"
+toml_edit = "0.25"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+tokio = { version = "1.47", features = ["io-util", "net", "rt-multi-thread", "sync", "time"] }
+url = "2.5"
+uuid = { version = "1.18", features = ["v4"] }
+vnc-rs = "0.5.3"
+winit = "0.30"
+wry = "0.56.1"
+
+[target.'cfg(windows)'.dependencies]
+webview2-com = "0.38.2"
+windows = { version = "0.61", features = [
+    "Foundation",
+    "Graphics",
+    "Graphics_Capture",
+    "Graphics_DirectX",
+    "Graphics_DirectX_Direct3D11",
+    "Graphics_Imaging",
+    "Win32_Foundation",
+    "Win32_Graphics_Direct3D",
+    "Win32_Graphics_Direct3D11",
+    "Win32_Graphics_Dwm",
+    "Win32_Graphics_Dxgi",
+    "Win32_Graphics_Dxgi_Common",
+    "Win32_Graphics_Gdi",
+    "Win32_Security",
+    "Win32_System_Com",
+    "Win32_System_Com_StructuredStorage",
+    "Win32_System_Ole",
+    "Win32_System_Registry",
+    "Win32_System_Variant",
+    "Win32_System_StationsAndDesktops",
+    "Win32_System_Diagnostics_ToolHelp",
+    "Win32_System_JobObjects",
+    "Win32_System_LibraryLoader",
+    "Win32_System_Threading",
+    "Win32_System_WinRT",
+    "Win32_System_WinRT_Direct3D11",
+    "Win32_System_WinRT_Graphics_Capture",
+    "Win32_Storage_FileSystem",
+    "Win32_UI_WindowsAndMessaging",
+    "Win32_UI_Accessibility",
+    "Win32_UI_Input_KeyboardAndMouse",
+    "Win32_UI_Shell",
+] }
+
+[patch.crates-io]
+# IronRDP's high-level client currently discards the dirty rectangle and copies
+# the complete framebuffer for every graphics update. Keep a small local patch
+# until the upstream event exposes region metadata.
+ironrdp-client = { path = "vendor/ironrdp-client" }
+# vnc-rs does not yet expose the standard ExtendedDesktopSize messages used to
+# request the fixed 1280x720 VNC desktop. Keep only that small local extension.
+vnc-rs = { path = "vendor/vnc-rs" }

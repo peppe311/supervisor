@@ -1,0 +1,7 @@
+[
+  {"schema":"ListMcpServerStatusResponse","params":{"data":[{"name":"fixture","runtimeStatus":null,"pluginId":null,"serverInfo":null,"tools":{"lookup":{"name":"lookup","inputSchema":{"type":"object"}}},"resources":[{"name":"Overview","uri":"fixture://overview"}],"resourceTemplates":[{"name":"By ID","uriTemplate":"fixture://{id}"}],"authStatus":"notLoggedIn"}],"nextCursor":"page-2"}},
+  {"schema":"ListMcpServerStatusResponse","params":{"data":[],"nextCursor":null}},
+  {"schema":"McpServerOauthLoginResponse","params":{"authorizationUrl":"https://example.test/authorize?state=fixture"}},
+  {"schema":"McpServerOauthLoginCompletedNotification","params":{"name":"fixture","threadId":null,"success":true}},
+  {"schema":"McpServerOauthLoginCompletedNotification","params":{"name":"fixture","threadId":"other-thread","success":false,"error":"Fixture refusal"}}
+]

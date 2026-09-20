@@ -1,0 +1,4 @@
+[
+  {"threadId":"main","turnId":"turn","itemId":"tool","message":"Inspecting metadata"},
+  {"threadId":"main","turnId":"turn","itemId":"tool","message":"<script>plain tool text</script>"}
+]

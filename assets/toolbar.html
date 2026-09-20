@@ -1,0 +1,843 @@
+<!doctype html>
+<html lang="en" data-theme="__THEME_ID__">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Supervisor</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: "SF Pro Text", "SF Pro Display", "Inter", sans-serif;
+        background: #f7f7f7;
+        color: #171717;
+      }
+      * { box-sizing: border-box; }
+      html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; user-select: none; }
+      body { display: grid; grid-template-rows: 44px 60px; background: #ffffff; }
+      button, input { font: inherit; }
+      button { color: inherit; }
+
+      .tab-strip {
+        position: relative; display: flex; align-items: center; min-width: 0; gap: 7px; padding: 6px 10px 0;
+        border-bottom: 1px solid #e7e7e7; background: #f5f5f5;
+      }
+      .brand-mark { width: 30px; height: 30px; flex: 0 0 auto; margin: 0 4px 4px 1px; }
+      .brand-mark svg { display: block; width: 100%; height: 100%; }
+      #tabs { display: flex; min-width: 0; flex: 1; align-items: center; gap: 3px; overflow-x: auto; scrollbar-width: none; }
+      #tabs::-webkit-scrollbar { display: none; }
+      .tab {
+        display: flex; align-items: center; min-width: 120px; max-width: 250px; height: 38px;
+        flex: 1 1 190px; padding: 0 7px 0 12px; border: 1px solid transparent;
+        border-bottom: 0; border-radius: 7px 7px 0 0; background: transparent;
+        color: #666666; cursor: grab;
+      }
+      .tab:hover { background: #ededed; color: #222222; }
+      .tab.active { border-color: #dedede; background: #ffffff; color: #111111; }
+      .tab:active { cursor: grabbing; }
+      .tab.dragging { opacity: .45; }
+      .tab.drop-before { box-shadow: inset 3px 0 0 var(--ca-accent); }
+      .tab.visible-pane:not(.active) { color: var(--ca-text); }
+      .tab.docked { background: color-mix(in srgb, var(--ca-accent) 8%, var(--ca-surface-2)); }
+      .tab.detached { border-color: color-mix(in srgb, var(--ca-accent) 38%, var(--ca-border)); }
+      .tab-title {
+        min-width: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        text-align: left; font-size: 13px; font-weight: 500;
+      }
+      .tab-spinner, .tab-dot {
+        width: 8px; height: 8px; margin-right: 8px; flex: 0 0 auto; border-radius: 50%;
+      }
+      .tab-dot { border: 1.5px solid #b8b8b8; background: #ffffff; }
+      .tab-spinner { border: 1.5px solid #d1d1d1; border-top-color: #202020; animation: spin .75s linear infinite; }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      .tab.tab-split-source { transform-origin: right center; animation: tab-split-source 420ms cubic-bezier(.2, .8, .2, 1); }
+      .tab.tab-split-target { transform-origin: left center; animation: tab-split-target 420ms cubic-bezier(.2, .8, .2, 1) both; }
+      .tab.tab-merge-target { animation: tab-merge-target 420ms cubic-bezier(.2, .8, .2, 1); }
+      .tab-transition-ghost {
+        position: fixed !important; z-index: 40; margin: 0 !important; flex: none !important;
+        pointer-events: none; overflow: hidden; border-color: var(--ca-border) !important;
+        background: var(--ca-surface) !important; color: var(--ca-text) !important;
+        box-shadow: 0 8px 22px color-mix(in srgb, var(--ca-accent) 18%, transparent);
+        will-change: transform, opacity, filter;
+      }
+      .tab-transition-ghost .tab-close, .tab-transition-ghost .tab-window, .tab-transition-ghost .tab-undock { opacity: .4; }
+      @keyframes tab-split-source {
+        0%, 100% { transform: scaleX(1); box-shadow: none; }
+        30% { transform: scaleX(.975); box-shadow: inset -3px 0 0 color-mix(in srgb, var(--ca-accent) 66%, transparent); }
+        58% { transform: scaleX(.99); box-shadow: inset -1px 0 0 color-mix(in srgb, var(--ca-accent) 30%, transparent); }
+      }
+      @keyframes tab-split-target {
+        0%, 30% { opacity: 0; clip-path: inset(0 100% 0 0 round 7px); transform: translateX(-22px) scaleX(.72); }
+        68% { opacity: .42; clip-path: inset(0 35% 0 0 round 7px); transform: translateX(-7px) scaleX(.94); }
+        100% { opacity: 1; clip-path: inset(0 0 0 0 round 7px); transform: translateX(0) scaleX(1); }
+      }
+      @keyframes tab-merge-target {
+        0%, 46%, 100% { box-shadow: none; }
+        72% { box-shadow: inset 3px 0 0 color-mix(in srgb, var(--ca-accent) 64%, transparent), 0 0 0 3px color-mix(in srgb, var(--ca-accent) 8%, transparent); }
+      }
+
+      .tab-close, .icon-button { display: grid; place-items: center; border: 0; background: transparent; cursor: pointer; }
+      .tab-close {
+        width: 24px; height: 24px; margin-left: 5px; border-radius: 6px; color: #888888;
+        font-size: 17px; line-height: 1;
+      }
+      .tab-close:hover { background: #e5e5e5; color: #111111; }
+      .tab-undock, .tab-window {
+        display: grid; width: 22px; height: 22px; margin-left: 4px; place-items: center;
+        border: 0; border-radius: 5px; background: transparent; color: var(--ca-accent);
+        font-size: 12px; cursor: pointer;
+      }
+      .tab-undock:hover, .tab-window:hover { background: var(--ca-surface-3); color: var(--ca-text); }
+      .dock-targets {
+        position: absolute; inset: 5px 54px auto 54px; z-index: 20; display: flex;
+        justify-content: center; pointer-events: none;
+      }
+      .dock-target {
+        width: 164px; height: 34px; border: 1px solid var(--ca-accent); border-radius: 7px;
+        background: color-mix(in srgb, var(--ca-accent) 18%, var(--ca-surface)); color: var(--ca-text);
+        font-size: 12px; font-weight: 650; opacity: 0; transform: translateY(-4px); transition: opacity .12s, transform .12s;
+      }
+      body.tab-drag-active .dock-target { pointer-events: auto; opacity: 1; transform: translateY(0); }
+      .dock-target.drag-over { background: var(--ca-accent); color: var(--ca-on-accent); }
+      #new-tab, #open-settings { width: 32px; height: 32px; margin-bottom: 4px; flex: 0 0 auto; border-radius: 7px; }
+      #new-tab { font-size: 20px; }
+      #open-settings { margin-left: 3px; border: 1px solid transparent; color: #666666; }
+      #open-settings svg { width: 18px; height: 18px; }
+      #new-tab:hover, #open-settings:hover, .icon-button:hover:not(:disabled) { background: #f0f0f0; }
+      #open-settings.active { border-color: var(--ca-border); background: var(--ca-surface); color: var(--ca-accent-strong); }
+
+      @media (prefers-reduced-motion: reduce) {
+        .tab.tab-split-source, .tab.tab-split-target, .tab.tab-merge-target { animation: none; }
+      }
+
+      .navigation {
+        display: flex; align-items: center; gap: 4px; padding: 9px 12px 10px;
+        border-bottom: 1px solid #e6e6e6; background: #ffffff;
+      }
+      .icon-button { width: 38px; height: 38px; flex: 0 0 auto; border-radius: 8px; color: #4f4f4f; font-size: 18px; }
+      .icon-button:disabled { color: #c6c6c6; cursor: default; }
+      .address-shell {
+        display: flex; align-items: center; min-width: 120px; height: 40px; flex: 1;
+        margin-left: 6px; padding: 0 14px; border: 1px solid #dddddd; border-radius: 9px;
+        background: #fafafa;
+      }
+      .address-shell:focus-within { border-color: #9a9a9a; background: #ffffff; box-shadow: 0 0 0 2px #0000000a; }
+      #address { width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; color: #171717; font-size: 14px; user-select: text; }
+      #address::placeholder { color: #999999; }
+      .agent-toggle {
+        display: flex; align-items: center; gap: 9px; height: 40px; margin-left: 8px;
+        padding: 0 14px 0 10px; border: 1px solid #d8d8d8; border-radius: 9px;
+        background: #ffffff; color: #222222; font-size: 13px; font-weight: 600; cursor: pointer;
+      }
+      .agent-toggle:hover { border-color: #b8b8b8; background: #fafafa; }
+      .agent-toggle[aria-pressed="true"] { border-color: #06143a; background: #06143a; color: #ffffff; }
+      .agent-toggle svg { width: 20px; height: 20px; }
+      .agent-toggle[aria-pressed="true"] .brand-stroke { stroke: #ffffff; }
+      .agent-toggle[aria-pressed="true"] .brand-core { fill: #19aeef; }
+      .brand-signal { fill: #f05a3c; }
+      .terminal-toggle {
+        display: flex; align-items: center; gap: 7px; height: 40px; margin-left: 8px; padding: 0 12px;
+        border: 1px solid var(--ca-border); border-radius: 9px; background: var(--ca-surface);
+        color: var(--ca-text); font-size: 12px; font-weight: 650; cursor: pointer;
+      }
+      .terminal-toggle:hover { border-color: var(--ca-muted); background: var(--ca-surface-2); }
+      .terminal-toggle[aria-pressed="true"] { border-color: var(--ca-accent); background: color-mix(in srgb, var(--ca-accent) 10%, var(--ca-surface)); }
+      .terminal-glyph { font-family: "Cascadia Mono", Consolas, monospace; color: var(--ca-accent); }
+      .terminal-count { min-width: 18px; padding: 1px 5px; border-radius: 999px; background: var(--ca-surface-3); color: var(--ca-muted); font-size: 11px; text-align: center; }
+
+      @media (min-height: 112px) {
+        body { grid-template-rows: 46px 70px; }
+        .tab-strip { gap: 8px; padding: 6px 12px 0; }
+        .brand-mark { width: 34px; height: 34px; margin-right: 5px; }
+        .tab { max-width: 280px; height: 40px; flex-basis: 210px; padding-left: 13px; }
+        .tab-title { font-size: 13px; }
+        #new-tab, #open-settings { width: 34px; height: 34px; }
+        #open-settings svg { width: 19px; height: 19px; }
+        .navigation { gap: 5px; padding: 13px 14px 14px; }
+        .icon-button { width: 42px; height: 42px; font-size: 19px; }
+        .address-shell { height: 42px; margin-left: 8px; padding: 0 16px; border-radius: 10px; }
+        #address { font-size: 15px; }
+        .agent-toggle { height: 42px; margin-left: 9px; padding: 0 16px 0 11px; font-size: 14px; }
+        .agent-toggle svg { width: 22px; height: 22px; }
+        .terminal-toggle { height: 42px; font-size: 13px; }
+      }
+
+      @media (min-height: 124px) {
+        body { grid-template-rows: 50px 78px; }
+        .tab-strip { gap: 9px; padding: 6px 16px 0; }
+        .brand-mark { width: 38px; height: 38px; margin-right: 7px; }
+        .tab { min-width: 140px; max-width: 320px; height: 44px; flex-basis: 230px; padding-left: 15px; }
+        .tab-title { font-size: 14px; }
+        .tab-dot, .tab-spinner { width: 9px; height: 9px; margin-right: 9px; }
+        .tab-close { width: 27px; height: 27px; font-size: 19px; }
+        #new-tab, #open-settings { width: 38px; height: 38px; }
+        #new-tab { font-size: 22px; }
+        #open-settings svg { width: 21px; height: 21px; }
+        .navigation { gap: 6px; padding: 15px 18px 16px; }
+        .icon-button { width: 46px; height: 46px; border-radius: 10px; font-size: 21px; }
+        .address-shell { height: 46px; margin-left: 10px; padding: 0 18px; border-radius: 11px; }
+        #address { font-size: 16px; }
+        .agent-toggle { height: 46px; margin-left: 11px; padding: 0 18px 0 13px; border-radius: 11px; font-size: 15px; }
+        .agent-toggle svg { width: 25px; height: 25px; }
+        .terminal-toggle { height: 46px; padding: 0 15px; font-size: 14px; }
+        .dock-target { width: 142px; height: 39px; font-size: 12px; }
+      }
+
+      /*__THEMES_CSS__*/
+      /*__SVELTE_UI_CSS__*/
+      :root[data-theme], body, .navigation { background: var(--ca-surface); color: var(--ca-text); }
+      .tab-strip { border-color: var(--ca-border); background: var(--ca-surface-2); }
+      .tab { color: var(--ca-muted); }
+      .tab:hover { background: var(--ca-surface-3); color: var(--ca-text); }
+      .tab.active { border-color: var(--ca-border); background: var(--ca-surface); color: var(--ca-text); }
+      .tab-dot { border-color: var(--ca-faint); background: var(--ca-surface); }
+      .tab-spinner { border-color: var(--ca-border); border-top-color: var(--ca-text); }
+      .tab-close { color: var(--ca-muted); }
+      .tab-close:hover, #new-tab:hover, #open-settings:hover, .icon-button:hover:not(:disabled) { background: var(--ca-surface-3); color: var(--ca-text); }
+      .navigation { border-color: var(--ca-border); }
+      .icon-button { color: var(--ca-muted); }
+      .icon-button:disabled { color: var(--ca-faint); }
+      .address-shell { border-color: var(--ca-border); background: var(--ca-surface-2); }
+      .address-shell:focus-within { border-color: var(--ca-muted); background: var(--ca-surface); }
+      #address { color: var(--ca-text); }
+      #address::placeholder { color: var(--ca-faint); }
+      .agent-toggle { border-color: var(--ca-border); background: var(--ca-surface); color: var(--ca-text); }
+      .agent-toggle:hover { border-color: var(--ca-muted); background: var(--ca-surface-2); }
+      .agent-toggle[aria-pressed="true"] { border-color: var(--ca-accent-strong); background: var(--ca-accent-strong); color: var(--ca-on-accent); }
+      .brand-stroke { stroke: var(--ca-brand-ink); }
+      .brand-core { fill: var(--ca-accent); }
+      .brand-signal { fill: var(--ca-signal); }
+      .agent-toggle[aria-pressed="true"] .brand-stroke { stroke: var(--ca-on-accent); }
+
+      /* Supervisor / Field Instrument */
+      html, body { font-family: var(--ca-font-body); }
+      body { background: var(--ca-bg); }
+      .tab-strip {
+        gap: 8px; padding-inline: 12px; border-bottom-color: var(--ca-border-strong);
+        background:
+          linear-gradient(90deg, var(--ca-signal) 0 54px, transparent 54px) top / 100% 2px no-repeat,
+          var(--ca-surface-2);
+      }
+      .brand-mark {
+        display: grid; place-items: center; padding: 4px; border: 1px solid var(--ca-brand-ink);
+        border-radius: var(--ca-radius-small); background: var(--ca-surface);
+        box-shadow: 2px 2px 0 var(--ca-signal-soft);
+      }
+      .brand-mark .brand-stroke { stroke: var(--ca-brand-ink); }
+      .brand-mark .brand-core { fill: var(--ca-accent); }
+      .brand-mark .brand-signal { fill: var(--ca-signal); }
+      .tab {
+        position: relative; overflow: hidden; border-radius: 11px 11px 3px 11px;
+        font-family: var(--ca-font-body); transition: background 110ms ease, border-color 110ms ease, transform 110ms ease;
+      }
+      .tab:hover { transform: translateY(-1px); }
+      .tab.active { border-color: var(--ca-border-strong); box-shadow: var(--ca-shadow-keyline); }
+      .tab.active::after {
+        position: absolute; top: -1px; right: -1px; width: 12px; height: 12px;
+        background: linear-gradient(45deg, transparent 49%, var(--ca-signal) 50%); content: "";
+      }
+      .tab-title { font-weight: 620; letter-spacing: -.012em; }
+      .tab-dot { border-radius: 2px 2px 0 2px; transform: rotate(45deg); }
+      .tab-spinner { border-top-color: var(--ca-signal); }
+      .tab-close, .tab-undock, .tab-window, #new-tab, #open-settings { border-radius: var(--ca-radius-small); }
+      #new-tab { border: 1px dashed var(--ca-border-strong); color: var(--ca-text); }
+      #open-settings { border-color: var(--ca-border); background: var(--ca-surface); box-shadow: 2px 2px 0 color-mix(in srgb, var(--ca-accent-strong) 9%, transparent); }
+      #open-settings.active { border-color: var(--ca-accent); color: var(--ca-text); box-shadow: 2px 2px 0 var(--ca-accent-soft); }
+      .navigation {
+        gap: 6px; border-bottom-color: var(--ca-border-strong);
+        background:
+          linear-gradient(var(--ca-grid-line) 1px, transparent 1px) 0 0 / 28px 28px,
+          var(--ca-surface);
+      }
+      .navigation > .icon-button { border: 1px solid transparent; border-radius: var(--ca-radius-small); }
+      .navigation > .icon-button:hover:not(:disabled) { border-color: var(--ca-border); box-shadow: 2px 2px 0 color-mix(in srgb, var(--ca-accent-strong) 9%, transparent); }
+      .address-shell {
+        position: relative; overflow: hidden; border: 1px solid var(--ca-border-strong);
+        border-radius: var(--ca-radius-medium); background: var(--ca-surface);
+        box-shadow: var(--ca-shadow-keyline);
+      }
+      .address-shell::before { width: 3px; height: 18px; margin-right: 10px; border-radius: 1px; background: var(--ca-signal); content: ""; }
+      .address-shell:focus-within { border-color: var(--ca-accent); box-shadow: inset 0 0 0 1px var(--ca-accent); }
+      #address { font-family: var(--ca-font-body); font-weight: 520; letter-spacing: -.008em; }
+      #address:focus-visible { outline: none; }
+      .agent-toggle, .terminal-toggle {
+        border-color: var(--ca-border-strong); border-radius: var(--ca-radius-medium);
+        background: var(--ca-surface); box-shadow: 2px 2px 0 color-mix(in srgb, var(--ca-accent-strong) 9%, transparent);
+        font-family: var(--ca-font-display); font-weight: 650; letter-spacing: .015em;
+      }
+      .agent-toggle[aria-pressed="true"] { border-color: var(--ca-accent-strong); background: var(--ca-accent-strong); }
+      .agent-toggle[aria-pressed="true"] .brand-core { fill: #2c72ff; }
+      .terminal-glyph { color: var(--ca-signal); font-family: var(--ca-font-mono); font-weight: 750; }
+      .terminal-count { border-radius: 3px 3px 1px 3px; background: var(--ca-accent-soft); color: var(--ca-accent); font-family: var(--ca-font-mono); }
+      .dock-target { border-radius: var(--ca-radius-small); box-shadow: var(--ca-shadow-keyline); font-family: var(--ca-font-display); letter-spacing: .025em; }
+
+      /* Ascari minimal shell */
+      html, body { background: var(--ca-app-background); font-family: var(--ca-font-body); }
+      .tab-strip {
+        gap: 7px; padding: 6px 10px; border-bottom: 1px solid var(--ca-border);
+        background: var(--ca-surface-2);
+      }
+      .brand-mark {
+        width: 32px; height: 32px; margin: 0 4px 0 1px; padding: 3px; border: 0;
+        border-radius: 11px; background: transparent; box-shadow: none;
+      }
+      .brand-mark .brand-stroke { stroke: var(--ca-brand-ink); }
+      .brand-mark .brand-core, .brand-mark .brand-signal { fill: var(--ca-accent); }
+      .tab {
+        height: 32px; border: 1px solid transparent; border-radius: var(--ca-pill);
+        background: transparent; font-weight: 590; transform: none;
+        transition: background 120ms ease, border-color 120ms ease, color 120ms ease;
+      }
+      .tab:hover { border-color: var(--ca-border); background: var(--ca-surface); transform: none; }
+      .tab.active { border-color: var(--ca-border); background: var(--ca-surface); box-shadow: 0 1px 3px #1018280d; }
+      .tab.active::after { display: none; }
+      .tab-dot { border-radius: 50%; transform: none; }
+      .tab-spinner { border-top-color: var(--ca-accent); }
+      .tab-close, .tab-undock, .tab-window, #new-tab, #open-settings,
+      .navigation > .icon-button { border-radius: 50%; box-shadow: none; }
+      #new-tab { border: 0; color: var(--ca-muted); }
+      #open-settings { border: 0; background: transparent; box-shadow: none; }
+      #open-settings.active { border: 0; background: var(--ca-accent-soft); color: var(--ca-accent); box-shadow: none; }
+      .navigation {
+        gap: 5px; border-bottom: 1px solid var(--ca-border); background: var(--ca-surface);
+      }
+      .navigation > .icon-button { border: 0; }
+      .navigation > .icon-button:hover:not(:disabled) { border: 0; background: var(--ca-surface-2); box-shadow: none; }
+      .address-shell {
+        border: 1px solid var(--ca-border); border-radius: var(--ca-pill);
+        background: var(--ca-surface-2); box-shadow: none;
+      }
+      .address-shell::before { display: none; }
+      .address-shell:focus-within {
+        border-color: var(--ca-accent); background: var(--ca-surface);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--ca-accent) 12%, transparent);
+      }
+      #address { font-weight: 450; }
+      .agent-toggle, .terminal-toggle {
+        border: 1px solid var(--ca-border); border-radius: var(--ca-pill);
+        background: var(--ca-surface); box-shadow: none; font-family: var(--ca-font-body);
+        font-weight: 650; letter-spacing: -.01em;
+      }
+      .agent-toggle[aria-pressed="true"] {
+        border-color: var(--ca-accent); background: var(--ca-accent); color: var(--ca-on-accent);
+      }
+      .agent-toggle[aria-pressed="true"] .brand-core,
+      .agent-toggle[aria-pressed="true"] .brand-signal { fill: currentColor; }
+      .terminal-glyph { color: var(--ca-accent); }
+      .terminal-count { border-radius: var(--ca-pill); background: var(--ca-accent-soft); color: var(--ca-accent); }
+      .dock-target { border-radius: var(--ca-pill); box-shadow: var(--ca-shadow-float); font-family: var(--ca-font-body); }
+
+      /* Monochrome control surface */
+      .tab-strip { gap: 6px; background: var(--ca-surface-2); }
+      .tab, .tab-close, .tab-undock, .tab-window, #new-tab, #open-settings,
+      .navigation > .icon-button, .address-shell, .agent-toggle, .terminal-toggle,
+      .terminal-count, .dock-target {
+        border-radius: var(--ca-control-radius) !important;
+      }
+      .tab {
+        border: 0; background: transparent; box-shadow: none;
+      }
+      .tab:hover, .tab.active {
+        border-color: var(--ca-border); background: var(--ca-surface); box-shadow: none;
+      }
+      .tab::before, .tab::after, .address-shell::before { display: none !important; }
+      .tab.drop-before, .tab.drop-after {
+        outline: 2px solid var(--ca-text); outline-offset: -2px; box-shadow: none;
+      }
+      .tab-dot { background: var(--ca-icon); color: var(--ca-icon); }
+      #new-tab, #open-settings, .navigation > .icon-button {
+        border: 1px solid transparent; background: transparent; color: var(--ca-muted); box-shadow: none;
+      }
+      #new-tab:hover, #open-settings:hover, .navigation > .icon-button:hover:not(:disabled) {
+        border-color: var(--ca-border); background: var(--ca-surface-2); color: var(--ca-text); box-shadow: none;
+      }
+      #open-settings.active {
+        border: 1px solid var(--ca-border-strong); background: var(--ca-surface-3); color: var(--ca-text);
+      }
+      .address-shell {
+        border: 1px solid var(--ca-border); background: var(--ca-surface-2); box-shadow: none;
+      }
+      .address-shell:focus-within {
+        border-color: var(--ca-border-strong); background: var(--ca-input); box-shadow: var(--ca-focus-ring);
+      }
+      .agent-toggle, .terminal-toggle {
+        border: 1px solid var(--ca-border); background: var(--ca-surface); color: var(--ca-text); box-shadow: none;
+      }
+      .workspace-toggles {
+        display: grid; grid-auto-flow: column; grid-auto-columns: 1fr;
+        align-items: center; gap: var(--ca-space-2); margin-left: var(--ca-space-2);
+        flex: 0 0 auto;
+      }
+      .workspace-toggles > button {
+        justify-content: center; width: 100%; min-width: 0; margin: 0;
+        padding-inline: var(--ca-space-3);
+      }
+      .workspace-toggles > .terminal-toggle { border: 0; }
+      .agent-toggle:hover, .terminal-toggle:hover { border-color: var(--ca-border-strong); background: var(--ca-surface-2); }
+      .agent-toggle[aria-pressed="true"], .terminal-toggle[aria-pressed="true"] {
+        border-color: var(--ca-accent); background: var(--ca-accent); color: var(--ca-on-accent);
+      }
+      .terminal-glyph, .terminal-count { color: currentColor; }
+      .terminal-count { background: color-mix(in srgb, currentColor 12%, transparent); }
+      .dock-target { border: 1px solid var(--ca-border-strong); background: var(--ca-surface); box-shadow: var(--ca-shadow-float); }
+      .navigation > .icon-button {
+        width: 40px; height: 40px; border: 0;
+        border-radius: 12px !important; background: transparent;
+        color: var(--ca-text);
+      }
+      .navigation > .icon-button svg {
+        display: block; width: 22px; height: 22px; fill: none;
+        stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round;
+      }
+      .navigation > .icon-button:hover:not(:disabled) {
+        border: 0; background: var(--ca-surface-3);
+      }
+      .navigation > .icon-button:active:not(:disabled) { background: var(--ca-border); transform: scale(.96); }
+      .navigation > .icon-button:disabled {
+        border: 0; background: transparent; color: var(--ca-faint); opacity: .68;
+      }
+
+      /* Unified divider-free work surface */
+      html, body, .tab-strip, .navigation {
+        background: var(--ca-app-background) !important;
+      }
+      .tab-strip, .navigation { border-bottom-color: transparent !important; }
+
+      /* One browser-row measure; Agent remains a borderless workspace action. */
+      .navigation { --ca-browser-row-control-height: 40px; }
+      .address-shell, .workspace-toggles, .workspace-toggles > button {
+        height: var(--ca-browser-row-control-height);
+        min-height: var(--ca-browser-row-control-height);
+        max-height: var(--ca-browser-row-control-height);
+      }
+      .workspace-toggles > .agent-toggle,
+      .workspace-toggles > .agent-toggle:hover,
+      .workspace-toggles > .agent-toggle[aria-pressed="true"] {
+        border: 0;
+      }
+      .workspace-toggles > .agent-toggle:focus-visible {
+        outline: 2px solid var(--ca-text);
+        outline-offset: 2px;
+      }
+      @media (min-height: 112px) {
+        .navigation { --ca-browser-row-control-height: 42px; }
+      }
+      @media (min-height: 124px) {
+        .navigation { --ca-browser-row-control-height: 46px; }
+      }
+
+      /* Projects owns the full work surface. Its compact row contains one
+         unambiguous return action in the upper-left corner. */
+      body.browser-tabs-hidden:not(.project-board-open) { grid-template-rows: 1fr; }
+      body.browser-tabs-hidden .tab-strip { display: none; }
+      .workspace-back {
+        display: none; align-items: center; justify-content: center; gap: var(--ca-space-2);
+        border: 0; background: transparent; color: var(--ca-text); cursor: pointer;
+        font-weight: 650; letter-spacing: -.01em;
+      }
+      .workspace-back svg {
+        display: block; width: 20px; height: 20px; fill: none; stroke: currentColor;
+        stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round;
+      }
+      body.project-board-open { grid-template-rows: 1fr; }
+      body.project-board-open .tab-strip { display: none; }
+      body.project-board-open .navigation {
+        min-height: 0; justify-content: flex-start; padding: 0;
+      }
+      body.project-board-open .navigation > :not(.workspace-toggles) { display: none; }
+      body.project-board-open .workspace-toggles {
+        grid-auto-columns: max-content; margin: 0 auto 0 0;
+      }
+      body.project-board-open #toggle-agent,
+      body.project-board-open #toggle-terminal { display: none; }
+      body.project-board-open .workspace-back { display: grid; place-items: center; }
+      body.project-board-open .workspace-toggles > .workspace-back {
+        width: 40px; min-width: 40px; padding: 0; border: 0; background: transparent;
+      }
+      body.project-board-open .workspace-toggles > .workspace-back:hover {
+        border: 0; background: transparent;
+      }
+      body.project-board-open .workspace-toggles > .workspace-back:focus-visible {
+        outline: 2px solid var(--ca-text); outline-offset: 2px;
+      }
+      body.project-board-open .workspace-back span { display: none; }
+    </style>
+  </head>
+  <body class="browser-tabs-visible">
+    <div class="tab-strip">
+      <div id="tabs" aria-label="Tabs">
+        <button id="new-tab" class="icon-button" type="button" title="New tab" aria-label="New tab">+</button>
+      </div>
+      <button id="open-settings" class="icon-button" type="button" title="Settings" aria-label="Open settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1.1V21H9.6v-.1A1.7 1.7 0 0 0 8.4 19.3a1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1.1-.4H3V9.6h.1A1.7 1.7 0 0 0 4.7 8.4a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1.1V3h4v.1A1.7 1.7 0 0 0 15.6 4.7a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.4 9c.2.4.6.8 1 1 .3.2.7.3 1.1.3h.1v4h-.1a1.7 1.7 0 0 0-1.6 1.2Z"/></svg>
+      </button>
+      <div class="dock-targets" aria-hidden="true">
+        <button class="dock-target" type="button">Open in window</button>
+      </div>
+    </div>
+
+    <div class="navigation">
+      <button id="back" class="icon-button" title="Back" aria-label="Back">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18 9 12l6-6"/><path d="M9 12h10"/></svg>
+      </button>
+      <button id="forward" class="icon-button" title="Forward" aria-label="Forward">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/><path d="M15 12H5"/></svg>
+      </button>
+      <button id="reload" class="icon-button" title="Reload" aria-label="Reload">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.34 5.66"/><path d="M20 5v6h-6"/></svg>
+      </button>
+      <button id="home" class="icon-button" title="Home" aria-label="Home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3.5 11.5 8.5-7 8.5 7"/><path d="M5.5 10v10h13V10"/><path d="M9.5 20v-6h5v6"/></svg>
+      </button>
+      <div class="address-shell">
+        <input id="address" type="text" inputmode="url" autocomplete="off" spellcheck="false"
+          placeholder="Search or enter an address" aria-label="Address" />
+      </div>
+      <div data-central-agent-svelte="browser-panel-toggle"></div>
+      <div class="workspace-toggles" role="group" aria-label="Workspace panels">
+        <button id="toggle-terminal" class="terminal-toggle" type="button" aria-label="Open terminal" aria-pressed="false">
+          <span class="terminal-glyph">&gt;_</span><span>Terminal</span><span id="terminal-count" class="terminal-count" hidden aria-hidden="true"></span>
+        </button>
+        <button id="back-to-workspace" class="workspace-back" type="button" aria-label="Back to workspace">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6M8 12h12"/></svg><span>Workspace</span>
+        </button>
+        <button id="toggle-agent" class="agent-toggle" type="button" aria-label="Show agent panel" aria-pressed="true">
+          <span>Agent</span>
+        </button>
+      </div>
+    </div>
+
+    <script src="__CENTRAL_AGENT_FRONTEND_URL__"></script>
+    <script>
+      const tabsElement = document.getElementById("tabs");
+      const newTabButton = document.getElementById("new-tab");
+      const settingsButton = document.getElementById("open-settings");
+      const addressElement = document.getElementById("address");
+      const backButton = document.getElementById("back");
+      const forwardButton = document.getElementById("forward");
+      const reloadButton = document.getElementById("reload");
+      const agentButton = document.getElementById("toggle-agent");
+      const terminalButton = document.getElementById("toggle-terminal");
+      const workspaceButton = document.getElementById("back-to-workspace");
+      const dockTargets = [...document.querySelectorAll(".dock-target")];
+      let currentState = { tabs: [], activeTabId: null, address: "", canGoBack: false, canGoForward: false,
+        loading: false, agentPanelVisible: true, terminalPanelVisible: false, terminalSessionCount: 0,
+        terminalDock: "bottom", terminalDetached: false, settingsOpen: false, projectBoardOpen: false,
+        browserTabsVisible: true, theme: "central" };
+      let draggedTabId = null;
+      let hasRenderedBrowserState = false;
+      let knownTabIds = new Set();
+      const splitSourceTabIds = new Set();
+      const splitTargetTabIds = new Set();
+      const mergeTargetTabIds = new Set();
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+      function send(type, payload = {}) { window.ipc.postMessage(JSON.stringify({ type, ...payload })); }
+
+      window.centralAgentAwaitPanelCloseLayout = () => {
+        window.requestAnimationFrame(() => {
+          window.requestAnimationFrame(() => {
+            window.requestAnimationFrame(() => send("agent_panel_close_layout_ready"));
+          });
+        });
+      };
+
+      function makeTab(tab) {
+        const element = document.createElement("div");
+        element.className = `tab${tab.id === currentState.activeTabId ? " active" : ""}${tab.primary || tab.docked ? " visible-pane" : ""}${tab.docked ? " docked" : ""}${tab.detached ? " detached" : ""}${splitSourceTabIds.has(tab.id) ? " tab-split-source" : ""}${splitTargetTabIds.has(tab.id) ? " tab-split-target" : ""}${mergeTargetTabIds.has(tab.id) ? " tab-merge-target" : ""}`;
+        element.dataset.tabId = String(tab.id);
+        element.title = `${tab.title || "New tab"} · drag to reorder, open in a window, or attach a browser tab snapshot to chat`;
+        element.draggable = true;
+        element.setAttribute("aria-description", "Drag to reorder, move this tab into its own window, or attach a browser tab snapshot to the agent chat");
+        element.addEventListener("click", () => send("activate_tab", { tab_id: tab.id }));
+        element.addEventListener("dragstart", (event) => {
+          if (event.target.closest(".tab-close, .tab-undock, .tab-window")) { event.preventDefault(); return; }
+          const transfer = event.dataTransfer;
+          if (!transfer) return;
+          draggedTabId = tab.id;
+          element.classList.add("dragging");
+          document.body.classList.add("tab-drag-active");
+          transfer.effectAllowed = "copyMove";
+          transfer.setData("application/x-central-agent-tab", String(tab.id));
+          transfer.setData("text/plain", `central-agent-tab:${tab.id}`);
+        });
+        element.addEventListener("dragover", (event) => {
+          if (draggedTabId === null || draggedTabId === tab.id) return;
+          event.preventDefault();
+          if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
+          element.classList.add("drop-before");
+        });
+        element.addEventListener("dragleave", () => element.classList.remove("drop-before"));
+        element.addEventListener("drop", (event) => {
+          if (draggedTabId === null || draggedTabId === tab.id) return;
+          event.preventDefault(); event.stopPropagation(); element.classList.remove("drop-before");
+          send("reorder_tab", { tab_id: draggedTabId, before_tab_id: tab.id });
+        });
+        element.addEventListener("dragend", (event) => {
+          const dropEffect = event.dataTransfer?.dropEffect || "none";
+          const outsideToolbar = event.clientX <= 0 || event.clientY <= 0 || event.clientX >= window.innerWidth || event.clientY >= window.innerHeight;
+          const shouldDetach = !tab.detached && dropEffect === "none" && outsideToolbar;
+          element.classList.remove("dragging");
+          document.querySelectorAll(".drop-before, .drag-over").forEach((item) => item.classList.remove("drop-before", "drag-over"));
+          document.body.classList.remove("tab-drag-active");
+          draggedTabId = null;
+          if (shouldDetach) send("detach_tab", { tab_id: tab.id, screen_x: Math.round(event.screenX), screen_y: Math.round(event.screenY) });
+        });
+
+        const status = document.createElement("span");
+        status.className = tab.loading ? "tab-spinner" : "tab-dot";
+        element.append(status);
+        const title = document.createElement("span");
+        title.className = "tab-title";
+        title.textContent = tab.title || "New tab";
+        element.append(title);
+        if (tab.docked) {
+          const undock = document.createElement("button");
+          undock.className = "tab-undock"; undock.type = "button"; undock.draggable = false;
+          undock.title = "Return this tab to full view"; undock.setAttribute("aria-label", "Undock tab");
+          undock.textContent = tab.dockSide === "left" ? "⇥" : "⇤";
+          undock.addEventListener("click", (event) => { event.stopPropagation(); send("undock_tab", { tab_id: tab.id }); });
+          element.append(undock);
+        }
+        const windowButton = document.createElement("button");
+        windowButton.className = "tab-window"; windowButton.type = "button"; windowButton.draggable = false;
+        windowButton.title = tab.detached ? "Return to Supervisor" : "Open in a separate window";
+        windowButton.setAttribute("aria-label", windowButton.title);
+        windowButton.textContent = tab.detached ? "↙" : "↗";
+        windowButton.addEventListener("click", (event) => {
+          event.stopPropagation();
+          send(tab.detached ? "attach_tab" : "detach_tab", { tab_id: tab.id });
+        });
+        element.append(windowButton);
+        const close = document.createElement("button");
+        close.className = "tab-close";
+        close.type = "button";
+        close.draggable = false;
+        close.title = "Close tab";
+        close.setAttribute("aria-label", `Close ${tab.title || "tab"}`);
+        close.textContent = "×";
+        close.addEventListener("click", (event) => { event.stopPropagation(); send("close_tab", { tab_id: tab.id }); });
+        element.append(close);
+        return element;
+      }
+
+      function captureTabSplitOrigin() {
+        if (reducedMotion.matches || currentState.activeTabId == null) return null;
+        const source = document.querySelector(`.tab[data-tab-id="${currentState.activeTabId}"]`);
+        if (!source) return null;
+        return {
+          sourceId: currentState.activeTabId,
+          bounds: source.getBoundingClientRect(),
+          ghost: source.cloneNode(true),
+        };
+      }
+
+      function captureTabMergeOrigin(removedTab, state) {
+        if (reducedMotion.matches || !removedTab) return null;
+        const source = document.querySelector(`.tab[data-tab-id="${removedTab.id}"]`);
+        if (!source) return null;
+        const removedIndex = currentState.tabs.findIndex((tab) => tab.id === removedTab.id);
+        const neighbor = state.tabs[Math.min(Math.max(removedIndex, 0), state.tabs.length - 1)]
+          || state.tabs[Math.max(removedIndex - 1, 0)];
+        const targetId = removedTab.id === currentState.activeTabId
+          ? state.activeTabId
+          : neighbor?.id || state.activeTabId;
+        if (targetId == null) return null;
+        return {
+          sourceId: removedTab.id,
+          targetId,
+          bounds: source.getBoundingClientRect(),
+          ghost: source.cloneNode(true),
+        };
+      }
+
+      function captureTabReflowBounds() {
+        if (reducedMotion.matches) return null;
+        const bounds = new Map();
+        tabsElement.querySelectorAll(".tab, #new-tab").forEach((element) => {
+          const key = element.id === "new-tab" ? "new-tab" : `tab-${element.dataset.tabId}`;
+          bounds.set(key, element.getBoundingClientRect());
+        });
+        return bounds;
+      }
+
+      function prepareTabTransitionGhost(origin) {
+        const { bounds, ghost } = origin;
+        ghost.className = "tab tab-transition-ghost";
+        ghost.removeAttribute("data-tab-id");
+        ghost.removeAttribute("draggable");
+        ghost.setAttribute("aria-hidden", "true");
+        ghost.querySelectorAll("button").forEach((button) => { button.tabIndex = -1; });
+        Object.assign(ghost.style, {
+          left: `${bounds.left}px`, top: `${bounds.top}px`, width: `${bounds.width}px`,
+          height: `${bounds.height}px`, transformOrigin: "left top",
+        });
+        document.body.append(ghost);
+        return ghost;
+      }
+
+      function removeTransitionGhostAfter(animation, ghost) {
+        const removeGhost = () => ghost.remove();
+        animation.onfinish = removeGhost;
+        animation.oncancel = removeGhost;
+        window.setTimeout(removeGhost, 520);
+      }
+
+      function animateTabSplit(origin, targetId) {
+        if (!origin || reducedMotion.matches) return;
+        const target = document.querySelector(`.tab[data-tab-id="${targetId}"]`);
+        if (!target) return;
+        const targetBounds = target.getBoundingClientRect();
+        const { bounds } = origin;
+        if (!bounds.width || !bounds.height || !targetBounds.width || !targetBounds.height) return;
+        const ghost = prepareTabTransitionGhost(origin);
+
+        const deltaX = targetBounds.left - bounds.left;
+        const deltaY = targetBounds.top - bounds.top;
+        const scaleX = targetBounds.width / bounds.width;
+        const scaleY = targetBounds.height / bounds.height;
+        const animation = ghost.animate([
+          { offset: 0, opacity: .96, filter: "blur(0)", transform: "translate3d(0, 0, 0) scale(1)" },
+          { offset: .22, opacity: .94, filter: "blur(0)", transform: "translate3d(10px, -2px, 0) scale(.975, .93)" },
+          { offset: .74, opacity: .82, filter: "blur(0)", transform: `translate3d(${deltaX * .88}px, ${deltaY}px, 0) scale(${scaleX}, ${scaleY})` },
+          { offset: 1, opacity: 0, filter: "blur(.5px)", transform: `translate3d(${deltaX}px, ${deltaY}px, 0) scale(${scaleX}, ${scaleY})` },
+        ], { duration: 420, easing: "cubic-bezier(.2, .8, .2, 1)", fill: "both" });
+        removeTransitionGhostAfter(animation, ghost);
+      }
+
+      function animateTabMerge(origin) {
+        if (!origin || reducedMotion.matches) return;
+        const target = document.querySelector(`.tab[data-tab-id="${origin.targetId}"]`);
+        if (!target) return;
+        const targetBounds = target.getBoundingClientRect();
+        const { bounds } = origin;
+        if (!bounds.width || !bounds.height || !targetBounds.width || !targetBounds.height) return;
+        const ghost = prepareTabTransitionGhost(origin);
+        const deltaX = targetBounds.left - bounds.left;
+        const deltaY = targetBounds.top - bounds.top;
+        const scaleX = targetBounds.width / bounds.width;
+        const scaleY = targetBounds.height / bounds.height;
+        const animation = ghost.animate([
+          { offset: 0, opacity: .96, filter: "blur(0)", transform: "translate3d(0, 0, 0) scale(1)" },
+          { offset: .22, opacity: .93, filter: "blur(0)", transform: `translate3d(${deltaX * .08}px, -2px, 0) scale(.965, .92)` },
+          { offset: .74, opacity: .72, filter: "blur(0)", transform: `translate3d(${deltaX * .88}px, ${deltaY}px, 0) scale(${scaleX * .94}, ${scaleY * .94})` },
+          { offset: 1, opacity: 0, filter: "blur(.6px)", transform: `translate3d(${deltaX}px, ${deltaY}px, 0) scale(${scaleX}, ${scaleY})` },
+        ], { duration: 420, easing: "cubic-bezier(.2, .8, .2, 1)", fill: "both" });
+        removeTransitionGhostAfter(animation, ghost);
+      }
+
+      function animateTabReflow(previousBounds) {
+        if (!previousBounds || reducedMotion.matches) return;
+        tabsElement.querySelectorAll(".tab, #new-tab").forEach((element) => {
+          const key = element.id === "new-tab" ? "new-tab" : `tab-${element.dataset.tabId}`;
+          const before = previousBounds.get(key);
+          if (!before) return;
+          const after = element.getBoundingClientRect();
+          const deltaX = before.left - after.left;
+          const deltaY = before.top - after.top;
+          if (Math.abs(deltaX) < .5 && Math.abs(deltaY) < .5) return;
+          element.animate([
+            { transform: `translate3d(${deltaX}px, ${deltaY}px, 0)` },
+            { transform: "translate3d(0, 0, 0)" },
+          ], { duration: 360, easing: "cubic-bezier(.2, .8, .2, 1)" });
+        });
+      }
+
+      window.renderBrowserState = (state) => {
+        const editingAddress = document.activeElement === addressElement;
+        const nextTabIds = new Set(state.tabs.map((tab) => tab.id));
+        const addedTab = hasRenderedBrowserState
+          ? state.tabs.find((tab) => !knownTabIds.has(tab.id))
+          : null;
+        const removedTab = hasRenderedBrowserState
+          ? currentState.tabs.find((tab) => !nextTabIds.has(tab.id))
+          : null;
+        const splitOrigin = addedTab ? captureTabSplitOrigin() : null;
+        const mergeOrigin = removedTab ? captureTabMergeOrigin(removedTab, state) : null;
+        const reflowBounds = removedTab ? captureTabReflowBounds() : null;
+        if (addedTab && splitOrigin) {
+          splitSourceTabIds.add(splitOrigin.sourceId);
+          splitTargetTabIds.add(addedTab.id);
+          window.setTimeout(() => {
+            splitSourceTabIds.delete(splitOrigin.sourceId);
+            splitTargetTabIds.delete(addedTab.id);
+            document.querySelector(`.tab[data-tab-id="${splitOrigin.sourceId}"]`)?.classList.remove("tab-split-source");
+            document.querySelector(`.tab[data-tab-id="${addedTab.id}"]`)?.classList.remove("tab-split-target");
+          }, 460);
+        }
+        if (mergeOrigin) {
+          mergeTargetTabIds.add(mergeOrigin.targetId);
+          window.setTimeout(() => {
+            mergeTargetTabIds.delete(mergeOrigin.targetId);
+            document.querySelector(`.tab[data-tab-id="${mergeOrigin.targetId}"]`)?.classList.remove("tab-merge-target");
+          }, 460);
+        }
+        knownTabIds = nextTabIds;
+        hasRenderedBrowserState = true;
+        currentState = state;
+        const browserTabsVisible = state.browserTabsVisible !== false && !state.projectBoardOpen;
+        document.body.classList.toggle("browser-tabs-visible", browserTabsVisible);
+        document.body.classList.toggle("browser-tabs-hidden", !browserTabsVisible);
+        document.body.classList.toggle("project-board-open", Boolean(state.projectBoardOpen));
+        window.CentralAgentSvelte?.updateBrowserPanelToggle(Boolean(state.browserPanelMinimized), !state.browserPanelToggleEnabled);
+        document.documentElement.dataset.theme = state.theme === "central_dark" ? "central_dark" : "central";
+        tabsElement.replaceChildren(...state.tabs.map(makeTab), newTabButton);
+        if (addedTab && splitOrigin) animateTabSplit(splitOrigin, addedTab.id);
+        if (mergeOrigin) animateTabMerge(mergeOrigin);
+        if (removedTab) animateTabReflow(reflowBounds);
+        tabsElement.querySelector(".tab.active")?.scrollIntoView({ block: "nearest", inline: "nearest" });
+        if (!editingAddress) addressElement.value = state.address || "";
+        backButton.disabled = !state.canGoBack;
+        forwardButton.disabled = !state.canGoForward;
+        reloadButton.textContent = state.loading ? "×" : "↻";
+        reloadButton.title = state.loading ? "Stop" : "Reload";
+        agentButton.setAttribute("aria-pressed", String(state.agentPanelVisible));
+        agentButton.setAttribute("aria-label", state.agentPanelVisible ? "Hide agent panel" : "Show agent panel");
+        settingsButton.classList.toggle("active", Boolean(state.settingsOpen));
+        settingsButton.setAttribute("aria-pressed", String(Boolean(state.settingsOpen)));
+        terminalButton.setAttribute("aria-pressed", String(state.terminalPanelVisible));
+        terminalButton.setAttribute("aria-label", state.terminalDetached ? "Focus terminal window" : state.terminalPanelVisible ? "Hide terminal" : "Open terminal");
+        terminalButton.title = state.terminalDetached ? "Focus terminal window" : state.terminalPanelVisible ? `Hide terminal · docked ${state.terminalDock}` : "Open terminal";
+      };
+
+      tabsElement.addEventListener("dragover", (event) => {
+        if (draggedTabId === null || event.target.closest(".tab")) return;
+        event.preventDefault();
+        if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
+      });
+      tabsElement.addEventListener("drop", (event) => {
+        if (draggedTabId === null || event.target.closest(".tab")) return;
+        event.preventDefault();
+        send("reorder_tab", { tab_id: draggedTabId, before_tab_id: null });
+      });
+      dockTargets.forEach((target) => {
+        target.addEventListener("dragover", (event) => {
+          if (draggedTabId === null) return;
+          event.preventDefault(); target.classList.add("drag-over");
+          if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
+        });
+        target.addEventListener("dragleave", () => target.classList.remove("drag-over"));
+        target.addEventListener("drop", (event) => {
+          if (draggedTabId === null) return;
+          event.preventDefault(); event.stopPropagation(); target.classList.remove("drag-over");
+          send("detach_tab", { tab_id: draggedTabId });
+        });
+      });
+
+      addressElement.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") { send("navigate", { value: addressElement.value }); addressElement.blur(); }
+        else if (event.key === "Escape") { addressElement.value = currentState.address || ""; addressElement.blur(); }
+      });
+      addressElement.addEventListener("focus", () => addressElement.select());
+      backButton.addEventListener("click", () => send("back"));
+      forwardButton.addEventListener("click", () => send("forward"));
+      reloadButton.addEventListener("click", () => send(currentState.loading ? "stop" : "reload"));
+      document.getElementById("home").addEventListener("click", () => send("home"));
+      newTabButton.addEventListener("click", () => send("new_tab"));
+      settingsButton.addEventListener("click", () => send("open_settings"));
+      terminalButton.addEventListener("click", () => send("toggle_terminal_panel"));
+      workspaceButton.addEventListener("click", () => send("close_project_board"));
+      agentButton.addEventListener("click", () => send("toggle_agent_panel"));
+      document.addEventListener("central-agent-toggle-web-panel", () => send("toggle_browser_panel"));
+    </script>
+  </body>
+</html>

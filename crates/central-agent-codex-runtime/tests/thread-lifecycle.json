@@ -1,0 +1,8 @@
+[
+  {"method":"thread/name/updated","schema":"ThreadNameUpdatedNotification","params":{"threadId":"native","threadName":"Renamed remotely"}},
+  {"method":"thread/name/updated","schema":"ThreadNameUpdatedNotification","params":{"threadId":"native"}},
+  {"method":"thread/archived","schema":"ThreadArchivedNotification","params":{"threadId":"native"}},
+  {"method":"thread/unarchived","schema":"ThreadUnarchivedNotification","params":{"threadId":"native"}},
+  {"method":"thread/closed","schema":"ThreadClosedNotification","params":{"threadId":"native"}},
+  {"method":"thread/deleted","schema":"ThreadDeletedNotification","params":{"threadId":"native"}}
+]

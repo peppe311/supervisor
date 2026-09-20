@@ -1,0 +1,820 @@
+{
+  "schemaVersion": 1,
+  "capture": {
+    "themes": [
+      "central",
+      "central_dark"
+    ],
+    "viewports": [
+      {
+        "id": "full-hd",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "id": "two-k",
+        "width": 2560,
+        "height": 1440
+      },
+      {
+        "id": "four-k",
+        "width": 3840,
+        "height": 2160
+      }
+    ],
+    "frames": [
+      "first-useful-frame",
+      "full-surface"
+    ],
+    "fixturePolicy": "synthetic-redacted"
+  },
+  "scenarios": [
+    {
+      "id": "official-computer-use-availability",
+      "surface": "codex-skills-dialog",
+      "readerJob": "Understand whether the official Computer Use runtime is available and select its skill for the next Codex prompt.",
+      "setup": "Installed and enabled plugin, checking, disabled plugin, disconnected desktop host and existing user skill roots. Synthetic status only; Light/Dark at Full HD, 2K, 4K and narrow layout. Actual desktop actions require an explicit user request.",
+      "assertions": [
+        "The skills dialog distinguishes configured but unverified, checking, last request completed, desktop connection failure and unavailable in ordinary text without exposing native pipe identifiers, raw server configuration or screen data.",
+        "When available, the native Computer Use skill can be selected for the current Codex conversation; selecting it alone sends no prompt or desktop action. A direct prompt asking to use Computer Use attaches the official skill automatically; explanatory or negated mentions do not.",
+        "Changing user skill roots retains the official skill root, while a disabled official plugin removes only Supervisor-managed runtime and hook configuration on reconnect.",
+        "Computer Use input from main chat, graph cards, queues and steering includes only the enabled official skill; the retired managed companion is absent, native skill markers stay out of the visible user prompt, and disabled skills remain respected.",
+        "A desktop connection error offers Reconnect Codex, disabled during active or queued work and configuration writes. Reconnection reloads verified references and never replays a desktop action. Ambiguous cached versions give a useful explanation.",
+        "The status remains readable and the native skill action remains keyboard operable in both themes and all supported layouts."
+      ]
+    },
+    {
+      "id": "official-computer-use-desktop-frame",
+      "surface": "windows-desktop-native-frame",
+      "readerJob": "See when a Supervisor agent is controlling the active Windows desktop without losing control of the target app.",
+      "setup": "Synthetic native item/started, turn/completed, thread closure and disconnect events; prompt mention without tool use; unrelated node_repl JavaScript; single and multiple monitors with negative coordinates and mixed DPI. Desktop content is redacted. No Computer Use visual actions are started without an explicit user request.",
+      "assertions": [
+        "Only a verified official @oai/sky bridge call starts the frame; selecting the skill, mentioning it or running unrelated JavaScript leaves the desktop unchanged.",
+        "A dark outer edge and light inner edge remain visible over light and dark desktop content at Full HD, 2K and 4K, with correct edges on each connected monitor.",
+        "The native frame is topmost, absent from task switching, pointer-transparent and non-activating so clicks and typing continue to reach the foreground target app.",
+        "The frame remains for the active Computer Use turn and disappears after completion, thread closure, disconnect, reconnect or application exit. Concurrent graph and main turns release it only after both have ended."
+      ]
+    },
+    {
+      "id": "official-browser-plugin",
+      "surface": "main-and-graph-plugin-picker",
+      "readerJob": "Select the verified OpenAI Browser capability for exactly one prompt and recognize its state before any browser action runs.",
+      "setup": "Official Browser available/loading/unavailable, Computer Use enabled and disabled independently, selected/current/stale Browser skill, draft main chat and first-prompt graph card. Synthetic state only in Light/Dark at Full HD, 2K, 4K and narrow graph width; no browser action is executed.",
+      "assertions": [
+        "The composer list shows one Browser row with a local browser icon and the name Browser only after the OpenAI manifest, single cached package, skill, browser client/service and shared native runtime have been verified.",
+        "Selecting Browser closes the picker and creates the same icon-and-name chip with a dedicated X. Selection alone sends no prompt, opens no tab and takes no screenshot.",
+        "The exact browser:control-in-app-browser skill is frozen with only that owner's next prompt and consumed only after native acceptance. Rejection, another owner, restored history or clicking the chip cannot remove or borrow it.",
+        "Main chat and graph cards support Browser before the first native turn; draft promotion follows the exact created thread. Browser can remain available when Computer Use is disabled, while unavailable or ambiguous official packages never produce a synthetic marketplace plugin.",
+        "Keyboard focus, Escape, outside dismissal, reduced motion, stale state and both themes match the existing plugin selector without exposing protocol paths or runtime internals."
+      ]
+    },
+    {
+      "id": "work-duration-disclosure",
+      "surface": "main-chat-and-graph-timeline",
+      "readerJob": "Expand work duration to inspect the agent's chronological progress and grouped tool actions while keeping the final answer visible.",
+      "setup": "Completed 27m 29s turn, summary-only imported history, live-to-completed transition, empty details, loading, disconnected error and retry. Both themes at Full HD, 2K, 4K and narrow layout; synthetic content only.",
+      "assertions": [
+        "The redacted 60-item native reference is projected by Rust and rendered with the actual main and graph message views: one 13m 29s section, four activity groups, six narrative checkpoints, an inline quoted reply and one final answer outside.",
+        "In-turn user replies do not split native work. Public reasoning remains available inside closed activity details, web search is named, and valid answered questions show readable quoted replies instead of source XML/JSON.",
+        "While working, chronological commentary remains visible between compact action disclosures; the duration header is hidden until the turn ends. Completed work then collapses and leaves the final answer visible.",
+        "Activity groups start closed, show > closed and a downward triangle open, and preserve expansion and keyboard focus as new actions arrive. Running, failed, denied and stopped commands never claim successful completion.",
+        "Native context compaction stays at its own chronological position outside tool groups and changes from Ottimizzazione della conversazione… to Conversazione ottimizzata on completion without adding a duplicate row.",
+        "Durata lavoro: 27m 29s is a keyboard-operable native disclosure, initially closed, with > when closed and a downward triangle when open.",
+        "Opening unloaded history reads only the requested turn's full items through native pagination; closing, rerendering and reopening loaded details do not start another request or model turn.",
+        "Consecutive commands and file operations are grouped around chronological commentary; native file_change items and named MCP tools appear in action-derived summaries.",
+        "Opening Computer Use js details keeps ordinary diagnostics but displays image and encoded payload placeholders instead of long screenshot data or overflowing text.",
+        "The final answer and service notices remain outside the work disclosure. Existing row identity, diff expansion, keyboard focus and manual scrolling survive loading and updates.",
+        "Missing duration is explicit. Loading, retryable errors and no recorded intermediate activity never masquerade as successful complete content.",
+        "Light and Dark retain readable token-based contrast, arrow state and focus, with no horizontal overflow or extra decorative borders."
+      ]
+    },
+    {
+      "id": "live-code-diff-counter",
+      "surface": "main-chat-and-graph-composer",
+      "readerJob": "See the current turn's added and removed code lines while an agent works.",
+      "setup": "Main chat, fork and graph card using native Codex and another local provider; zero, growing, shrinking after revert, completed, binary-only, owner switch and unsupported remote states. Synthetic paths and content in Light/Dark at Full HD, 2K, 4K and narrow graph-card width.",
+      "assertions": [
+        "Every supported composer shows one compact (+N, −M) status for its exact current owner and turn; another chat, fork or card cannot replace its values.",
+        "Native Codex replacement patches and aggregate turn diffs update the same status without double counting paths or unified-diff headers. Other local providers compare against the immutable run checkpoint without creating live-scan blobs or manifests.",
+        "The active state may show (+0, −0), additions and removals change in place, and reverting edits can lower either value back to zero. A completed empty turn disappears while the last non-empty total remains readable.",
+        "Plus/minus text remains understandable without color, the accessible label names lines and file count, and large tabular values do not move Send, Stop, Attach, Plugins or profile controls.",
+        "Binary-only and unavailable remote evidence never invent text-line counts. Owner changes clear stale values before the next conversation state arrives.",
+        "Light and Dark preserve addition/deletion contrast and the compact status fits main and 9:16 graph composers without horizontal overflow or prompt movement."
+      ]
+    },
+    {
+      "id": "prompt-send-motion",
+      "surface": "main-chat-and-graph-timeline",
+      "readerJob": "See a submitted prompt move clearly from editing into the conversation without mistaking restored history for a new send.",
+      "setup": "Main chat, fork and graph card with start, Queue and Send now delivery; accepted, rejected, repeated-text, owner-switch, history-load and reduced-motion states. Synthetic prompts in Light/Dark at Full HD, 2K, 4K and narrow graph-card width.",
+      "assertions": [
+        "A successfully dispatched typed prompt gives the persistent Send/Stop action slot one readable 1200 ms press/rebound and the exact new user bubble one clearly perceptible 1200 ms soft rise, scale, focus and elevation transition; immediate acceptance, native identity reconciliation and the Send-to-Stop change preserve elapsed motion instead of truncating it.",
+        "Main chat, forks and graph cards share the same timing and easing tokens. The transition does not move the composer, shift earlier messages, delay delivery or obscure the Sending state.",
+        "The launch intent belongs to one conversation and is consumed once. A sibling card, owner switch, repeated old text, accepted native echo, rerender or restored history cannot replay it.",
+        "Rejected or stale delivery cannot animate a later unrelated prompt. Resume without new text keeps immediate state feedback and does not fabricate a sent bubble.",
+        "With reduced motion, Send and the bubble change state immediately while all delivery, focus and accessible status feedback remains intact.",
+        "Light and Dark retain the normal bubble contrast throughout the transition, and narrow, Full HD, 2K and 4K layouts show no clipping or horizontal overflow."
+      ]
+    },
+    {
+      "id": "native-delegation-and-runtime-observability",
+      "surface": "main-chat-and-graph-conversation-controls",
+      "readerJob": "Open delegated work and understand which agent is working or needs input without seeing transport telemetry.",
+      "setup": "Synthetic parent, child and independent fork; running, completed, stopped, approval and disconnected states. Runtime event and delivery samples are injected to verify they remain outside the interface. Light/Dark at Full HD, 2K, 4K and 720px narrow layout. Account-backed delegation is a separate opt-in test.",
+      "assertions": [
+        "Delegated children retain their own IDs and are labelled separately from forks; opening a relative sends no prompt and preserves sibling drafts.",
+        "Child approval and Stop remain attached to the child even while another chat is selected. Parent and child controls show an explicit needs-input label.",
+        "A plan with pending steps remains incomplete after successful, failed or interrupted turn completion. It appears inside the work disclosure before the final answer in both hosts.",
+        "Runtime event journals, protocol method names and prompt-delivery timing samples never appear in Settings, the transcript or graph cards. An actionable delivery failure uses the ordinary chat status.",
+        "Composer focus prepares only its existing selected native chat without starting work or displaying a phantom Stop state. Repeated focus, a prompt joining preparation, cancellation, reconnect and owner switches cannot duplicate or redirect input.",
+        "Switching owner or binding clears runtime observation state; foreign event results are ignored.",
+        "Controls and actionable error states wrap without horizontal overflow; keyboard focus and Light/Dark contrast remain visible."
+      ]
+    },
+    {
+      "id": "supervisor-brand",
+      "surface": "native-windows-start-page-agent-panel-knowledge-graph",
+      "readerJob": "Recognize Supervisor and open configuration or the graph using one consistent mark.",
+      "setup": "Light/Dark at Full HD, 2K, 4K and narrow layout; idle, configuration open, active project, graph open/closed, Settings roundtrip and reduced motion. All data is synthetic.",
+      "assertions": [
+        "Window titles, settings copy, start page and the packaged launcher identify Supervisor. Existing data paths, protocol identifiers and owner routing stay compatible.",
+        "The Regia SVG is shared by the app icon, model-configuration launcher, graph launcher and project activity indicator. No eye-and-S geometry or tetrahedron pieces remain. The native ICO contains independently rendered 16/24/32/48/64/128/256 px images, with the optical master at 16 px.",
+        "The start-page heading uses the approved outlined Supervisor lettering in the shared theme ink, with its accessible name and existing height. The native graph launcher remains the only symbol above the heading; the wordmark never duplicates the launcher or shifts its reserved slot. The logo-to-wordmark and wordmark-to-tagline gaps are equal. Its Home treatment has one canonical front face over a clearly visible monochrome directional extrusion, without creating another logo or action.",
+        "Every internal surface uses the SF Pro Text/Display stack where the operating system supplies it and the embedded Inter Variable fallback on Windows while offline. Small labels, accented text, medium/semibold weights and graph canvas text stay legible in Light/Dark at every profile; commands, code and terminal output retain monospace. Agent and Terminal remain equal in size after fonts finish loading.",
+        "Both logo controls retain distinct accessible action names, keyboard focus, hit targets, click behavior and native-modal Escape ownership. Their background remains transparent and their border absent in idle, hover and expanded states. Native window icons also have no tile or border and switch ink with the theme. Logo decoration never grants access or changes a model.",
+        "Only the main profile launcher separates the original two Regia paths on opening and recomposes them on closing, in a finite transition coordinated with its popup. Idle, activity and other logo instances remain still; reduced motion keeps the whole mark and immediate controls. No synthetic progress percentage or continuous spin appears.",
+        "Background refresh, graph/Settings transitions and project switches preserve drafts and controls, with no clipped mark, duplicate launcher, horizontal overflow or unthemed frame.",
+        "The separate native graph launcher appears only over a loaded Home in the main browser pane. Search submission, address navigation, links, redirects and switching to a website hide it; Home and a ready new tab restore it. A background or detached Home cannot place the mark over a main website. Split browser panes and a docked terminal keep its bounds within Home. Settings/Web visibility still take precedence, while an explicitly expanded graph remains open during background navigation."
+      ]
+    },
+    {
+      "id": "borderless-workspace-controls",
+      "surface": "toolbar-and-terminal",
+      "readerJob": "Switch tabs or open Agent and Terminal using consistent controls without decorative borders.",
+      "setup": "Light/Dark at native toolbar heights for Full HD, 2K and 4K, plus narrow layout; selected/unselected tabs, hover, focus, dragging, docked/detached tabs and terminal counts 0/12/128.",
+      "assertions": [
+        "Browser tabs, terminal session tabs, Agent and the Terminal button have zero border width in every ordinary state. The browser strip begins at the visible Web pane edge and never spans the docked Agent pane, Settings or Projects. Selection, hover and keyboard focus remain visible through their existing surface, ink and focus cues.",
+        "Agent and Terminal have equal outer width and height, and both share the address field's exact outer height at every native toolbar scale. Labels and the live terminal count remain visible and address input retains usable space.",
+        "All existing button IDs, tab hooks, native click actions, keyboard behavior, drag insertion feedback and selected-state ownership remain intact."
+      ]
+    },
+    {
+      "id": "ordered-agent-configuration",
+      "surface": "agent-panel-and-knowledge-graph",
+      "readerJob": "Choose provider, model, effort and speed beside chat; personalize only useful agent behavior and access in Settings.",
+      "setup": "Main chat and a node card with connected, busy, disconnected, archived, deleted, unbound and other-provider states; selected skills, long model copy, keyboard focus, 720px narrow layout and Full HD/2K/4K in both themes.",
+      "assertions": [
+        "The main profile menu shows only Provider, Model, Effort and Speed. Settings → Agents & permissions contains three always-open sections with plain, noninteractive headings: Agent behavior (Personality and Reasoning summaries, scoped to the current conversation), Codex workspace access (scoped to all Codex agents) and Supervisor tool confirmations. Settings → Codex tools separately contains Skills and Apps for the selected conversation. Context remains only as one hidden compatibility hook. Picker IDs, values and listeners are unique and survive navigation; the profile tooltip summarizes only its four choices.",
+        "Graph cards expose exactly four selectors, Provider, Model, Effort and Speed, from the two-path Supervisor mark immediately before Close. The two-column panel starts closed, overlays the timeline, retains its selections on refresh, closes with Escape/outside interaction, and opens before the model shortcut focuses its selector. No project/app heading, directory/profile rows, name/mission fields, context selector or advanced menu is visible.",
+        "Cards preserve a 9:16 portrait ratio within the available graph area in both themes and narrow/Full HD/2K/4K layouts. The transcript scrolls independently, the prompt stays at the bottom, and saved offsets refit after size changes. Opening or using the profile panel never moves the timeline or drags the card.",
+        "Setup/phase, Connect, the profile-change hint and Start are absent. The attachment plus sits inside the prompt field and shares the main chat's native picker, format filters, snapshot checks and 12-file limit. Selecting files prepares the current local graph assignment without a model prompt. Previews/removal remain owner-scoped; cancellation and rejected sends retain snapshots.",
+        "Enter sends once through the guarded owner-scoped path, including attachment-only input; Shift+Enter, composition, repeated keydown, empty input and pending acceptance do not send. Exact acceptance clears only its matching draft. Stop and requested decisions remain available.",
+        "A compact Send icon sits inside the prompt at bottom right opposite Attach in every theme and layout. Its right and bottom clearance are equal in the main agent composer and every graph/card composer. It becomes Stop during work, waits for confirmed interruption, then offers Resume for an empty draft. Resume submits one explicit continuation in the same conversation, including after restored stopped history; changed providers, completed work and uncertain delivery cannot resume. Pending/rejected operations and unrelated owner events cannot duplicate work, lose files or clear newer typing. Empty Enter never resumes.",
+        "Each native graph card shows a compact, borderless Context monitor in its header. It uses an em dash before the first report, then the latest report percentage and a short meter when capacity exists; detailed counters, tables, cumulative totals and waiting prose stay absent. Stale state and accessible status remain owner-scoped. There is no Attach tab or shell menu; existing attachment previews, removal and supported drag-and-drop remain available.",
+        "The graph composer exposes the same owner-scoped plugin picker as main chat. Its menu contains only each plugin icon and name; selection produces an icon-and-name chip with a dedicated X, and the selected inventory reaches only that card's next native prompt. The picker appears from the card's first conversation snapshot without requiring a click on Attach or another composer control. It works before the card's first prompt: opening or refreshing it creates no thread and sends no model turn, while an accepted first prompt promotes the draft selection only to the exact native thread created for that card.",
+        "Graph profile changes survive background updates and are applied by the existing assignment path on the next submission. Saved names, missions and assignment actions retain their hooks in one inert compatibility block with no layout or retired telemetry/menu updates. Stop, native decisions, errors, conversation identity and drafts remain independent of the reduced configuration.",
+        "The main profile floats beside the logo in the empty gutter between Explorer and transcript content, constrained to the chat inset on narrow layouts. Provider/model have full rows, effort/speed share a row, and long lists scroll inside the bounded popup. Explorer remains visible and interactive; column sizes and transcript/composer positions never change on opening. Window, composer and option-size changes keep it anchored and inside the available viewport.",
+        "Opening and closing animate each profile popup and the original two Supervisor-logo paths together in main chat and graph cards. Closing becomes inert before hiding; Escape, Close, outside click and a second logo click work. Rapid reversals preserve the latest requested state without leftover transforms or stale completions. Keyboard opening focuses a selector and dismissal returns focus. Reduced motion opens/closes immediately with the complete logo.",
+        "History, fork, review, compaction, goal and saved-default operations stay in contextual chat/tree actions or their owned shortcut dialogs. Reported thread settings and lifecycle menus do not appear as user preferences; archive/delete/reset retain exact-owner confirmation and existing availability guards.",
+        "Fixed section state, nested disclosure state, scroll, current draft and picker IDs survive native updates. Selected skill chips/removal and operation errors remain visible in their active category.",
+        "Goal, fork, review, history, skills and defaults shortcuts open visible owned dialogs while main Settings is closed or from a compact graph card. The main settings host temporarily renders only its open dialogs outside the hidden Settings ancestor, then returns the same mounted controls after its last modal closes. Profile menus remain closed. No dialog leaves the app invisibly inert; state refresh and unrelated owners cannot redirect an action or reset settings.",
+        "Native confirmation dialogs share the SF Pro-led interface typography, constrained readable width, backdrop and action layout in main chat and graph cards; long content scrolls within the viewport in Light/Dark and every layout profile. Native operation errors remain visible through unrelated stream and metadata updates.",
+        "The three main Settings toggles expose expanded state and unique controlled IDs; closed controls are absent from the tab order. Compact graph cards have no menu toggles or shared-permission selectors. Main and graph preserve scope independently; busy, disconnected, unbound and deleted states never invent authority."
+      ]
+    },
+    {
+      "id": "project-chat-fork-tree",
+      "surface": "agent-panel",
+      "readerJob": "Distinguish an original chat, its forks and nested forks before opening or submitting to a conversation.",
+      "setup": "Original and two forks, a nested fork, duplicate and long titles, independent chats, pinned and archived entries, pending delivery, unavailable or moved source, filtering, narrow explorer, active draft and background updates.",
+      "assertions": [
+        "Confirmed forks appear beneath their source with neutral branch glyphs, Original/Fork labels and direct fork counts; names are never rewritten or treated as proof of ancestry.",
+        "Expand/collapse does not change the active conversation or its draft, and survives unrelated navigation refreshes. Filtering and missing/cross-project sources never hide matching forks.",
+        "The Projects tree identifies the current chat and its source. The composer has no repeated chat-title/Chat identity banner, including after switching or renaming a conversation. Identity events still scope Settings and native commands; forking is not a filesystem copy.",
+        "Pending ancestry is unconfirmed, missing metadata is unknown, cycles cannot hide rows, and deleted/archived local sources are not presented as actionable links.",
+        "Stable chat selectors, lifecycle menus, keyboard focus and archived/pinned navigation survive the Svelte migration. Chat titles use the same shared 13 px label scale and SF Pro-led interface family as file names, with restrained active weight; the smaller geometric three-dot glyph is optically centered with each row inside its unchanged click target. Light/Dark at Full HD, 2K and 4K preserve hierarchy without horizontal overflow."
+      ]
+    },
+    {
+      "id": "native-codex-file-inputs",
+      "surface": "agent-panel-and-knowledge-graph",
+      "readerJob": "Send explicitly selected images, audio and text files with a prompt, queued turn or native follow-up.",
+      "setup": "Local Codex main/graph chats with PNG/JPEG, MP3/WAV and UTF-8 snapshots, redacted text, image/audio-incapable models, provider switch, attachment-only prompt, rejected send and a newer attachment before acceptance.",
+      "assertions": [
+        "The existing + and removable file chips are enabled for ready local Codex only; attachment previews use one compact borderless cylindrical card in draft and sent states, without local/VPS storage implementation copy; no unsupported provider advertises file input.",
+        "Native text/image/audio inputs preserve selected snapshot identity through Queue and Send now without synthetic history or custom tools; audio requires an explicitly reported model modality.",
+        "Windows file and photo drops resolve the exact open Project-chat or Supervisor card under the pointer, show a temporary owner-scoped drop cue, and pass through the same format, secret-path, size and 12-file snapshot validation as the attachment picker. Native paths never enter the web payload; dropping one folder outside a card remains project import.",
+        "Errors retain drafts and files; acceptance removes only original owner/snapshot IDs, preserving newly added files.",
+        "Main and graph label MP3/WAV snapshots as Audio and advertise the supported audio formats in their attachment controls.",
+        "Native history renders bounded inline images without fetching remote URLs or localImage paths; audio exposes metadata only and never its bytes or local path. Missing sizes/usage are not zero.",
+        "Shared tokens, icons, keyboard access and graph/main layout remain intact; no new upload panel is introduced."
+      ]
+    },
+    {
+      "id": "native-codex-apps-and-hooks",
+      "surface": "agent-panel-and-knowledge-graph",
+      "readerJob": "Optionally choose an installed Codex plugin beside the prompt, recognize the selected plugin and inspect its state in Settings without exposing connector services or creating a second execution engine.",
+      "setup": "Loaded main/graph native threads with installed, disabled and administrator-blocked plugins; user-facing GitHub and Cloudflare entries; INSTALLED_BY_DEFAULT control-plane packages; selected and stale plugin references; hook inventory warnings/errors and running/completed/failed lifecycle rows.",
+      "assertions": [
+        "Plugins publish only after a complete plugin/installed read. INSTALLED_BY_DEFAULT packages and raw connector services are absent; an update racing the read is coalesced into at most one automatic follow-up, while stale or foreign inventories cannot be selected.",
+        "Disabled and administrator-blocked plugins remain understandable in Settings but unselectable. An HTTP access denial becomes a distinct unavailable state and never causes installation, selection, execution or automatic retry.",
+        "A separate borderless plugin control sits beside Attach in the main and graph composers without entering the four-choice profile menu. In its normal state, its bounded popup shows only a local plugin icon and plugin name per row: no description, command suggestion, tool count, availability sentence or protocol ID. Selecting GitHub closes the popup and shows the GitHub icon and GitHub name as a compact composer card with a dedicated X, without sending a prompt or tool call. Clicking the card or its selected menu row does not remove it. It remains clickable before a first native thread exists, reads only the captured local directory inventory, and transfers the frozen choice to the exact thread created by the accepted prompt. Settings provides the installed user-facing inventory without a Mention next action.",
+        "Explicit selection is optional because Codex may choose connected plugins automatically. A selected plugin is consumed only with its frozen accepted input; rejected input, owner changes and unrelated receipts cannot clear or borrow it.",
+        "Accepted input carries the exact @plugin-name token and plugin://name@marketplace mention returned by Codex; display metadata never becomes authority.",
+        "Hook inventory and activity are read only: commands, hashes, MCP targets and plugin internals are absent, while bounded escaped output and stale state remain understandable.",
+        "Disconnect, owner/thread/directory changes and native invalidations revoke old selection/read authority without retry, execution or draft loss.",
+        "Main and graph share neutral tokenized controls with keyboard focus, Escape and outside dismissal, focus return, reduced motion and useful exceptional loading/error/unavailable states. Installed plugins remain searchable in Settings. GitHub, Cloudflare, Figma, Linear, Notion and the verified first-party Browser capability have bundled local fallbacks; every catalog plugin may use only its bounded credential-free HTTPS composerIconUrl from files.openai.com, with no referrer, and failures fall back to a deterministic local identity."
+      ]
+    },
+    {
+      "id": "native-codex-direct-mcp-and-extended-forms",
+      "surface": "agent-panel-and-knowledge-graph",
+      "readerJob": "Read one native MCP resource, knowingly call one reported tool, and answer a bounded extended elicitation form.",
+      "setup": "Current/stale conversation MCP inventories, opaque resource handles, read-only and side-effecting tools, changed inventory during confirmation, flat and nested openai/form schemas, invalid JSON, disconnect and uncertain completion.",
+      "assertions": [
+        "Resource URIs never enter the WebView; a read is bound to the exact opaque handle, server, thread and current inventory.",
+        "Direct tools require a separate confirmation with reported schema and JSON-object arguments; no model prompt, implicit retry or stale-inventory call occurs.",
+        "Results are bounded escaped text/JSON; binary/media bodies, private metadata and remote URLs are omitted, and side-effect uncertainty is explicit after disconnect.",
+        "Flat primitive form fields use typed controls; bounded nested values use a sanitized JSON editor and invalid schema/results cannot be sent.",
+        "Form defaults survive unrelated streaming updates, answers remain session-only and the native request's owner/ticket decides resolution.",
+        "Both themes and main/graph layouts keep confirmations, errors, long schemas and scrollable results readable without duplicating native approval authority."
+      ]
+    },
+    {
+      "id": "native-codex-conversation-lifecycle",
+      "surface": "agent-panel-and-knowledge-graph",
+      "readerJob": "Manage native Codex history without changing project files or another provider's conversation.",
+      "setup": "Main and graph conversations with loaded/unloaded history, remote rename, archive/unarchive notifications, busy work, disconnect, deletion and a changed owner during confirmation.",
+      "assertions": [
+        "Reported thread settings remains runtime-owned and available from a stable start/resume/fork response without waiting for an optional update event. A settings notification newer than the request wins over a late response, while unload or disconnect cannot be made current again by a late acknowledgement. Native events cannot alter composer selections or consent, leak instructions, create turns or borrow a sibling's settings; the technical report is absent from user Settings.",
+        "Contextual chat/tree actions and shortcut dialogs own load/refresh, rename, archive/restore and delete. Settings does not present conversation lifecycle as a persistent preference. Graph cards retain their owned shortcut dialogs without visible menus.",
+        "Archive/delete confirmations explain spawned child scope and native refusal when a fork still references the source. A rejected delete preserves history and draft; no dependent fork is removed or retry sent automatically. Restoring a conversation never promises filesystem restore.",
+        "An open confirmation cannot target a new owner or replacement thread; queued/active work and disconnected state disable lifecycle mutations.",
+        "Goal, fork and review shortcuts open a visible shared modal without revealing the main profile menu or advanced settings. Disabled controls and loading/refresh rerenders cannot hide the modal; closing it restores its mounted settings host without resetting state.",
+        "After reconnect, Reset unused connection requires confirmation and applies only to a known never-submitted local binding; it never deletes native history, files, attachments or drafts. New observed work revokes eligibility.",
+        "Reconnect and manual refresh reconcile the complete paginated thread/loaded/list snapshot atomically without inventing local ownership. Removing a local chat, graph card or workspace releases a loaded connection with thread/unsubscribe while preserving native Codex history.",
+        "Deleted native history is removed while local chat and other providers remain; there is no implicit recreation or replay.",
+        "Streaming updates preserve draft, disclosure, scroll and the native operation's original owner.",
+        "Validated prompts and frozen file previews appear immediately in main and graph with a subdued Sending… label, including while native history opens or resumes. Acceptance and user-item notifications in either order leave exactly one bubble; identical text in different submissions remains separate. Rejection, stop before dispatch, owner changes and disconnect preserve draft ownership without replay. Both themes and narrow/desktop layouts retain readable user alignment."
+      ]
+    },
+    {
+      "id": "native-codex-token-usage",
+      "surface": "agent-panel-and-knowledge-graph",
+      "readerJob": "Read a small owner-scoped context signal on graph agents without exposing technical token-report chrome.",
+      "setup": "Native token events with zero counters, absent capacity, large integer totals, independent owners, a new turn, compaction, disconnect and reconnect.",
+      "assertions": [
+        "The main composer omits context-report chrome. Native graph cards show only a compact Context label, an em dash before the first report, and the latest percentage/meter when capacity exists. Detailed counters, tables and native waiting/report prose remain absent. Hidden legacy hooks are inert, absent from the reading/tab order and reserve no space in either theme at narrow, Full HD, 2K and 4K sizes.",
+        "The percentage compares only the latest report to reported capacity; cumulative totals and cache/reasoning subsets are never added into that ratio.",
+        "Not reported differs from zero; unavailable capacity removes the meter and large integers retain exact digits.",
+        "A lower snapshot after compaction can lower the ratio; an older known turn cannot replace newer telemetry.",
+        "Disconnect, reconnect and previous-turn reports remain explicitly stale; owner/provider changes never borrow another conversation's numbers.",
+        "Switching chats or providers cannot reveal one card's monitor in another or move the prompt. No token budget, estimate or billing claim is introduced."
+      ]
+    },
+    {
+      "id": "native-codex-send-now",
+      "surface": "agent-panel-and-knowledge-graph",
+      "readerJob": "Choose between steering the active Codex turn and queueing a separate request without losing input.",
+      "setup": "Active native main/graph turns, second submitted drafts, prior ACK pending, turn replacement, rejection, disconnect and a newer edited draft.",
+      "assertions": [
+        "Delivery choices appear outside the composer only after a second submission; unavailable Send now stays disabled.",
+        "Send now captures the displayed turn and keeps its model, cwd and permissions; stale input never creates a new turn or implicit queue entry.",
+        "Queue remains a separate action and other providers do not advertise native steering.",
+        "Original owner and exact unchanged draft determine acceptance; another conversation or newer draft is never cleared.",
+        "Main and graph restore saved unsent text after restart without a model turn. Late hydration/save replies preserve newer typing; separate cards retain independent drafts. Routine saving stays silent even during slow acknowledgements: no saving label, live announcement or layout shift. Actual save errors remain visible and preserve the text. Cleared/deleted drafts cannot reappear from old session caches; archived chats retain their text.",
+        "Opening a never-assigned graph card retains a local setup draft without sending native draft requests or showing a missing-conversation error. Assigning the agent promotes that exact text to durable owner-scoped storage; newer setup edits survive hydration and restart without a model submission.",
+        "Pending, rejected and uncertain steering stay distinct; no silent replay or dropped attachments.",
+        "Main and graph reuse their existing neutral keyboard-accessible controls without adding runtime diaries."
+      ]
+    },
+    {
+      "id": "native-codex-access-and-sandbox",
+      "surface": "agent-panel-knowledge-graph-settings",
+      "readerJob": "Choose shared native permissions and repair the Windows Codex environment only when execution fails.",
+      "setup": "Local chat and graph owners, read-only/project/full access options, restricted administrator allowlists, queued prompts and native setup ACK/completion in either order.",
+      "assertions": [
+        "Settings → Agents & permissions owns Codex workspace access for every main chat, graph agent and fork destination. The shared persistent scope is stated beside the selector and is explicitly distinguished from Supervisor tool confirmations; graph cards do not repeat it and other-provider profiles keep their own permissions.",
+        "Full access requires an explicit in-product confirmation that names all Supervisor Codex agents and persistence after restart; Escape, cancel, managed restrictions, active work or changing the owner cannot grant it.",
+        "Permissions are saved atomically, restored after restart and frozen with each accepted prompt. Active or queued Codex work blocks a shared change while idle conversation summary preferences remain independent. Failed saves retain the previous selection.",
+        "Missing initial preferences default to read only. Corrupt, unsupported or missing primary files never restore a broader backup; the failure and fallback remain visible. Managed restrictions disable incompatible saved presets without silently replacing them or retrying without a sandbox.",
+        "Repair Codex on Windows lives inside AI accounts → Account options, explains that it is only for command or edit failures, and starts only after an explicit mode-specific confirmation with elevation disclosed.",
+        "Starting, running, finishing, completed, failed and disconnected setup remain readable without automatic retry or duplicate setup."
+      ]
+    },
+    {
+      "id": "native-app-server-conversations",
+      "surface": "agent-panel-and-knowledge-graph",
+      "readerJob": "Send a native Codex prompt, follow its items and recover delivery without duplicate work.",
+      "setup": "Independent local chat and graph owners, native user/commentary/summary/tool/diff/final events, completion before ACK, pending Stop and disconnected delivery; no live account actions.",
+      "assertions": [
+        "The pristine agent panel installs its state renderer before any picker or click; the first Rust state identifies the owner and enables its composer without incidental interaction.",
+        "The Codex profile comes from its official catalog and identifies native permissions, initially read only.",
+        "Only explicit user text and the local working directory reach App Server; no Time Machine checkpoint or graph prompt is injected.",
+        "Streaming retains disclosure and scroll state; summary content is provider-exposed, never fabricated private reasoning. Main and graph offer owner-scoped Automatic, Concise, Detailed, Off and Inherit native setting summaries beside permissions; pending input freezes selection. Inherit omits the override and does not reset a loaded session. Empty reasoning has no blank row and later summary deltas reveal the same identity.",
+        "Graph native text deltas update the existing timeline while runtime phase stays unchanged; sibling cards retain independent messages and unsent drafts.",
+        "Selecting Codex on a graph card does not create or relabel an other-provider session; existing provider history retains its metadata.",
+        "Web actions disclose exact query, URL and find pattern; collaboration calls retain addressed threads and reported child states independently of call completion. Tool output is escaped text, with explicit media/encrypted fallbacks, no opaque payloads or automatic fetches. Started/completed updates retain the same row and disclosure.",
+        "Native model rerouting, account verification, opted-in service buffering, turn errors, warnings, strict/automatic review state and moderation presence stay visible outside work disclosure and never become the final answer. Notices preserve row/scroll state, escape service text, become stale after disconnect and cannot change profile, send prompts or revive a completed turn. Opaque moderation/review fields never cross the host boundary.",
+        "Terminal-interaction events update the existing command row with only an input byte count; stdin and native process identifiers are neither rendered nor persisted.",
+        "Native history retains stable IDs alongside other-provider messages; changing visible chat cannot redirect replies or clear another draft.",
+        "Saved Codex histories load automatically after startup/connection, including while signed out, with the selected chat first and bounded sequential reads for main and graph owners. No resume, prompt, OAuth, draft clearing or unrelated history import occurs. Missing/deleted/rebound and active owners retain their state.",
+        "AI accounts offers Reload chats without reconnecting an available runtime. Idle, loading/disabled, empty, completed and partial/unavailable states remain readable in Light/Dark at supported sizes; only explicit button intent starts a manual read and duplicate clicks cannot overlap.",
+        "A pending input is not labelled uncertain during normal acknowledgement; after disconnect its history can be checked and its exact delivery warning dismissed without resending.",
+        "Stop reaches native turn/interrupt; an opening thread can be cancelled before a model turn starts."
+      ]
+    },
+    {
+      "id": "native-app-server-decisions",
+      "surface": "agent-panel-and-knowledge-graph",
+      "readerJob": "Review and answer the native request in its original conversation without losing draft or scroll state.",
+      "setup": "Synthetic command/file/permissions, questions with a secret answer, MCP primitive form and external URL requests for independent chat and graph owners; no live account actions.",
+      "assertions": [
+        "Command, cwd, environment, permission scope, MCP server and proposed file diff are readable before granting consent.",
+        "File changes remain labelled proposed until native application succeeds. Cancelled turns have no running file activity, even when the native item remains inProgress; preserve failed/declined outcomes, diff, identity and draft across native history readback.",
+        "Managed-network approval shows its actual host and protocol, while stdin approval identifies input to a running process; neither is presented as permission to launch a new general shell command. Reported command context remains available in a disclosure.",
+        "Long session and exact proposed policy choices are explicit disclosures; no automatic approval or timeout is added.",
+        "Command cards show only supported decisions actually offered by Codex, including restricted and empty lists. Omitted or null lists retain the selected protocol defaults; malformed or future-only lists never enable a fallback grant. Rust rejects unavailable choices even if stale UI intent is submitted.",
+        "Another owner never sees or answers this request; a stale ticket or double click cannot send a second decision.",
+        "Pending cards retain owner-scoped arrival order across double- and triple-digit tickets. Later requests append without reordering existing cards; sending and resolution retain surviving ticket identities. Opaque native RPC IDs never define presentation order or execution priority.",
+        "Question input survives unrelated streaming; resolved requests and their secret inputs disappear without local persistence.",
+        "MCP form values, including false and numbers, survive unrelated main/graph renders. Defaults are applied only for a new native ticket, never over typed answers in the existing card.",
+        "MCP field types, required values, option labels and validation remain accessible with keyboard controls.",
+        "Opening a displayed external authorization URL is separate from accepting the request; local executable schemes are rejected.",
+        "Main and graph use the same neutral, tokenized, independently scrollable region; no pending request means no extra region.",
+        "No visual tests are run unless the user requests them."
+      ]
+    },
+    {
+      "id": "provider-reset-baseline",
+      "surface": "agent-panel",
+      "readerJob": "Use the existing interface and remaining providers after removing the legacy Codex client.",
+      "setup": "Empty local chats; Claude Code, Cursor, GitHub Copilot, Google Antigravity and OpenCode Go catalogs. No Codex process or saved native binding.",
+      "assertions": [
+        "The retired Codex client is absent; only the new native App Server client appears in main/graph pickers and AI accounts.",
+        "Codex protocol diagnostics stays runtime-only and never interrupts a conversation or appears as a preference. No payload or raw unknown name is rendered, no observation sends intent, and reconnect resets the session-only snapshot.",
+        "Projects, Explorer, editor, browser tabs and manual SSH/RDP/VNC remain available.",
+        "The main render callback and graph composer state dispatch remain present.",
+        "Other-provider chat streams and approvals retain their original owner.",
+        "A queued request clears only its accepted draft, preserves newer text, and cannot retarget another project.",
+        "Unsupported uploads and remote graph execution are honestly unavailable; native steering and usage telemetry are not attributed to other adapters.",
+        "No visual test or model call is required by the static reset audit."
+      ]
+    },
+    {
+      "id": "project-git-diff",
+      "surface": "agent",
+      "readerJob": "Inspect current local Git changes without attributing unrelated edits to an agent or changing files.",
+      "setup": "Synthetic staged and unstaged versions of one file, new text/binary files, a deleted file, excluded secret/link entries, an empty repository and missing Git. Include main and two graph branch dialogs with distinct directory/read identities, an SSH node and a node without an explicit local directory.",
+      "assertions": [
+        "/diff opens a monochrome read-only dialog without sending a prompt or altering its draft. It remains usable during a running task.",
+        "Graph /diff uses the same component with its own title and focus-return identity. Each local node inspects only its explicit directory. SSH, relative and missing node directories never fall back to the selected main project. Closing one owner does not invalidate another owner's file list, query or selection.",
+        "Staged, unstaged and untracked groups include every listed path with original local file icons; the total counts unique paths and blocked paths have a visible explanation.",
+        "Selecting a file loads only its patch into the existing searchable diff viewer. Search, highlights and next/previous results work without adding borders or blue backgrounds.",
+        "Late file/list replies cannot appear after closure, project changes, another selected file or another owner. Empty, unavailable and unsupported-text states are explicit.",
+        "The file column and diff scroll independently within the available dialog height, including the narrow layout. Escape and the Close button remain usable without affecting an agent run.",
+        "The UI distinguishes current Git changes from Time Machine attribution and discloses rename, submodule and secret-path behavior."
+      ]
+    },
+    {
+      "id": "independent-main-conversations",
+      "surface": "projects-and-main-agent",
+      "readerJob": "Navigate between active conversations without losing drafts or redirecting native work.",
+      "setup": "Two synthetic local projects and main chats, queued prompts, a pending approval, two captures of the same tab and two local shells. Switch A → B → A while events arrive. Repeat with denied WebView storage, a closed browser tab, a reconnected desktop and a stale control message. No live model or remote requests.",
+      "assertions": [
+        "Projects, new-chat controls and chat selection remain reachable while another chat runs; only the owning transcript, Stop and pending approvals are visible.",
+        "Working and Needs attention identify the originating chat; visiting another project does not cancel its job or change its directory or profile.",
+        "Each draft restores text, exact attachments and profile. Late captures update only their capture owner; a queued launch cannot remove a newer capture of the same tab.",
+        "Stale submit, Stop, profile and attachment IPC messages are rejected instead of acting on the newly selected chat.",
+        "Agent browser focus, shell session/directory and granted remote connection stay bound independently of visible selection. Closed or restarted targets fail without fallback.",
+        "Move, archive and delete are disabled for the affected unfinished chat, not for every other chat. Project removal still requires explicit stop/finalization and never deletes project files.",
+        "Incomplete captures and unavailable input configurations keep the draft; accepted snapshots remain frozen while queued. Account settings stay globally guarded without locking conversation navigation."
+      ]
+    },
+    {
+      "id": "local-source-editor",
+      "surface": "home-agent",
+      "readerJob": "Read and manually edit project source without losing the ongoing conversation.",
+      "setup": "Two synthetic local projects, Rust and empty text files, a UTF-8 BOM CRLF fixture, a dirty draft, and a running overlapping agent. No real user file content in fixtures.",
+      "assertions": [
+        "Clicking a file opens an editor tab; Chat returns to the same mounted conversation and composer.",
+        "Code, numbered lines, undo/redo, folding and find/replace are readable in both themes and narrow panes; tabs and code scroll independently.",
+        "Ctrl+S saves the original file even after switching projects; concurrent disk changes and active checkpoints prevent overwrites.",
+        "Dirty close and reload require a keyboard-accessible confirmation; unsaved drafts recover after restarting and hot UI reload.",
+        "Secret paths, binary files, links and unsupported encodings are rejected without partial writes.",
+        "No editor contents are sent as agent context unless explicitly referenced by the user."
+      ]
+    },
+    {
+      "id": "browser-panel-minimized",
+      "surface": "toolbar-and-agent-panel",
+      "readerJob": "Focus on the Agent conversation while keeping browser tabs ready to restore.",
+      "setup": "Two docked tabs, one detached tab, a streaming chat with a draft and expanded activity, and optionally a bottom or right docked terminal. Test Light/Dark and all layout profiles.",
+      "assertions": [
+        "The toolbar toggle has Minimize web panel or Restore web panel as its accessible name and title, plus keyboard focus feedback.",
+        "Minimizing hides the browser tab strip and fills the available content area below the compact navigation row with Agent, without recreating tabs, reloading the chat, losing its draft or hiding an open shell.",
+        "The browser/Agent resize handle is absent when Web is minimized; restoring retains the previous split width.",
+        "The same tabs, URLs, browser history, and detached windows survive minimize and restore. Restoring Web returns the strip inside its pane; explicit address navigation restores Web.",
+        "Minimized state survives relaunch; hiding or detaching Agent restores Web so the main content cannot become empty.",
+        "Settings and Graph still fill the content area; the toggle is disabled on those surfaces and while Agent is detached."
+      ]
+    },
+    {
+      "id": "home-agent-idle",
+      "surface": "agent-panel",
+      "readerJob": "Start a task and understand the selected workspace and agent profile.",
+      "setup": "One browser tab, three connected local projects with one active, empty conversation, Codex selected.",
+      "assertions": [
+        "The conversation is the primary region and the composer is attached to it.",
+        "Provider and model share one compact selector; effort and speed share a second always-dark selector.",
+        "Pinned projects and chats appear first, followed by a searchable Projects hierarchy and the active project's Files section.",
+        "Projects can be added and switched without replacing the saved list, and several project chat lists can stay expanded at once.",
+        "Each project owns selectable persistent chats with rename, pin, archive, and delete actions in an always-discoverable menu; archived projects can be restored and removed projects leave local files untouched.",
+        "A chat can move to another connected project without losing its messages; after the move, Explorer and future agent runs use the destination project.",
+        "Project names are visually primary, chat titles are indented with quiet relative timestamps, and counts or paths do not compete with navigation.",
+        "The active project reveals its file Explorer and file, folder, import, and refresh actions below the project/chat hierarchy.",
+        "Creating an entry targets the selected folder, supports Enter and Escape, and never overwrites an existing path.",
+        "Workspace and agent state are readable without runtime diary text.",
+        "Bare /rename opens the shared naming dialog with the original main/graph title and focus on its editable name. Cancel/Escape do not rename. Save uses the existing native preflight and durable intent, disables duplicate submission and keeps typed names on errors. Only the exact owner/input acknowledgement dismisses the pending form; navigation or sibling replies cannot clear a newer composer draft.",
+        "In main and graph chats, /personality appears only for models advertising supportsPersonality. Friendly, Pragmatic and None save only the original idle conversation; stale model/owner/preference and pending work reject a save. Close and Escape return focus without submitting or clearing the draft. No local override is not a guessed native default; unsupported models retain a dormant preference. Accepted queued/recovered inputs keep their original native setting; a local save confirmation is not presented as a native history item.",
+        "The browser and Agent boundary remains resizable and visually quiet.",
+        "The operational header contains only controls and does not repeat the Supervisor or Local agent labels."
+      ]
+    },
+    {
+      "id": "home-agent-streaming",
+      "surface": "agent-panel",
+      "readerJob": "Follow an agent's live work without losing conversation position or input.",
+      "setup": "Long conversation with grouped tool activity, reasoning summaries, streaming Markdown, and a second prompt submitted while the first request is active.",
+      "assertions": [
+        "A working project's indicator uses the intact Supervisor mark only while the authoritative project state reports active work. It does not imply a completion percentage.",
+        "Submitting and streaming keep the configuration logo reachable and still. Its only decomposition/recomposition is the explicit main-profile toggle; no tetrahedron, continuous rotation or progress animation is rendered, and reduced motion keeps its complete shape.",
+        "New activity does not close expanded groups or reset their scroll position.",
+        "Native MCP progress stays inside the same tool activity in main and graph, as ordered plain text without clearing its disclosure or implying completion. History does not invent transient progress messages.",
+        "Native fileChange/patchUpdated replaces the same main/graph activity's proposed paths and diff without a new row or a claimed file write. Completion is authoritative; late patch updates cannot replace its result.",
+        "During a run, narrative progress alternates chronologically with collapsed semantic action summaries; expanding one reveals exact file reads, commands, targets, failures, and bounded per-action diffs supplied by the runtime.",
+        "When a run finishes, its progress history collapses once into a Ha lavorato per duration disclosure while the authoritative final response remains visible below it; reopening the history survives subsequent state updates.",
+        "The final response remains visually distinct from activity without becoming a separate surface.",
+        "The transcript shares the composer's centered content area at wide and narrow layouts. User prompts are compact neutral rounded bubbles aligned to its right edge, capped at 80% width; assistant prose starts at the left edge on the chat background. Long text and attachments wrap inside user bubbles, including quoted answers inside work details. Both themes, live updates and restored history preserve these author distinctions without repeated role labels.",
+        "The Supervisor logo remains outside the prompt on its left inside a persistent tokenized control boundary discoverable in both themes. It opens only Provider, Model, Effort and Speed in an anchored animated popup; Personality and shared access remain in Settings → Agents & permissions. Explorer stays visible, interactive and at its saved width, and chat remains stationary.",
+        "Moving the pointer from the launcher into the popup does not dismiss it. Selecting an option preserves the popup; Close, Escape, a second launcher click, outside click or moving focus outside closes it with motion. Opening Settings closes it immediately and clears any Explorer context popover. Displayed Windows paths omit the extended-length prefix while preserving canonical action targets.",
+        "Display-refresh calibration and reduced-motion support remain available for ordinary interface transitions without animating the Supervisor mark.",
+        "The draft composer and stop action remain reachable throughout streaming.",
+        "The prompt card uses a lower compact resting height, remains comfortably readable, and grows with multiline input without displacing the conversation."
+      ]
+    },
+    {
+      "id": "browser-tab-context",
+      "surface": "agent-panel",
+      "readerJob": "Attach a browser tab as compact visual context and understand its source and size.",
+      "setup": "A synthetic documentation tab is dragged from the tab strip into a conversation.",
+      "assertions": [
+        "The tab preview is recognizable without exposing a full page transcript.",
+        "After sending, the reviewed local thumbnail remains on the accepted user bubble when native history replaces the optimistic row. The thumbnail is display-only, bounded in memory and absent from Codex prompt/history payloads.",
+        "Source, title, links, and token estimate are readable but subordinate.",
+        "Drag feedback preserves the identity of the originating tab."
+      ]
+    },
+    {
+      "id": "workspace-removal-active",
+      "surface": "agent-panel",
+      "readerJob": "Remove a project without orphaning an agent run or its Time Machine checkpoint.",
+      "setup": "A local agent and a nested Knowledge Graph agent are running inside the project selected for removal.",
+      "assertions": [
+        "The confirmation states that active agents will be stopped before project removal.",
+        "Cancel leaves the project, chats, agents, and checkpoints unchanged.",
+        "Continue stops every overlapping run and keeps the project visible while Time Machine finalizes.",
+        "The project and its local chats disappear only after every overlapping checkpoint closes safely; project files remain untouched.",
+        "If checkpoint finalization fails, the project stays connected and removal can be retried."
+      ]
+    },
+    {
+      "id": "workspace-time-machine",
+      "surface": "agent-panel",
+      "readerJob": "Review changed files and safely restore all changes or one file.",
+      "setup": "Nested Rust, TypeScript, Docker, and configuration changes with additions, deletions, and a checkpoint.",
+      "assertions": [
+        "The file tree, language marks, paths, and aggregate statistics agree.",
+        "The unified diff has a bounded readable scroll region.",
+        "Inline and full diff code uses a neutral application background, larger zoom-aware type and green/red addition/deletion semantics in both themes.",
+        "Typing a literal query moves directly to its first match, including on a long horizontal line; counts, previous/next, Enter/Shift+Enter and no-result feedback agree.",
+        "Words and phrases remain visibly highlighted when search loses focus, with a distinct active result; clearing the query removes every mark.",
+        "Every captured file is in the tree; the viewer uses the full left column height without a nested fixed-height scroll box, and inline trees are not capped.",
+        "Diff and code surfaces clip to symmetric shared rounded corners in both themes, with no inherited section padding, gray edge or border shadow.",
+        "Streaming keeps the inline disclosure, search focus, query and active match intact; selecting another checkpoint file recomputes matches without searching unrelated files.",
+        "Restore scope and destructive consequences are unambiguous."
+      ]
+    },
+    {
+      "id": "agent-graph-dense",
+      "surface": "agent-graph",
+      "readerJob": "Navigate explicit projects, their conversation trees, supervisors and project files in four ordered columns.",
+      "setup": "Pinned/recent local and SSH projects, source/fork chats, saved agents, project file trees, empty/error states, and a compact horizontally scrollable layout.",
+      "assertions": [
+        "Add project exposes New project, Local folder, Clone repository and SSH directory in one dialog. New project takes a name and native parent picker, creates only an empty new child folder, preserves the draft on cancel or error and never overwrites an existing folder. The local path uses the native Windows picker, drop accepts one folder, clone asks for a native destination, and SSH requires a saved server plus an absolute remote path.",
+        "Canonical local roots and normalized server/directory pairs deduplicate. Removal changes Supervisor state without deleting project files.",
+        "Pinned projects precede recent projects; Ctrl+K focuses search; reopening the last local project remains enabled by default without a visible checkbox. Each project's terminal, folder, Git, refresh and removal actions remain keyboard reachable.",
+        "Background inspection stays inside the explicit root, skips heavy or sensitive trees, executes no project code or Git hooks, and does not open a console window. The added-project progress notice follows only that project's scan and disappears when its metadata succeeds or fails; another project's refresh cannot leave or dismiss it.",
+        "Four ordered columns replace the canvas: projects, project chats, supervisors, project files. The board begins at the top of the window without a redundant count, Workspace/project-name heading, Terminal action or browser controls. A transparent 40px square overlays only the upper-left return arrow, leaving the rest of the top row interactive. Every lane heading aligns with the upper edge of the arrow glyph through a dedicated 10px top inset. One shared token defines physical, visually identical resizer columns between Projects/Project chats and Supervisors/Project files, the inner conversation divider, and the right, bottom and left board insets; compact layouts reduce those distances together. The scrolling grid reserves matching left and right scrollbar gutters, and one shared content inset aligns the left edge of the Projects title with the right edge of the project-file cards relative to the visible window boundaries. The bare accessible arrow stays transparent on hover and returns to the workspace while retaining visible keyboard focus. Selection scopes chats, agents and files to the chosen project. Real lineage alone creates fork trees.",
+        "A single click on a project chat keeps Projects open and mounts the same complete agent card used by saved supervisors, including timeline, profile, context, plugins, attachments and send/stop/resume controls. The selector row becomes the header of one continuous rounded card: conversation and row touch without a gap, border, shadow or inner frame and share the chat-card surface. The prompt field is borderless in both project-chat and Supervisor cards while retaining a clear keyboard focus state. Send, Stop and Resume share one bottom-right slot whose right and bottom inset is identical and matches the main agent composer. Project chats and Supervisor chats retain the shared responsive 9:16 portrait ratio and exactly match the width of their corresponding selector cards at compact, Full HD, 2K and 4K profiles. Opening a card or revealing its association control never changes that width. Lists and card stacks reserve the same scrollbar gutter, so a scrollbar never shifts or narrows one side. Separate project-chat groups use the same larger gap as Supervisor cards. Opening another chat preserves the first card and its draft in a vertically scrollable stack; the mouse wheel first scrolls a card's conversation and continues through either card stack at its boundary. Closing one card removes only that card and never activates, replaces or navigates to the main Agent conversation.",
+        "Every open project-chat and Supervisor card has a keyboard-labelled Minimize control beside its profile and Close actions. It collapses only that card to its unchanged-width header, frees stack height and becomes Restore without stopping, closing, submitting or remounting. Title and live collaboration remain visible; restoring recovers the same 9:16 DOM card, timeline, draft, attachments, approvals, active controls and reading state.",
+        "Each saved Supervisor exposes a compact actions menu without changing selector or conversation-card width. Rename validates and persists only its visible name. Delete requires a named confirmation, refuses active or unresolved work, removes only the local Supervisor binding and association, and leaves project files plus native and project conversations unchanged.",
+        "A same-project Supervised conversation link gives the card separate Supervisor and Observed agent views. The observed view follows the worker's public prompts, reasoning summaries, commands, file changes, tools, requests, final response and active state in order without exposing private reasoning. Changing or removing the link cannot merge either history or grant access.",
+        "An armed supervision link shows one compact delivery state beside the project chat and its Supervisor: Working during the worker turn, Checking during the terminal review, Ready when the final review finds no unresolved issue, and Blocked for pending decisions or required revision. The textual state replaces the redundant collaboration glyph and exposes no hover guide. Activating it opens only its bounded assessment; the four-column layout and conversation cards do not move.",
+        "Each project chat can be renamed or deleted from its actions menu. Rename uses a focused validated dialog and updates the project tree, open conversation card and linked Supervisor selector while preserving the chat ID, project ownership, lineage, history and current drafts. Delete requires explicit confirmation, addresses the exact chat, remains unavailable during locked work, and leaves project files and checkpoints unchanged.",
+        "Project/file/search/selected controls have clear contrast in both themes at 1920, 2560 and 3840 widths. Visible scrollbar tracks, thumbs, hover states and directional arrows use the active Supervisor palette; intentionally hidden tab-strip scrollbars remain hidden. At compact widths horizontal scrolling preserves usable card dimensions.",
+        "Project files shows the searchable project-relative tree without repeating an absolute local or SSH root, bounded-scan implementation copy, Git branch/change counts or detected-stack footer.",
+        "Local files open through the existing guarded editor; SSH lists at most 600 project-relative entries at depth three and opens the correct remote terminal. No host root or arbitrary server inventory is rendered.",
+        "Empty, filtered, scanning, partial, failed and removed-project states are explicit; detached saved cards remain reachable."
+      ]
+    },
+    {
+      "id": "project-task-file-activity",
+      "surface": "agent-graph",
+      "readerJob": "Follow a project's active chats and see which files each task is reading or editing, including concurrent operations and completion.",
+      "setup": "Two local projects, a remote project, main/fork/supervisor owners, concurrent reads/edits on shared and separate files, completed/failed/interrupted/disconnected states and an opaque tool without reported paths.",
+      "assertions": [
+        "A named active-task link appears only in its own project and selects the owning conversation and its files without submitting another prompt or losing other drafts.",
+        "File activity shows project-relative paths, owners and Reading/Editing/Waiting/Done/Stopped/Failed labels. One monochrome collaboration mark appears together on the active project, project-chat or Supervisor selector, open conversation card, Task activity row and exact expanded file row. It has an accessible label, does not rely on color, honors reduced motion and clears with the corresponding live state. Collapsed parent folders expose only their aggregate activity label.",
+        "Finishing one operation clears only that operation. Another owner or parallel operation on the same or another file stays active, and revisiting a completed file makes it active again.",
+        "All tasks and individual task filters preserve completed files alongside current files. Background updates never leak across projects or replace selection.",
+        "Only structured reported file targets within the root are attributed. Shell text, prose, output, URIs and outside-root targets are not guessed; absent paths and bounded truncation are explained.",
+        "Stop, failure and disconnection clear stale active markers. Both themes and compact, Full HD, 2K and 4K layouts retain readable labels, independently scrollable files and keyboard-accessible controls."
+      ]
+    },
+    {
+      "id": "agent-graph-active",
+      "surface": "agent-graph",
+      "readerJob": "Start, follow, reconnect to, and continue multiple node-bound agents.",
+      "setup": "Two active node agents, two independent native branches on the same physical node, one approval request, one completed history, and an explicit same-project chat association. Native History fixtures include an uncertain fork, main and sibling reads, missing/deleted bindings, an unsupported SSH node, malformed history, and a late response after close/reopen.",
+      "assertions": [
+        "Every card stays in the supervisors lane; a Supervised conversation link highlights its agents and is labelled explicitly. Assigning a chat never starts a model request. Opening the card defaults to its Observed agent view while retaining an independent Supervisor timeline.",
+        "A Supervisor request receives a bounded display-safe snapshot of the linked worker's current or latest turn, including public activity and pending-request state. The transport marker is hidden from visible history, treated as untrusted evidence and never contains private chain of thought or opaque tool payloads.",
+        "The first explicit linked Supervisor request arms continuous supervision. Meaningful native worker checkpoints are coalesced into further read-only Supervisor reviews; token deltas never create calls, concurrent checkpoints wait for the current review, and a completed worker receives one final review before the loop becomes dormant.",
+        "Automatic reviews return a strict observe-or-steer decision. A proposed correction is sent only when the saved association and the review's exact worker turn ID still match an active native turn; stale, completed and relinked targets receive no start, queue or correction.",
+        "Observed-agent input uses native turn/steer only while the exact linked Codex turn is active. Rust validates the saved Supervisor, same-project chat and expected turn ID; accepted text appears in the worker timeline and clears only the matching Supervisor draft. Idle, completed, relinked and stale-turn attempts retain the draft and never fall back to a new or queued turn.",
+        "Graph user messages use the same right-aligned neutral bubble as the main chat, distinct from left-aligned assistant prose. Short, multiline and attachment-only prompts stay inside the portrait card without horizontal overflow. Quoted answers, live updates and reloaded history preserve this treatment in both themes.",
+        "Switching projects preserves card DOM identities, drafts, timelines and ongoing work; close hides the view without stopping the agent.",
+        "Provider, model, effort, speed, history, approval, current state and the compact latest-context signal remain readable; graph cards omit context-window controls and detailed reports.",
+        "Codex conversation controls share main-chat behavior for Read/Rename/Archive/Restore/Delete, with exact-thread confirmation and explicit descendant scope. Browse Codex history lists active/archived native threads and confirms imports into an unbound local card. Fork into a new conversation saves a separate same-node card before native dispatch; Open branch is explicit navigation. No edited-history command, SSH destination, file snapshot or legacy outbox is implied. Late responses cannot replace sibling/main bindings. Uncertain forks survive restart and require explicit matching-source history recovery, never replay.",
+        "Original and branch popups have distinct conversation keys, profiles, drafts, commands, approvals and history pages on the same physical node. Conversation selection reopens a sibling without closing or replacing the current card. Project switching keeps sibling cards independently keyed. Edited branch drafts do not overwrite newer typing or auto-submit. Removed branch identities cannot target the original; active branches keep their physical node visible and working.",
+        "Graph cards omit the tab/terminal attachment menu but retain existing previews and supported drag-and-drop. Native Codex sends only explicit frozen browser-tab and terminal-output snapshots from that card; it never borrows a different card's draft or the main composer. Late capture results remain owner-scoped, and structured snapshot payloads reappear as attachments rather than prompt text after native history reload.",
+        "Live shell previews replace text for each revision, including deletions. Follow live stops at submission or session exit. Start, Queue, Send now, attachment-only input and Plan instructions freeze the exact selected tab/shell bytes before acceptance. Rejected input retains its draft and newer drafts survive an older receipt.",
+        "Sent history shows captured page thumbnails and frozen shell output without live controls. Only local safe JPEG previews load, never remote URLs. Estimates and partial/closed states stay explicit; no source files, shell commands, SSH connections or inference are triggered by browsing the picker.",
+        "Native access and approval dialogs use shared components with unique input/label IDs and owner-scoped responses. Another popup or the main chat cannot receive their draft receipt or policy change. Do not assume the retired slash-command palette or custom native modes exist.",
+        "SSH paths cannot be interpreted as local directories. Unsupported native skills, review or configuration controls are not simulated by custom graph tools or hidden prompts.",
+        "Enter submits and Shift+Enter remains editing. Text survives popup closure and rejected acceptance; exact accepted text clears without removing newer typing. Detached event listeners do not accumulate when reopening cards.",
+        "A signed-out provider with a populated model catalog shows why Send is disabled. Checking, ready and signed-out updates preserve the same card and draft; successful sign-in automatically enables both the button and Enter. The real graph host assigns the chosen profile before submitting exactly once, with the node/branch identity and prompt intact; no authentication check is bypassed.",
+        "Permission views coexist per conversation and invalidate stale roots, closed/reopened dialog replies and saves that overlap active work or pending input. Shared Light/Dark controls retain readable focus and scrolling.",
+        "Node history uses the shared work timeline: public reasoning summaries and commentary stream above expandable native actions, with a duration disclosure on completion and the final response outside. Action details, artifacts and searchable diffs retain mounted identity and reading position across new messages. Load earlier sessions exposes all stored history without a provider call; late events for an old run cannot change the new run on that node."
+      ]
+    },
+    {
+      "id": "terminal-multi-session",
+      "surface": "terminal-workspace",
+      "readerJob": "Work directly in several interactive shells and attach a live shell to an agent.",
+      "setup": "Three PowerShell sessions with long output, reordered tabs, one Follow live attachment, and a detached shell.",
+      "assertions": [
+        "Terminal input and output remain the dominant direct-manipulation surface.",
+        "Session identity survives reorder, docking, and detaching.",
+        "Live attachment state is explicit without mechanical control clutter."
+      ]
+    },
+    {
+      "id": "settings-complete",
+      "surface": "settings",
+      "readerJob": "Find and understand an English setting using categories or search, then change it with a clear scope.",
+      "setup": "Settings with seven categories, separated Codex tools and agent permissions, disconnected/connecting/signed-in/failed Codex states, pending sign-in, an unsaved SSH form and a long scrolled category. Repeat in Light and Dark at narrow, Full HD, 2K and 4K widths, docked and detached; also enter from the expanded graph and reopen it twice.",
+      "assertions": [
+        "Only the selected category is visible. The top bar keeps Settings at left, a filled borderless Find a setting field in the center and a bare accessible back arrow at right. No divider line separates search from navigation or page content. A centered borderless primary selector groups General, AI accounts, Agents & permissions, Codex tools, Projects, Servers and Windows access under Personal, AI, Workspace and Connections; groups with several pages expose a second compact selector beneath it. The active tabs and large page heading agree. Skills and Apps appear only in Codex tools, while Supervisor tool confirmations remain in Agents & permissions.",
+        "Agent behavior, Codex workspace access and Supervisor tool confirmations are plain, always-open headings on the page background. Each setting sits in a quiet filled borderless option panel, with its name, selector and explanation together; Workspace access includes both permission explanations in that one panel while its section heading and scope stay outside. The panel itself is written content without a pointer state, and its inset value selector has a distinct, stronger fill in Light and Dark. Useful nested disclosures, including Account options, Saved chats, Subscription usage and Other AI providers, use a full-width borderless selectable fill and a legible right/down state chevron before hover. Every exclusive preference uses the main profile picker's visual grammar: a clearly contrasting borderless current-value pill, clear chevron and on-demand option list with the selected item marked; longer access choices may add a short description. Resting Settings cylinders, selectors, cards, inputs, badges and their popup options have no border; surface fill, type, spacing and state changes preserve the distinction from written content. Reasoning summaries keeps its label, explanation and Automatic value visibly separated in wide and narrow layouts. Boolean preferences remain switches. Hover, keyboard focus and disabled states remain distinct in Light/Dark, narrow and wide layouts; Arrow keys, Escape, outside dismissal, focus return and reduced motion are preserved while hidden native IDs keep existing routing stable.",
+        "Search matches a static local catalog, supports multiple words and empty results, and opens both category and nested disclosure without changing any setting or sending an account operation. It never indexes user values, transcripts or credentials.",
+        "Changing category and closing/reopening retain the original mounted controls, unsent form values, nested disclosure state and per-category reading position. Escape clears a nonempty search first; Ctrl/Cmd+K focuses the search and keyboard focus remains within Settings while it is open.",
+        "An open native modal cannot be hidden by category navigation. Closing Settings closes its owned account modals. Existing native conversation shortcut dialogs remain usable from a hidden category or a closed Settings surface.",
+        "Session full-access and destructive confirmations use a centered borderless card no wider than 560px with viewport clearance and internal overflow; the overlay never stretches the card across the application.",
+        "English labels and explanations identify shared Codex workspace access, conversation preferences and Supervisor tool confirmations separately. Protocol diagnostics, model/profile inventories, account token activity, workspace messages, reported thread settings, saved defaults and storage internals are absent from user Settings.",
+        "The wide reading column and centered navigation remain bounded on large screens. Narrow layouts keep the top bar and both navigation levels above content as scrolling horizontal selectors and compact the Back control; forms, descriptions and primary actions have no horizontal overflow in either theme.",
+        "Navigation and the active category are immediately distinguishable.",
+        "A distinct five-level type hierarchy orders the page heading, page subtitle, section headings, control names and supporting explanations. Each control explanation sits below its name rather than alongside it, with lighter weight and smaller type; scope labels remain secondary and selector values stay legible. The order and spacing persist in both themes and at narrow and wide widths.",
+        "Opening and closing settings never exposes an unthemed frame.",
+        "Graph -> Settings -> close returns the usable Supervisor logo, never clipped node-count text. The graph is collapsed in both Rust and the DOM before launcher bounds are restored; reopening still works and preserves graph data and conversation drafts.",
+        "Every control has four equivalent corners and no accented border segment.",
+        "Codex setup distinguishes connecting, signed out, pending device/browser login, signed in and unavailable catalog states; it does not imply turn support.",
+        "The Codex account card explains Supervisor's separate history, settings and sign-in. A first connection can require sign-in despite a connected official Codex app; the sign-out dialog explains the Supervisor-only scope and preserves project/history data. Both descriptions remain readable in Light/Dark and supported layouts.",
+        "Reopening a previously connected profile shows Connecting, then Checking/Refreshing, then ChatGPT connected after authoritative native reads, without opening sign-in or replaying work. In main and graph provider details, checking never asks for another login. Explicit sign-out prevents startup reconnection, transient connection errors stay actionable, and a definitively missing account shows Sign-in required. Saved connection intent never restores session permission grants.",
+        "API-key and Amazon Bedrock account states show the explicit unsupported subscription-only policy without reading or forwarding their credentials.",
+        "Managed permission-profile inventory stays internal. Named requirements keep incompatible presets blocked with a useful explanation; no control claims the experimental thread/start permissions field.",
+        "ChatGPT rate-limit buckets distinguish loading, current, stale and unavailable values. A sparse native update causes an authoritative read instead of being merged into the UI.",
+        "Account usage, workspace messages, provider capability flags and model upgrade inventories are not shown as preferences. Their internal values never imply account or tool permission.",
+        "Configuration, deprecation, general runtime and Windows world-writable warnings appear as bounded actionable text; stale notices are labelled and unknown payload fields and protocol diagnostics are absent.",
+        "The device code is selectable; only explicit Open sign-in page opens the validated identity URL in the OS default browser. The complete OAuth query is preserved without a file-manager or command-shell launch. Browser launch failures remain actionable in the pending sign-in without exposing the URL in errors. Cancel and sign-out confirmation stay keyboard-accessible."
+      ]
+    },
+    {
+      "id": "automatic-provider-model-discovery",
+      "surface": "agent-panel",
+      "readerJob": "Use newly available Codex and Claude Code models without restarting or losing the current conversation.",
+      "setup": "Both providers have valid catalogs; a refresh adds a model, changes the default, then fails temporarily. Repeat with a graph agent running and with explicit sign-out.",
+      "assertions": [
+        "New runtime-reported models appear in main-chat and graph selectors; a still-valid model, effort, speed and context selection remains unchanged.",
+        "Background discovery never switches a ready provider to Checking, sends an inference turn, clears a draft, or inserts chat activity.",
+        "A running main-chat or graph provider defers checks and late results, without changing its active profile.",
+        "A failed refresh retains the last usable catalog and reports the issue in provider details; explicit sign-out disables execution.",
+        "Manual checks bypass the 15-minute refresh interval, without launching duplicate discovery processes. The Windows host discovers the tested official desktop-app binary when no packaged or PATH CLI exists, while an explicit override remains authoritative."
+      ]
+    },
+    {
+      "id": "native-codex-p2-workflows",
+      "surface": "runtime-contract",
+      "readerJob": "Retain safe optional App Server operations without exposing protocol controls as user preferences.",
+      "setup": "Connected ChatGPT account, current local project, beta/stable/under-development flags, detected home/project imports with ACK/progress/completion reordered, available and uncertain reset attempts, successful/failed/uncertain text feedback and email states, plus running/stopping/rejected/uncertain/completed sandboxed PTY output.",
+      "assertions": [
+        "Feature flags, imports, credits, feedback and sandboxed-command protocol controls do not appear in user Settings. If a contextual product flow invokes a retained mutation, it is explicitly confirmed and freezes process, project or account scope so later state cannot retarget it.",
+        "The project scope follows the active local project automatically and is shown without a Windows extended-path prefix. Feature inventory is freshness-labelled and filterable; only beta and stable entries can change, one named flag at a time, while experimentalApi remains disabled.",
+        "Migration shows bounded descriptions, opaque selections and count-only results without raw details, failure messages or arbitrary paths. An accepted import remains busy through progress until authoritative completion, blocks a second mutation or reconnect, and becomes explicitly uncertain after disconnect. Completion wins over a later progress event. A project change invalidates the preview, and uncertain imports direct the user to sanitized history before retry.",
+        "Reset redemption requires a current positive available count and reuses one Rust-owned idempotency key after uncertain or malformed delivery. Email nudges distinguish requesting, sent, cooldown, failed and uncertain states without retaining stale progress text.",
+        "Feedback confirmation previews the exact bounded text and states that logs, files, paths, tags and conversation content are absent; failed and uncertain delivery are terminal, non-contradictory and never appear as success or an upload still in progress.",
+        "The sandboxed command accepts argv rather than a shell string, offers read-only or project-write only, and keeps stdin, resize, termination, bounded output and connection failure under one opaque process identity. A certain terminate rejection restores controls only while the process is live; malformed or delivery-unknown termination remains explicit and cannot be cleared or replaced until completion or disconnect.",
+        "No filesystem, injection, single-value config or plugin protocol controls are exposed as settings. Runtime state remains bounded and cannot trigger a model turn by being read."
+      ]
+    },
+    {
+      "id": "native-codex-history-browser",
+      "surface": "agent-panel",
+      "readerJob": "Find a native Codex conversation and explicitly link it or create an independent fork in a main chat or local graph agent.",
+      "setup": "Synthetic active/archived history pages, native title search, an unbound local chat with another provider's history, automatic new project/graph branch destinations, changed directory during confirmation, uncertain forks after restart and late results after closing.",
+      "assertions": [
+        "Browsing sends only native thread/list; all pages remain reachable with Load more, and filters/search are explicit.",
+        "History, skills, defaults and project diff open in the real NavigateToString host without secure-context-only randomUUID; display-form and canonical Windows paths compare as one project without weakening request correlation, origin or permission authority.",
+        "Link and Fork explain shared versus independent native history and never imply file copies or checkpoints.",
+        "Archived sources offer Link but disable Fork with an explicit restore explanation; neither opening nor confirming can silently unarchive a conversation.",
+        "Import is confirmed against the observed result and original local directory, cannot replace a binding, and preserves the draft and other-provider history.",
+        "Fork into a new conversation validates the observed source before saving a local destination. Archived sources cannot create empty chats/cards or fork receipts; an archive event closes a pending confirmation and stale submit is rejected in Rust. Explicit restore stays separate. Open branch preserves the source card and focuses a separate card on the same node or a new project chat. The destination uses Supervisor's shared saved Codex workspace access.",
+        "A precise fork may select only a completed turn from the currently loaded source; its exact lastTurnId, directory and shared permission preset are frozen and revalidated before dispatch.",
+        "Pending or uncertain forks do not create replacement history or replay a prompt. Recovery links only a user-selected native fork of the original source, including after restart.",
+        "A result from another owner or older view cannot populate the dialog; errors, empty results, pending operations and disconnect are readable.",
+        "The same keyboard-accessible dialog serves main and graph with neutral shared tokens. Selecting Link or Fork replaces the scrolling result list with a focused, visibly bounded confirmation. Prompt text, native titles, full source paths, opaque IDs and raw transcripts never enter the projected history list; only a bounded project label and operational metadata are displayed."
+      ]
+    },
+    {
+      "id": "native-codex-skills",
+      "surface": "agent-panel",
+      "readerJob": "Select native skills for the next local-project prompt and explicitly manage shared enablement.",
+      "setup": "Main/graph local directories, enabled and disabled skills, metadata errors, changed inventory, cross-owner replies, pending write, different effective native state and disconnect.",
+      "assertions": [
+        "Opening the dialog lists skills without reading instructions into the chat, fetching icons or sending a model prompt.",
+        "Use with next prompt adds a removable owner-scoped reference; selection alone does not send input or change configuration.",
+        "Start, Queue and Send now freeze the selected native paths with explicit skill mentions; accepted input cannot consume a newer re-selection of the same path.",
+        "Enable/disable is confirmed for the original native path and inventory, with shared Codex configuration scope clearly explained.",
+        "Native changes and changed directories revoke old choices; stale and disconnected states are readable and require explicit refresh.",
+        "Extra roots require a frozen explicit process-scoped confirmation, accept at most 16 canonical absolute non-secret directories, invalidate discovery, and explain restart/reconnect clearing.",
+        "Closing a dialog never cancels or retries a pending write; the effective native state is reported honestly even if different from the requested state.",
+        "The neutral keyboard-accessible dialog serves both main and graph owners while preserving drafts, attachments and other providers."
+      ]
+    },
+    {
+      "id": "native-codex-code-review",
+      "surface": "agent-panel",
+      "readerJob": "Choose a native review target and follow the reviewer in the same main or graph conversation.",
+      "setup": "Bound idle main/graph conversations, four review targets, changed directory, rejected scope, preparation cancellation, streaming plan changes, completion before acknowledgement and uncertain delivery after reconnect.",
+      "assertions": [
+        "Review requires confirmation of source, directory, read-only scope and account usage; it never consumes composer drafts or file attachments.",
+        "The reviewer model is labelled as native configuration, not the composer selection; invalid targets, archived history, remote paths and changed directories cannot start review.",
+        "Stop prevents unsent review intent or interrupts the native turn; uncertain delivery is never replayed and can be inspected through native history.",
+        "Entered review is work activity; exited-review text is a safely rendered final answer. A completed phase-less echo in that same turn renders only once through the stable exit row even when pagination reorders it. Raw native items, explicit phases and unrelated messages remain intact. Live plan updates preserve disclosure identity and show actual pending/in-progress/completed states.",
+        "Inline review instructions appear once when the supervising turn echoes its worker's exact user item and native prompt placeholder. Independent repeated prompts keep their own rows; timing updates preserve user styling. Completion and paginated reload keep one visible result, readable in both themes and main/graph layouts. Graph prose and Markdown emphasis inherit the message foreground rather than legacy terminal colors, with readable contrast in Light as well as Dark.",
+        "Native paginated histories disclose the installed runtime's detached-review rejection. Missing history format is not assumed compatible; creating a fork and reviewing it inline remain explicit separate actions, never a silent fallback. A reported legacy history may use separate delivery and binds only the exact returned reviewThreadId under either response/notification ordering.",
+        "Shared neutral controls stay keyboard accessible in both themes, and main/graph owners cannot redirect each other's requests or errors."
+      ]
+    },
+    {
+      "id": "native-codex-mcp-settings",
+      "surface": "runtime-contract",
+      "readerJob": "Keep native MCP execution bounded without exposing server administration as a general preference.",
+      "setup": "Synthetic paginated global and independent chat/graph inventories, null runtime status, OAuth-required server, failed refresh, scope replacement during pagination, server startup change and completion before login acknowledgement.",
+      "assertions": [
+        "MCP inventories and server configuration do not appear in AI accounts or Agents & permissions. An inventory is loaded only on contextual request; an unknown runtime state is not treated as connected and a failed page never publishes a partial list.",
+        "Tools, resources and templates are metadata disclosures; no tool schema, URI credential, executable HTML or remote icon is rendered.",
+        "Reload requires a confirmation bound to the observed inventory and explains refresh queuing and possible server reconnection.",
+        "Cancelling and immediately reopening configuration or reload confirmation preserves the newly selected intent even if the old dialog close event arrives late; no write or reload occurs before a new explicit confirmation.",
+        "Internal configuration changes freeze server input and native view before confirmation. Saved commands, arguments, URLs and credential values never enter a projected inventory. New servers start disabled; enable, remove and reload remain explicit. Conflicts or disconnect preserve drafts and invalidate edit authority without retry.",
+        "Edit connection options is scoped to the observed saved user transport, not an overriding effective layer. Only one typed key is replaced, or an observed optional key explicitly cleared; required fields cannot be cleared and empty lists/false are not deletion. Header environment maps replace their old keys. The confirmation names the new value and warns about retained credentials with a changed destination; reopening after a view change is required. No timeout, filter or reload is set implicitly.",
+        "OAuth shows the service name and authorization origin, opens only on user intent and handles early completion or disconnect without replay.",
+        "A contextual inventory names its native thread; OAuth start and opening its URL retain exact inventory, server and attempt ownership. Metadata changes cannot discard a pending login and global or sibling completions never complete that attempt.",
+        "Native MCP metadata and execution cannot change chat ownership, provider selection or permissions merely by being observed."
+      ]
+    },
+    {
+      "id": "native-codex-preferences",
+      "surface": "agent",
+      "readerJob": "Inspect effective project defaults and knowingly edit shared Codex preferences.",
+      "setup": "Main and graph Codex conversations with layered native defaults, an overriding managed layer, a changed file revision and a pending shared write.",
+      "assertions": [
+        "Automatic compaction counting offers total/body_after_prefix with an explanation of full context versus growth after the retained prefix. Saving and clearing use the same frozen confirmations; no model prompt, live reload or context-monitor reinterpretation follows.",
+        "Effective values and base user-file values remain distinct, with configuration origins behind disclosure.",
+        "Saving requires confirmation of the exact preference, target file and observed native revision; it sends no prompt and does not reload existing conversations.",
+        "Clear saved value appears only for an observed user override and requires its own frozen confirmation. It removes one public key, not project/managed layers or the whole configuration. Empty input, changed saved values, stale views and double clicks cannot clear anything implicitly.",
+        "Absent targets, stale reads, owner changes, active work and disconnect cannot grant write authority or trigger replay.",
+        "Native conflicts and overrides remain actionable, with explicit Refresh and no raw configuration, credentials or instructions in the view.",
+        "The same neutral tokenized dialog remains readable and scrollable in main and graph layouts."
+      ]
+    },
+    {
+      "id": "native-codex-command-shortcuts",
+      "surface": "agent",
+      "readerJob": "Open an existing native Codex control from the main or graph composer without submitting a model prompt.",
+      "setup": "Main and two graph conversations, a partial slash draft, disconnected and busy native states, ordinary path/multiline input, and a switched provider.",
+      "assertions": [
+        "The monochrome suggestion menu sits above the input, scrolls within its shared height token and does not overlap or replace the transcript.",
+        "Arrow keys wrap selection, Tab completes the shortcut, Enter opens the original control, and Escape, Shift+Enter and IME preserve editing behavior.",
+        "Commands reach only their original owner. Rename, archive, fork and review keep their existing confirmations and cannot grant authority through shortcut selection.",
+        "Resume browses history without importing it, while skills and config open their existing native inventories without a write or inference.",
+        "Unavailable commands retain their draft and explanation. Literal paths, multiline prompts, a leading-space escape and other-provider submissions retain ordinary behavior.",
+        "Selecting a shortcut preserves attachments and selected skills; Queue and Send now cannot accidentally submit a recognized command as model text.",
+        "Compact context is explicitly confirmed for an idle loaded native history. Resume connection loads the same thread without submitting text; accepted/running/Stop states never imply premature completion, and disconnected outcomes require history review without replay."
+      ]
+    },
+    {
+      "id": "native-codex-goal",
+      "surface": "agent",
+      "readerJob": "Inspect and explicitly manage a native goal in its original main or graph conversation.",
+      "setup": "Main and two graph conversations, a paused/active/limited goal, live accounting, stale state and pending native writes.",
+      "assertions": [
+        "Goal or /goal opens a neutral shared dialog without starting a prompt or silently resuming a conversation.",
+        "Creation is paused, budgets are optional with no default limit, and objective/status/accounting are native observations rather than estimates.",
+        "Every write is confirmed against the original owner/thread/project/view; usage updates preserve typed text and scope changes invalidate confirmation.",
+        "Pause/complete/remove explain their difference from Stop and file restore. Active state uses the loaded native session, not pending composer changes.",
+        "Closing, disconnection or late replies never replay edits, overwrite newer events or clear chat drafts. Unknown outcomes offer explicit Refresh.",
+        "The dialog remains keyboard accessible and scrollable in main and graph layouts in both appearance modes."
+      ]
+    },
+    {
+      "id": "native-codex-generated-image",
+      "surface": "agent",
+      "readerJob": "Inspect and enlarge a native generated image without losing the conversation.",
+      "setup": "Synthetic main and graph native imageGeneration events, valid embedded PNG/JPEG, failed generation, unavailable result and a decoder error.",
+      "assertions": [
+        "Completed embedded images remain outside the work disclosure while the final answer stays distinct, including after native history reload.",
+        "Click opens a neutral enlargement with an accessible Close preview action and native Escape behavior; source colors remain unchanged.",
+        "A streaming refresh retains image identity, an open preview, manual transcript scroll and sibling conversation state.",
+        "Remote URLs, local paths, unsupported formats and oversized results do not trigger reads or downloads; unavailable and decode-error feedback preserves the original native history.",
+        "Main and graph share the same tokenized component, with bounded proportional previews in both appearance modes and all supported layout profiles."
+      ]
+    },
+    {
+      "id": "codex-cloud-subscription-history",
+      "surface": "agent",
+      "readerJob": "Find and reopen Codex Cloud chats from the connected ChatGPT subscription without confusing them with local history.",
+      "setup": "A connected subscription account with ready, running and failed cloud tasks, pagination, a multi-attempt diff, a stale owner, malformed cloud metadata and a disconnected runtime.",
+      "assertions": [
+        "Opening Codex history loads local and Cloud inventories automatically while keeping them visibly separate; no API key, Agents API request or model turn is created.",
+        "Every Cloud row has a cloud icon and shows its bounded title, environment, status, update time, attempts and change totals without presenting an opaque task ID as its label.",
+        "Refresh and Load more preserve task identity, deduplicate moving results and reject repeated cursors or late replies from another owner or closed view.",
+        "View changes requests only the observed attempt through the official subscription CLI and renders a bounded read-only unified diff; it never applies files or creates a local checkpoint.",
+        "Open chat and New cloud chat navigate only to validated ChatGPT Codex HTTPS pages in a real Supervisor browser tab. Full transcript and follow-up work stay on the first-party page because Cloud tasks are not projected as local App Server threads.",
+        "Invalid URLs, identities, oversized output, missing sign-in and unsupported runtimes remain explicit errors. Local history, drafts, permissions and project files are unchanged.",
+        "The source switch, task states and diff remain keyboard readable in both themes and narrow, Full HD, 2K and 4K layouts."
+      ]
+    },
+    {
+      "id": "background-tray-lifecycle",
+      "surface": "native-windows-system-tray",
+      "readerJob": "Let every agent continue after closing the window, then stop all work explicitly from the notification area.",
+      "setup": "Synthetic idle, main, graph, delegated Codex, approval, detached-window, checkpoint-finalization and Explorer-restart states.",
+      "assertions": [
+        "Closing the main window hides all Supervisor-owned work windows while preserving the same process, WebViews, native App Server connection, conversations and running agents.",
+        "Opening or activating the Supervisor tray icon restores the same live windows and state without reload, restart, duplicate submission or lost streaming output.",
+        "The native menu exposes Open Supervisor and the explicit Stop all work and quit action; the standalone transparent Supervisor mark remains recognizable at notification-area size.",
+        "Stop all work and quit clears future queued submissions, routes Stop to every active main, graph and delegated native owner, denies pending local actions and interrupts owned commands before exit.",
+        "Exit waits for native interruption acknowledgement, provider cancellation and Time Machine finalization, with a bounded fallback that terminates only remaining Supervisor-owned work.",
+        "An Explorer restart recreates exactly one tray icon; a tray failure restores the main window so Supervisor cannot become inaccessible.",
+        "Acceptance instances without a tray retain deterministic close-and-exit behavior, and repeated close, open and quit actions remain idempotent."
+      ]
+    },
+    {
+      "id": "remote-desktop-control",
+      "surface": "remote-desktop",
+      "readerJob": "Connect to a VPS desktop, transfer a file, and knowingly grant or stop agent control.",
+      "setup": "Synthetic RDP and VNC profiles, connected desktop canvas, transfer state, and active agent-control indicator.",
+      "assertions": [
+        "The remote canvas receives maximum useful area and scales without distortion.",
+        "Connection, transfer, and agent-control states remain visible without obscuring the desktop.",
+        "The emergency stop is discoverable and does not rely on color alone.",
+        "Application chrome remains monochrome without filtering the remote desktop image."
+      ]
+    },
+    {
+      "id": "project-board-focus-and-isolation",
+      "surface": "agent-graph",
+      "readerJob": "Focus and arrange live conversation cards, then create an isolated Git task without losing their state.",
+      "setup": "Synthetic local projects, two open chat cards, one linked Supervisor and worktree IPC. Light/Dark at 1024, 1920, 2560 and 3840 widths.",
+      "assertions": [
+        "Chat and Supervisor bodies mount directly below their own rows; minimizing, focusing and switching projects retain card identity, drafts and stream ownership.",
+        "Focus widens one conversation and temporarily compacts the others; Escape restores the previous layout. Columns resize with pointer or keyboard and the file lane can collapse.",
+        "Presentation choices stay scoped to each project during the current UI session and never start, stop or alter a turn; they are not written into the native application session.",
+        "The selected Supervisor exposes only its supervised-conversation association in one compact menu that overlays the board, remains inside the viewport and closes on Escape or outside interaction.",
+        "New isolated task selects a destination and creates a Git worktree from HEAD in a new branch. Existing folders, dirty original files and account data are preserved; no model starts until a prompt is sent."
+      ]
+    }
+  ]
+}

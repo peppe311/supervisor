@@ -1,0 +1,9 @@
+[
+  {"schema":"ConfigReadResponse","params":{
+    "config":{"model":"fixture-model","model_verbosity":"high","model_context_window":128000},
+    "origins":{"model":{"name":{"type":"user","file":"C:\\fixture\\config.toml","profile":null},"version":"opaque-v1"}},
+    "layers":[{"name":{"type":"user","file":"C:\\fixture\\config.toml","profile":null},"version":"opaque-v1","config":{"model":"fixture-model"},"disabledReason":null}]
+  }},
+  {"schema":"ConfigWriteResponse","params":{"status":"ok","version":"opaque-v2","filePath":"C:\\fixture\\config.toml","overriddenMetadata":null}},
+  {"schema":"ConfigWriteResponse","params":{"status":"okOverridden","version":"opaque-v3","filePath":"C:\\fixture\\config.toml","overriddenMetadata":{"message":"A higher-priority layer applies","overridingLayer":{"name":{"type":"sessionFlags"},"version":"flags-version"},"effectiveValue":"low"}}}
+]

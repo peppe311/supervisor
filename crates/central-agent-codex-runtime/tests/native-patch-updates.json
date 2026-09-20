@@ -1,0 +1,5 @@
+[
+  {"threadId":"patch-main","turnId":"turn","itemId":"patch","changes":[{"path":"C:/fixture/old.rs","kind":{"type":"update","move_path":null},"diff":"@@ -1 +1 @@\n-old\n+first"}]},
+  {"threadId":"patch-main","turnId":"turn","itemId":"patch","changes":[{"path":"C:/fixture/new.rs","kind":{"type":"add"},"diff":"@@ -0,0 +1 @@\n+replacement"}]},
+  {"threadId":"patch-main","turnId":"turn","itemId":"patch","changes":[]}
+]

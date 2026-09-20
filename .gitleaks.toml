@@ -1,0 +1,3 @@
+title = "Supervisor secret scanning"
+[extend]
+useDefault = true

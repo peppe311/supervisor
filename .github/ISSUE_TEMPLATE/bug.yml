@@ -1,0 +1,27 @@
+name: Bug report
+description: Report reproducible incorrect behavior with synthetic, redacted data.
+body:
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and actual behavior
+      description: Include the steps to reproduce. Do not include credentials, private chats or account stores.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Supervisor commit or version
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Windows, WebView2 and provider runtime versions
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Redacted diagnostic details
+      description: Report security vulnerabilities privately through SECURITY.md.

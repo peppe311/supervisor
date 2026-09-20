@@ -1,0 +1,552 @@
+{
+  "id": "reference-thread",
+  "turns": [
+    {
+      "id": "reference-turn",
+      "status": "completed",
+      "itemsView": "full",
+      "durationMs": 809582,
+      "items": [
+        {
+          "id": "fixture-item-0",
+          "type": "userMessage",
+          "content": [
+            {
+              "type": "text",
+              "text": "Controlla i file del progetto."
+            }
+          ]
+        },
+        {
+          "id": "fixture-item-1",
+          "type": "agentMessage",
+          "phase": "commentary",
+          "text": "Aggiornamento 1: sto verificando i file."
+        },
+        {
+          "id": "fixture-item-2",
+          "type": "commandExecution",
+          "status": "completed",
+          "command": "fixture-command",
+          "aggregatedOutput": "fixture output",
+          "cwd": "C:/fixture"
+        },
+        {
+          "id": "fixture-item-3",
+          "type": "reasoning",
+          "summary": [
+            "Riepilogo pubblico 3.0"
+          ],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "fixture-item-4",
+          "type": "reasoning",
+          "summary": [
+            "Riepilogo pubblico 4.0",
+            "Riepilogo pubblico 4.1"
+          ],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "fixture-item-5",
+          "type": "commandExecution",
+          "status": "completed",
+          "command": "fixture-command",
+          "aggregatedOutput": "fixture output",
+          "cwd": "C:/fixture"
+        },
+        {
+          "id": "fixture-item-6",
+          "type": "commandExecution",
+          "status": "completed",
+          "command": "fixture-command",
+          "aggregatedOutput": "fixture output",
+          "cwd": "C:/fixture"
+        },
+        {
+          "id": "fixture-item-7",
+          "type": "commandExecution",
+          "status": "completed",
+          "command": "fixture-command",
+          "aggregatedOutput": "fixture output",
+          "cwd": "C:/fixture"
+        },
+        {
+          "id": "fixture-item-8",
+          "type": "reasoning",
+          "summary": [
+            "Riepilogo pubblico 8.0"
+          ],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "fixture-item-9",
+          "type": "commandExecution",
+          "status": "completed",
+          "command": "fixture-command",
+          "aggregatedOutput": "fixture output",
+          "cwd": "C:/fixture"
+        },
+        {
+          "id": "fixture-item-10",
+          "type": "commandExecution",
+          "status": "completed",
+          "command": "fixture-command",
+          "aggregatedOutput": "fixture output",
+          "cwd": "C:/fixture"
+        },
+        {
+          "id": "fixture-item-11",
+          "type": "commandExecution",
+          "status": "completed",
+          "command": "fixture-command",
+          "aggregatedOutput": "fixture output",
+          "cwd": "C:/fixture"
+        },
+        {
+          "id": "fixture-item-12",
+          "type": "reasoning",
+          "summary": [],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "call_fixture",
+          "type": "agentMessage",
+          "phase": "final_answer",
+          "text": "Conservare i file selezionati?\n- Conserva i file\n- Elimina i file"
+        },
+        {
+          "id": "fixture-item-14",
+          "type": "agentMessage",
+          "phase": "commentary",
+          "text": "Aggiornamento 2: sto verificando i file."
+        },
+        {
+          "id": "fixture-item-15",
+          "type": "commandExecution",
+          "status": "completed",
+          "command": "fixture-command",
+          "aggregatedOutput": "fixture output",
+          "cwd": "C:/fixture"
+        },
+        {
+          "id": "fixture-item-16",
+          "type": "userMessage",
+          "content": [
+            {
+              "type": "text",
+              "text": "<send_user_message_question_reply>\n[{\"questionItemId\":\"[\\\"request_user_input_async\\\",\\\"call_fixture\\\",0]\",\"question\":\"Conservare i file selezionati?\",\"answer\":\"Conserva i file\"}]\n</send_user_message_question_reply>"
+            }
+          ]
+        },
+        {
+          "id": "fixture-item-17",
+          "type": "reasoning",
+          "summary": [
+            "Riepilogo pubblico 17.0"
+          ],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "fixture-item-18",
+          "type": "agentMessage",
+          "phase": "commentary",
+          "text": "Aggiornamento 3: sto verificando i file."
+        },
+        {
+          "id": "fixture-item-19",
+          "type": "commandExecution",
+          "status": "completed",
+          "command": "fixture-command",
+          "aggregatedOutput": "fixture output",
+          "cwd": "C:/fixture"
+        },
+        {
+          "id": "fixture-item-20",
+          "type": "commandExecution",
+          "status": "failed",
+          "command": "fixture-command",
+          "aggregatedOutput": "fixture output",
+          "cwd": "C:/fixture"
+        },
+        {
+          "id": "fixture-item-21",
+          "type": "commandExecution",
+          "status": "completed",
+          "command": "fixture-command",
+          "aggregatedOutput": "fixture output",
+          "cwd": "C:/fixture"
+        },
+        {
+          "id": "fixture-item-22",
+          "type": "commandExecution",
+          "status": "completed",
+          "command": "fixture-command",
+          "aggregatedOutput": "fixture output",
+          "cwd": "C:/fixture"
+        },
+        {
+          "id": "fixture-item-23",
+          "type": "reasoning",
+          "summary": [
+            "Riepilogo pubblico 23.0"
+          ],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "fixture-item-24",
+          "type": "reasoning",
+          "summary": [
+            "Riepilogo pubblico 24.0",
+            "Riepilogo pubblico 24.1"
+          ],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "fixture-item-25",
+          "type": "reasoning",
+          "summary": [
+            "Riepilogo pubblico 25.0",
+            "Riepilogo pubblico 25.1"
+          ],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "fixture-item-26",
+          "type": "reasoning",
+          "summary": [
+            "Riepilogo pubblico 26.0",
+            "Riepilogo pubblico 26.1"
+          ],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "fixture-item-27",
+          "type": "commandExecution",
+          "status": "completed",
+          "command": "fixture-command",
+          "aggregatedOutput": "fixture output",
+          "cwd": "C:/fixture"
+        },
+        {
+          "id": "fixture-item-28",
+          "type": "reasoning",
+          "summary": [
+            "Riepilogo pubblico 28.0"
+          ],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "fixture-item-29",
+          "type": "reasoning",
+          "summary": [
+            "Riepilogo pubblico 29.0",
+            "Riepilogo pubblico 29.1"
+          ],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "fixture-item-30",
+          "type": "commandExecution",
+          "status": "completed",
+          "command": "fixture-command",
+          "aggregatedOutput": "fixture output",
+          "cwd": "C:/fixture"
+        },
+        {
+          "id": "fixture-item-31",
+          "type": "reasoning",
+          "summary": [
+            "Riepilogo pubblico 31.0"
+          ],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "fixture-item-32",
+          "type": "reasoning",
+          "summary": [
+            "Riepilogo pubblico 32.0"
+          ],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "fixture-item-33",
+          "type": "commandExecution",
+          "status": "completed",
+          "command": "fixture-command",
+          "aggregatedOutput": "fixture output",
+          "cwd": "C:/fixture"
+        },
+        {
+          "id": "fixture-item-34",
+          "type": "reasoning",
+          "summary": [
+            "Riepilogo pubblico 34.0"
+          ],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "fixture-item-35",
+          "type": "reasoning",
+          "summary": [
+            "Riepilogo pubblico 35.0"
+          ],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "fixture-item-36",
+          "type": "reasoning",
+          "summary": [
+            "Riepilogo pubblico 36.0",
+            "Riepilogo pubblico 36.1"
+          ],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "fixture-item-37",
+          "type": "reasoning",
+          "summary": [
+            "Riepilogo pubblico 37.0",
+            "Riepilogo pubblico 37.1"
+          ],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "fixture-item-38",
+          "type": "agentMessage",
+          "phase": "commentary",
+          "text": "Aggiornamento 4: sto verificando i file."
+        },
+        {
+          "id": "fixture-item-39",
+          "type": "reasoning",
+          "summary": [
+            "Riepilogo pubblico 39.0"
+          ],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "fixture-item-40",
+          "type": "reasoning",
+          "summary": [
+            "Riepilogo pubblico 40.0",
+            "Riepilogo pubblico 40.1"
+          ],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "fixture-item-41",
+          "type": "reasoning",
+          "summary": [
+            "Riepilogo pubblico 41.0",
+            "Riepilogo pubblico 41.1"
+          ],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "fixture-item-42",
+          "type": "reasoning",
+          "summary": [
+            "Riepilogo pubblico 42.0",
+            "Riepilogo pubblico 42.1"
+          ],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "fixture-item-43",
+          "type": "reasoning",
+          "summary": [
+            "Riepilogo pubblico 43.0",
+            "Riepilogo pubblico 43.1",
+            "Riepilogo pubblico 43.2"
+          ],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "fixture-item-44",
+          "type": "agentMessage",
+          "phase": "commentary",
+          "text": "Aggiornamento 5: sto verificando i file."
+        },
+        {
+          "id": "fixture-item-45",
+          "type": "commandExecution",
+          "status": "completed",
+          "command": "fixture-command",
+          "aggregatedOutput": "fixture output",
+          "cwd": "C:/fixture"
+        },
+        {
+          "id": "fixture-item-46",
+          "type": "commandExecution",
+          "status": "completed",
+          "command": "fixture-command",
+          "aggregatedOutput": "fixture output",
+          "cwd": "C:/fixture"
+        },
+        {
+          "id": "fixture-item-47",
+          "type": "reasoning",
+          "summary": [
+            "Riepilogo pubblico 47.0"
+          ],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "fixture-item-48",
+          "type": "reasoning",
+          "summary": [
+            "Riepilogo pubblico 48.0"
+          ],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "fixture-item-49",
+          "type": "webSearch",
+          "status": "completed",
+          "query": "fixture documentation",
+          "action": {
+            "type": "search",
+            "query": "fixture documentation",
+            "queries": [
+              "fixture documentation"
+            ]
+          }
+        },
+        {
+          "id": "fixture-item-50",
+          "type": "commandExecution",
+          "status": "failed",
+          "command": "fixture-command",
+          "aggregatedOutput": "fixture output",
+          "cwd": "C:/fixture"
+        },
+        {
+          "id": "fixture-item-51",
+          "type": "reasoning",
+          "summary": [
+            "Riepilogo pubblico 51.0"
+          ],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "fixture-item-52",
+          "type": "commandExecution",
+          "status": "completed",
+          "command": "fixture-command",
+          "aggregatedOutput": "fixture output",
+          "cwd": "C:/fixture"
+        },
+        {
+          "id": "fixture-item-53",
+          "type": "reasoning",
+          "summary": [
+            "Riepilogo pubblico 53.0"
+          ],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "fixture-item-54",
+          "type": "commandExecution",
+          "status": "completed",
+          "command": "fixture-command",
+          "aggregatedOutput": "fixture output",
+          "cwd": "C:/fixture"
+        },
+        {
+          "id": "fixture-item-55",
+          "type": "reasoning",
+          "summary": [],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "fixture-item-56",
+          "type": "reasoning",
+          "summary": [
+            "Riepilogo pubblico 56.0"
+          ],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "fixture-item-57",
+          "type": "commandExecution",
+          "status": "completed",
+          "command": "fixture-command",
+          "aggregatedOutput": "fixture output",
+          "cwd": "C:/fixture"
+        },
+        {
+          "id": "fixture-item-58",
+          "type": "reasoning",
+          "summary": [],
+          "content": [
+            "PRIVATE_FIXTURE_REASONING_MUST_NOT_RENDER"
+          ]
+        },
+        {
+          "id": "fixture-item-59",
+          "type": "agentMessage",
+          "phase": "final_answer",
+          "text": "Risultato finale: verifica completata."
+        }
+      ]
+    }
+  ]
+}

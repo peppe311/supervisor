@@ -1,0 +1,77 @@
+[
+  {
+    "method": "experimentalFeature/list",
+    "schema": "ExperimentalFeatureListResponse",
+    "params": {"data":[{"name":"fixture","stage":"beta","displayName":"Fixture","description":"A fixture feature","announcement":null,"enabled":false,"defaultEnabled":false}],"nextCursor":null}
+  },
+  {
+    "method": "experimentalFeature/enablement/set",
+    "schema": "ExperimentalFeatureEnablementSetResponse",
+    "params": {"enablement":{"fixture":true}}
+  },
+  {
+    "method": "externalAgentConfig/detect",
+    "schema": "ExternalAgentConfigDetectResponse",
+    "params": {"items":[{"itemType":"SKILLS","description":"Fixture skill","cwd":null,"details":null}],"connectors":[{"name":"Fixture","sessionCount":2,"source":"sessionToolUse"}]}
+  },
+  {
+    "method": "externalAgentConfig/import",
+    "schema": "ExternalAgentConfigImportResponse",
+    "params": {"importId":"import-fixture"}
+  },
+  {
+    "method": "externalAgentConfig/import/progress",
+    "schema": "ExternalAgentConfigImportProgressNotification",
+    "params": {"importId":"import-fixture","itemTypeResults":[{"itemType":"SKILLS","successes":[],"failures":[]}]}
+  },
+  {
+    "method": "externalAgentConfig/import/completed",
+    "schema": "ExternalAgentConfigImportCompletedNotification",
+    "params": {"importId":"import-fixture","itemTypeResults":[{"itemType":"SKILLS","successes":[{"itemType":"SKILLS","cwd":null,"source":null,"target":null,"title":null}],"failures":[]}]}
+  },
+  {
+    "method": "externalAgentConfig/import/readHistories",
+    "schema": "ExternalAgentConfigImportHistoriesReadResponse",
+    "params": {"data":[{"importId":"import-fixture","providerId":null,"completedAtMs":1788825600000,"successes":[],"failures":[]}],"connectors":[]}
+  },
+  {
+    "method": "account/rateLimitResetCredit/consume",
+    "schema": "ConsumeAccountRateLimitResetCreditResponse",
+    "params": {"outcome":"reset"}
+  },
+  {
+    "method": "account/sendAddCreditsNudgeEmail",
+    "schema": "SendAddCreditsNudgeEmailResponse",
+    "params": {"status":"cooldown_active"}
+  },
+  {
+    "method": "feedback/upload",
+    "schema": "FeedbackUploadResponse",
+    "params": {"threadId":"feedback-fixture"}
+  },
+  {
+    "method": "command/exec/outputDelta",
+    "schema": "CommandExecOutputDeltaNotification",
+    "params": {"processId":"process-fixture","stream":"stdout","deltaBase64":"Zml4dHVyZQo=","capReached":false}
+  },
+  {
+    "method": "command/exec",
+    "schema": "CommandExecResponse",
+    "params": {"exitCode":0,"stdout":"","stderr":""}
+  },
+  {
+    "method": "command/exec/write",
+    "schema": "CommandExecWriteResponse",
+    "params": {}
+  },
+  {
+    "method": "command/exec/resize",
+    "schema": "CommandExecResizeResponse",
+    "params": {}
+  },
+  {
+    "method": "command/exec/terminate",
+    "schema": "CommandExecTerminateResponse",
+    "params": {}
+  }
+]

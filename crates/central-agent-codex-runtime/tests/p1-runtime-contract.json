@@ -1,0 +1,207 @@
+[
+  {
+    "schema": "GetAccountTokenUsageResponse",
+    "method": "account/usage/read response",
+    "params": {
+      "summary": {
+        "lifetimeTokens": 1234,
+        "peakDailyTokens": 320,
+        "longestRunningTurnSec": 90,
+        "currentStreakDays": 4,
+        "longestStreakDays": 8
+      },
+      "dailyUsageBuckets": [
+        { "startDate": "2026-09-08", "tokens": 320 }
+      ],
+      "threadUsage": null
+    }
+  },
+  {
+    "schema": "GetWorkspaceMessagesResponse",
+    "method": "account/workspaceMessages/read response",
+    "params": {
+      "featureEnabled": true,
+      "messages": [
+        {
+          "messageId": "message-p1",
+          "messageType": "announcement",
+          "messageBody": "Scheduled maintenance",
+          "createdAt": 1788825600,
+          "archivedAt": null
+        }
+      ]
+    }
+  },
+  {
+    "schema": "ModelProviderCapabilitiesReadResponse",
+    "method": "modelProvider/capabilities/read response",
+    "params": {
+      "namespaceTools": true,
+      "imageGeneration": false,
+      "webSearch": true
+    }
+  },
+  {
+    "schema": "AppsListResponse",
+    "method": "app/list response",
+    "params": {
+      "data": [
+        {
+          "id": "calendar",
+          "name": "Calendar",
+          "description": "Calendar events",
+          "isAccessible": true,
+          "isEnabled": true
+        }
+      ],
+      "nextCursor": null
+    }
+  },
+  {
+    "schema": "AppsInstalledResponse",
+    "method": "app/installed response",
+    "params": {
+      "apps": [
+        {
+          "id": "calendar",
+          "runtimeName": "Calendar",
+          "enabled": true,
+          "callable": true
+        }
+      ]
+    }
+  },
+  {
+    "schema": "AppsReadResponse",
+    "method": "app/read response",
+    "params": {
+      "apps": [
+        {
+          "id": "calendar",
+          "name": "Calendar",
+          "description": "Calendar events",
+          "toolSummaries": [
+            {
+              "name": "search",
+              "title": "Search",
+              "description": "Search events",
+              "isEnabled": true,
+              "disabledReason": null,
+              "isReadOnly": true
+            }
+          ]
+        }
+      ],
+      "missingAppIds": []
+    }
+  },
+  {
+    "schema": "HooksListResponse",
+    "method": "hooks/list response",
+    "params": {
+      "data": [
+        {
+          "cwd": "C:\\fixture",
+          "hooks": [
+            {
+              "key": "hook-p1",
+              "eventName": "preToolUse",
+              "matcher": null,
+              "timeoutSec": 10,
+              "statusMessage": "Checking",
+              "additionalContextLimit": null,
+              "sourcePath": "C:\\fixture\\hook.toml",
+              "source": "project",
+              "pluginId": null,
+              "displayOrder": 1,
+              "enabled": true,
+              "isManaged": false,
+              "currentHash": "fixture-hash",
+              "trustStatus": "trusted",
+              "handlerType": "command",
+              "command": "fixture-command",
+              "async": false
+            }
+          ],
+          "warnings": [],
+          "errors": []
+        }
+      ]
+    }
+  },
+  {
+    "schema": "HookStartedNotification",
+    "method": "hook/started",
+    "params": {
+      "threadId": "thread-p1",
+      "turnId": "turn-p1",
+      "run": {
+        "id": "run-p1",
+        "eventName": "preToolUse",
+        "handlerType": "command",
+        "executionMode": "sync",
+        "scope": "turn",
+        "sourcePath": "C:\\fixture\\hook.toml",
+        "source": "project",
+        "displayOrder": 1,
+        "status": "running",
+        "statusMessage": "Checking",
+        "startedAt": 1788825600000,
+        "completedAt": null,
+        "durationMs": null,
+        "entries": []
+      }
+    }
+  },
+  {
+    "schema": "HookCompletedNotification",
+    "method": "hook/completed",
+    "params": {
+      "threadId": "thread-p1",
+      "turnId": "turn-p1",
+      "run": {
+        "id": "run-p1",
+        "eventName": "preToolUse",
+        "handlerType": "command",
+        "executionMode": "sync",
+        "scope": "turn",
+        "sourcePath": "C:\\fixture\\hook.toml",
+        "source": "project",
+        "displayOrder": 1,
+        "status": "completed",
+        "statusMessage": null,
+        "startedAt": 1788825600000,
+        "completedAt": 1788825600042,
+        "durationMs": 42,
+        "entries": [
+          { "kind": "feedback", "text": "Hook completed" }
+        ]
+      }
+    }
+  },
+  {
+    "schema": "McpResourceReadResponse",
+    "method": "mcpServer/resource/read response",
+    "params": {
+      "contents": [
+        {
+          "uri": "fixture://resource/overview",
+          "mimeType": "text/plain",
+          "text": "Bounded resource content"
+        }
+      ],
+      "originCallId": null
+    }
+  },
+  {
+    "schema": "McpServerToolCallResponse",
+    "method": "mcpServer/tool/call response",
+    "params": {
+      "content": [
+        { "type": "text", "text": "Bounded tool result" }
+      ],
+      "structuredContent": { "count": 1 },
+      "isError": false
+    }
+  }
+]

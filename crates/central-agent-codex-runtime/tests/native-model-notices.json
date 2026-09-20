@@ -1,0 +1,7 @@
+[
+  {"method":"model/rerouted","schema":"ModelReroutedNotification","params":{"threadId":"notice-thread","turnId":"notice-turn","fromModel":"requested-model","toModel":"service-model","reason":"highRiskCyberActivity"}},
+  {"method":"model/verification","schema":"ModelVerificationNotification","params":{"threadId":"notice-thread","turnId":"notice-turn","verifications":["trustedAccessForCyber"]}},
+  {"method":"model/safetyBuffering/updated","schema":"ModelSafetyBufferingUpdatedNotification","params":{"threadId":"notice-thread","turnId":"notice-turn","model":"service-model","useCases":["fixture-use-case"],"reasons":["fixture-service-reason"],"showBufferingUi":true,"fasterModel":"suggested-model"}},
+  {"method":"model/safetyBuffering/updated","schema":"ModelSafetyBufferingUpdatedNotification","params":{"threadId":"notice-thread","turnId":"notice-turn","model":"service-model","useCases":[],"reasons":[],"showBufferingUi":false,"fasterModel":null}},
+  {"method":"model/verification","schema":"ModelVerificationNotification","params":{"threadId":"notice-thread","turnId":"notice-turn","verifications":[]}}
+]

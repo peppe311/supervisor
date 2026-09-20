@@ -1,0 +1,1190 @@
+<!doctype html>
+<html lang="en" data-theme="__THEME_ID__">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Supervisor · Projects</title>
+<style>
+/*__THEMES_CSS__*/
+/*__SVELTE_UI_CSS__*/
+*{box-sizing:border-box} [hidden]{display:none!important}
+html,body{width:100%;height:100%;margin:0;overflow:hidden;background:transparent;color:var(--ca-text);font-family:var(--ca-font-body)}
+button,input,textarea,select{font:inherit}button{color:inherit}
+.graph-shell{height:100%;width:100%;background:var(--ca-app-background)}
+body.expanded .graph-shell{position:fixed;inset:0;width:100vw;height:100vh;}
+.graph-shell>[data-central-agent-svelte="project-board"]{height:100%;width:100%}
+      .knowledge-logo {
+        position: absolute; inset: 0; display: grid; width: 100%; height: 100%; place-items: center; overflow: visible; padding: 0;
+        border: 0; border-radius: 0; outline: 0; background: transparent; box-shadow: none;
+        cursor: pointer; user-select: none; touch-action: manipulation; -webkit-user-drag: none;
+      }
+      .knowledge-logo:focus-visible { outline: 2px solid var(--ca-accent); outline-offset: 2px; }
+      body.drag-reflow .knowledge-logo { inset: auto; visibility: hidden; }
+      body.expanded .knowledge-logo { display: none; }
+      .knowledge-logo-mark { display: grid; width: 100%; height: 100%; place-items: center; pointer-events: none; }
+      .knowledge-logo-mark, .knowledge-logo-mark svg, .knowledge-logo-mark svg * { -webkit-user-drag: none; }
+      .knowledge-logo-mark svg { display: block; width: 100%; height: 100%; overflow: visible; }
+      .agent-console { position: absolute; z-index: 3; display: grid; width: min(560px, var(--agent-console-available-width, calc(100% - 24px))); max-width: var(--agent-console-available-width, calc(100% - 24px)); max-height: min(680px, var(--agent-console-available-height, calc(100% - 24px))); grid-template-rows: auto auto auto auto auto minmax(96px, 1fr) auto auto; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; border: 1px solid color-mix(in srgb, var(--ca-accent) 42%, #263543); border-radius: 13px; background: #071018f2; color: #d9e6ee; box-shadow: 0 20px 52px #00000066, inset 0 1px #ffffff0a; font-family: "Cascadia Mono", "SFMono-Regular", Consolas, monospace; scrollbar-color: var(--ca-scrollbar-thumb) var(--ca-scrollbar-track); pointer-events: auto; }
+      .agent-console-header { position: sticky; top: 0; z-index: 2; display: grid; min-height: 44px; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 8px 10px; padding: 8px 13px; border-bottom: 1px solid #ffffff14; background: #0c1720; cursor: grab; touch-action: none; user-select: none; }
+      .agent-console.linked-dragging .agent-console-header { cursor: grabbing; }
+      .agent-console-header-actions { display: flex; min-width: 0; grid-column: 1 / -1; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 7px; }
+      .terminal-lights { display: inline-flex; gap: 4px; }
+      .terminal-lights i { display: block; width: 6px; height: 6px; border-radius: 50%; background: #53616d; }
+      .terminal-lights i:first-child { background: #ef6b65; } .terminal-lights i:nth-child(2) { background: #d9aa45; } .terminal-lights i:last-child { background: #50bd78; }
+      .agent-console-stop { flex: 0 0 auto; min-height: 28px; padding: 0 9px; border: 1px solid #ef6b6545; border-radius: 6px; background: #281416; color: #ef8b85; font: 700 11px var(--ca-font-body); white-space: nowrap; cursor: pointer; }
+      .agent-console-stop:hover { border-color: #ef6b6580; background: #35191c; }
+      .agent-console-close { display: grid; flex: 0 0 auto; width: 27px; height: 27px; place-items: center; padding: 0; border: 1px solid #ffffff18; border-radius: 6px; background: transparent; color: #8ca0ae; font: 17px/1 var(--ca-font-body); cursor: pointer; }
+      .agent-console-close:hover { border-color: #ffffff38; background: #ffffff0b; color: #edf6fa; }
+      .agent-console-profile-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(112px, 1fr)); gap: 7px; padding: 10px 12px; border-bottom: 1px solid #ffffff12; background: #0a151e; }
+      .agent-console-field { display: grid; min-width: 0; gap: 4px; color: #607483; font: 700 9px/1.2 var(--ca-font-body); letter-spacing: .05em; text-transform: uppercase; }
+      .agent-console-field select { min-width: 0; height: 34px; padding: 0 25px 0 8px; border: 1px solid #ffffff20; border-radius: 7px; outline: 0; background: #071018; color: #d9e6ee; font: 650 12px var(--ca-font-body); text-transform: none; cursor: pointer; }
+      .agent-console-field select:focus { border-color: #59a7ff80; box-shadow: 0 0 0 2px #59a7ff18; }
+      .agent-console-field select:disabled { opacity: .5; cursor: default; }
+      .agent-console-log { min-height: 120px; overflow: auto; padding: 13px 14px 16px; color: #aec1cc; font-size: 13px; line-height: 1.58; scrollbar-color: var(--ca-scrollbar-thumb) var(--ca-scrollbar-track); }
+      .agent-console-text { min-width: 0; overflow-wrap: anywhere; white-space: pre-wrap; }
+      .agent-console-text.markdown { overflow-wrap: break-word; white-space: normal; }
+      .agent-console-text.markdown > :first-child { margin-top: 0; }
+      .agent-console-text.markdown > :last-child { margin-bottom: 0; }
+      .agent-console-text.markdown p { margin: 0 0 .72em; }
+      .agent-console-text.markdown h1, .agent-console-text.markdown h2, .agent-console-text.markdown h3, .agent-console-text.markdown h4, .agent-console-text.markdown h5, .agent-console-text.markdown h6 { margin: 1em 0 .45em; color: #dbe8ef; font-family: var(--ca-font-body); font-weight: 720; line-height: 1.25; }
+      .agent-console-text.markdown h1 { font-size: 1.34em; } .agent-console-text.markdown h2 { padding-bottom: .22em; border-bottom: 1px solid #334552; font-size: 1.22em; } .agent-console-text.markdown h3 { font-size: 1.12em; } .agent-console-text.markdown h4, .agent-console-text.markdown h5, .agent-console-text.markdown h6 { font-size: 1em; }
+      .agent-console-text.markdown ul, .agent-console-text.markdown ol { margin: .4em 0 .76em; padding-left: 1.55em; }
+      .agent-console-text.markdown li { margin: .2em 0; padding-left: .12em; }
+      .agent-console-text.markdown li::marker { color: #718693; }
+      .agent-console-text.markdown input[type="checkbox"] { width: 1em; height: 1em; margin: 0 .42em 0 -1.28em; vertical-align: -.12em; accent-color: #55d896; }
+      .agent-console-text.markdown blockquote { margin: .7em 0; padding: .08em 0 .08em .8em; border-left: 3px solid #557184; color: #91a8b5; }
+      .agent-console-text.markdown a { color: #6eb8ff; text-decoration: none; text-underline-offset: 2px; }
+      .agent-console-text.markdown a:hover { text-decoration: underline; }
+      .agent-console-text.markdown strong { color: #dbe8ef; font-weight: 720; }
+      .agent-console-text.markdown hr { height: 1px; margin: .9em 0; border: 0; background: #334552; }
+      .agent-console-text.markdown code { padding: .1em .3em; border: 1px solid #334552; border-radius: 5px; background: #101a21; color: #d7e5ec; font: .91em/1.45 "Cascadia Mono", Consolas, monospace; }
+      .agent-console-text.markdown pre { position: relative; margin: .72em 0 .88em; overflow: auto; padding: 36px 12px 12px; border: 1px solid #334552; border-radius: 8px; background: #101a21; scrollbar-color: var(--ca-scrollbar-thumb) var(--ca-scrollbar-track); }
+      .agent-console-text.markdown pre::before { position: absolute; top: 10px; left: 12px; color: #718693; font: 650 9px/1.2 var(--ca-font-body); letter-spacing: .04em; text-transform: uppercase; content: attr(data-language); }
+      .agent-console-text.markdown pre code { display: block; min-width: max-content; padding: 0; border: 0; background: transparent; color: #d7e5ec; line-height: 1.58; white-space: pre; }
+      .agent-console-text.markdown .markdown-copy { position: absolute; top: 6px; right: 7px; min-width: 45px; height: 25px; padding: 0 8px; border: 1px solid transparent; border-radius: 6px; background: transparent; color: #718693; font: 650 9px var(--ca-font-body); cursor: pointer; }
+      .agent-console-text.markdown .markdown-copy:hover { border-color: #405767; background: #18252e; color: #d7e5ec; }
+      .agent-console-text.markdown table { display: block; width: max-content; max-width: 100%; margin: .76em 0 .9em; overflow-x: auto; border-spacing: 0; border-collapse: separate; border: 1px solid #334552; border-radius: 7px; }
+      .agent-console-text.markdown th, .agent-console-text.markdown td { min-width: 78px; padding: .42em .58em; border-right: 1px solid #334552; border-bottom: 1px solid #334552; text-align: left; vertical-align: top; }
+      .agent-console-text.markdown th { background: #18252e; color: #dbe8ef; }
+      .agent-console-text.markdown tr > :last-child { border-right: 0; }
+      .agent-console-text.markdown tbody tr:last-child > td { border-bottom: 0; }
+      .agent-console-compose { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; padding: 10px 12px; border-top: 1px solid #ffffff14; background: #09131b; }
+      .agent-console-compose textarea { min-height: 42px; max-height: 120px; resize: vertical; padding: 9px 10px; border: 1px solid #ffffff20; border-radius: 7px; outline: 0; background: #071018; color: #d9e6ee; font: 13px/1.45 var(--ca-font-body); }
+      .agent-console-compose textarea:focus { border-color: #59a7ff80; box-shadow: 0 0 0 2px #59a7ff18; }
+      .agent-console-compose button { align-self: stretch; min-width: 88px; border: 1px solid #46d58d65; border-radius: 7px; background: #123123; color: #7ce7ad; font: 700 12px var(--ca-font-body); cursor: pointer; }
+      .agent-console-compose button:disabled { opacity: .45; cursor: default; }
+      .agent-console-approval { display: grid; gap: 8px; padding: 11px 13px 13px; border-top: 1px solid #d9aa4540; background: #17160ff5; }
+      .agent-console-approval-title { color: #f2c75d; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+      .agent-console-approval-summary { margin: 0; color: #e4edf2; font-size: 13px; line-height: 1.5; overflow-wrap: anywhere; }
+      .agent-console-approval-meta { overflow: hidden; color: #7f929f; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+      .agent-console-approval-actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 7px; }
+      .agent-console-action { flex: 0 0 auto; min-height: 34px; padding: 0 12px; border: 1px solid #ffffff20; border-radius: 7px; background: #111e27; color: #c7d6de; font: 700 12px var(--ca-font-body); white-space: nowrap; cursor: pointer; }
+      .agent-console-action:hover { border-color: #ffffff40; background: #172733; }
+      .agent-console-action.approve { border-color: #46d58d70; background: #123123; color: #7ce7ad; }
+      .agent-console-action.deny { color: #ef8b85; }
+      .agent-artifact-list { display: grid; gap: 8px; margin-top: 10px; font-family: var(--ca-font-body); }
+      .agent-artifact-card { min-width: 0; overflow: hidden; border: 1px solid #ffffff1c; border-radius: 9px; background: #0b1720; }
+      .agent-artifact-head { display: grid; grid-template-columns: 31px minmax(0, 1fr); gap: 9px; align-items: center; padding: 9px 10px; }
+      .agent-artifact-icon { display: grid; width: 31px; height: 31px; place-items: center; border: 1px solid #59a7ff50; border-radius: 7px; background: #102538; color: #7cc3ff; font: 800 8px "Cascadia Mono", Consolas, monospace; }
+      .agent-artifact-heading { min-width: 0; }
+      .agent-artifact-title { overflow: hidden; color: #edf6fa; font-size: 12px; font-weight: 730; text-overflow: ellipsis; white-space: nowrap; }
+      .agent-artifact-meta { overflow: hidden; margin-top: 2px; color: #718693; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+      .agent-artifact-preview { width: 100%; max-height: 230px; overflow: hidden; border-top: 1px solid #ffffff14; background: #071018; cursor: zoom-in; }
+      .agent-artifact-preview img, .agent-artifact-preview video { display: block; width: 100%; max-height: 230px; object-fit: contain; background: #05080b; }
+      .agent-artifact-preview audio { width: calc(100% - 20px); margin: 13px 10px; }
+      .agent-artifact-preview pre { max-height: 180px; margin: 0; overflow: hidden; padding: 11px; color: #d7e5ec; font: 10px/1.55 "Cascadia Mono", Consolas, monospace; white-space: pre; }
+      .agent-artifact-placeholder { display: grid; min-height: 64px; place-items: center; padding: 12px; color: #718693; font-size: 10px; text-align: center; }
+      .agent-artifact-actions { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 10px 10px; }
+      .agent-artifact-action { min-height: 28px; padding: 0 9px; border: 1px solid #ffffff20; border-radius: 6px; background: #111e27; color: #c7d6de; font: 700 10px var(--ca-font-body); cursor: pointer; }
+      .agent-artifact-action:hover { border-color: #59a7ff75; background: #172733; }
+      .tok-comment { color: #7fa66a; font-style: italic; } .tok-string { color: #d69d85; } .tok-number { color: #75c3b8; } .tok-keyword { color: #c586c0; font-weight: 650; }
+      .agent-console-text.markdown .math { font-family: "Cambria Math", "STIX Two Math", serif; }
+      .agent-console-text.markdown .math-display { display: block; margin: .75em 0; overflow-x: auto; padding: .7em; border: 1px solid #334552; border-radius: 7px; background: #101a21; text-align: center; }
+      .artifact-viewer-body { display: grid; min-width: 0; min-height: 0; place-items: center; overflow: auto; padding: 14px; background: var(--ca-surface-2); }
+      .artifact-viewer-body img, .artifact-viewer-body video { display: block; max-width: 100%; max-height: 100%; object-fit: contain; }
+      .artifact-viewer-body audio { width: min(680px, 92%); }
+      .artifact-viewer-body iframe { width: 100%; height: 100%; border: 1px solid var(--ca-border); border-radius: 8px; background: var(--ca-surface); }
+      .artifact-viewer-code { width: 100%; height: 100%; margin: 0; overflow: auto; padding: 16px; border: 1px solid var(--ca-border); border-radius: 8px; background: #071018; color: #d7e5ec; font: 12px/1.6 "Cascadia Mono", Consolas, monospace; white-space: pre; }
+      .artifact-viewer-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 7px; }
+      .checkpoint-card { display: grid; gap: 9px; margin-top: 13px; padding: 11px; border: 1px solid #ffffff1c; border-radius: 9px; background: #0b1720; color: #d9e6ee; font-family: var(--ca-font-body); }
+      .checkpoint-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 9px; }
+      .checkpoint-heading { min-width: 0; }
+      .checkpoint-title { color: #edf6fa; font-size: 12px; font-weight: 760; letter-spacing: .055em; text-transform: uppercase; }
+      .checkpoint-meta { margin-top: 3px; overflow: hidden; color: #718693; font-size: 11px; line-height: 1.4; text-overflow: ellipsis; white-space: nowrap; }
+      .checkpoint-stats, .tm-tree-stats { display: inline-flex; flex: 0 0 auto; gap: 5px; align-items: center; font: 700 10px "Cascadia Mono", Consolas, monospace; white-space: nowrap; }
+      .tm-additions { color: #55d896; } .tm-deletions { color: #ef7f79; }
+      .checkpoint-tools { display: flex; flex-wrap: wrap; gap: 6px; }
+      .checkpoint-action { min-height: 29px; padding: 0 9px; border: 1px solid #ffffff20; border-radius: 7px; background: #111e27; color: #c7d6de; font: 700 11px var(--ca-font-body); cursor: pointer; }
+      .checkpoint-action:hover:not(:disabled) { border-color: #59a7ff75; background: #172733; }
+      .checkpoint-action.restore { color: #7cc3ff; }
+      .checkpoint-action:disabled { opacity: .45; cursor: default; }
+      .tm-file-tree { display: grid; align-content: start; gap: 1px; min-width: 0; max-height: none; overflow: visible; }
+      .tm-folder { min-width: 0; }
+      .tm-folder > summary { display: grid; min-height: 29px; grid-template-columns: 14px 18px minmax(0, 1fr) auto; gap: 6px; align-items: center; border-radius: 6px; color: #8ca0ae; cursor: pointer; list-style: none; }
+      .tm-folder > summary::-webkit-details-marker { display: none; }
+      .tm-folder > summary::before { width: 6px; height: 6px; margin-left: 3px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; content: ""; transform: rotate(-45deg); transition: transform 100ms ease; }
+      .tm-folder[open] > summary::before { transform: rotate(45deg); }
+      .tm-folder > summary:hover, .tm-file-row:hover { background: #59a7ff12; }
+      .tm-folder-icon { width: 18px; height: 18px; opacity: .82; }
+      .tm-folder-icon::before { display: none; }
+      .tm-folder-name, .tm-file-name { min-width: 0; overflow: hidden; font-size: 11px; font-weight: 590; text-overflow: ellipsis; white-space: nowrap; }
+      .tm-folder-children { padding-left: 17px; }
+      .tm-file-row { display: grid; width: 100%; min-height: 31px; grid-template-columns: 24px minmax(0, 1fr) auto auto; gap: 7px; align-items: center; padding: 0 4px 0 1px; border: 0; border-radius: 6px; background: transparent; color: #c7d6de; text-align: left; cursor: pointer; }
+      .tm-file-row.selected { background: #59a7ff22; }
+      .tm-file-row.restored { opacity: .58; }
+      .tm-file-status { width: 16px; color: #8ca0ae; font: 750 9px "Cascadia Mono", Consolas, monospace; text-align: center; }
+      .tm-file-status.added { color: #55d896; } .tm-file-status.deleted { color: #ef7f79; } .tm-file-status.modified { color: #d9aa45; }
+      .tm-file-icon { display: grid; width: 22px; height: 22px; place-items: center; border-radius: 5px; background: #707780; color: #fff; font: 800 8px/1 var(--ca-font-body); letter-spacing: -.02em; }
+      .tm-file-icon.rust, .tm-file-icon.cargo { background: #c65f2b; } .tm-file-icon.cpp, .tm-file-icon.c { background: #3978c6; }
+      .tm-file-icon.typescript { background: #3178c6; } .tm-file-icon.javascript { background: #d5b928; color: #1c1c1c; }
+      .tm-file-icon.python { background: #3474a7; } .tm-file-icon.go { background: #00a7c7; } .tm-file-icon.java { background: #d26a37; }
+      .tm-file-icon.docker { background: #2389da; } .tm-file-icon.npm { background: #cb3837; } .tm-file-icon.html { background: #e45a2b; }
+      .tm-file-icon.css { background: #4169c1; } .tm-file-icon.json, .tm-file-icon.toml, .tm-file-icon.yaml { background: #8d753e; }
+      .tm-file-icon.markdown { background: #505861; } .tm-file-icon.powershell { background: #2875b9; } .tm-file-icon.shell { background: #35835d; }
+      .tm-file-icon.image, .tm-file-icon.svg { background: #8c58b5; } .tm-file-icon.database { background: #6c78a8; }
+      .checkpoint-note { color: #718693; font-size: 11px; line-height: 1.45; }
+      .tm-viewer { position: fixed; inset: 0; z-index: 30; display: grid; padding: clamp(12px, 2vw, 30px); background: color-mix(in srgb, var(--ca-surface) 72%, #000 28%); }
+      .tm-viewer-card { display: grid; min-width: 0; min-height: 0; grid-template-rows: auto minmax(0, 1fr) auto; overflow: hidden; border: 1px solid var(--ca-border); border-radius: 14px; background: var(--ca-surface); color: var(--ca-text); box-shadow: 0 24px 70px #00000055; }
+      .tm-viewer-head { display: flex; min-height: 62px; align-items: center; justify-content: space-between; gap: 12px; padding: 0 17px; border-bottom: 1px solid var(--ca-border); }
+      .tm-viewer-title { min-width: 0; overflow: hidden; font-size: 15px; font-weight: 730; text-overflow: ellipsis; white-space: nowrap; }
+      .tm-viewer-subtitle { margin-top: 3px; color: var(--ca-muted); font-size: 12px; }
+      .tm-viewer-close { width: 34px; height: 34px; border: 1px solid var(--ca-border); border-radius: 8px; background: var(--ca-surface-2); color: inherit; font-size: 19px; cursor: pointer; }
+      .tm-viewer-body { display: grid; min-width: 0; min-height: 0; grid-template-columns: minmax(270px, .36fr) minmax(0, 1fr); }
+      .tm-viewer-tree { min-height: 0; overflow: auto; padding: 13px 14px; border-right: 1px solid var(--ca-border); }
+      .tm-viewer .tm-file-tree { max-height: none; }
+      .tm-viewer .tm-file-row { color: var(--ca-text); }
+      .tm-viewer .tm-folder > summary { color: var(--ca-muted); }
+      .tm-diff { display: flex; min-width: 0; min-height: 0; overflow: hidden; border-radius: var(--ca-radius-large); padding: 0; background: var(--ca-app-background); color: var(--ca-text); font: inherit; white-space: normal; }
+      .tm-diff-line { min-width: max-content; padding: 0 14px; }
+      .tm-diff-line.addition { background: color-mix(in srgb, var(--ca-success) 13%, transparent); color: color-mix(in srgb, var(--ca-success) 82%, var(--ca-text)); }
+      .tm-diff-line.deletion { background: color-mix(in srgb, var(--ca-danger) 12%, transparent); color: color-mix(in srgb, var(--ca-danger) 82%, var(--ca-text)); }
+      .tm-diff-line.hunk { color: var(--ca-accent); }
+      .tm-viewer-foot { display: grid; gap: 8px; padding: 11px 14px; border-top: 1px solid var(--ca-border); }
+      .tm-viewer-message { color: var(--ca-success); font-size: 12px; line-height: 1.45; }
+      .tm-viewer-message.error { color: var(--ca-danger); }
+      .tm-viewer-actions { display: flex; justify-content: flex-end; gap: 8px; }
+
+      @media (max-width: 980px) {
+        .tm-viewer-body { grid-template-columns: 1fr; grid-template-rows: minmax(160px, .42fr) minmax(240px, 1fr); }
+        .tm-viewer-tree { border-right: 0; border-bottom: 1px solid var(--ca-border); }
+      }
+      @media (min-width: 2300px) and (min-height: 1250px) {
+        .agent-console { width: min(620px, var(--agent-console-available-width, calc(100% - 36px))); max-height: min(760px, var(--agent-console-available-height, calc(100% - 36px))); }
+        .agent-console-approval-meta { font-size: 13px; }
+        .agent-console-approval-title, .agent-console-action { font-size: 14px; }
+        .agent-console-log, .agent-console-approval-summary { font-size: 15px; }
+      }
+      .agent-console {
+        border: 1px solid #3c5149; border-radius: 14px 14px 4px 14px;
+        background: var(--ca-terminal-bg); color: var(--ca-terminal-text);
+        box-shadow: 6px 6px 0 color-mix(in srgb, var(--ca-signal) 35%, transparent), 0 24px 70px #0b15125c;
+        font-family: var(--ca-font-mono); backdrop-filter: none;
+      }
+      .agent-console-header { border-color: #ffffff18; background: #192723; }
+      .agent-console-header::before { position: absolute; top: 0; left: 0; width: 52px; height: 2px; background: var(--ca-signal); content: ""; }
+      .agent-console-field, .agent-console-approval-meta { color: #8ea49a; font-family: var(--ca-font-mono); }
+      .agent-console-log, .agent-console-text { color: #cedbd5; }
+      .agent-console-profile-controls, .agent-console-compose { border-color: #ffffff16; background: #13201c; }
+      .agent-console-profile-controls { background: #16231f; }
+      .agent-console-field select, .agent-console-compose textarea {
+        border-color: #435850; border-radius: 7px 7px 2px 7px; background: #0e1815; color: #edf3e9;
+        font-family: var(--ca-font-body);
+      }
+      .agent-console-field select:focus, .agent-console-compose textarea:focus { border-color: #6187ff; box-shadow: 0 0 0 2px #1b57f133; }
+      .checkpoint-action, .agent-artifact-action, .agent-console-action {
+        border-color: #435850; border-radius: 7px 7px 2px 7px; background: #20312b; color: #e2ebe6;
+        font-family: var(--ca-font-display); letter-spacing: .025em;
+      }
+      .agent-console-compose button { border-radius: 8px 8px 2px 8px; background: var(--ca-accent); color: #fff; box-shadow: 3px 3px 0 #1b57f138; }
+      .agent-console-approval { border-color: #f0b45a4d; background: #292417; }
+      .agent-artifact-card, .checkpoint-card { border-color: #435850; background: #16231f; color: #edf3e9; }
+      .agent-console-text.markdown code, .agent-console-text.markdown pre, .agent-console-text.markdown .math-display { border-color: #3c5149; background: #0c1512; color: #edf3e9; }
+
+      .agent-console {
+        border: 1px solid #343a42; border-radius: 20px;
+        background: var(--ca-terminal-bg); color: var(--ca-terminal-text);
+        box-shadow: 0 22px 60px #00000055; font-family: var(--ca-font-mono);
+      }
+      .agent-console-header { border-color: #ffffff12; background: var(--ca-terminal-tab); }
+      .agent-console-header::before { display: none; }
+      .terminal-lights { display: none; }
+      .agent-console-field, .agent-console-approval-meta { color: var(--ca-terminal-muted); }
+      .agent-console-log, .agent-console-text { color: #d9e0e7; }
+      .agent-console-profile-controls, .agent-console-compose {
+        border-color: #ffffff10; background: var(--ca-terminal-bg);
+      }
+      .agent-console-field select, .agent-console-compose textarea {
+        border-color: #3b424b; border-radius: var(--ca-pill);
+        background: #1d2228; color: var(--ca-terminal-text); font-family: var(--ca-font-body);
+      }
+      .agent-console-compose textarea { border-radius: 16px; }
+      .agent-console-field select:focus, .agent-console-compose textarea:focus {
+        border-color: var(--ca-accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ca-accent) 18%, transparent);
+      }
+      .checkpoint-action, .agent-artifact-action, .agent-console-action, .agent-console-stop, .agent-console-close {
+        border-color: #3b424b; border-radius: var(--ca-pill); background: #252b32;
+        color: #e6ebf0; font-family: var(--ca-font-body); letter-spacing: -.01em;
+      }
+      .agent-console-close { border-radius: 50%; }
+      .agent-console-compose button {
+        border-radius: var(--ca-pill); background: var(--ca-accent); color: var(--ca-on-accent); box-shadow: none;
+      }
+      .agent-console-approval { border-color: #ffffff12; background: #222018; }
+      .agent-artifact-card, .checkpoint-card { border-color: #343a42; border-radius: 16px; background: #1d2228; color: var(--ca-terminal-text); }
+      .agent-console-text.markdown code, .agent-console-text.markdown pre, .agent-console-text.markdown .math-display { border-color: #343a42; border-radius: 10px; background: #111419; color: var(--ca-terminal-text); }
+
+      .tm-viewer { background: #10182866; backdrop-filter: blur(12px); }
+      .tm-viewer-card { border-color: var(--ca-border); border-radius: 24px; box-shadow: var(--ca-shadow-float); }
+      .tm-viewer-head { border-color: var(--ca-border); background: var(--ca-surface); color: var(--ca-text); }
+      .tm-viewer-title { font-family: var(--ca-font-body); letter-spacing: -.01em; text-transform: none; }
+      .tm-viewer-subtitle { color: var(--ca-muted); font-family: var(--ca-font-body); }
+      .tm-viewer-close { border-radius: 50%; }
+      .knowledge-logo {
+        border: 0; border-radius: var(--ca-radius-large);
+        background: transparent; color: var(--ca-icon); box-shadow: none;
+      }
+      .knowledge-logo:hover { background: transparent; }
+      .knowledge-logo:focus-visible { outline-color: var(--ca-text); }
+      .knowledge-logo-mark > [data-graph-launcher-icon] {
+        display: block; width: 96%; height: 96%; color: var(--ca-brand-ink);
+        transform: translateY(4px);
+        transform-origin: 50% 50%;
+        transition: transform var(--ca-duration-standard) var(--ca-ease-standard), color var(--ca-duration-fast) linear;
+      }
+      .knowledge-logo:hover .knowledge-logo-mark > [data-graph-launcher-icon] {
+        color: var(--ca-text);
+        transform: translateY(1px) scale(1.015);
+      }
+      .agent-console-field select, .agent-console-stop, .agent-console-close, .agent-console-compose textarea, .agent-console-compose button, .agent-console-action, .agent-artifact-action, .checkpoint-action, .tm-file-row, .tm-viewer-close, .markdown-copy {
+        border-radius: var(--ca-control-radius) !important;
+      }
+      .agent-console {
+        border: 1px solid #3b3b3b; border-radius: var(--ca-radius-large);
+        background: var(--ca-terminal-bg); color: var(--ca-terminal-text); box-shadow: 0 20px 54px #00000052;
+        font-family: var(--ca-font-body);
+      }
+      .agent-console-header, .agent-console-profile-controls, .agent-console-compose {
+        border-color: #333333; background: var(--ca-terminal-bg);
+      }
+      .agent-console-header::before { display: none; }
+      .terminal-lights i, .terminal-lights i:first-child, .terminal-lights i:nth-child(2), .terminal-lights i:last-child {
+        background: var(--ca-terminal-muted); box-shadow: none;
+      }
+      .agent-console-text.markdown strong, .agent-console-text.markdown h1, .agent-console-text.markdown h2, .agent-console-text.markdown h3, .agent-console-text.markdown h4, .agent-console-text.markdown h5, .agent-console-text.markdown h6 { color: var(--ca-terminal-text); }
+      .agent-console-log, .agent-console-text, .agent-console-text.markdown a, .agent-console-text.markdown li::marker {
+        color: var(--ca-terminal-muted);
+      }
+      .agent-console-field select, .agent-console-compose textarea {
+        border: 1px solid #404040; background: #111111; color: var(--ca-terminal-text); box-shadow: none;
+      }
+      .agent-console-field select:focus, .agent-console-compose textarea:focus { border-color: #767676; box-shadow: 0 0 0 3px #ffffff12; }
+      .checkpoint-action, .agent-artifact-action, .agent-console-action, .agent-console-stop, .agent-console-close {
+        border: 1px solid #454545; background: #242424; color: #eeeeec; box-shadow: none;
+      }
+      .checkpoint-action:hover, .agent-artifact-action:hover, .agent-console-action:hover, .agent-console-stop:hover, .agent-console-close:hover { border-color: #666666; background: #303030; color: #ffffff; }
+      .agent-console-compose button, .agent-console-action.approve {
+        border-color: #eeeeec; background: #eeeeec; color: #111111;
+      }
+      .agent-console-action.deny { color: #b9b9b5; }
+      .agent-console-approval { border-color: #383838; background: #181818; }
+      .agent-console-approval-title { color: #eeeeec; }
+      .agent-artifact-card, .checkpoint-card {
+        border-color: #3b3b3b; background: #1c1c1c; color: var(--ca-terminal-text);
+      }
+      .agent-artifact-icon {
+        border-color: #454545; background: #292929 !important; color: #d0d0cc !important;
+      }
+      .tm-additions, .tm-deletions, .tm-file-status.added, .tm-file-status.deleted, .tm-file-status.modified { color: var(--ca-terminal-muted); }
+      .agent-console-text.markdown blockquote { border-left-color: #555555; color: var(--ca-terminal-muted); }
+      .agent-console-text.markdown input[type="checkbox"] { accent-color: #eeeeec; }
+      .agent-console-text.markdown code, .agent-console-text.markdown pre, .agent-console-text.markdown .math-display {
+        border-color: #393939; background: #111111; color: #e2e2df;
+      }
+      .agent-console .tok-comment, .agent-console .tok-string, .agent-console .tok-number, .agent-console .tok-keyword { color: #a2a2a0 !important; }
+      .tm-viewer { background: #00000066; }
+      .tm-viewer-card { border-color: var(--ca-border); background: var(--ca-surface); }
+      .agent-console-header, .agent-console-profile-controls, .agent-console-compose, .agent-console-approval, .tm-viewer-head, .artifact-viewer-head {
+        border-color: transparent !important;
+      }
+      .checkpoint-card, .tm-viewer-card, .tm-viewer-head, .tm-viewer-tree, .tm-viewer-foot, .tm-diff, .tm-diff-line {
+        border: 0 !important; box-shadow: none !important;
+      }
+      .tm-additions, .tm-file-status.added {
+        color: var(--ca-diff-addition) !important;
+      }
+      .tm-deletions, .tm-file-status.deleted {
+        color: var(--ca-diff-deletion) !important;
+      }
+      .tm-diff-line.addition {
+        background: color-mix(in srgb, var(--ca-diff-addition) 14%, transparent) !important;
+        color: var(--ca-diff-addition) !important;
+      }
+      .tm-diff-line.deletion {
+        background: color-mix(in srgb, var(--ca-diff-deletion) 14%, transparent) !important;
+        color: var(--ca-diff-deletion) !important;
+      }
+      .checkpoint-stats { font-size: var(--ca-type-label); }
+      .tm-tree-stats { font-size: var(--ca-type-caption); }
+      .tm-viewer-subtitle { font-size: var(--ca-type-label); }
+
+.agent-console{border:0;box-shadow:var(--ca-shadow-keyline)}
+.agent-console-header{cursor:default}
+.queued-agent-request{position:fixed;bottom:var(--ca-space-4);left:50%;transform:translateX(-50%);z-index:30;padding:var(--ca-space-3);border-radius:var(--ca-radius-large);background:var(--ca-surface-3);color:var(--ca-text)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style></head><body>
+    <button id="knowledge-logo" class="knowledge-logo" type="button" draggable="false" aria-label="Open project board">
+      <span class="knowledge-logo-mark" draggable="false" aria-hidden="true">
+        <span data-graph-launcher-icon data-logo-variant="dimensional" data-central-agent-svelte="supervisor-logo"></span>
+      </span>
+    </button>
+
+
+<main id="graph-shell" class="graph-shell" aria-label="Project board" hidden><div data-central-agent-svelte="project-board"></div></main>
+<div id="queued-agent-request" class="queued-agent-request" role="status" hidden>Request queued for Time Machine recovery <button id="discard-failed-checkpoint" type="button" hidden>Discard failed checkpoint</button><button id="cancel-queued-agent-request" type="button">Cancel</button></div>
+<div hidden aria-hidden="true" inert><canvas id="graph-canvas"></canvas><div id="explorer-content" hidden></div><svg id="agent-console-link" hidden></svg><div id="graph-mode-switch"></div><input id="graph-search"/><div id="graph-filter-set"></div><button id="folder-back"></button><button id="folder-forward"></button><button id="folder-home"></button><div id="folder-breadcrumb"></div><div id="graph-empty"></div><button id="reset-view"></button><button id="toggle-local-graph"></button><label id="local-depth-label"><select id="local-depth"></select></label><button id="unpin-all"></button></div>
+    <div id="artifact-viewer" class="tm-viewer" hidden>
+      <section id="artifact-viewer-card" class="tm-viewer-card" role="dialog" aria-modal="true" aria-labelledby="artifact-viewer-title">
+        <header class="tm-viewer-head"><div><div id="artifact-viewer-title" class="tm-viewer-title">Artifact</div><div id="artifact-viewer-subtitle" class="tm-viewer-subtitle"></div></div><button id="artifact-viewer-close" class="tm-viewer-close" type="button" aria-label="Close artifact viewer">×</button></header>
+        <div id="artifact-viewer-body" class="artifact-viewer-body"></div>
+        <footer class="tm-viewer-foot"><div id="artifact-viewer-actions" class="artifact-viewer-actions"></div></footer>
+      </section>
+    </div>
+
+    <div id="time-machine-viewer" class="tm-viewer" hidden>
+      <section class="tm-viewer-card" role="dialog" aria-modal="true" aria-labelledby="time-machine-title">
+        <header class="tm-viewer-head">
+          <div><div id="time-machine-title" class="tm-viewer-title">Changed files</div><div id="time-machine-subtitle" class="tm-viewer-subtitle"></div></div>
+          <button id="time-machine-close" class="tm-viewer-close" type="button" aria-label="Close diff viewer">×</button>
+        </header>
+        <div class="tm-viewer-body">
+          <div id="time-machine-tree" class="tm-viewer-tree"></div>
+          <div id="time-machine-diff" class="tm-diff" role="region" aria-label="Unified diff"></div>
+        </div>
+        <footer class="tm-viewer-foot">
+          <div id="time-machine-message" class="tm-viewer-message" hidden></div>
+          <div class="tm-viewer-actions"><button id="time-machine-restore-file" class="checkpoint-action" type="button">Restore file</button><button id="time-machine-restore-all" class="checkpoint-action restore" type="button">Restore checkpoint</button></div>
+        </footer>
+      </section>
+    </div>
+
+
+<script>/*__FILE_ICONS_JS__*/</script>
+<script src="__CENTRAL_AGENT_FRONTEND_URL__"></script><script>
+      const send = (messageType, payload = {}) => window.ipc.postMessage(JSON.stringify({ message_type: messageType, ...payload }));
+      const body=document.body, orb=document.getElementById('knowledge-logo');
+      const graphShell = document.getElementById("graph-shell");
+      const agentWindowLayer=document.getElementById('agent-window-layer');
+      const agentConsoleLink=document.getElementById('agent-console-link');
+      const queuedAgentRequest=document.getElementById('queued-agent-request'), discardFailedCheckpoint=document.getElementById('discard-failed-checkpoint');
+      const artifactViewer = document.getElementById("artifact-viewer");
+      const artifactViewerCard = document.getElementById("artifact-viewer-card");
+      const artifactViewerTitle = document.getElementById("artifact-viewer-title");
+      const artifactViewerSubtitle = document.getElementById("artifact-viewer-subtitle");
+      const artifactViewerClose = document.getElementById("artifact-viewer-close");
+      const artifactViewerBody = document.getElementById("artifact-viewer-body");
+      const artifactViewerActions = document.getElementById("artifact-viewer-actions");
+      const timeMachineViewer = document.getElementById("time-machine-viewer");
+      const timeMachineTitle = document.getElementById("time-machine-title");
+      const timeMachineSubtitle = document.getElementById("time-machine-subtitle");
+      const timeMachineTreeElement = document.getElementById("time-machine-tree");
+      const timeMachineDiff = document.getElementById("time-machine-diff");
+      const timeMachineMessage = document.getElementById("time-machine-message");
+      const timeMachineClose = document.getElementById("time-machine-close");
+      const timeMachineRestoreFile = document.getElementById("time-machine-restore-file");
+      const timeMachineRestoreAll = document.getElementById("time-machine-restore-all");
+
+      let currentState={};
+      let dragReflowTimer=0,dragReflowTarget=null,dragCommitPending=false;
+      const graph={allNodeByKey:new Map(),nodeByKey:new Map(),openAgentKeys:new Set(),linkSourceKey:null,filters:{agents:true}};
+      const closedActiveCards=new Set();
+      const GRAPH_AGENT_WINDOWS_KEY='central-agent-knowledge-agent-windows-v3';
+      try{const saved=JSON.parse(localStorage.getItem(GRAPH_AGENT_WINDOWS_KEY)||'{}');graph.openAgentKeys=new Set((saved.openKeys||[]).filter(key=>typeof key==='string'));}catch{}
+      function saveAgentWindowPreferences(){try{localStorage.setItem(GRAPH_AGENT_WINDOWS_KEY,JSON.stringify({openKeys:[...graph.openAgentKeys]}));}catch{}}
+      function label(value=''){return String(value).replaceAll('_',' ').replace(/\b\w/g,letter=>letter.toUpperCase());}
+      function nodeVisibleLabel(node){return String(node?.label||'Project');}
+      function nodeCategory(node){return node?.entityKind==='project'?'project':'entity';}
+      function graphKey(type,id){return type+':'+id;}
+      function themeColor(name,fallback){return getComputedStyle(document.documentElement).getPropertyValue(name).trim()||fallback;}
+      function holdLogoForSurfaceReflow(targetDragging) {
+        dragReflowTarget = Boolean(targetDragging);
+        body.classList.add("drag-reflow");
+        clearTimeout(dragReflowTimer);
+        dragReflowTimer = setTimeout(() => {
+          if (dragReflowTarget !== Boolean(targetDragging)) return;
+          if (!currentState.dragging) { orb.style.left = "0px"; orb.style.top = "0px"; }
+          body.classList.remove("drag-reflow"); dragReflowTarget = null;
+        }, 500);
+      }
+      function releaseLogoAfterSurfaceReflow(stateDragging) {
+        if (dragCommitPending || !body.classList.contains("drag-reflow") || dragReflowTarget !== Boolean(stateDragging)) return;
+        const completedTarget = dragReflowTarget;
+        clearTimeout(dragReflowTimer);
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          if (dragReflowTarget !== completedTarget) return;
+          body.classList.remove("drag-reflow"); dragReflowTarget = null;
+        }));
+      }
+      function runAfterMaskedFrame(callback) {
+        dragCommitPending = true;
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          dragCommitPending = false;
+          callback();
+        }));
+      }
+      function sendNonDraggingSurfaceChange(messageType) {
+        holdLogoForSurfaceReflow(false);
+        runAfterMaskedFrame(() => send(messageType));
+      }
+
+      function nodeForAgentKey(key, visible = false) {
+        const target = window.CentralAgentSvelte.graphConversationTarget(key, currentState.knowledgeAgents?.bindings || []);
+        return (visible ? graph.nodeByKey : graph.allNodeByKey).get(target?.graphNodeKey || key) || null;
+      }
+      function agentTarget(key) {
+        const target = window.CentralAgentSvelte.graphConversationTarget(key, currentState.knowledgeAgents?.bindings || []);
+        if (target) return {record_type:target.record_type,id:target.id,conversation_id:target.conversation_id};
+        const node = graph.allNodeByKey.get(key);
+        return node ? {record_type:node.recordType,id:node.recordId,conversation_id:null} : null;
+      }
+
+      function runForNodeKey(nodeKey, state = currentState) {
+        return (state.knowledgeRuns || []).find((run) => String(run.nodeKey || "") === String(nodeKey || "")) || null;
+      }
+
+      function providerConfiguration(providerId, state = currentState) {
+        const configurations = Array.isArray(state.providers) ? state.providers : [];
+        return configurations.find((configuration) => configuration.id === providerId) || configurations[0] || { id: "claude_code", label: "agent", models: [], selection: {}, provider: {} };
+      }
+
+      function effortLabel(value = "") { return label(value || "default"); }
+      function selectionAvailable(selection = {}, configuration = {}) {
+        const model = (configuration.models || []).find((option) => option.model === selection.model);
+        if (!model || !model.supportedReasoningEfforts?.some((option) => option.reasoningEffort === selection.effort)) return false;
+        return !selection.serviceTier || model.serviceTiers?.some((option) => option.id === selection.serviceTier);
+      }
+      function defaultAgentName(title) { const suffix = " agent"; return `${String(title || "Project").slice(0, 80 - suffix.length).trim()}${suffix}`; }
+      function replaceSelectOptions(select, options, selectedValue) {
+        const normalized = options.map((option) => ({
+          value: String(option.value ?? ""),
+          label: String(option.label || option.value || "Standard"),
+          title: option.description ? String(option.description) : ""
+        }));
+        const unchanged = select.options.length === normalized.length && normalized.every((option, index) => {
+          const current = select.options[index];
+          return current.value === option.value && current.textContent === option.label && current.title === option.title;
+        });
+        if (!unchanged) {
+          select.replaceChildren(...normalized.map((option) => {
+            const element = document.createElement("option");
+            element.value = option.value; element.textContent = option.label; element.title = option.title;
+            return element;
+          }));
+        }
+        const requested = String(selectedValue ?? "");
+        if ([...select.options].some((option) => option.value === requested)) {
+          if (select.value !== requested) select.value = requested;
+        } else if (select.options.length) select.selectedIndex = 0;
+      }
+      function populateAgentEffortAndSpeed(modelSelect, effortSelect, speedSelect, configuration = {}, selection = {}) {
+        const model = (configuration.models || []).find((option) => option.model === modelSelect.value) || null;
+        if (!model) { replaceSelectOptions(effortSelect, [], ""); replaceSelectOptions(speedSelect, [], ""); return; }
+        replaceSelectOptions(
+          effortSelect,
+          (model.supportedReasoningEfforts || []).map((option) => ({ value: option.reasoningEffort, label: effortLabel(option.reasoningEffort), description: option.description })),
+          selection.effort || model.defaultReasoningEffort
+        );
+        replaceSelectOptions(
+          speedSelect,
+          [{ value: "", label: "Standard" }, ...(model.serviceTiers || []).map((option) => ({ value: option.id, label: option.name || label(option.id), description: option.description }))],
+          selection.serviceTier ?? model.defaultServiceTier ?? ""
+        );
+      }
+      function populateAgentProfile(modelSelect, effortSelect, speedSelect, configuration = {}, selection = {}) {
+        const models = Array.isArray(configuration.models) ? configuration.models : [];
+        const configured = configuration.selection || {};
+        const desiredModel = models.some((option) => option.model === selection.model)
+          ? selection.model
+          : models.some((option) => option.model === configured.model) ? configured.model : models[0]?.model || "";
+        replaceSelectOptions(modelSelect, models.map((option) => ({ value: option.model, label: option.displayName || option.model, description: option.description })), desiredModel);
+        const matchesRequestedModel = desiredModel === selection.model;
+        populateAgentEffortAndSpeed(modelSelect, effortSelect, speedSelect, configuration, matchesRequestedModel ? selection : configured);
+      }
+
+
+      function positionAgentConsole(){
+        for(const card of document.querySelectorAll('.agent-console[data-node-key]')){
+          card.hidden=!window.CentralAgentSvelte.boardAgentVisible(card.dataset.nodeKey);
+          card.style.setProperty('--agent-console-available-width',Math.max(240,agentWindowLayer.clientWidth-2)+'px');
+          card.style.setProperty('--agent-console-available-height',Math.max(400,agentWindowLayer.clientHeight-24)+'px');
+        }
+      }
+      function drawGraph(){positionAgentConsole();}
+      function openCard(key){
+        if(!nodeForAgentKey(key))return;
+        graph.openAgentKeys.add(key);closedActiveCards.delete(key);
+        window.CentralAgentSvelte.revealBoardAgent(key);
+        saveAgentWindowPreferences();renderAgentConsole(currentState);positionAgentConsole();
+        requestAnimationFrame(()=>[...document.querySelectorAll('.agent-console[data-node-key]')].find(card=>card.dataset.nodeKey===key)?.scrollIntoView({block:'nearest'}));
+      }
+      const timeMachineIconLabels = {
+        rust: "Rs", cargo: "Cg", c: "C", cpp: "C+", typescript: "Ts", javascript: "Js", python: "Py", go: "Go", java: "Jv", kotlin: "Kt", csharp: "C#", swift: "Sw", ruby: "Rb", php: "Php",
+        dart: "Dt", lua: "Lua", r_language: "R", elixir: "Ex", vue: "Vu", svelte: "Sv", astro: "As", graphql: "Gq",
+        docker: "Dk", npm: "npm", make: "Mk", git: "Gt", html: "<>", css: "{·}", json: "{}", toml: "Tm", yaml: "Y", config: "Cf", env: "Ev", markdown: "Md",
+        shell: "$", powershell: "PS", database: "DB", csv: "CSV", xml: "XML", svg: "SVG", image: "IMG", pdf: "PDF", document: "DOC", spreadsheet: "XLS", presentation: "PPT",
+        archive: "ZIP", audio: "AUD", video: "VID", font: "Aa", binary: "BIN", wasm: "W", license: "Li", lock: "Lk", log: "Log", text: "Txt", project: "Prj", file: "··"
+      };
+
+      function timeMachineFileIcon(iconKey = "file") {
+        const key = Object.hasOwn(timeMachineIconLabels, iconKey) ? iconKey : "file";
+        const icon = document.createElement("span"); icon.className = `tm-file-icon ca-file-icon type-${key}`; populateCentralFileIcon(icon, key, timeMachineIconLabels[key]); icon.setAttribute("aria-hidden", "true"); return icon;
+      }
+
+      function centralFolderVisual(name = "") {
+        const normalized = String(name).toLocaleLowerCase();
+        if (["src", "source", "app", "apps", "lib", "libs", "crates", "include"].includes(normalized)) return { kind: "kind-code", mark: "{}" };
+        if (["test", "tests", "spec", "specs", "e2e", "fixtures"].includes(normalized)) return { kind: "kind-test", mark: "✓" };
+        if (["doc", "docs", "documentation", "notes"].includes(normalized)) return { kind: "kind-docs", mark: "≡" };
+        if (["asset", "assets", "public", "static", "images", "icons", "media"].includes(normalized)) return { kind: "kind-assets", mark: "◇" };
+        if (["config", "configs", ".config", ".github", ".vscode"].includes(normalized)) return { kind: "kind-config", mark: "••" };
+        if (["build", "dist", "target", "out", "vendor", "node_modules"].includes(normalized)) return { kind: "kind-build", mark: "▰" };
+        if (normalized === ".git") return { kind: "kind-git", mark: "⑂" };
+        if (normalized.startsWith(".")) return { kind: "kind-hidden", mark: "·" };
+        return { kind: "", mark: "" };
+      }
+
+      function centralFolderIcon(name = "") {
+        const visual = centralFolderVisual(name);
+        const icon = centralFolderIconElement(visual.kind); icon.classList.add("tm-folder-icon"); return icon;
+      }
+
+      function centralExplorerIcon(node = {}) {
+        const category = String(node.category || "node");
+        if (category === "file" || category === "project") {
+          const requested = String(node.iconKey || (category === "project" ? "project" : "file"));
+          const key = Object.hasOwn(timeMachineIconLabels, requested) ? requested : (category === "project" ? "project" : "file");
+          const icon = document.createElement("span"); icon.className = `explorer-icon ca-file-icon type-${key}${category === "project" ? " explorer-project-icon" : ""}`; populateCentralFileIcon(icon, key, timeMachineIconLabels[key]); icon.setAttribute("aria-hidden", "true"); return icon;
+        }
+        if (category === "folder") {
+          const icon = centralFolderIcon(nodeVisibleLabel(node)); icon.classList.add("explorer-icon"); return icon;
+        }
+        const icon = document.createElement("span");
+        const systemKind = category === "server" ? (node.iconKey === "drive" ? "system-drive" : "system-server") : category === "container" ? "system-container" : "system-node";
+        icon.className = `explorer-icon ca-system-icon ${systemKind}`;
+        icon.setAttribute("aria-hidden", "true"); return icon;
+      }
+
+      function timeMachineStats(additions = 0, deletions = 0) {
+        const stats = document.createElement("span"); stats.className = "tm-tree-stats";
+        const added = document.createElement("span"); added.className = "tm-additions"; added.textContent = `+${Number(additions || 0).toLocaleString()}`;
+        const removed = document.createElement("span"); removed.className = "tm-deletions"; removed.textContent = `−${Number(deletions || 0).toLocaleString()}`;
+        stats.append(added, document.createTextNode("/"), removed); return stats;
+      }
+
+      function buildTimeMachineTreeModel(changes = []) {
+        const root = { name: "", path: "", directories: new Map(), files: [], additions: 0, deletions: 0 };
+        for (const change of changes) {
+          const parts = String(change.path || "").split("/").filter(Boolean); if (!parts.length) continue;
+          let node = root;
+          for (const part of parts.slice(0, -1)) {
+            if (!node.directories.has(part)) node.directories.set(part, { name: part, path: node.path ? `${node.path}/${part}` : part, directories: new Map(), files: [], additions: 0, deletions: 0 });
+            node = node.directories.get(part);
+          }
+          node.files.push(change);
+        }
+        const aggregate = (node) => {
+          node.additions = node.files.reduce((total, file) => total + Number(file.additions || 0), 0);
+          node.deletions = node.files.reduce((total, file) => total + Number(file.deletions || 0), 0);
+          for (const child of node.directories.values()) { aggregate(child); node.additions += child.additions; node.deletions += child.deletions; }
+        };
+        aggregate(root); return root;
+      }
+
+      function createTimeMachineTree(checkpoint, selectedPath = null, onFile = null) {
+        const tree = buildTimeMachineTreeModel(checkpoint?.changes || []);
+        const container = document.createElement("div"); container.className = "tm-file-tree";
+        const appendChildren = (node, target) => {
+          const directories = [...node.directories.values()].sort((left, right) => left.name.localeCompare(right.name));
+          for (const directory of directories) {
+            const details = document.createElement("details"); details.className = "tm-folder"; details.open = true;
+            const summary = document.createElement("summary");
+            const folderIcon = centralFolderIcon(directory.name);
+            const name = document.createElement("span"); name.className = "tm-folder-name"; name.textContent = directory.name; name.title = directory.path;
+            summary.append(folderIcon, name, timeMachineStats(directory.additions, directory.deletions));
+            const children = document.createElement("div"); children.className = "tm-folder-children"; appendChildren(directory, children);
+            details.append(summary, children); target.append(details);
+          }
+          const files = [...node.files].sort((left, right) => String(left.path || "").localeCompare(String(right.path || "")));
+          for (const change of files) {
+            const row = document.createElement("button"); row.type = "button"; row.className = `tm-file-row${change.path === selectedPath ? " selected" : ""}${change.restored ? " restored" : ""}`; row.title = change.path || "Changed file";
+            const name = document.createElement("span"); name.className = "tm-file-name"; name.textContent = String(change.path || "").split("/").pop() || change.path;
+            const status = document.createElement("span"); status.className = `tm-file-status ${change.status || "modified"}`; status.textContent = change.restored ? "✓" : change.status === "added" ? "A" : change.status === "deleted" ? "D" : "M"; status.title = change.restored ? "Restored" : change.status || "Modified";
+            row.append(timeMachineFileIcon(change.iconKey), name, status, timeMachineStats(change.additions, change.deletions));
+            if (onFile) row.addEventListener("click", () => onFile(change)); else row.disabled = true;
+            target.append(row);
+          }
+        };
+        appendChildren(tree, container); return container;
+      }
+
+      function openTimeMachineCheckpoint(checkpoint, path = null) {
+        if (checkpoint?.id) send("open_checkpoint", { checkpoint_id: checkpoint.id, path: path || null });
+      }
+
+      function createCheckpointCard(checkpoint) {
+        const card = document.createElement("section"); card.className = "checkpoint-card";
+        const head = document.createElement("div"); head.className = "checkpoint-head";
+        const heading = document.createElement("div"); heading.className = "checkpoint-heading";
+        const title = document.createElement("div"); title.className = "checkpoint-title"; title.textContent = `Changed files (${Number(checkpoint.fileCount || 0).toLocaleString()})`;
+        const meta = document.createElement("div"); meta.className = "checkpoint-meta"; meta.textContent = `${checkpoint.workspaceName || "Workspace"} · ${checkpoint.provider || "Agent"}${checkpoint.fullyRestored ? " · Restored" : ""}`;
+        heading.append(title, meta); head.append(heading, timeMachineStats(checkpoint.totalAdditions, checkpoint.totalDeletions)); card.append(head);
+        const tools = document.createElement("div"); tools.className = "checkpoint-tools";
+        const view = document.createElement("button"); view.type = "button"; view.className = "checkpoint-action"; view.textContent = "View diff"; view.disabled = !checkpoint.changes?.length; view.addEventListener("click", () => openTimeMachineCheckpoint(checkpoint));
+        const restore = document.createElement("button"); restore.type = "button"; restore.className = "checkpoint-action restore"; restore.textContent = checkpoint.fullyRestored ? "Checkpoint restored" : "Restore checkpoint"; restore.disabled = !checkpoint.changes?.length || checkpoint.fullyRestored; restore.addEventListener("click", () => { if (window.confirm(`Restore all ${checkpoint.fileCount || 0} changed files in ${checkpoint.workspaceName || "the workspace"}? Newer manual edits will be protected and will stop the restore.`)) send("restore_checkpoint", { checkpoint_id: checkpoint.id }); });
+        tools.append(view, restore); card.append(tools);
+        if (checkpoint.changes?.length) card.append(createTimeMachineTree(checkpoint, null, (change) => openTimeMachineCheckpoint(checkpoint, change.path)));
+        else { const note = document.createElement("div"); note.className = "checkpoint-note"; note.textContent = "No workspace file changes were detected during this run."; card.append(note); }
+        if (checkpoint.warningCount) { const warning = document.createElement("div"); warning.className = "checkpoint-note"; warning.textContent = `${checkpoint.warningCount} path${checkpoint.warningCount === 1 ? " was" : "s were"} skipped locally because it could not be read safely.`; card.append(warning); }
+        return card;
+      }
+
+      function renderUnifiedDiff(value = "", identity = "") {
+        window.CentralAgentSvelte.renderDiff(timeMachineDiff, String(value || "No textual diff is available for this file."), { identity });
+      }
+
+      function renderTimeMachine(timeMachine = {}) {
+        const selected = timeMachine?.selected || null;
+        timeMachineViewer.hidden = !selected;
+        if (!selected) return;
+        const checkpoint = selected.checkpoint || {};
+        timeMachineTitle.textContent = selected.selectedPath || `Changed files (${checkpoint.fileCount || 0})`;
+        timeMachineSubtitle.textContent = `${checkpoint.workspaceName || "Workspace"} · +${checkpoint.totalAdditions || 0} / −${checkpoint.totalDeletions || 0}`;
+        timeMachineTreeElement.replaceChildren(createTimeMachineTree(checkpoint, selected.selectedPath, (change) => send("select_checkpoint_file", { checkpoint_id: checkpoint.id, path: change.path })));
+        renderUnifiedDiff(selected.diff || (checkpoint.fileCount ? "Select a file to view its diff." : "No workspace file changes were detected."), `${checkpoint.id || ""}:${selected.selectedPath || ""}`);
+        timeMachineMessage.hidden = !timeMachine.message;
+        timeMachineMessage.className = `tm-viewer-message${timeMachine.messageIsError ? " error" : ""}`;
+        timeMachineMessage.textContent = timeMachine.message || "";
+        const selectedChange = (checkpoint.changes || []).find((change) => change.path === selected.selectedPath);
+        timeMachineRestoreFile.disabled = !selected.selectedPath || Boolean(selectedChange?.restored);
+        timeMachineRestoreFile.textContent = selectedChange?.restored ? "File restored" : "Restore file";
+        timeMachineRestoreAll.disabled = !checkpoint.changes?.length || Boolean(checkpoint.fullyRestored);
+        timeMachineRestoreAll.textContent = checkpoint.fullyRestored ? "Checkpoint restored" : "Restore checkpoint";
+        timeMachineRestoreFile.onclick = () => { if (selected.selectedPath && window.confirm(`Restore ${selected.selectedPath}? If it changed manually after this checkpoint, Supervisor will refuse to overwrite it.`)) send("restore_checkpoint_file", { checkpoint_id: checkpoint.id, path: selected.selectedPath }); };
+        timeMachineRestoreAll.onclick = () => { if (window.confirm(`Restore all ${checkpoint.fileCount || 0} changed files? Supervisor will preflight every file and stop if it finds a newer manual edit.`)) send("restore_checkpoint", { checkpoint_id: checkpoint.id }); };
+      }
+
+      function decorateConsoleMarkdown(element) {
+        element.querySelectorAll("pre").forEach((block) => {
+          const code = block.querySelector("code");
+          if (!code) return;
+          const languageClass = [...code.classList].find((name) => name.startsWith("language-"));
+          const language = languageClass ? languageClass.slice("language-".length) : "code";
+          block.dataset.language = language; highlightConsoleCode(code, language);
+          const copy = document.createElement("button");
+          copy.type = "button"; copy.className = "markdown-copy"; copy.textContent = "Copy"; copy.setAttribute("aria-label", "Copy code");
+          copy.addEventListener("click", async () => {
+            try { await navigator.clipboard.writeText(code.textContent || ""); copy.textContent = "Copied"; }
+            catch { copy.textContent = "Failed"; }
+            window.setTimeout(() => { copy.textContent = "Copy"; }, 1200);
+          });
+          block.append(copy);
+        });
+      }
+      const consoleCodeKeywords = new Set("as async await break case catch class const continue crate def do dyn else enum export extends false final fn for from function if impl import in interface let loop match mod move mut new none null of override package pass private pub public raise ref return self static struct super switch this throw trait true try type typeof use var void while with yield".split(" "));
+      function highlightConsoleCode(code, language = "code") {
+        const source = code.textContent || ""; const pattern = /(\/\*[\s\S]*?\*\/|\/\/[^\n]*|#[^\n]*|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|`(?:\\.|[^`\\])*`|\b\d+(?:\.\d+)?\b|\b[A-Za-z_$][\w$]*\b)/g;
+        const fragment = document.createDocumentFragment(); let cursor = 0;
+        for (const match of source.matchAll(pattern)) { const index = match.index || 0; if (index > cursor) fragment.append(document.createTextNode(source.slice(cursor, index))); const token = match[0]; const span = document.createElement("span"); if (token.startsWith("//") || token.startsWith("/*") || (token.startsWith("#") && !["css", "scss"].includes(language))) span.className = "tok-comment"; else if (/^["'`]/.test(token)) span.className = "tok-string"; else if (/^\d/.test(token)) span.className = "tok-number"; else if (consoleCodeKeywords.has(token.toLowerCase())) span.className = "tok-keyword"; span.textContent = token; fragment.append(span); cursor = index + token.length; }
+        if (cursor < source.length) fragment.append(document.createTextNode(source.slice(cursor))); code.replaceChildren(fragment);
+      }
+      function artifactSize(bytes) { const value = Number(bytes || 0); if (!value) return ""; if (value < 1024) return `${value} B`; if (value < 1048576) return `${(value / 1024).toFixed(value < 10240 ? 1 : 0)} KB`; return `${(value / 1048576).toFixed(value < 10485760 ? 1 : 0)} MB`; }
+      function artifactLabel(kind) { return ({ image: "IMG", audio: "AUD", video: "VID", code: "</>", diff: "±", diagram: "MAP", interactive_preview: "WEB", citation: "↗", file: "FILE" })[kind] || "FILE"; }
+      function artifactAction(labelText, action) { const button = document.createElement("button"); button.type = "button"; button.className = "agent-artifact-action"; button.textContent = labelText; button.addEventListener("click", (event) => { event.stopPropagation(); action(button); }); return button; }
+      async function copyAgentGraphArtifact(artifact, button) { try { if (artifact.kind === "image" && artifact.previewDataUrl && window.ClipboardItem) { const blob = await (await fetch(artifact.previewDataUrl)).blob(); await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]); } else await navigator.clipboard.writeText(artifact.previewText || artifact.sourceUrl || artifact.title || ""); button.textContent = "Copied"; } catch { button.textContent = "Failed"; } setTimeout(() => { button.textContent = "Copy"; }, 1200); }
+      function agentGraphArtifactActions(artifact, preview = true) { const actions = document.createElement("div"); actions.className = "agent-artifact-actions"; const previewable = Boolean(artifact.previewDataUrl || typeof artifact.previewText === "string"); if (preview && previewable) actions.append(artifactAction("Preview", () => openAgentGraphArtifact(artifact))); if (artifact.canOpen) actions.append(artifactAction(artifact.kind === "citation" ? "Open source" : "Open", () => send("open_artifact", { artifact_id: artifact.id }))); if (artifact.canSave) actions.append(artifactAction("Save as", () => send("save_artifact", { artifact_id: artifact.id }))); if (artifact.canShowInFolder) actions.append(artifactAction("Show folder", () => send("show_artifact_in_folder", { artifact_id: artifact.id }))); if (previewable || artifact.sourceUrl) actions.append(artifactAction("Copy", (button) => copyAgentGraphArtifact(artifact, button))); return actions; }
+      function agentGraphArtifactPreview(artifact) { const preview = document.createElement("div"); preview.className = "agent-artifact-preview"; if (artifact.kind === "image" && artifact.previewDataUrl) { const image = document.createElement("img"); image.src = artifact.previewDataUrl; image.alt = artifact.title || "Generated image"; preview.append(image); preview.addEventListener("click", () => openAgentGraphArtifact(artifact)); } else if (artifact.kind === "audio" && artifact.previewDataUrl) { const audio = document.createElement("audio"); audio.src = artifact.previewDataUrl; audio.controls = true; audio.preload = "metadata"; preview.append(audio); } else if (artifact.kind === "video" && artifact.previewDataUrl) { const video = document.createElement("video"); video.src = artifact.previewDataUrl; video.controls = true; video.preload = "metadata"; preview.append(video); } else if (typeof artifact.previewText === "string") { const pre = document.createElement("pre"); const code = document.createElement("code"); code.textContent = artifact.previewText.split("\n").slice(0, 10).join("\n"); highlightConsoleCode(code, artifact.language || artifact.kind); pre.append(code); preview.append(pre); preview.addEventListener("click", () => openAgentGraphArtifact(artifact)); } else { const empty = document.createElement("div"); empty.className = "agent-artifact-placeholder"; empty.textContent = artifact.previewTruncated ? "Preview too large; open or save the file." : "Open with the default application."; preview.append(empty); } return preview; }
+      function agentGraphArtifactList(artifacts = []) { const list = document.createElement("div"); list.className = "agent-artifact-list"; for (const artifact of artifacts) { const card = document.createElement("article"); card.className = "agent-artifact-card"; const head = document.createElement("div"); head.className = "agent-artifact-head"; const icon = document.createElement("div"); icon.className = "agent-artifact-icon"; icon.textContent = artifactLabel(artifact.kind); const heading = document.createElement("div"); heading.className = "agent-artifact-heading"; const title = document.createElement("div"); title.className = "agent-artifact-title"; title.textContent = artifact.title || "Artifact"; const meta = document.createElement("div"); meta.className = "agent-artifact-meta"; meta.textContent = [artifact.displayPath, artifact.mimeType, artifactSize(artifact.byteCount)].filter(Boolean).join(" · "); heading.append(title, meta); head.append(icon, heading); card.append(head); if (artifact.kind !== "citation") card.append(agentGraphArtifactPreview(artifact)); card.append(agentGraphArtifactActions(artifact)); list.append(card); } return list; }
+      function renderAgentGraphDiagram(target, source) { const lines = String(source || "").split(/\r?\n/).map((line) => line.trim()).filter(Boolean); const edges = []; const ids = []; const labels = new Map(); const node = (token) => { const match = token.trim().match(/^([\w.-]+)(?:\[([^\]]*)\]|\(([^)]*)\)|\{([^}]*)\})?$/); if (!match) return null; if (!labels.has(match[1])) ids.push(match[1]); labels.set(match[1], match[2] || match[3] || match[4] || match[1]); return match[1]; }; for (const line of lines.slice(/^(?:flowchart|graph)\b/i.test(lines[0] || "") ? 1 : 0)) { const match = line.match(/^(.+?)\s*(-->|---)\s*(.+)$/); if (match) { const from = node(match[1]), to = node(match[3]); if (from && to) edges.push([from, to, match[2] === "-->"]); } else node(line); } if (!ids.length) { const pre = document.createElement("pre"); pre.className = "artifact-viewer-code"; pre.textContent = source; target.append(pre); return; } const ns = "http://www.w3.org/2000/svg"; const svg = document.createElementNS(ns, "svg"); const width = 720, height = Math.max(360, ids.length * 105); svg.setAttribute("viewBox", `0 0 ${width} ${height}`); const positions = new Map(ids.map((id, index) => [id, { x: width / 2, y: 60 + index * 100 }])); for (const [from, to] of edges) { const a = positions.get(from), b = positions.get(to), line = document.createElementNS(ns, "line"); line.setAttribute("x1", a.x); line.setAttribute("y1", a.y); line.setAttribute("x2", b.x); line.setAttribute("y2", b.y); line.setAttribute("stroke", "#777777"); line.setAttribute("stroke-width", "2"); svg.append(line); } for (const id of ids) { const p = positions.get(id), rect = document.createElementNS(ns, "rect"); rect.setAttribute("x", p.x - 90); rect.setAttribute("y", p.y - 28); rect.setAttribute("width", "180"); rect.setAttribute("height", "56"); rect.setAttribute("rx", "11"); rect.setAttribute("fill", "#171717"); rect.setAttribute("stroke", "#8a8a8a"); svg.append(rect); const text = document.createElementNS(ns, "text"); text.setAttribute("x", p.x); text.setAttribute("y", p.y + 5); text.setAttribute("text-anchor", "middle"); text.setAttribute("fill", "#eeeeec"); text.setAttribute("font-size", "13"); text.textContent = labels.get(id).slice(0, 34); svg.append(text); } target.append(svg); }
+      function openAgentGraphArtifact(artifact) { artifactViewerTitle.textContent = artifact.title || "Artifact"; artifactViewerSubtitle.textContent = [artifact.displayPath, artifact.mimeType, artifactSize(artifact.byteCount), artifact.previewTruncated ? "preview truncated" : ""].filter(Boolean).join(" · "); artifactViewerBody.replaceChildren(); artifactViewerActions.replaceChildren(); if (artifact.kind === "image" && artifact.previewDataUrl) { const image = document.createElement("img"); image.src = artifact.previewDataUrl; image.alt = artifact.title || "Generated image"; artifactViewerBody.append(image); } else if (artifact.kind === "audio" && artifact.previewDataUrl) { const audio = document.createElement("audio"); audio.src = artifact.previewDataUrl; audio.controls = true; artifactViewerBody.append(audio); } else if (artifact.kind === "video" && artifact.previewDataUrl) { const video = document.createElement("video"); video.src = artifact.previewDataUrl; video.controls = true; artifactViewerBody.append(video); } else if (artifact.mimeType === "application/pdf" && artifact.previewDataUrl) { const frame = document.createElement("iframe"); frame.src = artifact.previewDataUrl; frame.referrerPolicy = "no-referrer"; frame.title = artifact.title || "PDF preview"; frame.setAttribute("sandbox", ""); artifactViewerBody.append(frame); } else if (artifact.kind === "interactive_preview" && typeof artifact.previewText === "string") { const frame = document.createElement("iframe"); frame.title = artifact.title || "Interactive preview"; frame.setAttribute("sandbox", "allow-scripts"); frame.referrerPolicy = "no-referrer"; frame.srcdoc = "<meta http-equiv=\"Content-Security-Policy\" content=\"default-src 'none'; img-src data: blob:; media-src data: blob:; font-src data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src 'none'; form-action 'none'; base-uri 'none'\">" + artifact.previewText; artifactViewerBody.append(frame); } else if (artifact.kind === "diagram" && typeof artifact.previewText === "string") renderAgentGraphDiagram(artifactViewerBody, artifact.previewText); else if (typeof artifact.previewText === "string") { const pre = document.createElement("pre"); pre.className = "artifact-viewer-code"; const code = document.createElement("code"); code.textContent = artifact.previewText; highlightConsoleCode(code, artifact.language || artifact.kind); pre.append(code); artifactViewerBody.append(pre); } else { const empty = document.createElement("div"); empty.className = "agent-artifact-placeholder"; empty.textContent = "No embedded preview is available."; artifactViewerBody.append(empty); } const actions = agentGraphArtifactActions(artifact, false); artifactViewerActions.append(...actions.children); artifactViewerActions.append(artifactAction("Full screen", () => artifactViewerCard.requestFullscreen?.())); artifactViewer.hidden = false; }
+      function closeAgentGraphArtifact() { artifactViewer.hidden = true; artifactViewerBody.replaceChildren(); artifactViewerActions.replaceChildren(); }
+      function directAgentLink(leftKey, rightKey, state = currentState) {
+        return (state.knowledgeAgents?.links || []).find((link) =>
+          (link.sourceNodeKey === leftKey && link.targetNodeKey === rightKey) ||
+          (link.sourceNodeKey === rightKey && link.targetNodeKey === leftKey)) || null;
+      }
+      function popupDraft(card) {
+        if (!card) return {};
+        return {
+          name: card.querySelector('[data-role="name"]')?.value || "",
+          mission: card.querySelector('[data-role="mission"]')?.value || "",
+          provider: card.querySelector('[data-role="provider"]')?.value || "",
+          model: card.querySelector('[data-role="model"]')?.value || "",
+          effort: card.querySelector('[data-role="effort"]')?.value || "",
+          speed: card.querySelector('[data-role="speed"]')?.value || ""
+        };
+      }
+      function consoleHistorySignature(run) {
+        const runtime = run?.agent || {};
+        return JSON.stringify({
+          historyTotal: Number(run?.historyTotal || 0),
+          history: Array.isArray(run?.history) ? run.history : [],
+          messages: Array.isArray(run?.messages) ? run.messages : [],
+          nativeMessages: Array.isArray(run?.conversationState?.nativeMessages) ? run.conversationState.nativeMessages : [],
+          runtime: {
+            phase: runtime.phase || "",
+            status: runtime.status || "",
+            active: Boolean(runtime.active),
+            steps: Array.isArray(runtime.steps) ? runtime.steps : []
+          }
+        });
+      }
+      function popupSelection(card) {
+        return {
+          model: card.querySelector('[data-role="model"]')?.value || "",
+          effort: card.querySelector('[data-role="effort"]')?.value || "",
+          serviceTier: card.querySelector('[data-role="speed"]')?.value || null,
+          contextWindow: null
+        };
+      }
+      function graphAgentCanResume(card, run) {
+        const state = run?.conversationState || {};
+        if (!run || run.agent?.phase !== "stopped" || run.agent?.active || state.active || state.busy || Number(state.queued) > 0 || state.unresolved) return false;
+        if (card.querySelector('[data-role="provider"]')?.value !== run.provider) return false;
+        if (run.provider !== "codex_app_server") return true;
+        return Boolean(state.nativeBinding && !state.nativeBinding.archived && !state.nativeBinding.deleted && state.nativeConversation?.connected);
+      }
+      function savePopupAssignment(card) {
+        const node = nodeForAgentKey(card.dataset.nodeKey); if (!node) return false;
+        const provider = card.querySelector('[data-role="provider"]')?.value || "claude_code";
+        const selection = popupSelection(card);
+        send("set_knowledge_agent", {
+          ...agentTarget(card.dataset.nodeKey),
+          name: card.querySelector('[data-role="name"]')?.value || defaultAgentName(nodeVisibleLabel(node)),
+          mission: card.querySelector('[data-role="mission"]')?.value || `Coordinate and verify work in “${nodeVisibleLabel(node)}”.`,
+          provider, model: selection.model, effort: selection.effort, service_tier: selection.serviceTier,
+          context_window: null
+        });
+        return true;
+      }
+      function renderConsoleHistory(log, run) {
+        const card = log.closest(".agent-console");
+        const owner = card?.dataset.conversationOwner || `graph:${card?.dataset.nodeKey || ""}`;
+        queueMicrotask(() => card.dispatchEvent(new CustomEvent("central-agent:graph-timeline", {
+          detail: {owner,run,
+            hooks:{decorate:decorateConsoleMarkdown,artifacts:agentGraphArtifactList,checkpoint:createCheckpointCard}}
+        })));
+      }
+      function dispatchSupervisionState(card, nodeKey, run) {
+        const supervised = run?.supervisedChat || null;
+        const supervisedOwner = supervised?.id ? `chat:${supervised.id}` : "";
+        const supervisedRun = supervised ? {provider:supervised.provider,selection:supervised.selection,agent:supervised.agent || {},messages:supervised.messages || [],history:[],historyTotal:0,historyOffset:0,conversationState:supervised.conversationState || {owner:supervisedOwner}} : null;
+        const pendingRequests=(Array.isArray(supervised?.conversationState?.nativeRequests) ? supervised.conversationState.nativeRequests.length : 0) + (supervised?.pendingApproval ? 1 : 0);
+        queueMicrotask(() => card.dispatchEvent(new CustomEvent("central-agent:supervision-state", {detail:{owner:`graph:${nodeKey}`,targetOwner:supervisedOwner,title:supervised?.title || "",run:supervisedRun,active:supervised?.conversationState?.active === true,supportsSteer:supervised?.conversationState?.supportsSteer === true,nativeTurnId:supervised?.conversationState?.nativeTurnId || "",pendingRequests,monitoring:run?.supervisionAutomatic === true,verification:run?.verification || null,hooks:{decorate:decorateConsoleMarkdown,artifacts:agentGraphArtifactList,checkpoint:createCheckpointCard}}})));
+      }
+      function updateSupervisedConversation(detail = {}) {
+        const owner=String(detail.owner || "");
+        if(!owner.startsWith("chat:"))return;
+        const chatId=owner.slice(5);
+        for(const run of currentState.knowledgeRuns || []){
+          const supervised=run?.supervisedChat;
+          if(String(supervised?.id || "")!==chatId)continue;
+          if(detail.conversationState)supervised.conversationState=detail.conversationState;
+          else if(detail.nativeRequests && supervised.conversationState)supervised.conversationState.nativeRequests=detail.nativeRequests;
+          if(supervised.agent)supervised.agent.active=supervised.conversationState?.active === true;
+          const card=[...document.querySelectorAll(".agent-console[data-node-key]")].find(element=>element.dataset.nodeKey===String(run.nodeKey || ""));
+          if(card)dispatchSupervisionState(card,String(run.nodeKey || ""),run);
+        }
+      }
+
+
+
+      document.addEventListener("central-agent:graph-files", (event) => {
+        const card = event.target.closest?.(".agent-console");
+        const owner = card?.dataset.conversationOwner || `graph:${card?.dataset.nodeKey || ""}`;
+        if (!card || event.detail?.owner !== owner) return;
+        if (owner.startsWith("graph:") && event.detail.action?.kind === "select" && card.dataset.assignmentBusy !== "true" && !savePopupAssignment(card)) {
+          card.dispatchEvent(new CustomEvent("central-agent:graph-files-result", {detail:{owner:event.detail.owner,error:"Reopen this agent to attach files."}}));
+          return;
+        }
+        send("graph_files", event.detail);
+      });
+      document.addEventListener("central-agent:graph-contexts", (event) => send("graph_contexts", event.detail));
+      document.addEventListener("central-agent:project-diff", (event) => send("project_diff", event.detail));
+      document.addEventListener("central-agent:app-server-conversation-control", (event) => send("app_server_conversation", event.detail));
+      document.addEventListener("central-agent:composer-draft", (event) => send("composer_draft", event.detail));
+      document.addEventListener("central-agent:app-server-history-control", (event) => send("app_server_history", event.detail));
+      document.addEventListener("central-agent:app-server-skills-control", (event) => send("app_server_skills", event.detail));
+      document.addEventListener("central-agent:app-server-preferences-control", (event) => send("app_server_preferences", event.detail));
+      document.addEventListener("central-agent:app-server-request-control", (event) => send("app_server_request", event.detail));
+      document.addEventListener("central-agent:app-server-access-control", (event) => send("app_server_access", event.detail));
+      window.addEventListener("central-agent:graph-open-conversation", (event) => {
+        const detail = event.detail || {}, sourceKey = String(detail.owner || "").replace(/^graph:/, ""), key = String(detail.nodeKey || "");
+        if (!String(detail.owner || "").startsWith("graph:")) return;
+        const source = nodeForAgentKey(sourceKey), target = nodeForAgentKey(key);
+        if (!source || !target || source.key !== target.key || !agentTarget(key)?.conversation_id && key !== target.key) return;
+        if (typeof detail.editDraft === "string" && detail.editDraft) {
+          if (!window.CentralAgentSvelte.prefillGraphDraft(`graph:${key}`, detail.editDraft)) {
+            window.dispatchEvent(new CustomEvent("central-agent:conversation-error", {detail:{owner:detail.owner,error:"The branch already has a newer draft. It was kept; the edited prompt remains in Saved operations."}}));
+          }
+        }
+        graph.openAgentKeys = window.CentralAgentSvelte.graphWindowSelection(graph.openAgentKeys, sourceKey, key, detail.replaceCurrent === true);
+        window.CentralAgentSvelte.revealBoardAgent(key); saveAgentWindowPreferences(); renderAgentConsole(currentState); drawGraph();
+        const card = [...document.querySelectorAll(".agent-console[data-node-key]")].find(card => card.dataset.nodeKey === key);
+        card?.dispatchEvent(new CustomEvent("central-agent:graph-prefill", {detail:{owner:`graph:${key}`}}));
+        requestAnimationFrame(() => card?.querySelector('textarea[id^="graph-input-"]')?.focus());
+      });
+      function renderAgentConsole(state = {}) {
+        for (const key of state.knowledgeAgents?.activeNodeKeys || []) if (!closedActiveCards.has(key)) graph.openAgentKeys.add(key);
+        for (const key of [...graph.openAgentKeys]) if (!nodeForAgentKey(key)) graph.openAgentKeys.delete(key);
+        const cardsByNodeKey = new Map([...document.querySelectorAll(".agent-console[data-node-key]")].map((card) => [card.dataset.nodeKey, card]));
+        for (const [nodeKey, card] of cardsByNodeKey) {
+          if (graph.openAgentKeys.has(nodeKey) && nodeForAgentKey(nodeKey)) continue;
+          window.CentralAgentSvelte.unmountAgentGraphCard(card);
+          card.remove(); cardsByNodeKey.delete(nodeKey); 
+          if (graph.linkSourceKey === nodeKey) graph.linkSourceKey = null;
+        }
+        agentWindowLayer.hidden = !graph.filters.agents;
+        if (!graph.filters.agents) { agentConsoleLink.hidden = true; agentConsoleLink.replaceChildren(); return; }
+        const providers = Array.isArray(state.providers) ? state.providers : [];
+        for (const nodeKey of graph.openAgentKeys) {
+          const existingCard = cardsByNodeKey.get(nodeKey) || null;
+          const node = nodeForAgentKey(nodeKey, true);
+          if (!node) { if (existingCard) existingCard.hidden = true; continue; }
+          const run = runForNodeKey(nodeKey, state);
+          const binding = (state.knowledgeAgents?.bindings || []).find(binding => window.CentralAgentSvelte.graphConversationKey(binding) === nodeKey) || null;
+          const runtime = run?.agent || {};
+          const draft = popupDraft(existingCard);
+          const providerId = draft.provider || binding?.provider || run?.provider || providers[0]?.id || "claude_code";
+          const configuration = providerConfiguration(providerId, state);
+          const selection = binding?.selection || run?.selection || configuration.selection || {};
+          let card = existingCard; const created = !card;
+          if (!card) {
+            card = document.createElement("article"); card.className = "agent-console"; card.dataset.nodeKey = nodeKey; card.dataset.conversationTitle = binding?.name || defaultAgentName(nodeVisibleLabel(node));
+            window.CentralAgentSvelte.mountAgentGraphCard(card);
+            agentWindowLayer.append(card); cardsByNodeKey.set(nodeKey, card);
+            card.addEventListener("central-agent:native-prepare", (event) => {
+              if (event.detail?.owner === `graph:${nodeKey}`) send("app_server_prepare", {owner:event.detail.owner});
+            });
+            card.addEventListener("central-agent:native-steer", (event) => {
+              if(event.detail.owner !== `graph:${nodeKey}`) { event.preventDefault(); return; }
+              send("app_server_steer", {owner:event.detail.owner,input:{expected_turn_id:event.detail.expectedTurnId,message:event.detail.message,timing:event.detail.timing,tab_ids:event.detail.tabIds || [],terminal_session_ids:event.detail.shellIds || [],file_ids:event.detail.fileIds || []}});
+            });
+            card.addEventListener("central-agent:supervisor-steer", (event) => {
+              if(event.detail?.owner !== `graph:${nodeKey}` || !event.detail?.expectedTurnId) { event.preventDefault(); return; }
+              send("project_board", {action:{type:"steer_supervised",node_key:nodeKey,expected_turn_id:event.detail.expectedTurnId,message:event.detail.message || "",timing:event.detail.timing || null}});
+            });
+            card.addEventListener("central-agent:graph-submit", (event) => {
+              if (event.detail.owner !== `graph:${nodeKey}`) { event.preventDefault(); return; }
+              if (event.detail.resume === true && !graphAgentCanResume(card, runForNodeKey(nodeKey, currentState))) {
+                event.preventDefault();
+                card.dispatchEvent(new CustomEvent("central-agent:conversation-error", {detail:{owner:`graph:${nodeKey}`,error:"This conversation is no longer stopped. Your draft was retained."}}));
+                return;
+              }
+              if (card.dataset.assignmentBusy !== "true" && !savePopupAssignment(card)) {
+                event.preventDefault();
+                card.dispatchEvent(new CustomEvent("central-agent:conversation-error", {detail:{owner:`graph:${nodeKey}`,error:"Complete the agent assignment before submitting. Your draft was retained."}}));
+                return;
+              }
+              const text = event.detail.input;
+              if (text.trim() || event.detail.fileIds?.length || event.detail.tabIds?.length || event.detail.shellIds?.length) send("continue_knowledge_agent", {...agentTarget(nodeKey),message:text,delivery:event.detail.delivery || "start",timing:event.detail.timing,file_ids:event.detail.fileIds || [],tab_ids:event.detail.tabIds || [],terminal_session_ids:event.detail.shellIds || []});
+              else send("run_knowledge_agent", agentTarget(nodeKey));
+            });
+            card.addEventListener("central-agent:graph-clear-queue", (event) => {
+              if (event.detail.owner === `graph:${nodeKey}`) send("clear_knowledge_agent_queue", agentTarget(nodeKey));
+            });
+            card.addEventListener("central-agent:graph-stop", (event) => {
+              if (event.detail.owner === `graph:${nodeKey}`) send("stop_knowledge_agent", agentTarget(nodeKey));
+            });
+            card.addEventListener("central-agent:graph-history-earlier", (event) => {
+              if (event.detail.owner === `graph:${nodeKey}`) send("load_knowledge_agent_history", {...agentTarget(nodeKey),before:event.detail.before});
+            });
+            card.addEventListener("central-agent:slash-ui", (event) => {
+              if (event.detail.action === "model") card.querySelector('[data-role="model"]')?.focus();
+            });
+          }
+          card.hidden = false; card.classList.toggle("configuring", !binding);
+          const visibleTitle=card.querySelector(".agent-console-title");if(visibleTitle){visibleTitle.textContent=binding?.name||"Supervisor";visibleTitle.title=visibleTitle.textContent;}
+          const assignmentBusy = Boolean(runtime.active) || Boolean(run?.conversationState?.busy);
+          card.dataset.assignmentBusy = String(assignmentBusy);
+          const linkButton = card.querySelector('[data-action="link"]');
+          linkButton.disabled = !binding;
+          card.querySelector('[data-action="remove"]').hidden = !binding || assignmentBusy;
+          const providerSelect = card.querySelector('[data-role="provider"]');
+          replaceSelectOptions(providerSelect, providers.map((entry) => ({ value: entry.id, label: entry.label })), providerId);
+          const modelSelect = card.querySelector('[data-role="model"]'), effortSelect = card.querySelector('[data-role="effort"]'), speedSelect = card.querySelector('[data-role="speed"]');
+          populateAgentProfile(modelSelect, effortSelect, speedSelect, configuration, { ...selection, model: draft.model || selection.model, effort: draft.effort || selection.effort, serviceTier: draft.speed ?? selection.serviceTier });
+          providerSelect.onchange = () => {
+            const config = providerConfiguration(providerSelect.value, currentState);
+            populateAgentProfile(modelSelect, effortSelect, speedSelect, config, config.selection || {});
+            updateSubmitAvailability();
+          };
+          modelSelect.onchange = () => { populateAgentEffortAndSpeed(modelSelect, effortSelect, speedSelect, providerConfiguration(providerSelect.value, currentState), {}); updateSubmitAvailability(); };
+          effortSelect.onchange = updateSubmitAvailability;
+          speedSelect.onchange = updateSubmitAvailability;
+          const nameInput = card.querySelector('[data-role="name"]'), missionInput = card.querySelector('[data-role="mission"]');
+          const nextName = created ? binding?.name || defaultAgentName(nodeVisibleLabel(node)) : draft.name;
+          const nextMission = created ? binding?.mission || `Coordinate and verify work in “${nodeVisibleLabel(node)}”.` : draft.mission;
+          if (nameInput.value !== nextName) nameInput.value = nextName;
+          if (missionInput.value !== nextMission) missionInput.value = nextMission;
+          const cardScrollTop = card.scrollTop;
+          const log = card.querySelector('[data-timeline-scope="supervisor"] .agent-console-log') || card.querySelector(".agent-console-log");
+          const logSignature = consoleHistorySignature(run);
+          if (log.dataset.renderSignature !== logSignature) {
+            renderConsoleHistory(log, run);
+            log.dataset.renderSignature = logSignature;
+          }
+          dispatchSupervisionState(card,nodeKey,run);
+          const pending = (state.pendingApprovals || []).find((entry) => entry.nodeKey === nodeKey)?.approval || null;
+          const approval = card.querySelector(".agent-console-approval"); approval.hidden = !pending;
+          if (pending) { approval.querySelector(".agent-console-approval-summary").textContent = pending.summary || pending.action || "The agent requested an action"; approval.querySelector(".agent-console-approval-meta").textContent = `${label(pending.scope || "local")} · ${label(pending.effect || "action")}`; approval.querySelector('[data-action="approve"]').textContent = state.permissionMode === "initial_authorization" && !state.sessionAuthorized ? "Authorize session" : "Approve once"; approval.dataset.requestId = pending.requestId || ""; }
+          else { approval.dataset.requestId = ""; }
+          for (const control of [providerSelect, modelSelect, effortSelect, speedSelect, nameInput, missionInput, card.querySelector('[data-action="save"]')]) control.disabled = assignmentBusy;
+
+          card.querySelector('[data-action="save"]').textContent = binding ? "Update" : "Assign";
+          function updateSubmitAvailability() {
+            const activeConfiguration = providerConfiguration(providerSelect.value, currentState);
+            const providerReady = ["ready", "planning"].includes(activeConfiguration.provider?.phase) && Boolean(activeConfiguration.provider?.authenticated);
+            const busy = Boolean(runtime.active) || Boolean(run?.conversationState?.busy);
+            const acceptsFollowUp = (run?.conversationState?.active || Number(run?.conversationState?.queued) > 0);
+            const selectionReady = selectionAvailable(popupSelection(card), activeConfiguration);
+            const canSubmit = (!busy || acceptsFollowUp) && providerReady && selectionReady;
+            const blockedReason = !providerReady
+              ? activeConfiguration.provider?.detail || "Connect this provider in Settings → AI provider to send messages."
+              : !selectionReady ? "Select an available model and effort using the profile button."
+              : busy && !acceptsFollowUp ? "Resolve this agent's pending request before sending another message." : "";
+            const canAttachFiles = providerSelect.value === "codex_app_server" && providerReady && selectionReady;
+            queueMicrotask(() => card.dispatchEvent(new CustomEvent("central-agent:conversation-state", {detail: run?.conversationState || {owner:`graph:${nodeKey}`}})));
+            queueMicrotask(() => card.dispatchEvent(new CustomEvent("central-agent:graph-composer-state", {detail:{owner:`graph:${nodeKey}`,assigned:Boolean(binding),canSubmit,blockedReason,canAttachFiles,canStop:Boolean(runtime.active) || Boolean(run?.conversationState?.active),canResume:graphAgentCanResume(card, run),active:Boolean(run?.conversationState?.active),supportsSteer:run?.conversationState?.supportsSteer === true,nativeTurnId:run?.conversationState?.nativeTurnId,queued:Number(run?.conversationState?.queued)||0}})));
+
+          }
+          updateSubmitAvailability();
+          card.querySelector('[data-action="save"]').onclick = () => savePopupAssignment(card);
+          card.querySelector('[data-action="remove"]').onclick = () => send("remove_knowledge_agent", agentTarget(nodeKey));
+          card.querySelector('[data-action="close"]').onclick = () => { graph.openAgentKeys.delete(nodeKey); closedActiveCards.add(nodeKey); if (graph.linkSourceKey === nodeKey) graph.linkSourceKey = null; saveAgentWindowPreferences(); renderAgentConsole(currentState); drawGraph(); };
+          linkButton.onclick = () => { if (!binding) return; if (!graph.linkSourceKey) { graph.linkSourceKey = nodeKey; renderAgentConsole(currentState); return; } if (graph.linkSourceKey === nodeKey) { graph.linkSourceKey = null; renderAgentConsole(currentState); return; } const source = agentTarget(graph.linkSourceKey), target = agentTarget(nodeKey); if (source && target) send("set_knowledge_agent_link", { source_record_type: source.record_type, source_id: source.id, source_conversation_id:source.conversation_id, target_record_type: target.record_type, target_id: target.id, target_conversation_id:target.conversation_id, linked: !directAgentLink(graph.linkSourceKey, nodeKey, currentState) }); graph.linkSourceKey = null; };
+          card.querySelector('[data-action="approve"]').onclick = () => { if (!pending) return; if (state.permissionMode === "initial_authorization" && !state.sessionAuthorized) send("authorize_session"); else send("approve_action", { request_id: pending.requestId }); };
+          card.querySelector('[data-action="deny"]').onclick = () => { if (pending) send("deny_action", { request_id: pending.requestId }); };
+          card.scrollTop = cardScrollTop;
+        }
+        requestAnimationFrame(() => { if (currentState.expanded) positionAgentConsole(); });
+      }
+
+      function projectChatPreview(chatId, state = currentState) {
+        return (state.projectChatPreviews || []).find(preview => String(preview.id) === String(chatId)) || null;
+      }
+      function renderProjectChatConsoles(state = {}) {
+        const layer = document.getElementById("project-chat-window-layer");
+        if (!layer) return;
+        const previews = Array.isArray(state.projectChatPreviews) ? state.projectChatPreviews : [];
+        const wanted = new Set(previews.map(preview => String(preview.id)));
+        const cards = new Map([...document.querySelectorAll(".agent-console[data-project-chat-id]")].map(card => [card.dataset.projectChatId, card]));
+        for (const [chatId, card] of cards) {
+          if (wanted.has(chatId)) continue;
+          window.CentralAgentSvelte.unmountAgentGraphCard(card);
+          card.remove(); cards.delete(chatId);
+        }
+        const providers = Array.isArray(state.providers) ? state.providers : [];
+        for (const preview of previews) {
+          const chatId = String(preview.id || "");
+          if (!chatId) continue;
+          const owner = `chat:${chatId}`;
+          let card = cards.get(chatId) || null;
+          const created = !card;
+          if (!card) {
+            card = document.createElement("article");
+            card.className = "agent-console project-chat-agent-card";
+            card.dataset.projectChatId = chatId;
+            card.dataset.conversationOwner = owner;
+            card.dataset.conversationTitle = String(preview.title || "Project conversation");
+            window.CentralAgentSvelte.mountAgentGraphCard(card);
+            layer.append(card); cards.set(chatId, card);
+            card.addEventListener("central-agent:native-prepare", event => {
+              if (event.detail?.owner === owner) send("app_server_prepare", {owner});
+            });
+            card.addEventListener("central-agent:native-steer", event => {
+              if (event.detail?.owner !== owner) { event.preventDefault(); return; }
+              send("app_server_steer", {owner,input:{expected_turn_id:event.detail.expectedTurnId,message:event.detail.message,timing:event.detail.timing,tab_ids:event.detail.tabIds || [],terminal_session_ids:event.detail.shellIds || [],file_ids:event.detail.fileIds || []}});
+            });
+            card.addEventListener("central-agent:graph-submit", event => {
+              if (event.detail?.owner !== owner) { event.preventDefault(); return; }
+              const latest = projectChatPreview(chatId);
+              if (!latest) { event.preventDefault(); return; }
+              const provider = card.querySelector('[data-role="provider"]')?.value || latest.provider;
+              if (event.detail.resume === true && (!latest.canResume || provider !== latest.provider)) {
+                event.preventDefault();
+                card.dispatchEvent(new CustomEvent("central-agent:conversation-error", {detail:{owner,error:"This conversation is no longer stopped. Your draft was retained."}}));
+                return;
+              }
+              send("project_board", {action:{type:"submit_chat",chat_id:chatId,message:event.detail.input || "",delivery:event.detail.delivery || "start",resume:event.detail.resume === true,timing:event.detail.timing || null,file_ids:event.detail.fileIds || [],tab_ids:event.detail.tabIds || [],terminal_session_ids:event.detail.shellIds || []}});
+            });
+            card.addEventListener("central-agent:graph-clear-queue", event => {
+              if (event.detail?.owner === owner) send("project_board", {action:{type:"clear_chat_queue",chat_id:chatId}});
+            });
+            card.addEventListener("central-agent:graph-stop", event => {
+              if (event.detail?.owner === owner) send("project_board", {action:{type:"stop_chat",chat_id:chatId}});
+            });
+          }
+          card.hidden = false;
+          card.dataset.conversationTitle = String(preview.title || "Project conversation");
+          const visibleTitle = card.querySelector(".agent-console-title");
+          if (visibleTitle) { visibleTitle.textContent = card.dataset.conversationTitle; visibleTitle.title = card.dataset.conversationTitle; }
+          const providerId = preview.provider || providers[0]?.id || "codex_app_server";
+          const configuration = providerConfiguration(providerId, state);
+          const selection = preview.selection || configuration.selection || {};
+          const providerSelect = card.querySelector('[data-role="provider"]');
+          const modelSelect = card.querySelector('[data-role="model"]');
+          const effortSelect = card.querySelector('[data-role="effort"]');
+          const speedSelect = card.querySelector('[data-role="speed"]');
+          replaceSelectOptions(providerSelect, providers.map(entry => ({value:entry.id,label:entry.label})), providerId);
+          populateAgentProfile(modelSelect, effortSelect, speedSelect, configuration, selection);
+          const commitProfile = () => {
+            const selected = popupSelection(card);
+            send("project_board", {action:{type:"set_chat_profile",chat_id:chatId,provider:providerSelect.value,model:selected.model,effort:selected.effort,service_tier:selected.serviceTier,context_window:null}});
+          };
+          providerSelect.onchange = () => {
+            const next = providerConfiguration(providerSelect.value, currentState);
+            populateAgentProfile(modelSelect, effortSelect, speedSelect, next, next.selection || {});
+            commitProfile();
+          };
+          modelSelect.onchange = () => { populateAgentEffortAndSpeed(modelSelect, effortSelect, speedSelect, providerConfiguration(providerSelect.value, currentState), {}); commitProfile(); };
+          effortSelect.onchange = commitProfile;
+          speedSelect.onchange = commitProfile;
+          const conversation = preview.conversationState || {owner};
+          const runtime = preview.agent || {};
+          const busy = Boolean(runtime.active) || Boolean(conversation.busy);
+          card.dataset.assignmentBusy = String(busy);
+          for (const control of [providerSelect, modelSelect, effortSelect, speedSelect]) control.disabled = busy;
+          const name = card.querySelector('[data-role="name"]');
+          if (name) name.value = preview.title || "Project conversation";
+          const log = card.querySelector(".agent-console-log");
+          const run = {provider:providerId,selection,agent:runtime,messages:preview.messages || [],history:[],historyTotal:0,historyOffset:0,conversationState:conversation};
+          const signature = consoleHistorySignature(run);
+          if (log.dataset.renderSignature !== signature) { renderConsoleHistory(log, run); log.dataset.renderSignature = signature; }
+          const pending = preview.pendingApproval || null;
+          const approval = card.querySelector(".agent-console-approval");
+          approval.hidden = !pending;
+          if (pending) {
+            approval.querySelector(".agent-console-approval-summary").textContent = pending.summary || pending.action || "The agent requested an action";
+            approval.querySelector(".agent-console-approval-meta").textContent = `${label(pending.scope || "local")} · ${label(pending.effect || "action")}`;
+            approval.querySelector('[data-action="approve"]').textContent = state.permissionMode === "initial_authorization" && !state.sessionAuthorized ? "Authorize session" : "Approve once";
+          }
+          const providerReady = ["ready", "planning"].includes(configuration.provider?.phase) && Boolean(configuration.provider?.authenticated);
+          const selectionReady = selectionAvailable(popupSelection(card), configuration);
+          const acceptsFollowUp = Boolean(conversation.active) || Number(conversation.queued) > 0;
+          const canSubmit = (!busy || acceptsFollowUp) && providerReady && selectionReady;
+          const blockedReason = !providerReady
+            ? configuration.provider?.detail || "Connect this provider in Settings → AI provider to send messages."
+            : !selectionReady ? "Select an available model and effort using the profile button."
+            : busy && !acceptsFollowUp ? "Resolve this agent's pending request before sending another message." : "";
+          queueMicrotask(() => {
+            card.dispatchEvent(new CustomEvent("central-agent:conversation-state", {detail:conversation}));
+            card.dispatchEvent(new CustomEvent("central-agent:graph-composer-state", {detail:{owner,assigned:true,canSubmit,blockedReason,canAttachFiles:providerId === "codex_app_server" && providerReady && selectionReady,canStop:Boolean(runtime.active) || Boolean(conversation.active),canResume:preview.canResume === true,active:Boolean(conversation.active),supportsSteer:conversation.supportsSteer === true,nativeTurnId:conversation.nativeTurnId,queued:Number(conversation.queued)||0}}));
+          });
+          card.querySelector('[data-action="remove"]').hidden = true;
+          card.querySelector('[data-action="close"]').onclick = () => send("project_board", {action:{type:"close_chat_preview",chat_id:chatId}});
+          card.querySelector('[data-action="approve"]').onclick = () => { if (!pending) return; if (state.permissionMode === "initial_authorization" && !state.sessionAuthorized) send("authorize_session"); else send("approve_action", {request_id:pending.requestId}); };
+          card.querySelector('[data-action="deny"]').onclick = () => { if (pending) send("deny_action", {request_id:pending.requestId}); };
+          if (created) requestAnimationFrame(() => card.scrollIntoView({block:"nearest"}));
+        }
+      }
+
+      document.addEventListener('central-agent:project-registry',event=>{
+        const detail=event.detail||{},source=String(detail.source||''),id=String(detail.id||'');
+        if(detail.action==='select-project'||detail.action==='open-project')window.CentralAgentSvelte.selectBoardProject(String(detail.nodeKey||''));
+        else if(detail.action==='select-local')send('select_workspace');
+        else if(detail.action==='create')send('create_local_project',{name:String(detail.name||'')});
+        else if(detail.action==='focus-work')window.CentralAgentSvelte.focusBoardWork(String(detail.nodeKey||''),String(detail.owner||''));
+        else if(detail.action==='clone')send('clone_repository',{repository:String(detail.repository||'')});
+        else if(detail.action==='connect-ssh')send('connect_ssh_project',{profile_id:String(detail.profileId||''),directory:String(detail.directory||''),name:detail.name||null});
+        else if(detail.action==='start-agent'){window.CentralAgentSvelte.selectBoardProject(String(detail.nodeKey||''));send('project_board',{action:{type:'new_agent',node_key:detail.nodeKey,chat_id:null}});}
+        else if(detail.action==='pin')send(source==='local'?'set_workspace_pinned':'set_remote_project_pinned',{...(source==='local'?{root:id}:{id}),pinned:!!detail.pinned});
+        else if(detail.action==='remove')send(source==='local'?'eject_workspace':'remove_remote_project',source==='local'?{root:id,stop_active_runs:false}:{id});
+        else if(detail.action==='terminal'||detail.action==='git')send('open_project_terminal',{source,id,git:detail.action==='git'});
+        else if(detail.action==='folder')send('show_project_folder',{root:String(detail.root||'')});
+        else if(detail.action==='refresh')send('refresh_project_metadata',{source,id});
+        else if(detail.action==='reopen')send('set_reopen_last_project',{enabled:!!detail.enabled});
+      });
+      document.addEventListener('central-agent:project-board',event=>{
+        const d=event.detail||{};
+        if(d.action==='close')sendNonDraggingSurfaceChange('close_knowledge_graph');
+        else if(d.action==='backend')send('project_board',{action:d.backendAction});
+        else if(d.action==='select'){send('project_board',{action:{type:'select',source:d.source,id:d.id}});positionAgentConsole();}
+        else if(d.action==='preview-chat')send('project_board',{action:{type:'preview_chat',chat_id:d.chatId}});
+        else if(d.action==='close-chat-preview')send('project_board',{action:{type:'close_chat_preview',chat_id:d.chatId}});
+        else if(d.action==='new-chat')send('project_board',{action:{type:'new_chat',root:d.root}});
+        else if(d.action==='open-file')send('project_board',{action:{type:'open_file',root:d.root,path:d.path}});
+        else if(d.action==='new-agent')send('project_board',{action:{type:'new_agent',node_key:d.nodeKey,chat_id:d.chatId||null}});
+        else if(d.action==='link-chat')send('project_board',{action:{type:'link_chat',node_key:d.nodeKey,chat_id:d.chatId||null}});
+        else if(d.action==='rename-agent')send('project_board',{action:{type:'rename_agent',node_key:d.nodeKey,name:d.name}});
+        else if(d.action==='delete-agent')send('project_board',{action:{type:'delete_agent',node_key:d.nodeKey}});
+        else if(d.action==='rename-chat')send('rename_project_chat',{chat_id:d.chatId,title:d.title});
+        else if(d.action==='delete-chat')send('delete_project_chat',{chat_id:d.chatId});
+        else if(d.action==='scope-changed')positionAgentConsole();
+        else if(d.action==='open-agent')openCard(d.nodeKey);
+        else if(d.action==='pin-chat')send('set_project_chat_pinned',{chat_id:d.chatId,pinned:!!d.pinned});
+        else if(d.action==='refresh-files'){if(d.source==='local')send('refresh_workspace_explorer');else send('refresh_project_metadata',{source:d.source,id:d.id});}
+        else if(d.action==='remote-file'||d.action==='terminal')send('open_project_terminal',{source:'ssh',id:d.id,git:false});
+      });
+      window.addEventListener('central-agent:project-board-open-agent',event=>openCard(event.detail?.nodeKey));
+      window.addEventListener('central-agent:app-server-conversation',event=>updateSupervisedConversation(event.detail));
+      window.addEventListener('central-agent:app-server-requests',event=>updateSupervisedConversation(event.detail));
+      window.renderKnowledgeSurfaceState=window.renderAgentGraphState=(state={})=>{
+        currentState=state;
+        document.documentElement.dataset.theme=state.theme==='central_dark'?'central_dark':'central';
+        body.classList.toggle('expanded',!!state.expanded);graphShell.hidden=!state.expanded;
+        const orbView=state.orb||{size:112};orb.style.width=orbView.size+'px';orb.style.height=orbView.size+'px';orb.style.left='0px';orb.style.top='0px';
+        releaseLogoAfterSurfaceReflow(false);
+        const nodes=state.graph?.visualGraph?.nodes||[];
+        graph.allNodeByKey=new Map(nodes.map(node=>[node.key||graphKey(node.recordType,node.recordId),node]));graph.nodeByKey=graph.allNodeByKey;
+        queuedAgentRequest.hidden=!state.queuedAgentRequest;
+        const runId=Number(state.discardableCheckpointRunId);discardFailedCheckpoint.hidden=!(Number.isSafeInteger(runId)&&runId>0);discardFailedCheckpoint.dataset.runId=String(runId||'');
+        window.CentralAgentSvelte.updateProjectBoard(state);
+        renderProjectChatConsoles(state);renderAgentConsole(state);positionAgentConsole();renderTimeMachine(state.timeMachine);
+      };
+      window.updateKnowledgeAgentMessage = window.updateAgentGraphMessage = (update = {}) => {
+        const run = (currentState.knowledgeRuns || []).find(entry =>
+          String(entry.nodeKey || "") === String(update.nodeKey || "") && Number(entry.agent?.runId) === Number(update.runId));
+        if (!run || !Array.isArray(run.messages)) return;
+        let message = run.messages.find(entry => String(entry.id) === String(update.id));
+        if (!message) { message = {id:update.id,role:"assistant",runId:update.runId}; run.messages.push(message); }
+        Object.assign(message, update);
+        const card = [...document.querySelectorAll(".agent-console[data-node-key]")].find(element => element.dataset.nodeKey === String(run.nodeKey));
+        const log = card?.querySelector('[data-timeline-scope="supervisor"] .agent-console-log') || card?.querySelector(".agent-console-log");
+        if (!log) return;
+        const stream = new CustomEvent("central-agent:graph-stream", {cancelable:true,detail:{owner:`graph:${run.nodeKey}`,message}});
+        card.dispatchEvent(stream);
+        if (!stream.defaultPrevented) renderConsoleHistory(log, run);
+      };
+
+      window.updateKnowledgeAgentReasoning = window.updateAgentGraphReasoning = (update = {}) => window.updateAgentGraphMessage({ ...update, kind: "reasoning" });
+      window.updateProjectChatMessage = (update = {}) => {
+        const previews = [projectChatPreview(update.chatId), ...(currentState.knowledgeRuns || []).map(run => run.supervisedChat).filter(preview => String(preview?.id || "") === String(update.chatId || ""))].filter(Boolean);
+        if (!previews.length) return;
+        let message = null;
+        for (const preview of previews) {
+          const messages = Array.isArray(preview.messages) ? preview.messages : (preview.messages = []);
+          let row = messages.find(entry => String(entry.id) === String(update.id));
+          if (!row) { row = {id:update.id,role:"assistant",runId:update.runId}; messages.push(row); }
+          Object.assign(row, update); message ||= row;
+        }
+        const card = document.querySelector(`[data-project-chat-id="${CSS.escape(String(update.chatId || ""))}"]`);
+        const stream = new CustomEvent("central-agent:graph-stream", {cancelable:true,detail:{owner:`chat:${update.chatId}`,message}});
+        card?.dispatchEvent(stream);
+        if (card && !stream.defaultPrevented) { const preview=previews[0]; renderConsoleHistory(card.querySelector(".agent-console-log"), {agent:preview.agent,messages:preview.messages,conversationState:preview.conversationState}); }
+        for (const supervisorCard of document.querySelectorAll(".agent-console[data-node-key]")) supervisorCard.dispatchEvent(new CustomEvent("central-agent:graph-stream", {cancelable:true,detail:{owner:`chat:${update.chatId}`,message}}));
+      };
+
+
+      orb.addEventListener('dragstart',event=>event.preventDefault());
+      orb.addEventListener("click", () => sendNonDraggingSurfaceChange("open_knowledge_graph"));
+      document.getElementById('cancel-queued-agent-request').addEventListener('click',()=>send('cancel_pending_agent_submission'));
+      discardFailedCheckpoint.addEventListener('click',()=>{const id=Number(discardFailedCheckpoint.dataset.runId);if(id>0&&window.confirm("Discard this failed checkpoint? Its baseline will be deleted and cannot be restored."))send('discard_failed_checkpoint',{run_id:id});});
+      artifactViewerClose.addEventListener("click", closeAgentGraphArtifact);
+      artifactViewer.addEventListener("click", (event) => { if (event.target === artifactViewer) closeAgentGraphArtifact(); });
+      timeMachineClose.addEventListener("click", () => send("close_checkpoint"));
+      timeMachineViewer.addEventListener("click", (event) => { if (event.target === timeMachineViewer) send("close_checkpoint"); });
+
+      document.addEventListener('keydown',event=>{
+        if(event.key!=='Escape'||event.defaultPrevented)return;
+        if(!artifactViewer.hidden){event.preventDefault();closeAgentGraphArtifact();return;}
+        if(!timeMachineViewer.hidden){event.preventDefault();send('close_checkpoint');}
+      });
+      new ResizeObserver(()=>positionAgentConsole()).observe(agentWindowLayer);
+</script>
+</body></html>

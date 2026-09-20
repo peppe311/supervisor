@@ -1,0 +1,41 @@
+{
+  "name": "central-agent-ui",
+  "private": true,
+  "version": "0.1.0",
+  "license": "MPL-2.0",
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "dev:watch": "vite build --watch --clearScreen false",
+    "check": "svelte-check --tsconfig ./tsconfig.json && node ../scripts/verify-design-contract.mjs",
+    "check:design": "node ../scripts/verify-design-contract.mjs",
+    "test:editor": "node --experimental-strip-types --test tests/file-editor.test.mjs",
+    "test:diff": "node --experimental-strip-types --test tests/diff-search.test.mjs"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "7.3.0",
+    "ajv": "8.20.0",
+    "svelte": "5.57.0",
+    "svelte-check": "4.7.6",
+    "typescript": "6.0.3",
+    "vite": "8.2.2"
+  },
+  "dependencies": {
+    "@codemirror/commands": "6.11.0",
+    "@codemirror/lang-cpp": "6.0.3",
+    "@codemirror/lang-css": "6.3.1",
+    "@codemirror/lang-html": "6.4.12",
+    "@codemirror/lang-javascript": "6.2.5",
+    "@codemirror/lang-json": "6.0.2",
+    "@codemirror/lang-markdown": "6.5.2",
+    "@codemirror/lang-python": "6.2.1",
+    "@codemirror/lang-rust": "6.0.2",
+    "@codemirror/language": "6.12.4",
+    "@codemirror/legacy-modes": "6.5.4",
+    "@codemirror/search": "6.7.2",
+    "@codemirror/state": "6.7.4",
+    "@codemirror/view": "6.43.11",
+    "@lezer/highlight": "1.2.3",
+    "codemirror": "6.0.2"
+  }
+}

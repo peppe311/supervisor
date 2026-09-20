@@ -1,0 +1,69 @@
+# Rust build output
+/target/
+/target-*/
+
+# Local release and packaging output
+/outputs/
+/outputs-*/
+/output/
+/artifacts/
+/dist/
+/ui/node_modules/
+*.exe
+*.pdb
+*.msi
+*.msix
+*.appx
+
+# Central Agent runtime state
+/audit/
+/browser-profile/
+/time-machine/
+/ui-profile/
+/.codex-app-native-home/
+/.codex-handshake-home/
+/.codex-smoke-profile/
+/.codex-test-temp/
+/.codex-visual-profile/
+/.codex-visual-profile-2/
+session.json
+ssh-auto-connect.json
+*.sqlite
+*.sqlite-journal
+*.sqlite-shm
+*.sqlite-wal
+*.sqlite3
+*.sqlite3-journal
+*.sqlite3-shm
+*.sqlite3-wal
+
+# Local credentials and environment overrides
+.env
+.env.*
+!.env.example
+!.env.*.example
+**/.ssh/
+*.key
+*.pem
+*.p12
+*.pfx
+
+# Editor and operating-system noise
+.vs/
+*.user
+*.suo
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Local diagnostics and downloaded reference material are never publication inputs.
+*.log
+/docs/vendor/openai/**
+!/docs/vendor/openai/README.md
+/.envrc
+/.npmrc
+/.netrc
+auth.json
+credentials.json
+*.har
+*.dmp

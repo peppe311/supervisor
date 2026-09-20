@@ -1,0 +1,842 @@
+<!doctype html>
+<html lang="en" data-theme="__THEME_ID__">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Linux Desktop</title>
+    <style>
+      /*__THEMES_CSS__*/
+      * { box-sizing: border-box; }
+      html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: var(--ca-surface, #fff); color: var(--ca-text, #16181d); font: 14px/1.45 "SF Pro Text", "SF Pro Display", "Inter", sans-serif; }
+      button, input { font: inherit; }
+      button { color: inherit; }
+      .desktop-shell { display: grid; width: 100%; height: 100%; grid-template-rows: auto minmax(0, 1fr); background: var(--ca-surface, #fff); }
+      .desktop-toolbar { position: relative; z-index: 5; display: grid; grid-template-columns: minmax(180px, 1fr) auto; align-items: center; gap: 16px; min-height: 72px; padding: 12px 18px; border-bottom: 1px solid var(--ca-border, #e3e5e8); background: color-mix(in srgb, var(--ca-surface, #fff) 94%, transparent); }
+      .identity { display: flex; min-width: 0; align-items: center; gap: 12px; }
+      .identity-mark { display: grid; width: 38px; height: 38px; flex: 0 0 auto; place-items: center; border: 1px solid var(--ca-border, #dfe3e8); border-radius: 10px; background: var(--ca-surface-2, #f6f7f8); color: var(--ca-accent-strong, #0a58ca); }
+      .identity-mark svg { width: 21px; height: 21px; }
+      .identity-copy { min-width: 0; }
+      .identity-title { margin: 0; overflow: hidden; font-size: 14px; font-weight: 700; letter-spacing: -.01em; text-overflow: ellipsis; white-space: nowrap; }
+      .identity-meta { margin: 3px 0 0; overflow: hidden; color: var(--ca-muted, #6f7680); font: 11px/1.35 ui-monospace, "Cascadia Mono", Consolas, monospace; text-overflow: ellipsis; white-space: nowrap; }
+      .controls { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
+      .credential { width: 156px; height: 36px; padding: 0 10px; border: 1px solid var(--ca-border, #d9dde2); border-radius: 8px; outline: 0; background: var(--ca-input, var(--ca-surface, #fff)); color: var(--ca-text, #16181d); font-size: 12px; }
+      .credential:focus { border-color: var(--ca-accent, #1485d1); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ca-accent, #1485d1) 16%, transparent); }
+      .button { display: inline-grid; min-width: 36px; height: 36px; place-items: center; padding: 0 12px; border: 1px solid var(--ca-border, #d9dde2); border-radius: 8px; background: var(--ca-surface, #fff); color: var(--ca-text, #20242a); font-size: 11px; font-weight: 650; cursor: pointer; }
+      .button:hover:not(:disabled) { background: var(--ca-surface-2, #f4f5f6); }
+      .button.primary { border-color: var(--ca-accent-strong, #086eae); background: var(--ca-accent-strong, #086eae); color: var(--ca-on-accent, #fff); }
+      .button.agent-active { border-color: #42c883; background: #143c2a; color: #a8f0c8; }
+      .button.danger { color: var(--ca-danger, #b42318); }
+      .button:disabled { opacity: .48; cursor: default; }
+      .icon-button { width: 36px; min-width: 36px; padding: 0; font-size: 16px; }
+      .viewport { position: relative; min-width: 0; min-height: 0; overflow: auto; background: #0c0e12; scrollbar-color: var(--ca-scrollbar-thumb) var(--ca-scrollbar-track); }
+      .canvas-stage { display: grid; width: 100%; min-width: 100%; height: 100%; min-height: 100%; place-items: center; }
+      #desktop-canvas { display: block; outline: 0; background: #11141a; box-shadow: 0 0 0 1px #ffffff12, 0 18px 70px #0008; image-rendering: auto; }
+      #desktop-canvas.fit { width: auto; height: auto; max-width: 100%; max-height: 100%; }
+      #desktop-canvas.actual { width: auto; height: auto; max-width: none; max-height: none; }
+      #desktop-canvas:focus-visible { box-shadow: 0 0 0 2px var(--ca-accent, #169fe6), 0 18px 70px #0008; }
+      #remote-cursor { position: absolute; z-index: 2; display: none; width: 1px; height: 1px; pointer-events: none; image-rendering: auto; }
+      #agent-cursor { position: absolute; z-index: 4; display: none; width: 25px; height: 25px; margin: -12px 0 0 -12px; border: 2px solid #55bfff; border-radius: 50%; background: #0b8fe633; box-shadow: 0 0 0 5px #0b8fe622, 0 0 18px #0b8fe688; pointer-events: none; transition: left 90ms linear, top 90ms linear; }
+      #agent-cursor::after { content: ""; position: absolute; inset: 7px; border-radius: 50%; background: #67c7ff; }
+      .connection-layer { position: absolute; inset: 0; z-index: 3; display: grid; place-items: center; padding: 24px; pointer-events: none; background: #0c0e12d9; }
+      .connection-layer[hidden] { display: none; }
+      .connection-card { width: min(520px, 100%); padding: 24px; border: 1px solid #ffffff1b; border-radius: 14px; background: #171a20ed; color: #f6f7f9; box-shadow: 0 26px 80px #0009; pointer-events: auto; }
+      .connection-card h1 { margin: 0; font-size: 18px; font-weight: 700; letter-spacing: -.02em; }
+      .connection-card p { margin: 8px 0 0; color: #aeb5c0; font-size: 12px; line-height: 1.6; }
+      .connection-details { display: grid; gap: 7px; margin-top: 18px; padding: 13px; border: 1px solid #ffffff14; border-radius: 9px; background: #0e1116; }
+      .detail { display: grid; grid-template-columns: 105px minmax(0, 1fr); gap: 10px; color: #c7ccd4; font-size: 11px; }
+      .detail span:first-child { color: #7f8793; }
+      .detail code { overflow: hidden; font: 11px ui-monospace, "Cascadia Mono", Consolas, monospace; text-overflow: ellipsis; white-space: nowrap; }
+      .setup-note { margin-top: 15px; padding-top: 14px; border-top: 1px solid #ffffff12; color: #8f97a4; font-size: 10px; line-height: 1.55; }
+      .status-line { position: absolute; right: 14px; bottom: 12px; z-index: 4; max-width: min(620px, calc(100% - 28px)); padding: 7px 10px; overflow: hidden; border: 1px solid #ffffff17; border-radius: 7px; background: #0e1116d9; color: #bac1cb; font: 10px ui-monospace, "Cascadia Mono", Consolas, monospace; text-overflow: ellipsis; white-space: nowrap; pointer-events: none; }
+      .status-line.error { border-color: #d85b4a66; color: #ffb4a8; }
+      .status-line.connected { color: #9fe2bd; }
+      .agent-activity { position: absolute; left: 14px; bottom: 12px; z-index: 4; display: none; max-width: min(520px, calc(100% - 28px)); padding: 7px 10px; overflow: hidden; border: 1px solid #46b8fa55; border-radius: 7px; background: #0b1825df; color: #a9ddff; font: 10px ui-monospace, "Cascadia Mono", Consolas, monospace; text-overflow: ellipsis; white-space: nowrap; pointer-events: none; }
+      .agent-activity.visible { display: block; }
+      .transfer-status { position: absolute; left: 50%; bottom: 12px; z-index: 4; display: none; max-width: min(640px, calc(100% - 400px)); padding: 7px 10px; overflow: hidden; border: 1px solid #ffffff20; border-radius: 7px; background: #0e1116e8; color: #d2d7df; font: 10px ui-monospace, "Cascadia Mono", Consolas, monospace; text-overflow: ellipsis; white-space: nowrap; pointer-events: none; transform: translateX(-50%); }
+      .transfer-status.visible { display: block; }
+      .drop-layer { position: absolute; inset: 14px; z-index: 7; display: grid; place-items: center; border: 2px dashed #54bfff; border-radius: 16px; background: #071520e8; color: #e7f6ff; opacity: 0; pointer-events: none; transform: scale(.99); transition: opacity 120ms ease, transform 120ms ease; }
+      .drop-layer.visible { opacity: 1; transform: scale(1); }
+      .drop-card { display: grid; max-width: 520px; gap: 7px; padding: 24px 30px; text-align: center; }
+      .drop-card strong { font-size: 17px; }
+      .drop-card span { color: #a7c9df; font-size: 12px; }
+      .pulse { display: inline-block; width: 7px; height: 7px; margin-right: 7px; border-radius: 50%; background: #7b8491; }
+      .connecting .pulse { background: #56a7e7; animation: pulse 1s ease-in-out infinite alternate; }
+      .connected .pulse { background: #45b879; }
+      .error .pulse { background: #e26a58; }
+      @keyframes pulse { to { opacity: .35; transform: scale(.78); } }
+      @media (max-width: 920px) {
+        .desktop-toolbar { grid-template-columns: 1fr; gap: 9px; }
+        .controls { justify-content: flex-start; overflow-x: auto; padding-bottom: 1px; }
+        .credential { flex: 1 0 140px; }
+      }
+
+      /* Supervisor / Field Instrument */
+      html, body, .desktop-shell { font-family: var(--ca-font-body); }
+      .desktop-shell { background: var(--ca-bg); }
+      .desktop-toolbar {
+        border-bottom: 1px solid #29423a; background:
+          linear-gradient(90deg, var(--ca-signal) 0 72px, transparent 72px) bottom / 100% 3px no-repeat,
+          var(--ca-accent-strong); color: var(--ca-on-accent);
+      }
+      .identity-mark {
+        border-color: #ffffff2b; border-radius: var(--ca-radius-small); background: #ffffff0c;
+        color: #fff; box-shadow: 3px 3px 0 #ffffff12;
+      }
+      .identity-title { font-family: var(--ca-font-display); font-weight: 650; letter-spacing: .035em; text-transform: uppercase; }
+      .identity-meta { color: #aebfb8; font-family: var(--ca-font-mono); }
+      .credential {
+        border-color: #4b6259; border-radius: var(--ca-radius-small); background: #0c1714;
+        color: var(--ca-terminal-text); box-shadow: 2px 2px 0 #00000020;
+      }
+      .credential::placeholder { color: #80958c; }
+      .credential:focus { border-color: #7895ff; box-shadow: 3px 3px 0 #1b57f14a; }
+      .button {
+        border-color: #4b6259; border-radius: var(--ca-radius-small); background: #1b2a25;
+        color: #e7eeea; font-family: var(--ca-font-display); font-weight: 650; letter-spacing: .02em;
+      }
+      .button:hover:not(:disabled) { border-color: #6d8279; background: #253730; }
+      .button.primary { border-color: #6d8bff; background: var(--ca-accent); color: #fff; box-shadow: 3px 3px 0 #1b57f13f; }
+      .button.agent-active { border-color: #4fd3a1; background: #123e30; color: #b9f7dc; box-shadow: 3px 3px 0 #14785a42; }
+      .button.danger { color: #ffaaa2; }
+      .viewport {
+        background:
+          linear-gradient(#ffffff08 1px, transparent 1px) 0 0 / 32px 32px,
+          linear-gradient(90deg, #ffffff08 1px, transparent 1px) 0 0 / 32px 32px,
+          #0b1311;
+      }
+      #desktop-canvas { box-shadow: 0 0 0 1px #ffffff1b, 7px 7px 0 #0000003d, 0 20px 70px #0009; }
+      #agent-cursor { border-color: var(--ca-signal); border-radius: 4px; background: #f05a3c2b; box-shadow: 0 0 0 5px #f05a3c1c; transform: rotate(45deg); }
+      #agent-cursor::after { border-radius: 1px; background: var(--ca-signal); }
+      .connection-layer { background: #0d1814de; backdrop-filter: blur(8px); }
+      .connection-card {
+        position: relative; border-color: #4b6259; border-radius: 18px 18px 5px 18px;
+        background: #14221df2; box-shadow: 7px 7px 0 #f05a3c35, 0 28px 90px #000a;
+      }
+      .connection-card::before { position: absolute; top: 0; left: 0; width: 72px; height: 3px; background: var(--ca-signal); content: ""; }
+      .connection-card h1 { font-family: var(--ca-font-display); font-weight: 650; letter-spacing: .035em; text-transform: uppercase; }
+      .connection-card p { color: #acbdb6; }
+      .connection-details { border-color: #ffffff1c; border-radius: var(--ca-radius-medium); background: #0d1714; box-shadow: inset 3px 0 var(--ca-accent); }
+      .detail, .detail code, .setup-note { font-family: var(--ca-font-mono); }
+      .status-line, .agent-activity, .transfer-status { border-radius: var(--ca-radius-small); font-family: var(--ca-font-mono); box-shadow: 3px 3px 0 #00000035; }
+      .drop-layer { border-color: var(--ca-signal); border-radius: var(--ca-radius-large); background: #10211ce8; }
+      .drop-card strong { font-family: var(--ca-font-display); letter-spacing: .04em; text-transform: uppercase; }
+      .pulse { border-radius: 2px 2px 0 2px; transform: rotate(45deg); }
+
+      /* Legacy minimal remote desktop */
+      html, body, .desktop-shell { background: var(--ca-app-background); font-family: var(--ca-font-body); }
+      .desktop-toolbar {
+        border-bottom: 1px solid var(--ca-border); background: var(--ca-surface); color: var(--ca-text);
+      }
+      .identity-mark {
+        border: 0; border-radius: 12px; background: var(--ca-accent-soft);
+        color: var(--ca-accent); box-shadow: none;
+      }
+      .identity-title { font-family: var(--ca-font-body); font-weight: 700; letter-spacing: -.01em; text-transform: none; }
+      .identity-meta { color: var(--ca-muted); }
+      .credential {
+        border-color: var(--ca-border); border-radius: var(--ca-pill);
+        background: var(--ca-input); color: var(--ca-text); box-shadow: none;
+      }
+      .credential::placeholder { color: var(--ca-faint); }
+      .credential:focus {
+        border-color: var(--ca-accent);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--ca-accent) 12%, transparent);
+      }
+      .button {
+        border-color: var(--ca-border); border-radius: var(--ca-pill); background: var(--ca-surface-2);
+        color: var(--ca-text); font-family: var(--ca-font-body); font-weight: 650; letter-spacing: -.01em;
+      }
+      .button:hover:not(:disabled) { border-color: var(--ca-border-strong); background: var(--ca-surface-3); }
+      .button.primary { border-color: var(--ca-accent); background: var(--ca-accent); color: var(--ca-on-accent); box-shadow: none; }
+      .button.agent-active { border-color: var(--ca-success); background: color-mix(in srgb, var(--ca-success) 14%, var(--ca-surface)); color: var(--ca-success); box-shadow: none; }
+      .button.danger { color: var(--ca-danger); }
+      .viewport { background: #101216; }
+      #desktop-canvas { box-shadow: 0 0 0 1px #ffffff14, 0 20px 70px #00000073; }
+      #agent-cursor { border-color: var(--ca-accent); border-radius: 50%; background: #82a7ff24; box-shadow: 0 0 0 5px #82a7ff18; transform: none; }
+      #agent-cursor::after { border-radius: 50%; background: var(--ca-accent); }
+      .connection-layer { background: #10182866; backdrop-filter: blur(12px); }
+      .connection-card {
+        border-color: var(--ca-border); border-radius: 24px;
+        background: var(--ca-surface); color: var(--ca-text); box-shadow: var(--ca-shadow-float);
+      }
+      .connection-card::before { display: none; }
+      .connection-card h1 { font-family: var(--ca-font-body); font-weight: 700; letter-spacing: -.02em; text-transform: none; }
+      .connection-card p { color: var(--ca-muted); }
+      .connection-details { border-color: var(--ca-border); border-radius: 16px; background: var(--ca-surface-2); box-shadow: none; }
+      .detail, .detail code, .setup-note { font-family: var(--ca-font-body); }
+      .status-line, .agent-activity, .transfer-status { border-radius: var(--ca-pill); font-family: var(--ca-font-body); box-shadow: none; }
+      .drop-layer { border-color: var(--ca-accent); border-radius: 24px; background: #101828b8; }
+      .drop-card strong { font-family: var(--ca-font-body); letter-spacing: -.01em; text-transform: none; }
+      .pulse { border-radius: 50%; transform: none; }
+
+      /* Monochrome control surface */
+      html, body, .desktop-shell { background: var(--ca-app-background); color: var(--ca-text); }
+      .desktop-toolbar { border-color: var(--ca-border); background: var(--ca-surface); color: var(--ca-text); }
+      .identity-mark {
+        border: 1px solid var(--ca-border); border-radius: var(--ca-control-radius);
+        background: var(--ca-surface-2); color: var(--ca-icon); box-shadow: none;
+      }
+      .credential, .button {
+        border: 1px solid var(--ca-border); border-radius: var(--ca-control-radius);
+        background: var(--ca-input); color: var(--ca-text); box-shadow: none;
+      }
+      .credential:focus { border-color: var(--ca-border-strong); box-shadow: var(--ca-focus-ring); }
+      .button:hover:not(:disabled) { border-color: var(--ca-border-strong); background: var(--ca-surface-2); }
+      .button.primary {
+        border-color: var(--ca-accent); background: var(--ca-accent); color: var(--ca-on-accent); box-shadow: none;
+      }
+      .button.agent-active, .button.danger {
+        border-color: var(--ca-border-strong); background: var(--ca-surface-2); color: var(--ca-text); box-shadow: none;
+      }
+      .viewport { background: #0d0d0d; }
+      #agent-cursor { border-color: #d0d0cc; background: #ffffff1a; box-shadow: 0 0 0 5px #ffffff0f; }
+      #agent-cursor::after { background: #d0d0cc; }
+      .connection-layer { background: #0000006b; }
+      .connection-card {
+        border: 1px solid var(--ca-border); border-radius: var(--ca-radius-large);
+        background: var(--ca-surface); color: var(--ca-text); box-shadow: var(--ca-shadow-float);
+      }
+      .connection-card::before { display: none; }
+      .connection-details { border-color: var(--ca-border); border-radius: var(--ca-radius-medium); background: var(--ca-surface-2); box-shadow: none; }
+      .status-line, .agent-activity, .transfer-status {
+        border-color: #404040; border-radius: var(--ca-control-radius);
+        background: #151515e8; color: #c5c5c2; box-shadow: none;
+      }
+      .drop-layer { border-color: #b9b9b4; border-radius: var(--ca-radius-large); background: #111111e8; color: #eeeeec; }
+      .pulse, .pulse.connecting, .pulse.connected, .pulse.error { background: #a7a7a3; box-shadow: none; }
+
+      /* Unified divider-free work surface */
+      html, body, .desktop-shell, .desktop-toolbar { background: var(--ca-app-background) !important; }
+      .desktop-toolbar { border-color: transparent !important; }
+    </style>
+  </head>
+  <body>
+    <main class="desktop-shell">
+      <header class="desktop-toolbar">
+        <div class="identity">
+          <span class="identity-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4M7 8h.01M10 8h.01M13 8h.01"/></svg>
+          </span>
+          <div class="identity-copy">
+            <p id="desktop-title" class="identity-title">Remote Linux Desktop</p>
+            <p id="desktop-meta" class="identity-meta">No SSH profile selected</p>
+          </div>
+        </div>
+        <div class="controls">
+          <input id="desktop-username" class="credential" type="text" maxlength="128" autocomplete="username" spellcheck="false" placeholder="Linux username" aria-label="Linux username" />
+          <input id="desktop-password" class="credential" type="password" maxlength="256" autocomplete="current-password" spellcheck="false" placeholder="Linux password" aria-label="Remote desktop password" />
+          <button id="connect" class="button primary" type="button">Connect</button>
+          <button id="disconnect" class="button danger" type="button" disabled>Disconnect</button>
+          <button id="agent-control" class="button" type="button" disabled>Give agent control</button>
+          <button id="scale" class="button" type="button" disabled>100%</button>
+          <button id="clipboard-send" class="button" type="button" disabled>Paste clipboard</button>
+          <button id="clipboard-copy" class="button" type="button" disabled>Copy remote</button>
+          <button id="ctrl-alt-delete" class="button" type="button" disabled>Ctrl Alt Del</button>
+          <button id="fullscreen" class="button icon-button" type="button" title="Full screen" aria-label="Full screen">⛶</button>
+        </div>
+      </header>
+      <section id="viewport" class="viewport">
+        <div class="canvas-stage"><canvas id="desktop-canvas" class="fit" width="1280" height="720" tabindex="0" aria-label="Interactive remote Linux desktop"></canvas></div>
+        <canvas id="remote-cursor" width="1" height="1" aria-hidden="true"></canvas>
+        <div id="agent-cursor" aria-hidden="true"></div>
+        <div id="connection-layer" class="connection-layer">
+          <div class="connection-card">
+            <h1 id="connection-title">Remote Linux desktop</h1>
+            <p id="connection-copy">Select a saved SSH profile and an RDP or VNC endpoint that listens only on the VPS loopback interface.</p>
+            <div class="connection-details">
+              <div class="detail"><span>SSH profile</span><code id="detail-profile">Not configured</code></div>
+              <div class="detail"><span>Remote target</span><code id="detail-target">—</code></div>
+              <div class="detail"><span id="detail-protocol">RDP endpoint</span><code id="detail-endpoint">127.0.0.1:3389</code></div>
+              <div class="detail"><span>Transport</span><code>private SSH local forward</code></div>
+            </div>
+            <div id="setup-note" class="setup-note">RDP connects to xrdp on <strong>127.0.0.1</strong>. The Linux password is used only for this connection. The SSH profile must use an explicit private-key path and a host key already present in known_hosts.</div>
+          </div>
+        </div>
+        <div id="drop-layer" class="drop-layer" aria-hidden="true"><div class="drop-card"><strong id="drop-title">Upload to this VPS</strong><span>Files are copied over the authenticated SSH profile into a new folder under ~/CentralAgent-Uploads.</span></div></div>
+        <div id="agent-activity" class="agent-activity"></div>
+        <div id="transfer-status" class="transfer-status"></div>
+        <div id="status" class="status-line"><span class="pulse"></span><span id="status-text">Waiting for configuration</span></div>
+      </section>
+    </main>
+    <script>
+      const canvas = document.getElementById("desktop-canvas");
+      const context = canvas.getContext("2d", { alpha: false, desynchronized: true });
+      const viewport = document.getElementById("viewport");
+      const remoteCursor = document.getElementById("remote-cursor");
+      const remoteCursorContext = remoteCursor.getContext("2d", { alpha: true, desynchronized: true });
+      const agentCursor = document.getElementById("agent-cursor");
+      const connectionLayer = document.getElementById("connection-layer");
+      const connectionTitle = document.getElementById("connection-title");
+      const connectionCopy = document.getElementById("connection-copy");
+      const desktopTitle = document.getElementById("desktop-title");
+      const desktopMeta = document.getElementById("desktop-meta");
+      const detailProfile = document.getElementById("detail-profile");
+      const detailTarget = document.getElementById("detail-target");
+      const detailProtocol = document.getElementById("detail-protocol");
+      const detailEndpoint = document.getElementById("detail-endpoint");
+      const setupNote = document.getElementById("setup-note");
+      const status = document.getElementById("status");
+      const statusText = document.getElementById("status-text");
+      const username = document.getElementById("desktop-username");
+      const password = document.getElementById("desktop-password");
+      const connect = document.getElementById("connect");
+      const disconnect = document.getElementById("disconnect");
+      const agentControl = document.getElementById("agent-control");
+      const scale = document.getElementById("scale");
+      const clipboardSend = document.getElementById("clipboard-send");
+      const clipboardCopy = document.getElementById("clipboard-copy");
+      const ctrlAltDelete = document.getElementById("ctrl-alt-delete");
+      const fullscreen = document.getElementById("fullscreen");
+      const agentActivity = document.getElementById("agent-activity");
+      const transferStatus = document.getElementById("transfer-status");
+      const dropLayer = document.getElementById("drop-layer");
+      const dropTitle = document.getElementById("drop-title");
+      let currentState = { phase: "disconnected", configured: false, width: 0, height: 0 };
+      let remoteClipboard = "";
+      let fitToWindow = true;
+      let pendingDrawFrames = [];
+      let rendererRunning = false;
+      let renderEpoch = 0;
+      let pendingVncDrawOperations = [];
+      let vncRendererRunning = false;
+      let vncFullFrameEpoch = 0;
+      let pendingPointer = null;
+      let pointerFrame = 0;
+      const copyCanvas = document.createElement("canvas");
+      const copyContext = copyCanvas.getContext("2d", { alpha: false, desynchronized: true });
+      const cursorState = { mode: "default", x: 0, y: 0, width: 0, height: 0, hotspotX: 0, hotspotY: 0 };
+      const pressedKeys = new Map();
+      let agentActivityTimer = 0;
+
+      function send(message) {
+        if (window.ipc?.postMessage) window.ipc.postMessage(JSON.stringify(message));
+      }
+
+      function discardPendingDrawFrames() {
+        pendingDrawFrames = [];
+      }
+
+      function connected() {
+        return currentState.phase === "connected";
+      }
+
+      function clearFrame() {
+        context.save();
+        context.fillStyle = "#11141a";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        context.restore();
+      }
+
+      function setCanvasSize(width, height) {
+        const nextWidth = Math.max(1, Number(width) || canvas.width);
+        const nextHeight = Math.max(1, Number(height) || canvas.height);
+        if (canvas.width === nextWidth && canvas.height === nextHeight) return;
+        renderEpoch += 1;
+        discardPendingDrawFrames();
+        pendingVncDrawOperations = [];
+        vncFullFrameEpoch += 1;
+        canvas.width = nextWidth;
+        canvas.height = nextHeight;
+        clearFrame();
+        positionRemoteCursor();
+      }
+
+      function decodeBase64(value) {
+        const binary = atob(String(value || ""));
+        const bytes = new Uint8ClampedArray(binary.length);
+        for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index);
+        return bytes;
+      }
+
+      function decodeJpegFallback(operation) {
+        return new Promise((resolve, reject) => {
+          const image = new Image();
+          image.onload = () => resolve(image);
+          image.onerror = () => reject(new Error("Remote JPEG patch could not be decoded"));
+          image.src = `data:image/jpeg;base64,${operation.data || ""}`;
+        });
+      }
+
+      async function prepareDrawOperation(operation) {
+        if (operation.kind === "rgba") {
+          return { ...operation, imageData: new ImageData(decodeBase64(operation.data), operation.width, operation.height) };
+        }
+        if (operation.kind !== "jpeg") return operation;
+        if (typeof createImageBitmap !== "function") {
+          return { ...operation, bitmap: await decodeJpegFallback(operation) };
+        }
+        const bytes = decodeBase64(operation.data);
+        const bitmap = await createImageBitmap(new Blob([bytes], { type: "image/jpeg" }));
+        return { ...operation, bitmap };
+      }
+
+      function disposePreparedOperations(operations) {
+        for (const operation of operations) {
+          if (operation.bitmap && typeof operation.bitmap.close === "function") operation.bitmap.close();
+        }
+      }
+
+      function drawPreparedOperations(operations) {
+        for (const operation of operations) {
+          if (operation.kind === "rgba") {
+            context.putImageData(operation.imageData, operation.x, operation.y);
+          } else if (operation.kind === "jpeg") {
+            context.drawImage(operation.bitmap, operation.x, operation.y, operation.width, operation.height);
+          } else if (operation.kind === "copy") {
+            if (copyCanvas.width !== operation.width) copyCanvas.width = operation.width;
+            if (copyCanvas.height !== operation.height) copyCanvas.height = operation.height;
+            copyContext.drawImage(
+              canvas,
+              operation.sourceX,
+              operation.sourceY,
+              operation.width,
+              operation.height,
+              0,
+              0,
+              operation.width,
+              operation.height
+            );
+            context.drawImage(copyCanvas, operation.destinationX, operation.destinationY);
+          }
+        }
+      }
+
+      function nextPaint() {
+        return new Promise((resolve) => requestAnimationFrame(resolve));
+      }
+
+      async function pumpRemoteDesktopDraws() {
+        if (rendererRunning) return;
+        rendererRunning = true;
+        try {
+          while (pendingDrawFrames.length) {
+            const frame = pendingDrawFrames.shift();
+            const operations = frame.operations;
+            const epoch = renderEpoch;
+            let prepared = [];
+            try {
+              prepared = await Promise.all(operations.map(prepareDrawOperation));
+              if (epoch !== renderEpoch) continue;
+              await nextPaint();
+              if (epoch !== renderEpoch) continue;
+              drawPreparedOperations(prepared);
+            } catch (error) {
+              statusText.textContent = error?.message || "Remote frame could not be rendered";
+              status.className = "status-line error";
+            } finally {
+              disposePreparedOperations(prepared);
+            }
+          }
+        } finally {
+          rendererRunning = false;
+          if (pendingDrawFrames.length) queueMicrotask(pumpRemoteDesktopDraws);
+        }
+      }
+
+      window.receiveRemoteDesktopDraw = (generation, frameId, flowControlled, operations) => {
+        if (!Array.isArray(operations) || !operations.length) return;
+        pendingDrawFrames.push({ generation, frameId, flowControlled, operations });
+        void pumpRemoteDesktopDraws();
+      };
+
+      function isVncFullFrame(operation) {
+        return (operation.kind === "rgba" || operation.kind === "jpeg")
+          && operation.x === 0
+          && operation.y === 0
+          && operation.width === canvas.width
+          && operation.height === canvas.height;
+      }
+
+      async function pumpVncDesktopDraws() {
+        if (vncRendererRunning) return;
+        vncRendererRunning = true;
+        try {
+          while (pendingVncDrawOperations.length) {
+            const operations = pendingVncDrawOperations;
+            pendingVncDrawOperations = [];
+            const epoch = vncFullFrameEpoch;
+            const prepared = await Promise.all(operations.map(prepareDrawOperation));
+            if (epoch !== vncFullFrameEpoch) {
+              disposePreparedOperations(prepared);
+              continue;
+            }
+            await nextPaint();
+            if (epoch !== vncFullFrameEpoch) {
+              disposePreparedOperations(prepared);
+              continue;
+            }
+            drawPreparedOperations(prepared);
+            disposePreparedOperations(prepared);
+          }
+        } catch (error) {
+          statusText.textContent = error?.message || "Remote frame could not be rendered";
+          status.className = "status-line error";
+        } finally {
+          vncRendererRunning = false;
+          if (pendingVncDrawOperations.length) queueMicrotask(pumpVncDesktopDraws);
+        }
+      }
+
+      window.receiveVncDesktopDraw = (operations) => {
+        if (!Array.isArray(operations) || !operations.length) return;
+        let lastFullFrame = -1;
+        for (let index = 0; index < operations.length; index += 1) {
+          if (isVncFullFrame(operations[index])) lastFullFrame = index;
+        }
+        if (lastFullFrame >= 0) {
+          vncFullFrameEpoch += 1;
+          pendingVncDrawOperations = operations.slice(lastFullFrame);
+        } else {
+          pendingVncDrawOperations.push(...operations);
+        }
+        void pumpVncDesktopDraws();
+      };
+
+      function positionRemoteCursor() {
+        if (cursorState.mode !== "bitmap" || !cursorState.width || !cursorState.height) return;
+        const canvasBounds = canvas.getBoundingClientRect();
+        const viewportBounds = viewport.getBoundingClientRect();
+        const scaleX = canvasBounds.width / Math.max(1, canvas.width);
+        const scaleY = canvasBounds.height / Math.max(1, canvas.height);
+        remoteCursor.style.left = `${canvasBounds.left - viewportBounds.left + viewport.scrollLeft + (cursorState.x - cursorState.hotspotX) * scaleX}px`;
+        remoteCursor.style.top = `${canvasBounds.top - viewportBounds.top + viewport.scrollTop + (cursorState.y - cursorState.hotspotY) * scaleY}px`;
+        remoteCursor.style.width = `${cursorState.width * scaleX}px`;
+        remoteCursor.style.height = `${cursorState.height * scaleY}px`;
+      }
+
+      function positionAgentCursor(x, y) {
+        agentCursor.dataset.x = String(x);
+        agentCursor.dataset.y = String(y);
+        const canvasBounds = canvas.getBoundingClientRect();
+        const viewportBounds = viewport.getBoundingClientRect();
+        const scaleX = canvasBounds.width / Math.max(1, canvas.width);
+        const scaleY = canvasBounds.height / Math.max(1, canvas.height);
+        agentCursor.style.left = `${canvasBounds.left - viewportBounds.left + viewport.scrollLeft + x * scaleX}px`;
+        agentCursor.style.top = `${canvasBounds.top - viewportBounds.top + viewport.scrollTop + y * scaleY}px`;
+        agentCursor.style.display = currentState.agentControlEnabled ? "block" : "none";
+      }
+
+      window.receiveRemoteDesktopAgentAction = (action = {}) => {
+        if (Number.isFinite(Number(action.x)) && Number.isFinite(Number(action.y))) {
+          positionAgentCursor(Number(action.x), Number(action.y));
+        }
+        agentActivity.textContent = String(action.label || "Agent is working on the remote desktop");
+        agentActivity.classList.add("visible");
+        if (agentActivityTimer) clearTimeout(agentActivityTimer);
+        agentActivityTimer = setTimeout(() => agentActivity.classList.remove("visible"), 2800);
+      };
+
+      window.renderRemoteDesktopTransfer = (transfer = {}) => {
+        const dragging = Boolean(transfer.dragging) && connected() && !transfer.busy;
+        const count = Math.max(0, Number(transfer.fileCount) || 0);
+        dropTitle.textContent = count
+          ? `Upload ${count} file${count === 1 ? "" : "s"} to this VPS`
+          : "Upload files to this VPS";
+        dropLayer.classList.toggle("visible", dragging);
+      };
+
+      window.captureRemoteDesktopFrame = (requestId) => {
+        requestAnimationFrame(() => {
+          try {
+            const capture = document.createElement("canvas");
+            const scale = Math.min(1, 1280 / Math.max(1, canvas.width), 720 / Math.max(1, canvas.height));
+            capture.width = Math.max(1, Math.round(canvas.width * scale));
+            capture.height = Math.max(1, Math.round(canvas.height * scale));
+            const captureContext = capture.getContext("2d", { alpha: false });
+            captureContext.drawImage(canvas, 0, 0, capture.width, capture.height);
+            send({
+              message_type: "snapshot",
+              request_id: String(requestId || ""),
+              width: canvas.width,
+              height: canvas.height,
+              data_url: capture.toDataURL("image/jpeg", .72),
+              error: null
+            });
+          } catch (error) {
+            send({
+              message_type: "snapshot",
+              request_id: String(requestId || ""),
+              width: canvas.width,
+              height: canvas.height,
+              data_url: "",
+              error: error?.message || "Canvas capture failed"
+            });
+          }
+        });
+      };
+
+      function setRemoteCursorPosition(x, y) {
+        cursorState.x = Number(x) || 0;
+        cursorState.y = Number(y) || 0;
+        positionRemoteCursor();
+      }
+
+      window.receiveRemoteDesktopCursor = (cursor = {}) => {
+        const kind = cursor.kind || "default";
+        if (kind === "position") {
+          setRemoteCursorPosition(cursor.x, cursor.y);
+          return;
+        }
+        if (kind === "hidden") {
+          cursorState.mode = "hidden";
+          remoteCursor.style.display = "none";
+          canvas.style.cursor = "none";
+          return;
+        }
+        if (kind === "bitmap") {
+          const width = Math.max(0, Number(cursor.width) || 0);
+          const height = Math.max(0, Number(cursor.height) || 0);
+          const bytes = decodeBase64(cursor.data);
+          if (!width || !height || bytes.length !== width * height * 4) return;
+          remoteCursor.width = width;
+          remoteCursor.height = height;
+          remoteCursorContext.clearRect(0, 0, width, height);
+          remoteCursorContext.putImageData(new ImageData(bytes, width, height), 0, 0);
+          cursorState.mode = "bitmap";
+          cursorState.width = width;
+          cursorState.height = height;
+          cursorState.hotspotX = Math.max(0, Number(cursor.hotspotX) || 0);
+          cursorState.hotspotY = Math.max(0, Number(cursor.hotspotY) || 0);
+          canvas.style.cursor = "none";
+          remoteCursor.style.display = "block";
+          positionRemoteCursor();
+          return;
+        }
+        cursorState.mode = "default";
+        remoteCursor.style.display = "none";
+        canvas.style.cursor = "default";
+      };
+
+      window.receiveRemoteDesktopClipboard = (text) => {
+        remoteClipboard = String(text || "");
+        clipboardCopy.disabled = !connected() || !currentState.clipboardSupported || !remoteClipboard;
+        statusText.textContent = remoteClipboard ? "Remote clipboard received" : (currentState.status || "Connected");
+      };
+
+      window.receiveRemoteDesktopBell = () => {
+        status.animate([{ opacity: 1 }, { opacity: .45 }, { opacity: 1 }], { duration: 260 });
+      };
+
+      window.renderRemoteDesktopState = (state = {}, theme = "central") => {
+        document.documentElement.dataset.theme = theme === "central_dark" ? "central_dark" : "central";
+        const previousPhase = currentState.phase;
+        currentState = state;
+        const phase = state.phase || "disconnected";
+        const isConnected = phase === "connected";
+        const isConnecting = phase === "connecting";
+        const configured = Boolean(state.configured);
+        const protocol = state.protocol === "vnc" ? "vnc" : "rdp";
+        const protocolLabel = protocol.toUpperCase();
+        const remotePort = state.remotePort || (protocol === "vnc" ? 5901 : 3389);
+        const clipboardSupported = Boolean(state.clipboardSupported);
+        if (state.width && state.height) setCanvasSize(state.width, state.height);
+        if (previousPhase === "connected" && !isConnected) {
+          clearFrame();
+          discardPendingDrawFrames();
+          renderEpoch += 1;
+          pendingVncDrawOperations = [];
+          vncFullFrameEpoch += 1;
+          window.receiveRemoteDesktopCursor({ kind: "default" });
+        }
+        desktopTitle.textContent = state.profileName ? `${state.profileName} · Linux Desktop` : "Remote Linux Desktop";
+        desktopMeta.textContent = state.remoteTarget ? `${state.remoteTarget} · ${protocolLabel} 127.0.0.1:${remotePort}${state.width ? ` · ${state.width} × ${state.height}` : ""}` : "No SSH profile selected";
+        detailProfile.textContent = state.profileName || "Not configured";
+        detailTarget.textContent = state.remoteTarget || "—";
+        detailProtocol.textContent = `${protocolLabel} endpoint`;
+        detailEndpoint.textContent = `127.0.0.1:${remotePort}`;
+        if (document.activeElement !== username) username.value = state.username || "";
+        username.hidden = protocol === "vnc";
+        username.disabled = protocol === "vnc" || !configured || isConnected || isConnecting;
+        password.placeholder = protocol === "vnc" ? "VNC password (optional)" : "Linux password";
+        password.setAttribute("aria-label", protocol === "vnc" ? "VNC password" : "Linux password");
+        setupNote.innerHTML = protocol === "vnc"
+          ? "VNC connects to TigerVNC or another RFB-compatible server on <strong>127.0.0.1</strong>. Leave the password empty when the loopback service relies only on the authenticated SSH tunnel."
+          : "RDP connects to xrdp on <strong>127.0.0.1</strong>. The Linux password is used only for this connection and is never saved.";
+        status.className = `status-line ${phase}`;
+        statusText.textContent = state.status || phase.replaceAll("_", " ");
+        connect.disabled = !configured || isConnected || isConnecting;
+        disconnect.disabled = !isConnected && !isConnecting;
+        password.disabled = !configured || isConnected || isConnecting;
+        scale.disabled = !isConnected;
+        clipboardSend.disabled = !isConnected || !clipboardSupported;
+        clipboardCopy.disabled = !isConnected || !clipboardSupported || !remoteClipboard;
+        ctrlAltDelete.disabled = !isConnected;
+        agentControl.disabled = !isConnected;
+        agentControl.textContent = state.agentControlEnabled ? "Stop agent control" : "Give agent control";
+        agentControl.classList.toggle("agent-active", Boolean(state.agentControlEnabled));
+        if (!state.agentControlEnabled) agentCursor.style.display = "none";
+        const uploadStatus = String(state.uploadStatus || "");
+        transferStatus.textContent = uploadStatus;
+        transferStatus.classList.toggle("visible", Boolean(uploadStatus));
+        dropLayer.classList.toggle("visible", false);
+        connectionLayer.hidden = isConnected && Boolean(state.width && state.height);
+        connectionTitle.textContent = isConnecting ? "Connecting to the Linux desktop…" : phase === "error" ? "Connection stopped" : "Remote Linux desktop";
+        connectionCopy.textContent = isConnecting
+          ? `Supervisor is creating the private SSH tunnel and negotiating the ${protocolLabel} session. You can disconnect at any time.`
+          : phase === "error"
+            ? (state.status || "The remote desktop connection could not be established.")
+            : configured
+              ? (protocol === "vnc"
+                  ? "Enter the optional VNC password, then connect. It is used once and never saved."
+                  : "Enter the Linux account password, then connect. It is used once and never saved.")
+              : "Select a saved SSH profile and an RDP or VNC endpoint in Settings.";
+      };
+
+      function buttonMask(buttons) {
+        let mask = 0;
+        if (buttons & 1) mask |= 1;
+        if (buttons & 4) mask |= 2;
+        if (buttons & 2) mask |= 4;
+        return mask;
+      }
+
+      function pointerPosition(event) {
+        const bounds = canvas.getBoundingClientRect();
+        const x = Math.max(0, Math.min(canvas.width - 1, Math.floor((event.clientX - bounds.left) * canvas.width / Math.max(1, bounds.width))));
+        const y = Math.max(0, Math.min(canvas.height - 1, Math.floor((event.clientY - bounds.top) * canvas.height / Math.max(1, bounds.height))));
+        return { x, y };
+      }
+
+      function sendPointer(event, immediate = false) {
+        if (!connected()) return;
+        const position = pointerPosition(event);
+        setRemoteCursorPosition(position.x, position.y);
+        pendingPointer = { message_type: "pointer", ...position, buttons: buttonMask(event.buttons) };
+        if (immediate) {
+          if (pointerFrame) cancelAnimationFrame(pointerFrame);
+          pointerFrame = 0;
+          send(pendingPointer);
+          pendingPointer = null;
+          return;
+        }
+        if (!pointerFrame) pointerFrame = requestAnimationFrame(() => {
+          pointerFrame = 0;
+          if (pendingPointer) send(pendingPointer);
+          pendingPointer = null;
+        });
+      }
+
+      const specialKeysyms = {
+        Backspace: 0xff08, Tab: 0xff09, Enter: 0xff0d, Escape: 0xff1b, Insert: 0xff63, Delete: 0xffff,
+        Home: 0xff50, End: 0xff57, PageUp: 0xff55, PageDown: 0xff56,
+        ArrowLeft: 0xff51, ArrowUp: 0xff52, ArrowRight: 0xff53, ArrowDown: 0xff54,
+        Shift: 0xffe1, Control: 0xffe3, Alt: 0xffe9, Meta: 0xffeb,
+        CapsLock: 0xffe5, NumLock: 0xff7f, ScrollLock: 0xff14, Pause: 0xff13, PrintScreen: 0xff61,
+        F1: 0xffbe, F2: 0xffbf, F3: 0xffc0, F4: 0xffc1, F5: 0xffc2, F6: 0xffc3,
+        F7: 0xffc4, F8: 0xffc5, F9: 0xffc6, F10: 0xffc7, F11: 0xffc8, F12: 0xffc9
+      };
+
+      function keysymFor(event) {
+        if (specialKeysyms[event.key]) return specialKeysyms[event.key];
+        if (event.key.length !== 1) return null;
+        const codepoint = event.key.codePointAt(0);
+        return codepoint <= 0xff ? codepoint : (0x01000000 | codepoint);
+      }
+
+      function releasePressedKeys() {
+        if (!connected()) { pressedKeys.clear(); return; }
+        [...pressedKeys.entries()].reverse().forEach(([code, keysym]) => send({ message_type: "key", code, keysym, down: false }));
+        pressedKeys.clear();
+      }
+
+      canvas.addEventListener("pointerdown", (event) => {
+        if (!connected()) return;
+        event.preventDefault();
+        canvas.focus();
+        canvas.setPointerCapture(event.pointerId);
+        sendPointer(event, true);
+      });
+      canvas.addEventListener("pointermove", (event) => sendPointer(event));
+      canvas.addEventListener("pointerup", (event) => { event.preventDefault(); sendPointer(event, true); });
+      canvas.addEventListener("pointercancel", (event) => sendPointer(event, true));
+      canvas.addEventListener("contextmenu", (event) => event.preventDefault());
+      canvas.addEventListener("wheel", (event) => {
+        if (!connected()) return;
+        event.preventDefault();
+        const position = pointerPosition(event);
+        setRemoteCursorPosition(position.x, position.y);
+        const base = buttonMask(event.buttons);
+        send({ message_type: "pointer", ...position, buttons: base | (event.deltaY < 0 ? 8 : 16) });
+        send({ message_type: "pointer", ...position, buttons: base });
+      }, { passive: false });
+      canvas.addEventListener("keydown", (event) => {
+        if (!connected()) return;
+        const keysym = keysymFor(event);
+        if (keysym === null) return;
+        event.preventDefault();
+        if (event.repeat || pressedKeys.has(event.code)) return;
+        pressedKeys.set(event.code, keysym);
+        send({ message_type: "key", code: event.code, keysym, down: true });
+      });
+      canvas.addEventListener("keyup", (event) => {
+        if (!connected()) return;
+        const keysym = pressedKeys.get(event.code) ?? keysymFor(event);
+        if (keysym === null) return;
+        event.preventDefault();
+        pressedKeys.delete(event.code);
+        send({ message_type: "key", code: event.code, keysym, down: false });
+      });
+      window.addEventListener("blur", releasePressedKeys);
+
+      connect.addEventListener("click", () => {
+        const account = username.value;
+        const value = password.value;
+        password.value = "";
+        send({ message_type: "connect", username: account, password: value });
+      });
+      password.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" && !connect.disabled) { event.preventDefault(); connect.click(); }
+      });
+      disconnect.addEventListener("click", () => { releasePressedKeys(); send({ message_type: "disconnect" }); });
+      agentControl.addEventListener("click", () => {
+        send({ message_type: "set_agent_control", enabled: !Boolean(currentState.agentControlEnabled) });
+      });
+      scale.addEventListener("click", () => {
+        fitToWindow = !fitToWindow;
+        canvas.className = fitToWindow ? "fit" : "actual";
+        scale.textContent = fitToWindow ? "100%" : "Fit";
+        requestAnimationFrame(positionRemoteCursor);
+      });
+      clipboardSend.addEventListener("click", async () => {
+        try {
+          const text = await navigator.clipboard.readText();
+          send({ message_type: "clipboard", text });
+          statusText.textContent = "Local clipboard sent";
+        } catch (_) {
+          statusText.textContent = "Clipboard permission was not granted";
+        }
+      });
+      clipboardCopy.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(remoteClipboard);
+          statusText.textContent = "Remote clipboard copied locally";
+        } catch (_) {
+          statusText.textContent = "Clipboard permission was not granted";
+        }
+      });
+      ctrlAltDelete.addEventListener("click", () => {
+        [["ControlLeft", 0xffe3], ["AltLeft", 0xffe9], ["Delete", 0xffff]].forEach(([code, keysym]) => send({ message_type: "key", code, keysym, down: true }));
+        [["Delete", 0xffff], ["AltLeft", 0xffe9], ["ControlLeft", 0xffe3]].forEach(([code, keysym]) => send({ message_type: "key", code, keysym, down: false }));
+        canvas.focus();
+      });
+      fullscreen.addEventListener("click", async () => {
+        try {
+          if (document.fullscreenElement) await document.exitFullscreen();
+          else await document.documentElement.requestFullscreen();
+        } catch (_) {}
+      });
+      document.addEventListener("fullscreenchange", () => { fullscreen.textContent = document.fullscreenElement ? "↙" : "⛶"; });
+      viewport.addEventListener("scroll", () => { positionRemoteCursor(); if (agentCursor.style.display !== "none") positionAgentCursor(parseFloat(agentCursor.dataset.x || "0"), parseFloat(agentCursor.dataset.y || "0")); }, { passive: true });
+      window.addEventListener("resize", () => {
+        positionRemoteCursor();
+        if (agentCursor.style.display !== "none") positionAgentCursor(parseFloat(agentCursor.dataset.x || "0"), parseFloat(agentCursor.dataset.y || "0"));
+      }, { passive: true });
+      if (typeof ResizeObserver === "function") new ResizeObserver(() => {
+        positionRemoteCursor();
+        if (agentCursor.style.display !== "none") positionAgentCursor(parseFloat(agentCursor.dataset.x || "0"), parseFloat(agentCursor.dataset.y || "0"));
+      }).observe(canvas);
+      clearFrame();
+      send({ message_type: "ready" });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+{
+  "threadId": "native-a",
+  "threadSettings": {
+    "cwd": "C:\\fixture",
+    "model": "fixture-model",
+    "modelProvider": "openai",
+    "serviceTier": null,
+    "effort": "high",
+    "summary": "concise",
+    "personality": "pragmatic",
+    "approvalPolicy": "on-request",
+    "approvalsReviewer": "user",
+    "sandboxPolicy": {
+      "type": "workspaceWrite",
+      "writableRoots": ["C:\\fixture"],
+      "networkAccess": false,
+      "excludeTmpdirEnvVar": true,
+      "excludeSlashTmp": true
+    },
+    "activePermissionProfile": null,
+    "collaborationMode": {
+      "mode": "default",
+      "settings": {
+        "model": "fixture-model",
+        "reasoning_effort": "high",
+        "developer_instructions": "SYNTHETIC_PRIVATE instructions"
+      }
+    }
+  }
+}

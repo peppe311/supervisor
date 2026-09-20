@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en" data-theme="__THEME_ID__">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Supervisor</title>
+    <style>
+      /*__THEMES_CSS__*/
+      * { box-sizing: border-box; }
+      html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: var(--ca-surface); color: var(--ca-text); font-family: "SF Pro Text", "SF Pro Display", "Inter", sans-serif; }
+      body { display: grid; grid-template-rows: 54px minmax(0, 1fr) 35px; }
+      header { display: flex; align-items: center; gap: 10px; padding: 0 13px 0 16px; border-bottom: 1px solid var(--ca-border); background: var(--ca-surface); }
+      .mark { position: relative; width: 25px; height: 20px; flex: 0 0 auto; border: 2px solid var(--ca-brand-ink); border-right-color: transparent; border-radius: 7px; }
+      .mark::before { content: ""; position: absolute; top: 8px; left: -2px; width: 25px; border-top: 2px solid var(--ca-brand-ink); }
+      .mark::after { content: ""; position: absolute; top: 5px; left: 9px; width: 7px; height: 7px; border-radius: 50%; background: var(--ca-accent); }
+      .copy { min-width: 0; flex: 1; }
+      h1 { margin: 0; overflow: hidden; font-size: 15px; font-weight: 650; text-overflow: ellipsis; white-space: nowrap; }
+      .meta { margin-top: 3px; overflow: hidden; color: var(--ca-muted); font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+      .actions { display: flex; gap: 6px; }
+      button { height: 32px; padding: 0 11px; border: 1px solid var(--ca-border); border-radius: 7px; background: var(--ca-surface-2); color: var(--ca-text); font-size: 12px; cursor: pointer; }
+      button:hover { background: var(--ca-surface-3); }
+      .close { width: 29px; padding: 0; font-size: 16px; }
+      main { position: relative; display: grid; min-height: 0; place-items: center; overflow: hidden; background: var(--ca-terminal-bg); }
+      img { display: block; width: 100%; height: 100%; object-fit: contain; }
+      .placeholder { padding: 24px; color: var(--ca-terminal-muted); font-size: 13px; text-align: center; }
+      .placeholder.capturing::before { content: ""; display: block; width: 20px; height: 20px; margin: 0 auto 11px; border: 2px solid var(--ca-terminal-muted); border-top-color: var(--ca-accent); border-radius: 50%; animation: spin 800ms linear infinite; }
+      footer { display: flex; align-items: center; padding: 0 14px; border-top: 1px solid var(--ca-border); background: var(--ca-surface); color: var(--ca-muted); font-size: 11px; }
+      @keyframes spin { to { transform: rotate(360deg); } }
+
+      /* Supervisor / Field Instrument */
+      html, body { font-family: var(--ca-font-body); }
+      header {
+        position: relative; border-bottom-color: #29423a; background: var(--ca-accent-strong); color: var(--ca-on-accent);
+      }
+      header::after { position: absolute; right: 0; bottom: 0; width: 74px; height: 2px; background: var(--ca-signal); content: ""; }
+      .mark { border-color: var(--ca-on-accent); border-right-color: transparent; border-radius: var(--ca-radius-small); }
+      .mark::before { border-color: var(--ca-on-accent); }
+      .mark::after { border-radius: 2px 2px 0 2px; background: var(--ca-signal); transform: rotate(45deg); }
+      h1 { font-family: var(--ca-font-display); font-weight: 650; letter-spacing: .035em; text-transform: uppercase; }
+      .meta { color: #aebfb8; font-family: var(--ca-font-mono); }
+      button { border-color: #4b6259; border-radius: var(--ca-radius-small); background: #1c2c26; color: #edf3e9; font-family: var(--ca-font-display); font-weight: 650; letter-spacing: .02em; }
+      button:hover { background: #263a33; }
+      main {
+        background:
+          linear-gradient(#ffffff08 1px, transparent 1px) 0 0 / 28px 28px,
+          linear-gradient(90deg, #ffffff08 1px, transparent 1px) 0 0 / 28px 28px,
+          var(--ca-terminal-bg);
+      }
+      img { box-shadow: 0 0 0 1px #ffffff12; }
+      .placeholder { font-family: var(--ca-font-mono); }
+      .placeholder.capturing::before { border-radius: 3px; border-top-color: var(--ca-signal); }
+      footer { border-top-color: var(--ca-border-strong); background: var(--ca-surface-2); font-family: var(--ca-font-mono); }
+
+      /* Legacy minimal preview */
+      html, body { background: var(--ca-app-background); font-family: var(--ca-font-body); }
+      header { border-bottom: 1px solid var(--ca-border); background: var(--ca-surface); color: var(--ca-text); }
+      header::after { display: none; }
+      .mark { border-color: var(--ca-brand-ink); border-right-color: transparent; border-radius: 8px; }
+      .mark::before { border-color: var(--ca-brand-ink); }
+      .mark::after { border-radius: 50%; background: var(--ca-accent); transform: none; }
+      h1 { font-family: var(--ca-font-body); font-weight: 700; letter-spacing: -.01em; text-transform: none; }
+      .meta { color: var(--ca-muted); font-family: var(--ca-font-body); }
+      button {
+        border-color: var(--ca-border); border-radius: var(--ca-pill); background: var(--ca-surface-2);
+        color: var(--ca-text); font-family: var(--ca-font-body); font-weight: 650; letter-spacing: -.01em;
+      }
+      button:hover { background: var(--ca-surface-3); }
+      .close { border-radius: 50%; }
+      main { background: var(--ca-terminal-bg); }
+      img { box-shadow: none; }
+      .placeholder { font-family: var(--ca-font-body); }
+      .placeholder.capturing::before { border-radius: 50%; border-top-color: var(--ca-accent); }
+      footer { border-top-color: var(--ca-border); background: var(--ca-surface-2); font-family: var(--ca-font-body); }
+
+      /* Monochrome control surface */
+      header { border-color: var(--ca-border); background: var(--ca-surface); color: var(--ca-text); }
+      header::after { display: none; }
+      button, .close {
+        border: 1px solid var(--ca-border); border-radius: var(--ca-control-radius);
+        background: var(--ca-surface-2); color: var(--ca-text); box-shadow: none;
+      }
+      button:hover { border-color: var(--ca-border-strong); background: var(--ca-surface-3); }
+      .placeholder.capturing::before { border-color: var(--ca-border-strong); border-top-color: var(--ca-text); }
+
+      /* Unified divider-free work surface */
+      html, body, header, main, footer { background: var(--ca-app-background) !important; }
+      header, footer { border-color: transparent !important; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="copy"><h1 id="title">Application preview</h1><div id="meta" class="meta">Local native capture</div></div>
+      <div class="actions">
+        <button id="live" type="button">Pause</button>
+        <button id="attach" type="button">Attach</button>
+        <button id="close" class="close" type="button" aria-label="Close preview">×</button>
+      </div>
+    </header>
+    <main>
+      <img id="image" alt="Live application preview" hidden />
+      <div id="placeholder" class="placeholder">Waiting for a local frame</div>
+    </main>
+    <footer id="status">Local capture is ready</footer>
+    <script>
+      const title = document.getElementById("title");
+      const meta = document.getElementById("meta");
+      const live = document.getElementById("live");
+      const image = document.getElementById("image");
+      const placeholder = document.getElementById("placeholder");
+      const status = document.getElementById("status");
+      let currentLive = false;
+      function send(message_type, payload = {}) { window.ipc.postMessage(JSON.stringify({ message_type, ...payload })); }
+      window.renderPreviewState = (preview = {}, theme = "central") => {
+        document.documentElement.dataset.theme = theme === "central_dark" ? "central_dark" : "central";
+        currentLive = Boolean(preview.live);
+        title.textContent = preview.title || "Application preview";
+        const source = preview.sourceType === "game_window" ? "Game window" : "Native window";
+        const owner = preview.ownerProcessId ? ` · task ${preview.ownerProcessId}` : "";
+        meta.textContent = `${source}${preview.pid ? ` · PID ${preview.pid}` : ""}${owner}`;
+        live.textContent = currentLive ? "Pause" : "Resume";
+        placeholder.classList.toggle("capturing", Boolean(preview.capturing));
+        placeholder.textContent = preview.capturing ? "Capturing locally…" : "Waiting for a local frame";
+        placeholder.hidden = !image.hidden;
+        status.textContent = preview.status || "Bounded local capture";
+      };
+      window.showCapturePreview = (dataUrl) => {
+        if (typeof dataUrl !== "string" || !dataUrl.startsWith("data:image/jpeg;base64,")) return;
+        image.src = dataUrl; image.hidden = false; placeholder.hidden = true;
+      };
+      live.addEventListener("click", () => send("set_preview_live", { enabled: !currentLive }));
+      document.getElementById("attach").addEventListener("click", () => send("attach_preview"));
+      document.getElementById("close").addEventListener("click", () => send("close_preview"));
+    </script>
+  </body>
+</html>

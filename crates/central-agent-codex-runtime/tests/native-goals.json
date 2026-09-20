@@ -1,0 +1,8 @@
+[
+  {"schema":"ThreadGoalGetResponse","params":{"goal":null}},
+  {"schema":"ThreadGoalSetResponse","params":{"goal":{"threadId":"native-a","objective":"Finish the project","status":"paused","tokenBudget":null,"tokensUsed":0,"timeUsedSeconds":0,"createdAt":1,"updatedAt":1}}},
+  {"schema":"ThreadGoalUpdatedNotification","params":{"threadId":"native-a","turnId":null,"goal":{"threadId":"native-a","objective":"Finish the project","status":"active","tokenBudget":2000,"tokensUsed":200,"timeUsedSeconds":8,"createdAt":1,"updatedAt":2}}},
+  {"schema":"ThreadGoalClearedNotification","params":{"threadId":"native-a"}},
+  {"schema":"ThreadGoalClearResponse","params":{"cleared":true}},
+  {"schema":"ThreadGoalClearResponse","params":{"cleared":false}}
+]

@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en" data-theme="__THEME_ID__">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>New tab</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: "SF Pro Text", "SF Pro Display", "Inter", sans-serif;
+        background: #ffffff;
+        color: #171717;
+      }
+      * { box-sizing: border-box; }
+      html, body { width: 100%; height: 100%; min-height: 100%; margin: 0; }
+      body { display: grid; place-items: center; padding: 40px; background: #ffffff; }
+      main { width: min(700px, 100%); transform: translateY(-4vh); text-align: center; }
+      .mark-slot { width: 84px; height: 84px; margin: 0 auto 25px; }
+      h1 { margin: 0; color: #06143a; font-size: clamp(36px, 4.5vw, 50px); font-weight: 500; line-height: 1.08; letter-spacing: -.045em; }
+      .tagline { margin: 12px 0 36px; color: #6b6b6b; font-size: 17px; line-height: 1.4; }
+      form {
+        display: flex; height: 58px; padding: 0 18px 0 20px; border: 1px solid #d9d9d9;
+        border-radius: 12px; background: #ffffff;
+      }
+      form:focus-within { border-color: #8b8b8b; box-shadow: 0 0 0 3px #0000000a; }
+      input { width: 100%; border: 0; outline: 0; background: transparent; color: #171717; font: inherit; font-size: 16px; }
+      input::placeholder { color: #9a9a9a; }
+      button { width: 38px; border: 0; background: transparent; color: #333333; font-size: 22px; cursor: pointer; }
+
+      @media (min-width: 1900px) and (min-height: 1150px) {
+        body { padding: 52px; }
+        main { width: min(800px, 100%); }
+        .mark-slot { width: 104px; height: 104px; margin-bottom: 30px; }
+        h1 { font-size: 58px; }
+        .tagline { margin: 14px 0 42px; font-size: 19px; }
+        form { height: 64px; padding: 0 21px 0 23px; border-radius: 14px; }
+        input { font-size: 17px; }
+        button { width: 42px; font-size: 24px; }
+      }
+
+      @media (min-width: 3000px) and (min-height: 1800px) {
+        body { padding: 72px; }
+        main { width: min(960px, 100%); }
+        .mark-slot { width: 132px; height: 132px; margin-bottom: 36px; }
+        h1 { font-size: 70px; }
+        .tagline { margin: 17px 0 50px; font-size: 22px; }
+        form { height: 74px; padding: 0 25px 0 28px; border-radius: 16px; }
+        input { font-size: 20px; }
+        button { width: 48px; font-size: 28px; }
+      }
+
+      /*__THEMES_CSS__*/
+      :root[data-theme], body { background: var(--ca-surface); color: var(--ca-text); }
+      h1 { color: var(--ca-text); }
+      .tagline { color: var(--ca-muted); }
+      form { border-color: var(--ca-border); background: var(--ca-surface); }
+      form:focus-within { border-color: var(--ca-muted); }
+      input { color: var(--ca-text); }
+      input::placeholder { color: var(--ca-faint); }
+      button { color: var(--ca-text); }
+
+      /* Supervisor / Field Instrument */
+      html, body { font-family: var(--ca-font-body); }
+      body {
+        position: relative; overflow: hidden;
+        background:
+          linear-gradient(var(--ca-grid-line) 1px, transparent 1px) 0 0 / 32px 32px,
+          linear-gradient(90deg, var(--ca-grid-line) 1px, transparent 1px) 0 0 / 32px 32px,
+          var(--ca-bg);
+      }
+      body::before {
+        position: absolute; top: 26px; left: 30px; color: var(--ca-muted);
+        font: 650 11px/1 var(--ca-font-mono); letter-spacing: .14em;
+        content: "SUPERVISOR / FIELD INSTRUMENT / 01";
+      }
+      body::after {
+        position: absolute; right: 30px; bottom: 24px; color: var(--ca-faint);
+        font: 600 10px/1 var(--ca-font-mono); letter-spacing: .1em;
+        content: "LOCAL-FIRST  ·  HUMAN-IN-CONTROL";
+      }
+      main { position: relative; z-index: 1; }
+      main::before, main::after { position: absolute; width: 24px; height: 24px; pointer-events: none; content: ""; }
+      main::before { top: -22px; left: -34px; border-top: 2px solid var(--ca-signal); border-left: 2px solid var(--ca-signal); }
+      main::after { right: -34px; bottom: -22px; border-right: 2px solid var(--ca-accent); border-bottom: 2px solid var(--ca-accent); }
+      .mark-slot {
+        position: relative; border: 1px solid var(--ca-border-strong); border-radius: var(--ca-radius-large);
+        background: var(--ca-accent-soft); box-shadow: var(--ca-shadow-keyline);
+      }
+      h1 {
+        color: var(--ca-text); font-family: var(--ca-font-display);
+        font-weight: 640; letter-spacing: -.035em;
+      }
+      h1::after { margin-left: 12px; color: var(--ca-signal); font: 720 .26em/1 var(--ca-font-mono); letter-spacing: .08em; vertical-align: .42em; content: "01"; }
+      .tagline { color: var(--ca-muted); font-family: var(--ca-font-body); font-size: 14px; font-weight: 560; letter-spacing: .035em; }
+      form {
+        position: relative; border: 1px solid var(--ca-border-strong); border-radius: var(--ca-radius-medium);
+        background: var(--ca-surface); box-shadow: var(--ca-shadow-keyline);
+      }
+      form::before { width: 3px; height: 20px; align-self: center; margin-right: 13px; border-radius: 1px; background: var(--ca-signal); content: ""; }
+      form:focus-within { border-color: var(--ca-accent); box-shadow: inset 0 0 0 1px var(--ca-accent); }
+      input { font-family: var(--ca-font-body); font-weight: 530; letter-spacing: -.01em; }
+      form input:focus-visible { outline: none; }
+      form button { width: 42px; height: 38px; align-self: center; border-radius: var(--ca-radius-small); background: var(--ca-accent-strong); color: var(--ca-on-accent); font-family: var(--ca-font-mono); }
+      form button:hover { background: var(--ca-accent); }
+      :root[data-theme="central_dark"] form button { background: var(--ca-accent); }
+
+      /* Legacy minimal start page */
+      html, body { font-family: var(--ca-font-body); }
+      body { background: var(--ca-app-background); }
+      body::before, body::after, main::before, main::after { display: none; }
+      main { width: min(680px, 100%); transform: translateY(-3vh); }
+      .mark-slot {
+        width: 88px; height: 88px; margin-bottom: 26px; border: 0;
+        border-radius: 26px; background: var(--ca-accent-soft); box-shadow: none;
+      }
+      h1 {
+        font-family: var(--ca-font-display); font-weight: 720;
+        letter-spacing: -.045em;
+      }
+      h1::after { display: none; }
+      .tagline {
+        margin: 10px 0 32px; color: var(--ca-muted); font-family: var(--ca-font-body);
+        font-size: 16px; font-weight: 450; letter-spacing: -.01em;
+      }
+      form {
+        height: 58px; border: 1px solid var(--ca-border); border-radius: var(--ca-pill);
+        background: var(--ca-surface); box-shadow: 0 10px 34px #1018280d;
+      }
+      form::before { display: none; }
+      form:focus-within {
+        border-color: var(--ca-accent);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--ca-accent) 12%, transparent), 0 10px 34px #1018280d;
+      }
+      input { font-family: var(--ca-font-body); font-weight: 450; }
+      form button {
+        width: 42px; height: 42px; border: 0; border-radius: 50%;
+        background: var(--ca-accent); color: var(--ca-on-accent); font-family: var(--ca-font-body);
+      }
+      form button:hover { background: var(--ca-accent-hover); }
+
+      /* Monochrome control surface */
+      h1 svg {
+        display: block; width: auto; height: 1.08em; max-width: 100%;
+        margin-inline: auto; color: var(--ca-brand-ink);
+      }
+      .mark-slot {
+        width: 112px; height: 112px; margin: 0 auto var(--ca-space-3); border: 0;
+        border-radius: var(--ca-radius-large); background: transparent; box-shadow: none;
+      }
+      .tagline { margin: var(--ca-space-3) 0 32px; }
+      form {
+        border: 1px solid var(--ca-border); border-radius: var(--ca-radius-large);
+        background: var(--ca-app-background); box-shadow: none;
+      }
+      form:focus-within {
+        border-color: transparent; box-shadow: var(--ca-focus-ring);
+      }
+      @media (min-width: 1900px) and (min-height: 1150px) {
+        .mark-slot { width: 128px; height: 128px; }
+      }
+      @media (min-width: 3000px) and (min-height: 1800px) {
+        .mark-slot { width: 136px; height: 136px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="mark-slot" aria-hidden="true"></div>
+      <h1 aria-label="Supervisor">__SUPERVISOR_WORDMARK_SVG__</h1>
+      <p class="tagline">Local agents, systems, and workspaces in one place.</p>
+      <form action="__SEARCH_ACTION__" method="get">
+        <input name="__SEARCH_PARAMETER__" type="search" autocomplete="off" autofocus placeholder="Search the web" aria-label="Search the web" />
+      </form>
+    </main>
+    <script>
+      window.applyCentralAgentPreferences = (theme, searchAction, searchParameter) => {
+        document.documentElement.dataset.theme = theme === "central_dark" ? "central_dark" : "central";
+        const form = document.querySelector("form");
+        const input = form?.querySelector("input");
+        if (form && searchAction) form.action = searchAction;
+        if (input && searchParameter) input.name = searchParameter;
+      };
+    </script>
+  </body>
+</html>

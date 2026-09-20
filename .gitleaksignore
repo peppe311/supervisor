@@ -1,0 +1,4 @@
+# Historical documentation's example idempotency UUID; not an authentication secret.
+294b6b027de0b447c33d73af2a9df29e0b94816c:docs/vendor/openai/CODEX_APP_SERVER_OFFICIAL.md:generic-api-key:2309
+# Historical synthetic test literal TEST_SECRET=fixture; never a credential.
+294b6b027de0b447c33d73af2a9df29e0b94816c:src/browser/graph_files.rs:generic-api-key:158

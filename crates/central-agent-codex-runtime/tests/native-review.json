@@ -1,0 +1,7 @@
+[
+  {"schema":"ReviewStartResponse","params":{"reviewThreadId":"native-review","turn":{"id":"review-turn","items":[],"itemsView":"full","status":"inProgress","error":null,"startedAt":10,"completedAt":null,"durationMs":null}}},
+  {"schema":"ItemStartedNotification","method":"item/started","params":{"threadId":"native-review","turnId":"review-turn","startedAtMs":10000,"item":{"type":"enteredReviewMode","id":"review-enter","review":"current changes"}}},
+  {"schema":"TurnPlanUpdatedNotification","method":"turn/plan/updated","params":{"threadId":"native-review","turnId":"review-turn","explanation":"Inspect changes before reporting","plan":[{"step":"Read diff","status":"completed"},{"step":"Check callers","status":"inProgress"},{"step":"Report findings","status":"pending"}]}},
+  {"schema":"ItemCompletedNotification","method":"item/completed","params":{"threadId":"native-review","turnId":"review-turn","completedAtMs":12000,"item":{"type":"exitedReviewMode","id":"review-exit","review":"**Review complete**: handle the empty input. <script>unsafe()</script>"}}},
+  {"schema":"TurnCompletedNotification","method":"turn/completed","params":{"threadId":"native-review","turn":{"id":"review-turn","items":[],"itemsView":"full","status":"completed","error":null,"startedAt":10,"completedAt":12,"durationMs":2000}}}
+]

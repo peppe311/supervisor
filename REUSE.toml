@@ -1,0 +1,13 @@
+version = 1
+
+[[annotations]]
+path = ["src/**", "crates/central-agent-codex-runtime/**", "scripts/**", "ui/src/**", "ui/tests/**", "ui/evals/**", "build.rs", "Cargo.toml", "ui/package.json", ".github/**", "README.md", "CONTRIBUTING.md", "SECURITY.md", "CODE_OF_CONDUCT.md", "CHANGELOG.md", "LICENSES.md"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Supervisor contributors"
+SPDX-License-Identifier = "MPL-2.0"
+
+[[annotations]]
+path = ["protocol/app-server/*/json/**", "protocol/app-server/*/typescript/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "OpenAI"
+SPDX-License-Identifier = "Apache-2.0"

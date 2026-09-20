@@ -1,0 +1,17 @@
+:where([data-central-agent-svelte]) {
+  min-width: 0;
+  min-height: 0;
+  color: var(--ca-text);
+  font-family: var(--ca-font-body);
+  font-size: var(--ca-type-body);
+  line-height: var(--ca-leading-body);
+}
+
+:where([data-central-agent-svelte="knowledge-agent-popup"]) {
+  container-type: inline-size;
+}
+
+:where([data-central-agent-svelte="browser-panel-toggle"]) {
+  display: flex;
+  flex: 0 0 auto;
+}

@@ -1,0 +1,15 @@
+Supervisor
+Copyright (c) 2026 Supervisor contributors
+
+Original Supervisor source is licensed under the Mozilla Public License 2.0.
+See LICENSE and LICENSES.md for scope and third-party exceptions.
+Corresponding source: https://github.com/peppe311/supervisor
+
+Supervisor is an independent project. It is not an official OpenAI product
+and is not endorsed by OpenAI, GitHub, Microsoft, Apple or other providers.
+Names, logos and trademarks of third parties belong to their respective owners.
+The software license grants no rights to third-party trademarks or services.
+
+Provider runtimes, account entitlements, official desktop plugins, system fonts
+and Microsoft WebView2 are separately installed and retain their own terms.
+They are not licensed or redistributed as part of Supervisor's original code.

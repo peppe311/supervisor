@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  windows:
+    name: Windows verification
+    runs-on: windows-2022
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '24'
+      - name: Install pinned Rust tools
+        shell: pwsh
+        run: |
+          rustup show active-toolchain
+          if ($LASTEXITCODE -ne 0) { throw 'Pinned Rust toolchain unavailable' }
+          . ./scripts/build-storage.ps1
+          $storage = Enter-SupervisorBuild (Get-Location).Path
+          try {
+            cargo install cargo-audit --version 0.22.2 --locked
+            if ($LASTEXITCODE -ne 0) { throw 'cargo-audit installation failed' }
+          } finally { Exit-SupervisorBuild $storage }
+      - name: Verify application and notices
+        shell: pwsh
+        run: ./scripts/verify-workspace.ps1
+      - name: Check publication layout and generated bundle drift
+        shell: pwsh
+        run: |
+          node scripts/verify-publication.mjs
+          if ($LASTEXITCODE -ne 0) { throw 'Publication layout failed' }
+          git diff --exit-code -- ui/dist ui/package-lock.json licenses THIRD_PARTY_NOTICES.md
+          if ($LASTEXITCODE -ne 0) { throw 'Generated files differ from committed source' }
+      - name: Audit frontend runtime dependencies
+        shell: pwsh
+        working-directory: ui
+        run: |
+          npm audit --omit=dev --audit-level=high
+          if ($LASTEXITCODE -ne 0) { throw 'Frontend dependency audit failed' }
+  secrets:
+    name: Secret scan
+    runs-on: windows-2022
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '24'
+      - name: Scan complete history and current source
+        shell: pwsh
+        run: ./scripts/scan-secrets.ps1

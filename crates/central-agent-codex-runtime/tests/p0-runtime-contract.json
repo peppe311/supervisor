@@ -1,0 +1,223 @@
+[
+  {
+    "schema": "ErrorNotification",
+    "method": "error",
+    "params": {
+      "threadId": "thread-p0",
+      "turnId": "turn-p0",
+      "error": {
+        "message": "The native request failed",
+        "codexErrorInfo": null,
+        "additionalDetails": null,
+        "misalignment": null
+      },
+      "willRetry": false
+    }
+  },
+  {
+    "schema": "WarningNotification",
+    "method": "warning",
+    "params": {
+      "threadId": null,
+      "message": "Review the runtime configuration"
+    }
+  },
+  {
+    "schema": "WarningNotification",
+    "method": "warning",
+    "params": {
+      "threadId": "thread-p0",
+      "message": "Review this conversation warning"
+    }
+  },
+  {
+    "schema": "ConfigWarningNotification",
+    "method": "configWarning",
+    "params": {
+      "summary": "A configuration value is invalid",
+      "details": "Choose a supported value",
+      "path": "C:\\fixture\\config.toml",
+      "range": {
+        "start": { "line": 3, "column": 4 },
+        "end": { "line": 3, "column": 8 }
+      }
+    }
+  },
+  {
+    "schema": "DeprecationNoticeNotification",
+    "method": "deprecationNotice",
+    "params": {
+      "summary": "A setting is deprecated",
+      "details": "Use the replacement setting"
+    }
+  },
+  {
+    "schema": "GuardianWarningNotification",
+    "method": "guardianWarning",
+    "params": {
+      "threadId": "thread-p0",
+      "message": "Review the requested action"
+    }
+  },
+  {
+    "schema": "StrictReviewRequiredNotification",
+    "method": "autoApprovalReview/strictReviewRequired",
+    "params": {
+      "threadId": "thread-p0",
+      "turnId": "turn-p0",
+      "startedAtMs": 1000
+    }
+  },
+  {
+    "schema": "WindowsWorldWritableWarningNotification",
+    "method": "windows/worldWritableWarning",
+    "params": {
+      "samplePaths": ["C:\\fixture\\shared"],
+      "extraCount": 0,
+      "failedScan": false
+    }
+  },
+  {
+    "schema": "ItemGuardianApprovalReviewStartedNotification",
+    "method": "item/autoApprovalReview/started",
+    "params": {
+      "threadId": "thread-p0",
+      "turnId": "turn-p0",
+      "startedAtMs": 1001,
+      "reviewId": "review-p0",
+      "targetItemId": "item-p0",
+      "review": {
+        "status": "inProgress",
+        "riskLevel": "high",
+        "userAuthorization": null,
+        "rationale": null
+      },
+      "action": {
+        "type": "command",
+        "source": "shell",
+        "command": "echo fixture",
+        "cwd": "C:\\fixture"
+      }
+    }
+  },
+  {
+    "schema": "ItemGuardianApprovalReviewCompletedNotification",
+    "method": "item/autoApprovalReview/completed",
+    "params": {
+      "threadId": "thread-p0",
+      "turnId": "turn-p0",
+      "startedAtMs": 1001,
+      "completedAtMs": 1002,
+      "reviewId": "review-p0",
+      "targetItemId": "item-p0",
+      "decisionSource": "agent",
+      "review": {
+        "status": "approved",
+        "riskLevel": "high",
+        "userAuthorization": null,
+        "rationale": null
+      },
+      "action": {
+        "type": "command",
+        "source": "shell",
+        "command": "echo fixture",
+        "cwd": "C:\\fixture"
+      }
+    }
+  },
+  {
+    "schema": "TerminalInteractionNotification",
+    "method": "item/commandExecution/terminalInteraction",
+    "params": {
+      "threadId": "thread-p0",
+      "turnId": "turn-p0",
+      "itemId": "item-p0",
+      "processId": "process-p0",
+      "stdin": "fixture input\n"
+    }
+  },
+  {
+    "schema": "TurnModerationMetadataNotification",
+    "method": "turn/moderationMetadata",
+    "params": {
+      "threadId": "thread-p0",
+      "turnId": "turn-p0",
+      "metadata": { "fixture": true }
+    }
+  },
+  {
+    "schema": "AccountRateLimitsUpdatedNotification",
+    "method": "account/rateLimits/updated",
+    "params": {
+      "rateLimits": {
+        "limitId": "codex",
+        "limitName": "Codex",
+        "primary": {
+          "usedPercent": 31,
+          "windowDurationMins": 300,
+          "resetsAt": 1730948100
+        },
+        "secondary": null,
+        "credits": null,
+        "individualLimit": null,
+        "spendControlReached": null,
+        "planType": "pro",
+        "rateLimitReachedType": null
+      }
+    }
+  },
+  {
+    "schema": "PermissionProfileListResponse",
+    "method": "permissionProfile/list response",
+    "params": {
+      "data": [
+        {
+          "id": "managed-read",
+          "description": "Managed read-only access",
+          "allowed": true
+        }
+      ],
+      "nextCursor": null
+    }
+  },
+  {
+    "schema": "ThreadLoadedListResponse",
+    "method": "thread/loaded/list response",
+    "params": {
+      "data": ["thread-p0"],
+      "nextCursor": null
+    }
+  },
+  {
+    "schema": "ThreadUnsubscribeResponse",
+    "method": "thread/unsubscribe response",
+    "params": {
+      "status": "unsubscribed"
+    }
+  },
+  {
+    "schema": "GetAccountRateLimitsResponse",
+    "method": "account/rateLimits/read response",
+    "params": {
+      "rateLimits": {
+        "limitId": "codex",
+        "limitName": "Codex",
+        "primary": {
+          "usedPercent": 31,
+          "windowDurationMins": 300,
+          "resetsAt": 1730948100
+        },
+        "secondary": null,
+        "credits": null,
+        "individualLimit": null,
+        "spendControlReached": null,
+        "planType": "pro",
+        "rateLimitReachedType": null
+      },
+      "rateLimitsByLimitId": null,
+      "rateLimitResetCredits": null,
+      "accountId": null,
+      "rateLimitUpsell": null
+    }
+  }
+]
