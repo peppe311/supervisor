@@ -22,7 +22,7 @@ Pass its five-file package to `scripts/build-installer.ps1`:
 ```powershell
 ./scripts/build-redistributable.ps1 -CertificateThumbprint <thumbprint>
 ./scripts/build-installer.ps1 -PackageDirectory ./outputs/Supervisor `
-    -ReleaseTag v0.1.0-alpha.2 -CertificateThumbprint <thumbprint>
+    -ReleaseTag v0.1.0-alpha.3 -CertificateThumbprint <thumbprint>
 ```
 
 The application and installer must have the same valid signing certificate.

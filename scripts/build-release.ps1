@@ -158,7 +158,14 @@ foreach ($fileName in $payloadNames) {
 
 . (Join-Path $PSScriptRoot 'build-storage.ps1')
 $storage = Enter-SupervisorBuild $projectRoot $buildTargetRoot
+$previousEncodedRustFlags = $env:CARGO_ENCODED_RUSTFLAGS
 try {
+    $flags = if ($previousEncodedRustFlags) { @($previousEncodedRustFlags -split [char]31) } elseif ($env:RUSTFLAGS) { @($env:RUSTFLAGS -split '\s+' | Where-Object { $_ }) } else { @() }
+    foreach ($privateRoot in @([Environment]::GetFolderPath('UserProfile'), $env:CARGO_HOME, $projectRoot)) {
+        if (-not $privateRoot) { continue }
+        foreach ($prefix in @($privateRoot, $privateRoot.Replace('\','/'))) { $flags += "--remap-path-prefix=$prefix=/build" }
+    }
+    $env:CARGO_ENCODED_RUSTFLAGS = $flags -join [char]31
     Push-Location $projectRoot
     try {
         & (Join-Path $PSScriptRoot 'verify-workspace.ps1')
@@ -254,5 +261,7 @@ try {
     Write-Output "Release directory: $outputRoot"
     Write-Output "Release manifest: $(Join-Path $outputRoot $manifestName)"
 } finally {
+    if ($null -eq $previousEncodedRustFlags) { Remove-Item Env:CARGO_ENCODED_RUSTFLAGS -ErrorAction SilentlyContinue }
+    else { $env:CARGO_ENCODED_RUSTFLAGS = $previousEncodedRustFlags }
     Exit-SupervisorBuild $storage
 }
