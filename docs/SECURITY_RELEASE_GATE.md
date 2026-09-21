@@ -7,6 +7,16 @@ binary distribution. The initial source release describes these limitations
 and does not claim that the outstanding isolation, signing or live-desktop
 checks below have passed. See [PUBLISHING.md](PUBLISHING.md).
 
+On 2026-09-21 the maintainer explicitly authorized **unsigned experimental alpha
+installers** for trusted-project evaluation. This is a narrow distribution
+exception, not completion of the production or autonomous-computer-use gates.
+`build-installer.ps1 -PublishUnsignedAlpha` requires a clean recipe checkout, an
+alpha tag matching the clean application package, and an explicit unsigned-alpha
+manifest. The release and download page must disclose the missing signature and
+publish SHA-256 checksums. Checksums detect corruption, not publisher identity.
+`-AllowUnsignedDevelopment` output remains local-only; stable releases, automatic
+updates and production claims retain the signing requirements below.
+
 This document is part of the release gate. It describes controls that exist in
 the Rust host and does not treat model instructions, prompts, UI text, a working
 directory, or Windows Job Objects as a security sandbox.

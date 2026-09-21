@@ -38,6 +38,13 @@ workflow for changes to the public repository.
 
 ## Automation and review
 
+Experimental Windows installers have a separate, explicit unsigned-alpha
+exception. See [WINDOWS_INSTALLER.md](WINDOWS_INSTALLER.md). The source-tag workflow
+does not upload binaries automatically. After the required checks, attach the
+verified installer, SHA-256 checksum and installer manifest to the matching
+prerelease, then update its notes to disclose signing status and validation.
+Never upload an arbitrary executable from a local development output directory.
+
 CI uses immutable action commit hashes, read-only default permissions, a full
 history secret scan and no stored provider credentials. Pull requests from
 forks run with restricted permissions. Dependabot opens weekly Cargo, npm and

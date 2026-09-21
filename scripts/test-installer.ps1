@@ -22,8 +22,8 @@ try {
     function Invoke-TestInstaller([string]$Executable, [string[]]$Arguments) {
         $resolved = (Resolve-Path -LiteralPath $Executable).Path
         if (-not $resolved.StartsWith($storage.Session + '\', [StringComparison]::OrdinalIgnoreCase)) { throw 'Test executable escaped its owned build session.' }
-        $process = Start-Process -FilePath $resolved -ArgumentList $Arguments -WindowStyle Hidden -PassThru
-        if (-not $process.WaitForExit(60000)) { throw "Installer test process $($process.Id) timed out; inspect before cleanup." }
+        # Wait for the process tree, including the uninstaller's cleanup helper.
+        $process = Start-Process -FilePath $resolved -ArgumentList $Arguments -WindowStyle Hidden -PassThru -Wait
         return $process.ExitCode
     }
 

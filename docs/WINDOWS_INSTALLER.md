@@ -41,7 +41,15 @@ is not replaced by installer compilation.
 For **local testing only**, pass `-AllowUnsignedDevelopment` instead of a
 certificate to both build commands. Output explicitly includes `unsigned-local`
 in its name. The production signing gate is unchanged. Do not upload this build
-as a public release without a separate explicit release-policy decision.
+as a public release.
+
+The maintainer explicitly authorized experimental unsigned alpha distribution on
+2026-09-21. To exercise that narrow exception, run the installer builder from a
+clean checkout with `-PublishUnsignedAlpha`, an `-alpha.N` release tag and a clean
+unsigned application package. Stable releases still require signing. The installer
+manifest records both the application's source commit and the installer recipe's
+source commit; these may differ when packaging an unchanged published application.
+The existing application package retains its original manifest and hashes.
 
 ## Validation and release
 

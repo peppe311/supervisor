@@ -6,4 +6,4 @@ Installation is for the current Windows user. Microsoft Edge WebView2 Runtime is
 
 Updates replace application files. Uninstalling removes the installed application and its shortcuts, but preserves chat history, settings and project files.
 
-Unsigned development installers are for local testing only. They do not identify a verified publisher and are not production releases.
+An unsigned installer does not identify a verified publisher. Windows may show an unknown-publisher warning. Experimental alpha builds are not production releases. Download Supervisor only from https://github.com/peppe311/supervisor/releases and compare the accompanying SHA-256 checksum.
