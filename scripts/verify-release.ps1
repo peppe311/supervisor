@@ -3,7 +3,8 @@
 param(
     [Parameter(Mandatory = $true)]
     [string[]]$Path,
-    [switch]$AllowUnsignedDevelopment
+    [switch]$AllowUnsignedDevelopment,
+    [switch]$CheckBuildPrivacy
 )
 
 $ErrorActionPreference = 'Stop'
@@ -24,6 +25,22 @@ $results = foreach ($candidate in $Path) {
         throw "Authenticode verification failed for $resolved ($($signature.Status))."
     }
 
+    if ($CheckBuildPrivacy -or -not $AllowUnsignedDevelopment) {
+        # Reject personal build directories even when source and signatures are valid.
+        # Do not print matched paths: failure output can itself become a release log.
+        $bytes = [IO.File]::ReadAllBytes($resolved)
+        $utf8 = [Text.Encoding]::UTF8.GetString($bytes)
+        $utf16 = [Text.Encoding]::Unicode.GetString($bytes)
+        $privateRoots = @([Environment]::GetFolderPath('UserProfile'), (Resolve-Path (Join-Path $PSScriptRoot '..')).Path)
+        foreach ($privateRoot in $privateRoots) {
+            if (-not $privateRoot -or $privateRoot.Length -lt 6) { continue }
+            foreach ($needle in @($privateRoot, $privateRoot.Replace('\','/'), $privateRoot.Replace('\','\\'))) {
+                if ($utf8.IndexOf($needle, [StringComparison]::OrdinalIgnoreCase) -ge 0 -or $utf16.IndexOf($needle, [StringComparison]::OrdinalIgnoreCase) -ge 0) {
+                    throw 'Release privacy verification failed: embedded personal build path.'
+                }
+            }
+        }
+        }
     $hash = Get-FileHash -LiteralPath $resolved -Algorithm SHA256
     [pscustomobject]@{
         file = $item.Name

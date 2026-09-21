@@ -44,6 +44,17 @@ try {
         }
     }
 
+    foreach ($encoding in @([Text.Encoding]::UTF8, [Text.Encoding]::Unicode)) {
+        $privatePathFixture = Join-Path $probeRoot 'private-path.ps1'
+        [IO.File]::WriteAllText($privatePathFixture, [Environment]::GetFolderPath('UserProfile'), $encoding)
+        try {
+            & (Join-Path $PSScriptRoot 'verify-release.ps1') -Path $privatePathFixture -AllowUnsignedDevelopment -CheckBuildPrivacy | Out-Null
+            throw 'Release privacy check accepted an embedded personal path.'
+        } catch {
+            if ($_.Exception.Message -ne 'Release privacy verification failed: embedded personal build path.') { throw }
+        }
+    }
+
     $packageRoot = Join-Path $probeRoot 'package'
     New-Item -ItemType Directory -Path $packageRoot | Out-Null
     $artifactNames = @('Supervisor.exe')

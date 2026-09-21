@@ -6,8 +6,18 @@ Supervisor brings project conversations, supervisor conversations, project files
 a browser and terminals into one local interface. Supervisors can observe linked
 agents and steer their work while you retain control over access and execution.
 
-**Status: experimental source release.** The app is under active development;
+**Status: experimental alpha.** The app is under active development;
 there is no production-certified or signed public executable yet.
+
+## Download for Windows
+
+[Download the Windows x64 installer](https://github.com/peppe311/supervisor/releases/download/v0.1.0-alpha.3/Supervisor-Setup-0.1.0-alpha.3-x64.exe)
+or read the [release notes and checksums](https://github.com/peppe311/supervisor/releases/tag/v0.1.0-alpha.3).
+
+This experimental installer is **not digitally signed**; Windows may show an
+unknown-publisher warning. It requires Windows 10/11 and Microsoft Edge WebView2
+Runtime. Close Supervisor from its tray menu before updating. Uninstall preserves
+chat history, settings and projects. See [installer details](docs/WINDOWS_INSTALLER.md).
 
 ## What is included
 

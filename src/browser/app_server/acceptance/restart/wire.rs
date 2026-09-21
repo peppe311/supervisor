@@ -70,8 +70,18 @@ pub(super) struct Fixture {
 impl Fixture {
     pub(super) fn create(root: &Path) -> anyhow::Result<Self> {
         let runtime = Runtime::discover(root).map_err(anyhow::Error::msg)?;
-        let tests =
-            Path::new(env!("CARGO_MANIFEST_DIR")).join("crates/central-agent-codex-runtime/tests");
+        // This opt-in diagnostic needs a checkout, but a distributed executable
+        // must never retain the developer's absolute build directory.
+        let source = std::env::var_os("SUPERVISOR_ACCEPTANCE_SOURCE_ROOT")
+            .map(PathBuf::from)
+            .map(Ok)
+            .unwrap_or_else(std::env::current_dir)?;
+        let tests = source.join("crates/central-agent-codex-runtime/tests");
+        anyhow::ensure!(
+            tests.join("native-wire-relay.rs").is_file()
+                && tests.join("native-wire-loss.mjs").is_file(),
+            "Run this acceptance check from the source checkout or set SUPERVISOR_ACCEPTANCE_SOURCE_ROOT"
+        );
         let executable = root.join(if cfg!(windows) {
             "native-wire-relay.exe"
         } else {

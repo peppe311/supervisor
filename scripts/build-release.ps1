@@ -158,7 +158,14 @@ foreach ($fileName in $payloadNames) {
 
 . (Join-Path $PSScriptRoot 'build-storage.ps1')
 $storage = Enter-SupervisorBuild $projectRoot $buildTargetRoot
+$previousEncodedRustFlags = $env:CARGO_ENCODED_RUSTFLAGS
 try {
+    $flags = if ($previousEncodedRustFlags) { @($previousEncodedRustFlags -split [char]31) } elseif ($env:RUSTFLAGS) { @($env:RUSTFLAGS -split '\s+' | Where-Object { $_ }) } else { @() }
+    foreach ($privateRoot in @([Environment]::GetFolderPath('UserProfile'), $env:CARGO_HOME, $projectRoot)) {
+        if (-not $privateRoot) { continue }
+        foreach ($prefix in @($privateRoot, $privateRoot.Replace('\','/'))) { $flags += "--remap-path-prefix=$prefix=/build" }
+    }
+    $env:CARGO_ENCODED_RUSTFLAGS = $flags -join [char]31
     Push-Location $projectRoot
     try {
         & (Join-Path $PSScriptRoot 'verify-workspace.ps1')
@@ -200,7 +207,7 @@ try {
         }
 
         $stagedArtifactPaths = @($artifactSources.Keys | ForEach-Object { Join-Path $stagingRoot $_ })
-        $verification = @(& (Join-Path $PSScriptRoot 'verify-release.ps1') -Path $stagedArtifactPaths -AllowUnsignedDevelopment:$AllowUnsignedDevelopment)
+        $verification = @(& (Join-Path $PSScriptRoot 'verify-release.ps1') -Path $stagedArtifactPaths -AllowUnsignedDevelopment:$AllowUnsignedDevelopment -CheckBuildPrivacy)
 
         & (Join-Path $PSScriptRoot 'generate-dependency-inventory.ps1') -OutputPath (Join-Path $stagingRoot $inventoryName) | Out-Null
         [System.IO.File]::Copy((Join-Path $projectRoot 'LICENSE'), (Join-Path $stagingRoot $licenseName), $false)
@@ -248,11 +255,13 @@ try {
     }
 
     $artifactPaths = @($artifactSources.Keys | ForEach-Object { Join-Path $outputRoot $_ })
-    $publishedVerification = @(& (Join-Path $PSScriptRoot 'verify-release.ps1') -Path $artifactPaths -AllowUnsignedDevelopment:$AllowUnsignedDevelopment)
+    $publishedVerification = @(& (Join-Path $PSScriptRoot 'verify-release.ps1') -Path $artifactPaths -AllowUnsignedDevelopment:$AllowUnsignedDevelopment -CheckBuildPrivacy)
     & (Join-Path $PSScriptRoot 'verify-release-manifest.ps1') -ManifestPath (Join-Path $outputRoot $manifestName) | Out-Null
     $publishedVerification
     Write-Output "Release directory: $outputRoot"
     Write-Output "Release manifest: $(Join-Path $outputRoot $manifestName)"
 } finally {
+    if ($null -eq $previousEncodedRustFlags) { Remove-Item Env:CARGO_ENCODED_RUSTFLAGS -ErrorAction SilentlyContinue }
+    else { $env:CARGO_ENCODED_RUSTFLAGS = $previousEncodedRustFlags }
     Exit-SupervisorBuild $storage
 }

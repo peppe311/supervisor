@@ -1,0 +1,9 @@
+Supervisor is experimental software.
+
+Choose "Close Supervisor" from its Windows notification-area icon before installing an update. Closing only its window leaves agents running in the background. This installer never terminates their work for you.
+
+Installation is for the current Windows user. Microsoft Edge WebView2 Runtime is required and is not bundled. Provider runtimes, plugins and account credentials are configured separately in Supervisor.
+
+Updates replace application files. Uninstalling removes the installed application and its shortcuts, but preserves chat history, settings and project files.
+
+An unsigned installer does not identify a verified publisher. Windows may show an unknown-publisher warning. Experimental alpha builds are not production releases. Download Supervisor only from https://github.com/peppe311/supervisor/releases and compare the accompanying SHA-256 checksum.
