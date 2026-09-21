@@ -207,7 +207,7 @@ try {
         }
 
         $stagedArtifactPaths = @($artifactSources.Keys | ForEach-Object { Join-Path $stagingRoot $_ })
-        $verification = @(& (Join-Path $PSScriptRoot 'verify-release.ps1') -Path $stagedArtifactPaths -AllowUnsignedDevelopment:$AllowUnsignedDevelopment)
+        $verification = @(& (Join-Path $PSScriptRoot 'verify-release.ps1') -Path $stagedArtifactPaths -AllowUnsignedDevelopment:$AllowUnsignedDevelopment -CheckBuildPrivacy)
 
         & (Join-Path $PSScriptRoot 'generate-dependency-inventory.ps1') -OutputPath (Join-Path $stagingRoot $inventoryName) | Out-Null
         [System.IO.File]::Copy((Join-Path $projectRoot 'LICENSE'), (Join-Path $stagingRoot $licenseName), $false)
@@ -255,7 +255,7 @@ try {
     }
 
     $artifactPaths = @($artifactSources.Keys | ForEach-Object { Join-Path $outputRoot $_ })
-    $publishedVerification = @(& (Join-Path $PSScriptRoot 'verify-release.ps1') -Path $artifactPaths -AllowUnsignedDevelopment:$AllowUnsignedDevelopment)
+    $publishedVerification = @(& (Join-Path $PSScriptRoot 'verify-release.ps1') -Path $artifactPaths -AllowUnsignedDevelopment:$AllowUnsignedDevelopment -CheckBuildPrivacy)
     & (Join-Path $PSScriptRoot 'verify-release-manifest.ps1') -ManifestPath (Join-Path $outputRoot $manifestName) | Out-Null
     $publishedVerification
     Write-Output "Release directory: $outputRoot"

@@ -29,7 +29,7 @@ if ($manifest.releaseMode -ne $expectedMode) { throw 'Package signing mode diffe
 $version = $ReleaseTag.Substring(1)
 $numericVersion = ($version -split '-')[0]
 if ($manifest.applicationVersion -ne $numericVersion) { throw 'Release tag and packaged application version differ.' }
-& (Join-Path $PSScriptRoot 'verify-release.ps1') -Path (Join-Path $package 'Supervisor.exe') -AllowUnsignedDevelopment:$unsigned | Out-Null
+& (Join-Path $PSScriptRoot 'verify-release.ps1') -Path (Join-Path $package 'Supervisor.exe') -AllowUnsignedDevelopment:$unsigned -CheckBuildPrivacy | Out-Null
 if ($CertificateThumbprint) {
     $packageSigner = (Get-AuthenticodeSignature -LiteralPath (Join-Path $package 'Supervisor.exe')).SignerCertificate.Thumbprint
     if ($packageSigner -ne $CertificateThumbprint) { throw 'Application and installer must use the same publisher certificate.' }
@@ -51,7 +51,7 @@ try {
     & $compiler @compilerArgs (Join-Path $PSScriptRoot 'installer\Supervisor.iss')
     if ($LASTEXITCODE -ne 0) { throw 'Installer compilation failed.' }
     $staged = Join-Path $storage.Session ($baseName + '.exe')
-    $verification = & (Join-Path $PSScriptRoot 'verify-release.ps1') -Path $staged -AllowUnsignedDevelopment:$unsigned
+    $verification = & (Join-Path $PSScriptRoot 'verify-release.ps1') -Path $staged -AllowUnsignedDevelopment:$unsigned -CheckBuildPrivacy
     $output = Join-Path $destination ($baseName + '.exe')
     [IO.File]::Copy($staged, $output, $true)
     $record = [ordered]@{
