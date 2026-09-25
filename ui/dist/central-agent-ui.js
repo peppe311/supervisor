@@ -5468,9 +5468,9 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/SupervisorLogo.svelte
-	var root$47 = /* @__PURE__ */ from_html(`<span class="supervisor-logo-depth supervisor-logo-layer svelte-bhj02z"></span>`);
-	var root_1$39 = /* @__PURE__ */ from_html(`<span class="supervisor-logo-cast supervisor-logo-layer svelte-bhj02z"></span> <!>`, 1);
-	var root_2$36 = /* @__PURE__ */ from_html(`<span aria-hidden="true"><!> <span class="supervisor-logo-face supervisor-logo-layer svelte-bhj02z"></span></span>`);
+	var root$50 = /* @__PURE__ */ from_html(`<span class="supervisor-logo-depth supervisor-logo-layer svelte-bhj02z"></span>`);
+	var root_1$40 = /* @__PURE__ */ from_html(`<span class="supervisor-logo-cast supervisor-logo-layer svelte-bhj02z"></span> <!>`, 1);
+	var root_2$37 = /* @__PURE__ */ from_html(`<span aria-hidden="true"><!> <span class="supervisor-logo-face supervisor-logo-layer svelte-bhj02z"></span></span>`);
 	function SupervisorLogo($$anchor, $$props) {
 		push($$props, true);
 		let dimensional = prop($$props, "dimensional", 3, false);
@@ -5527,16 +5527,16 @@ createHTML: (html) => {
 				weight: 54
 			}
 		];
-		var span = root_2$36();
+		var span = root_2$37();
 		let classes;
 		var node = child(span);
 		var consequent = ($$anchor) => {
-			var fragment = root_1$39();
+			var fragment = root_1$40();
 			var span_1 = first_child(fragment);
 			html$1(span_1, () => depthMark, true);
 			reset(span_1);
 			each(sibling(span_1, 2), 17, () => depthLayers, index, ($$anchor, layer) => {
-				var span_2 = root$47();
+				var span_2 = root$50();
 				html$1(span_2, () => depthMark, true);
 				reset(span_2);
 				template_effect(() => set_style(span_2, `--logo-depth-x:${get(layer).x}px;--logo-depth-y:${get(layer).y}px;--logo-depth-weight:${get(layer).weight}%`));
@@ -5578,6 +5578,8 @@ createHTML: (html) => {
 			current: view.current === true,
 			turnId: typeof view.turnId === "string" ? view.turnId : null,
 			activeTurnId: typeof view.activeTurnId === "string" ? view.activeTurnId : null,
+			model: typeof view.model === "string" ? view.model : null,
+			cacheReportAtMs: typeof view.cacheReportAtMs === "number" && Number.isSafeInteger(view.cacheReportAtMs) && view.cacheReportAtMs > 0 ? view.cacheReportAtMs : null,
 			report: view.report && typeof view.report === "object" ? {
 				last: breakdown(report.last),
 				total: breakdown(report.total),
@@ -5605,12 +5607,12 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/NativeUsage.svelte
-	var root$46 = /* @__PURE__ */ from_html(`<div class="usage-meter svelte-1n44byi" role="progressbar" aria-label="Latest reported tokens relative to native context capacity" aria-valuemin="0" aria-valuemax="100"><span class="svelte-1n44byi"></span></div>`);
-	var root_1$38 = /* @__PURE__ */ from_html(`<div class="usage-head svelte-1n44byi" role="status"><span>Context</span><strong class="svelte-1n44byi"> </strong></div> <!>`, 1);
-	var root_2$35 = /* @__PURE__ */ from_html(`<tr><th scope="row" class="svelte-1n44byi"> </th><td class="svelte-1n44byi"> </td><td class="svelte-1n44byi"> </td></tr>`);
-	var root_3$31 = /* @__PURE__ */ from_html(`<details><summary class="svelte-1n44byi"> </summary> <div class="usage-table svelte-1n44byi"><table class="svelte-1n44byi"><caption class="svelte-1n44byi">Native Codex token counters</caption><thead><tr><th scope="col" class="svelte-1n44byi">Metric</th><th scope="col" class="svelte-1n44byi">Latest report</th><th scope="col" class="svelte-1n44byi">Thread total</th></tr></thead><tbody></tbody></table></div> <p class="svelte-1n44byi"> </p></details>`);
-	var root_4$27 = /* @__PURE__ */ from_html(`<div class="usage-head svelte-1n44byi"><span>Context · native report</span><strong class="svelte-1n44byi"> </strong></div> <!> <p class="svelte-1n44byi"> </p> <!>`, 1);
-	var root_5$22 = /* @__PURE__ */ from_html(`<div><!></div>`);
+	var root$49 = /* @__PURE__ */ from_html(`<div class="usage-meter svelte-1n44byi" role="progressbar" aria-label="Latest reported tokens relative to native context capacity" aria-valuemin="0" aria-valuemax="100"><span class="svelte-1n44byi"></span></div>`);
+	var root_1$39 = /* @__PURE__ */ from_html(`<div class="usage-head svelte-1n44byi" role="status"><span>Context</span><strong class="svelte-1n44byi"> </strong></div> <!>`, 1);
+	var root_2$36 = /* @__PURE__ */ from_html(`<tr><th scope="row" class="svelte-1n44byi"> </th><td class="svelte-1n44byi"> </td><td class="svelte-1n44byi"> </td></tr>`);
+	var root_3$32 = /* @__PURE__ */ from_html(`<details><summary class="svelte-1n44byi"> </summary> <div class="usage-table svelte-1n44byi"><table class="svelte-1n44byi"><caption class="svelte-1n44byi">Native Codex token counters</caption><thead><tr><th scope="col" class="svelte-1n44byi">Metric</th><th scope="col" class="svelte-1n44byi">Latest report</th><th scope="col" class="svelte-1n44byi">Thread total</th></tr></thead><tbody></tbody></table></div> <p class="svelte-1n44byi"> </p></details>`);
+	var root_4$29 = /* @__PURE__ */ from_html(`<div class="usage-head svelte-1n44byi"><span>Context · native report</span><strong class="svelte-1n44byi"> </strong></div> <!> <p class="svelte-1n44byi"> </p> <!>`, 1);
+	var root_5$23 = /* @__PURE__ */ from_html(`<div><!></div>`);
 	function NativeUsage($$anchor, $$props) {
 		push($$props, true);
 		let visible = prop($$props, "visible", 15, false), compact = prop($$props, "compact", 3, false);
@@ -5646,17 +5648,17 @@ createHTML: (html) => {
 		var fragment = comment$1();
 		var node = first_child(fragment);
 		var consequent_4 = ($$anchor) => {
-			var div = root_5$22();
+			var div = root_5$23();
 			let classes;
 			var node_1 = child(div);
 			var consequent_1 = ($$anchor) => {
-				var fragment_1 = root_1$38();
+				var fragment_1 = root_1$39();
 				var div_1 = first_child(fragment_1);
 				var text = only_child(sibling(child(div_1)), true);
 				reset(div_1);
 				var node_2 = sibling(div_1, 2);
 				var consequent = ($$anchor) => {
-					var div_2 = root$46();
+					var div_2 = root$49();
 					var span = child(div_2);
 					let styles;
 					reset(div_2);
@@ -5677,13 +5679,13 @@ createHTML: (html) => {
 				append($$anchor, fragment_1);
 			};
 			var alternate = ($$anchor) => {
-				var fragment_2 = root_4$27();
+				var fragment_2 = root_4$29();
 				var div_3 = first_child(fragment_2);
 				var text_1 = only_child(sibling(child(div_3)), true);
 				reset(div_3);
 				var node_3 = sibling(div_3, 2);
 				var consequent_2 = ($$anchor) => {
-					var div_4 = root$46();
+					var div_4 = root$49();
 					var span_1 = child(div_4);
 					let styles_1;
 					reset(div_4);
@@ -5701,7 +5703,7 @@ createHTML: (html) => {
 				var text_2 = only_child(p, true);
 				var node_4 = sibling(p, 2);
 				var consequent_3 = ($$anchor) => {
-					var details = root_3$31();
+					var details = root_3$32();
 					var summary = child(details);
 					var text_3 = only_child(summary);
 					var div_5 = sibling(summary, 2);
@@ -5711,7 +5713,7 @@ createHTML: (html) => {
 						var $$array = /* @__PURE__ */ user_derived(() => to_array(get($$item), 2));
 						let key = () => get($$array)[0];
 						let label = () => get($$array)[1];
-						var tr = root_2$35();
+						var tr = root_2$36();
 						var th = child(tr);
 						var text_4 = only_child(th, true);
 						var td = sibling(th);
@@ -5766,10 +5768,10 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/ContextWindowMonitor.svelte
-	var root$45 = /* @__PURE__ */ from_html(`<section id="context-window-monitor" class="context-window-monitor" data-state="waiting" aria-label="Context window usage" hidden="" aria-hidden="true" inert=""><div class="legacy-usage svelte-16shhcl"><div class="context-window-head"><span>Context usage</span> <span id="context-window-value" class="context-window-value" aria-live="polite">Waiting for usage</span></div> <div id="context-window-progress" class="context-window-progress" role="progressbar" aria-label="Context window used" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="Token usage is unavailable for this provider"><span id="context-window-fill" class="context-window-fill"></span></div> <span id="context-window-detail" class="context-window-detail">Live usage is unavailable for the remaining provider integrations.</span></div> <!></section>`);
+	var root$48 = /* @__PURE__ */ from_html(`<section id="context-window-monitor" class="context-window-monitor" data-state="waiting" aria-label="Context window usage" hidden="" aria-hidden="true" inert=""><div class="legacy-usage svelte-16shhcl"><div class="context-window-head"><span>Context usage</span> <span id="context-window-value" class="context-window-value" aria-live="polite">Waiting for usage</span></div> <div id="context-window-progress" class="context-window-progress" role="progressbar" aria-label="Context window used" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="Token usage is unavailable for this provider"><span id="context-window-fill" class="context-window-fill"></span></div> <span id="context-window-detail" class="context-window-detail">Live usage is unavailable for the remaining provider integrations.</span></div> <!></section>`);
 	function ContextWindowMonitor($$anchor) {
 		let nativeVisible = /* @__PURE__ */ state(false);
-		var section = root$45();
+		var section = root$48();
 		var div = child(section);
 		NativeUsage(sibling(div, 2), {
 			get visible() {
@@ -20614,8 +20616,8 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/DiffViewer.svelte
-	var root$44 = /* @__PURE__ */ from_html(`<span class="diff-location svelte-1nzl7rn" data-diff-location=""> </span>`);
-	var root_1$37 = /* @__PURE__ */ from_html(`<section aria-label="Searchable diff"><div class="diff-search svelte-1nzl7rn" role="search" aria-label="Search this diff"><input type="search" placeholder="Find in this diff…" aria-label="Find in this diff" spellcheck="false" class="svelte-1nzl7rn"/> <span class="diff-results svelte-1nzl7rn" data-diff-results="" role="status" aria-live="polite"> </span> <button type="button" aria-label="Previous match" title="Previous match (Shift+Enter)" class="svelte-1nzl7rn">↑</button> <button type="button" aria-label="Next match" title="Next match (Enter)" class="svelte-1nzl7rn">↓</button> <button type="button" aria-label="Clear diff search" title="Clear search (Escape)" class="svelte-1nzl7rn">×</button> <!></div> <div class="diff-code svelte-1nzl7rn"></div></section>`);
+	var root$47 = /* @__PURE__ */ from_html(`<span class="diff-location svelte-1nzl7rn" data-diff-location=""> </span>`);
+	var root_1$38 = /* @__PURE__ */ from_html(`<section aria-label="Searchable diff"><div class="diff-search svelte-1nzl7rn" role="search" aria-label="Search this diff"><input type="search" placeholder="Find in this diff…" aria-label="Find in this diff" spellcheck="false" class="svelte-1nzl7rn"/> <span class="diff-results svelte-1nzl7rn" data-diff-results="" role="status" aria-live="polite"> </span> <button type="button" aria-label="Previous match" title="Previous match (Shift+Enter)" class="svelte-1nzl7rn">↑</button> <button type="button" aria-label="Next match" title="Next match (Enter)" class="svelte-1nzl7rn">↓</button> <button type="button" aria-label="Clear diff search" title="Clear search (Escape)" class="svelte-1nzl7rn">×</button> <!></div> <div class="diff-code svelte-1nzl7rn"></div></section>`);
 	function DiffViewer($$anchor, $$props) {
 		push($$props, true);
 		let content = prop($$props, "content", 3, ""), identity = prop($$props, "identity", 3, ""), inline = prop($$props, "inline", 3, false);
@@ -20722,7 +20724,7 @@ createHTML: (html) => {
 			return () => view?.destroy();
 		});
 		var $$exports = { update };
-		var section = root_1$37();
+		var section = root_1$38();
 		let classes;
 		var div = child(section);
 		var input_1 = child(div);
@@ -20735,7 +20737,7 @@ createHTML: (html) => {
 		var button_2 = sibling(button_1, 2);
 		var node = sibling(button_2, 2);
 		var consequent = ($$anchor) => {
-			var span_1 = root$44();
+			var span_1 = root$47();
 			var text_2 = only_child(span_1);
 			template_effect(() => set_text(text_2, `Diff line ${get(diffLine) ?? ""}`));
 			append($$anchor, span_1);
@@ -20800,18 +20802,18 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/ProjectDiff.svelte
-	var root_1$36 = /* @__PURE__ */ from_html(`<p role="alert" class="svelte-c3yk6q"> </p>`);
-	var root_2$34 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-c3yk6q">Reading local Git changes…</p>`);
-	var root_3$30 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-c3yk6q"> </p>`);
-	var root_4$26 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-c3yk6q">No staged, unstaged or untracked files in this project.</p>`);
-	var root_5$21 = /* @__PURE__ */ from_html(`<p class="svelte-c3yk6q"> </p>`);
-	var root_6$19 = /* @__PURE__ */ from_html(`<p class="blocked svelte-c3yk6q"> </p>`);
-	var root_7$16 = /* @__PURE__ */ from_html(`<button type="button" class="file svelte-c3yk6q"><span class="icon svelte-c3yk6q" aria-hidden="true"></span><span class="filename svelte-c3yk6q"> </span></button> <!>`, 1);
-	var root_8$15 = /* @__PURE__ */ from_html(`<h3 class="svelte-c3yk6q"> <span class="svelte-c3yk6q"> </span></h3> <!>`, 1);
-	var root_9$14 = /* @__PURE__ */ from_html(`<h3 class="path svelte-c3yk6q"> </h3>`);
-	var root_10$11 = /* @__PURE__ */ from_html(`<p class="svelte-c3yk6q">Select a file to read its diff. Other file contents are not loaded into the viewer.</p>`);
-	var root_11$11 = /* @__PURE__ */ from_html(`<p class="svelte-c3yk6q">No diff remains in this section. The file may have changed since the list was read; refresh to update it.</p>`);
-	var root_12$11 = /* @__PURE__ */ from_html(`<div><dialog class="svelte-c3yk6q"><header class="svelte-c3yk6q"><div class="svelte-c3yk6q"><h2 class="svelte-c3yk6q">Project changes</h2><p class="path svelte-c3yk6q"> </p></div> <div class="svelte-c3yk6q"><button type="button" class="svelte-c3yk6q">Refresh</button><button type="button" aria-label="Close project changes" class="svelte-c3yk6q">×</button></div></header> <p class="svelte-c3yk6q">Current Git changes in this project, including manual and other-agent edits. Not a Time Machine attribution. Read-only; nothing is sent to the model.</p> <p class="svelte-c3yk6q">Renames appear as deletion/addition pairs. Submodule worktrees are not scanned; known secret paths and links cannot be previewed.</p> <!> <!> <!> <!> <div class="columns svelte-c3yk6q"><nav aria-label="Changed project files" class="svelte-c3yk6q"><input type="search" aria-label="Filter changed files" placeholder="Filter files…" class="svelte-c3yk6q"/> <!> <!></nav> <section class="preview svelte-c3yk6q" aria-label="Selected file diff"><!> <!> <!></section></div></dialog></div>`);
+	var root_1$37 = /* @__PURE__ */ from_html(`<p role="alert" class="svelte-c3yk6q"> </p>`);
+	var root_2$35 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-c3yk6q">Reading local Git changes…</p>`);
+	var root_3$31 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-c3yk6q"> </p>`);
+	var root_4$28 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-c3yk6q">No staged, unstaged or untracked files in this project.</p>`);
+	var root_5$22 = /* @__PURE__ */ from_html(`<p class="svelte-c3yk6q"> </p>`);
+	var root_6$21 = /* @__PURE__ */ from_html(`<p class="blocked svelte-c3yk6q"> </p>`);
+	var root_7$18 = /* @__PURE__ */ from_html(`<button type="button" class="file svelte-c3yk6q"><span class="icon svelte-c3yk6q" aria-hidden="true"></span><span class="filename svelte-c3yk6q"> </span></button> <!>`, 1);
+	var root_8$17 = /* @__PURE__ */ from_html(`<h3 class="svelte-c3yk6q"> <span class="svelte-c3yk6q"> </span></h3> <!>`, 1);
+	var root_9$16 = /* @__PURE__ */ from_html(`<h3 class="path svelte-c3yk6q"> </h3>`);
+	var root_10$13 = /* @__PURE__ */ from_html(`<p class="svelte-c3yk6q">Select a file to read its diff. Other file contents are not loaded into the viewer.</p>`);
+	var root_11$13 = /* @__PURE__ */ from_html(`<p class="svelte-c3yk6q">No diff remains in this section. The file may have changed since the list was read; refresh to update it.</p>`);
+	var root_12$13 = /* @__PURE__ */ from_html(`<div><dialog class="svelte-c3yk6q"><header class="svelte-c3yk6q"><div class="svelte-c3yk6q"><h2 class="svelte-c3yk6q">Project changes</h2><p class="path svelte-c3yk6q"> </p></div> <div class="svelte-c3yk6q"><button type="button" class="svelte-c3yk6q">Refresh</button><button type="button" aria-label="Close project changes" class="svelte-c3yk6q">×</button></div></header> <p class="svelte-c3yk6q">Current Git changes in this project, including manual and other-agent edits. Not a Time Machine attribution. Read-only; nothing is sent to the model.</p> <p class="svelte-c3yk6q">Renames appear as deletion/addition pairs. Submodule worktrees are not scanned; known secret paths and links cannot be previewed.</p> <!> <!> <!> <!> <div class="columns svelte-c3yk6q"><nav aria-label="Changed project files" class="svelte-c3yk6q"><input type="search" aria-label="Filter changed files" placeholder="Filter files…" class="svelte-c3yk6q"/> <!> <!></nav> <section class="preview svelte-c3yk6q" aria-label="Selected file diff"><!> <!> <!></section></div></dialog></div>`);
 	function ProjectDiff($$anchor, $$props) {
 		push($$props, true);
 		let eventTarget = prop($$props, "eventTarget", 3, window), inputId = prop($$props, "inputId", 3, "chat-input");
@@ -20929,7 +20931,7 @@ createHTML: (html) => {
 				eventTarget().removeEventListener("central-agent:project-diff-result", result);
 			};
 		});
-		var div = root_12$11();
+		var div = root_12$13();
 		var dialog_1 = child(div);
 		var header = child(dialog_1);
 		var div_1 = child(header);
@@ -20943,7 +20945,7 @@ createHTML: (html) => {
 		reset(header);
 		var node_1 = sibling(header, 6);
 		var consequent = ($$anchor) => {
-			var p_1 = root_1$36();
+			var p_1 = root_1$37();
 			var text_1 = only_child(p_1, true);
 			template_effect(() => set_text(text_1, get(error)));
 			append($$anchor, p_1);
@@ -20953,14 +20955,14 @@ createHTML: (html) => {
 		});
 		var node_2 = sibling(node_1, 2);
 		var consequent_1 = ($$anchor) => {
-			append($$anchor, root_2$34());
+			append($$anchor, root_2$35());
 		};
 		if_block(node_2, ($$render) => {
 			if (get(loading)) $$render(consequent_1);
 		});
 		var node_3 = sibling(node_2, 2);
 		var consequent_2 = ($$anchor) => {
-			var p_3 = root_3$30();
+			var p_3 = root_3$31();
 			var text_2 = only_child(p_3);
 			template_effect(() => set_text(text_2, `${get(unsupportedNames) ?? ""} filename entry/entries could not be represented as UTF-8 and are not shown. Review them with Git directly.`));
 			append($$anchor, p_3);
@@ -20970,7 +20972,7 @@ createHTML: (html) => {
 		});
 		var node_4 = sibling(node_3, 2);
 		var consequent_3 = ($$anchor) => {
-			append($$anchor, root_4$26());
+			append($$anchor, root_4$28());
 		};
 		if_block(node_4, ($$render) => {
 			if (get(loaded) && !get(entries).length) $$render(consequent_3);
@@ -20981,7 +20983,7 @@ createHTML: (html) => {
 		remove_input_defaults(input);
 		var node_5 = sibling(input, 2);
 		var consequent_4 = ($$anchor) => {
-			var p_5 = root_5$21();
+			var p_5 = root_5$22();
 			var text_3 = only_child(p_5);
 			template_effect(() => set_text(text_3, `${get(entries).length ?? ""} changed paths`));
 			append($$anchor, p_5);
@@ -20990,13 +20992,13 @@ createHTML: (html) => {
 			if (get(loaded)) $$render(consequent_4);
 		});
 		each(sibling(node_5, 2), 17, () => get(groups), (group) => group.key, ($$anchor, group) => {
-			var fragment = root_8$15();
+			var fragment = root_8$17();
 			var h3 = first_child(fragment);
 			var text_4 = child(h3);
 			var text_5 = only_child(sibling(text_4), true);
 			reset(h3);
 			each(sibling(h3, 2), 17, () => get(group).entries, (entry) => entry.path, ($$anchor, entry) => {
-				var fragment_1 = root_7$16();
+				var fragment_1 = root_7$18();
 				var button_2 = first_child(fragment_1);
 				var span_1 = child(button_2);
 				action(span_1, ($$node, $$action_arg) => icon?.($$node, $$action_arg), () => get(entry).iconKey);
@@ -21004,7 +21006,7 @@ createHTML: (html) => {
 				reset(button_2);
 				var node_8 = sibling(button_2, 2);
 				var consequent_5 = ($$anchor) => {
-					var p_6 = root_6$19();
+					var p_6 = root_6$21();
 					var text_7 = only_child(p_6, true);
 					template_effect(() => set_text(text_7, get(entry).blocked));
 					append($$anchor, p_6);
@@ -21031,13 +21033,13 @@ createHTML: (html) => {
 		var section_1 = sibling(nav, 2);
 		var node_9 = child(section_1);
 		var consequent_6 = ($$anchor) => {
-			var h3_1 = root_9$14();
+			var h3_1 = root_9$16();
 			var text_8 = only_child(h3_1);
 			template_effect(() => set_text(text_8, `${get(selectedPath) ?? ""} · ${get(selectedSection) ?? ""}`));
 			append($$anchor, h3_1);
 		};
 		var alternate = ($$anchor) => {
-			append($$anchor, root_10$11());
+			append($$anchor, root_10$13());
 		};
 		if_block(node_9, ($$render) => {
 			if (get(selectedPath)) $$render(consequent_6);
@@ -21045,7 +21047,7 @@ createHTML: (html) => {
 		});
 		var node_10 = sibling(node_9, 2);
 		var consequent_7 = ($$anchor) => {
-			append($$anchor, root_11$11());
+			append($$anchor, root_11$13());
 		};
 		if_block(node_10, ($$render) => {
 			if (get(selectedPath) && !get(loading) && !get(content) && !get(error)) $$render(consequent_7);
@@ -21169,10 +21171,10 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/NativeCommands.svelte
-	var root$43 = /* @__PURE__ */ from_html(`<button type="button"><span class="svelte-1eb107r"> </span><span class="svelte-1eb107r"> </span></button>`);
-	var root_1$35 = /* @__PURE__ */ from_html(`<div class="native-command-menu svelte-1eb107r" role="group" aria-label="Codex command suggestions"><p class="svelte-1eb107r">Codex controls · ↑ ↓ select · Tab complete · Enter open</p> <!></div>`);
-	var root_2$33 = /* @__PURE__ */ from_html(`<p class="native-command-notice svelte-1eb107r" role="status"> </p>`);
-	var root_3$29 = /* @__PURE__ */ from_html(`<!> <!>`, 1);
+	var root$46 = /* @__PURE__ */ from_html(`<button type="button"><span class="svelte-1eb107r"> </span><span class="svelte-1eb107r"> </span></button>`);
+	var root_1$36 = /* @__PURE__ */ from_html(`<div class="native-command-menu svelte-1eb107r" role="group" aria-label="Codex command suggestions"><p class="svelte-1eb107r">Codex controls · ↑ ↓ select · Tab complete · Enter open</p> <!></div>`);
+	var root_2$34 = /* @__PURE__ */ from_html(`<p class="native-command-notice svelte-1eb107r" role="status"> </p>`);
+	var root_3$30 = /* @__PURE__ */ from_html(`<!> <!>`, 1);
 	function NativeCommands($$anchor, $$props) {
 		push($$props, true);
 		let inputId = prop($$props, "inputId", 3, "chat-input");
@@ -21330,12 +21332,12 @@ createHTML: (html) => {
 				target.removeEventListener("central-agent:conversation-state", update);
 			};
 		});
-		var fragment = root_3$29();
+		var fragment = root_3$30();
 		var node = first_child(fragment);
 		var consequent = ($$anchor) => {
-			var div = root_1$35();
+			var div = root_1$36();
 			each(sibling(child(div), 2), 19, suggestions, (command) => command.name, ($$anchor, command, index) => {
-				var button = root$43();
+				var button = root$46();
 				let classes;
 				var span = child(button);
 				var text = only_child(span);
@@ -21364,7 +21366,7 @@ createHTML: (html) => {
 		});
 		var node_2 = sibling(node, 2);
 		var consequent_1 = ($$anchor) => {
-			var p = root_2$33();
+			var p = root_2$34();
 			var text_2 = only_child(p, true);
 			template_effect(() => set_text(text_2, get(notice)));
 			append($$anchor, p);
@@ -21409,15 +21411,15 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/PluginIcon.svelte
-	var root$42 = /* @__PURE__ */ from_html(`<img alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" class="svelte-1i7qddy"/>`);
-	var root_1$34 = /* @__PURE__ */ from_svg(`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="svelte-1i7qddy"><rect x="2.75" y="4" width="18.5" height="16" rx="3"></rect><path d="M3 8.25h18"></path><circle cx="6.1" cy="6.15" r=".65" fill="currentColor" stroke="none"></circle><circle cx="8.65" cy="6.15" r=".65" fill="currentColor" stroke="none"></circle><path d="m9.4 14.25 2.05 2.05 3.75-4.1"></path></svg>`);
-	var root_2$32 = /* @__PURE__ */ from_svg(`<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="svelte-1i7qddy"><path d="M12 1.8a10.4 10.4 0 0 0-3.29 20.27c.52.1.71-.22.71-.5v-1.84c-2.9.63-3.51-1.23-3.51-1.23-.48-1.2-1.16-1.52-1.16-1.52-.95-.65.07-.64.07-.64 1.05.08 1.6 1.08 1.6 1.08.94 1.6 2.45 1.14 3.05.87.1-.68.37-1.14.67-1.4-2.31-.26-4.74-1.15-4.74-5.14 0-1.13.4-2.06 1.08-2.79-.11-.26-.47-1.32.1-2.75 0 0 .88-.28 2.86 1.07A9.97 9.97 0 0 1 12 6.93c.88 0 1.75.12 2.57.35 1.98-1.35 2.85-1.07 2.85-1.07.57 1.43.21 2.49.1 2.75.67.73 1.08 1.66 1.08 2.79 0 4-2.44 4.87-4.76 5.13.38.33.71.97.71 1.95v2.74c0 .28.19.6.72.5A10.4 10.4 0 0 0 12 1.8Z"></path></svg>`);
-	var root_3$28 = /* @__PURE__ */ from_svg(`<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="svelte-1i7qddy"><path d="M6.4 18.4h11.9c.9 0 1.5-.8 1.2-1.7a3.1 3.1 0 0 0-2.9-2.1 5.5 5.5 0 0 0-10.5-.8 4 4 0 0 0-.9-.1A3.3 3.3 0 0 0 2 16.4c-.2 1 .5 2 1.6 2h2.8Z"></path><path d="M13.2 8.1a4.8 4.8 0 0 1 4.6 3.5 4.6 4.6 0 0 1 3.5 2.2A7.1 7.1 0 0 0 8.2 11a6.2 6.2 0 0 1 5-2.9Z" opacity=".72"></path></svg>`);
-	var root_4$25 = /* @__PURE__ */ from_svg(`<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="svelte-1i7qddy"><path d="M8.5 2h3.5v7H8.5a3.5 3.5 0 1 1 0-7Zm3.5 0h3.5a3.5 3.5 0 1 1 0 7H12V2Zm-3.5 7H12v7H8.5a3.5 3.5 0 1 1 0-7Zm3.5 0h3.5a3.5 3.5 0 1 1 0 7A3.5 3.5 0 0 1 12 12.5V9Zm-3.5 7H12v3.5A3.5 3.5 0 1 1 8.5 16Z"></path></svg>`);
-	var root_5$20 = /* @__PURE__ */ from_svg(`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" class="svelte-1i7qddy"><path d="M20.2 7.1A9.5 9.5 0 0 1 7.1 20.2M16.9 3.8 3.8 16.9M13.2 2.6 2.6 13.2M9.3 3.1 3.1 9.3"></path><path d="M20.4 11.8A8.6 8.6 0 0 1 11.8 20.4"></path></svg>`);
-	var root_6$18 = /* @__PURE__ */ from_svg(`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linejoin="round" aria-hidden="true" class="svelte-1i7qddy"><path d="M4 4.5 15.8 3l4.2 3.2v13.1L7.2 21 4 18.1V4.5Z" stroke-width="1.6"></path><path d="M7.7 17.3V7.5l2.3-.2 6.1 8.9V6.7l2-.2M7.7 7.5l8.4-.8" stroke-width="1.45" stroke-linecap="round"></path></svg>`);
-	var root_7$15 = /* @__PURE__ */ from_html(`<span> </span>`);
-	var root_8$14 = /* @__PURE__ */ from_html(`<span class="plugin-icon svelte-1i7qddy" aria-hidden="true"><!></span>`);
+	var root$45 = /* @__PURE__ */ from_html(`<img alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" class="svelte-1i7qddy"/>`);
+	var root_1$35 = /* @__PURE__ */ from_svg(`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="svelte-1i7qddy"><rect x="2.75" y="4" width="18.5" height="16" rx="3"></rect><path d="M3 8.25h18"></path><circle cx="6.1" cy="6.15" r=".65" fill="currentColor" stroke="none"></circle><circle cx="8.65" cy="6.15" r=".65" fill="currentColor" stroke="none"></circle><path d="m9.4 14.25 2.05 2.05 3.75-4.1"></path></svg>`);
+	var root_2$33 = /* @__PURE__ */ from_svg(`<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="svelte-1i7qddy"><path d="M12 1.8a10.4 10.4 0 0 0-3.29 20.27c.52.1.71-.22.71-.5v-1.84c-2.9.63-3.51-1.23-3.51-1.23-.48-1.2-1.16-1.52-1.16-1.52-.95-.65.07-.64.07-.64 1.05.08 1.6 1.08 1.6 1.08.94 1.6 2.45 1.14 3.05.87.1-.68.37-1.14.67-1.4-2.31-.26-4.74-1.15-4.74-5.14 0-1.13.4-2.06 1.08-2.79-.11-.26-.47-1.32.1-2.75 0 0 .88-.28 2.86 1.07A9.97 9.97 0 0 1 12 6.93c.88 0 1.75.12 2.57.35 1.98-1.35 2.85-1.07 2.85-1.07.57 1.43.21 2.49.1 2.75.67.73 1.08 1.66 1.08 2.79 0 4-2.44 4.87-4.76 5.13.38.33.71.97.71 1.95v2.74c0 .28.19.6.72.5A10.4 10.4 0 0 0 12 1.8Z"></path></svg>`);
+	var root_3$29 = /* @__PURE__ */ from_svg(`<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="svelte-1i7qddy"><path d="M6.4 18.4h11.9c.9 0 1.5-.8 1.2-1.7a3.1 3.1 0 0 0-2.9-2.1 5.5 5.5 0 0 0-10.5-.8 4 4 0 0 0-.9-.1A3.3 3.3 0 0 0 2 16.4c-.2 1 .5 2 1.6 2h2.8Z"></path><path d="M13.2 8.1a4.8 4.8 0 0 1 4.6 3.5 4.6 4.6 0 0 1 3.5 2.2A7.1 7.1 0 0 0 8.2 11a6.2 6.2 0 0 1 5-2.9Z" opacity=".72"></path></svg>`);
+	var root_4$27 = /* @__PURE__ */ from_svg(`<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="svelte-1i7qddy"><path d="M8.5 2h3.5v7H8.5a3.5 3.5 0 1 1 0-7Zm3.5 0h3.5a3.5 3.5 0 1 1 0 7H12V2Zm-3.5 7H12v7H8.5a3.5 3.5 0 1 1 0-7Zm3.5 0h3.5a3.5 3.5 0 1 1 0 7A3.5 3.5 0 0 1 12 12.5V9Zm-3.5 7H12v3.5A3.5 3.5 0 1 1 8.5 16Z"></path></svg>`);
+	var root_5$21 = /* @__PURE__ */ from_svg(`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" class="svelte-1i7qddy"><path d="M20.2 7.1A9.5 9.5 0 0 1 7.1 20.2M16.9 3.8 3.8 16.9M13.2 2.6 2.6 13.2M9.3 3.1 3.1 9.3"></path><path d="M20.4 11.8A8.6 8.6 0 0 1 11.8 20.4"></path></svg>`);
+	var root_6$20 = /* @__PURE__ */ from_svg(`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linejoin="round" aria-hidden="true" class="svelte-1i7qddy"><path d="M4 4.5 15.8 3l4.2 3.2v13.1L7.2 21 4 18.1V4.5Z" stroke-width="1.6"></path><path d="M7.7 17.3V7.5l2.3-.2 6.1 8.9V6.7l2-.2M7.7 7.5l8.4-.8" stroke-width="1.45" stroke-linecap="round"></path></svg>`);
+	var root_7$17 = /* @__PURE__ */ from_html(`<span> </span>`);
+	var root_8$16 = /* @__PURE__ */ from_html(`<span class="plugin-icon svelte-1i7qddy" aria-hidden="true"><!></span>`);
 	function PluginIcon($$anchor, $$props) {
 		push($$props, true);
 		let iconUrl = prop($$props, "iconUrl", 3, null);
@@ -21428,35 +21430,35 @@ createHTML: (html) => {
 		function iconFailed() {
 			set(failedUrl, iconUrl());
 		}
-		var span = root_8$14();
+		var span = root_8$16();
 		var node = child(span);
 		var consequent = ($$anchor) => {
-			var img = root$42();
+			var img = root$45();
 			template_effect(() => set_attribute(img, "src", iconUrl() || ""));
 			event("error", img, iconFailed);
 			replay_events(img);
 			append($$anchor, img);
 		};
 		var consequent_1 = ($$anchor) => {
-			append($$anchor, root_1$34());
+			append($$anchor, root_1$35());
 		};
 		var consequent_2 = ($$anchor) => {
-			append($$anchor, root_2$32());
+			append($$anchor, root_2$33());
 		};
 		var consequent_3 = ($$anchor) => {
-			append($$anchor, root_3$28());
+			append($$anchor, root_3$29());
 		};
 		var consequent_4 = ($$anchor) => {
-			append($$anchor, root_4$25());
+			append($$anchor, root_4$27());
 		};
 		var consequent_5 = ($$anchor) => {
-			append($$anchor, root_5$20());
+			append($$anchor, root_5$21());
 		};
 		var consequent_6 = ($$anchor) => {
-			append($$anchor, root_6$18());
+			append($$anchor, root_6$20());
 		};
 		var alternate = ($$anchor) => {
-			var span_1 = root_7$15();
+			var span_1 = root_7$17();
 			var text = only_child(span_1, true);
 			template_effect(() => set_text(text, get(initial)));
 			append($$anchor, span_1);
@@ -21481,19 +21483,19 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/PluginPicker.svelte
-	var root$41 = /* @__PURE__ */ from_html(`<div aria-label="Browser selected for the next prompt"><!> <span class="selected-plugin-name svelte-16yv5w3">Browser</span> <button class="selected-plugin-remove svelte-16yv5w3" type="button" aria-label="Remove Browser from the next prompt" title="Remove Browser"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" class="svelte-16yv5w3"><path d="m4 4 8 8M12 4l-8 8"></path></svg></button></div>`);
-	var root_1$33 = /* @__PURE__ */ from_html(`<div><!> <span class="selected-plugin-name svelte-16yv5w3"> </span> <button class="selected-plugin-remove svelte-16yv5w3" type="button"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" class="svelte-16yv5w3"><path d="m4 4 8 8M12 4l-8 8"></path></svg></button></div>`);
-	var root_2$31 = /* @__PURE__ */ from_html(`<p class="state svelte-16yv5w3">Loading plugins…</p>`);
-	var root_3$27 = /* @__PURE__ */ from_html(`<p class="state svelte-16yv5w3" role="alert"> </p>`);
-	var root_4$24 = /* @__PURE__ */ from_html(`<p class="state svelte-16yv5w3" role="status"> </p>`);
-	var root_5$19 = /* @__PURE__ */ from_html(`<p class="state svelte-16yv5w3" role="status">Loading plugins…</p>`);
-	var root_6$17 = /* @__PURE__ */ from_html(`<p class="state svelte-16yv5w3">Plugins are unavailable. Refresh them in Settings.</p>`);
-	var root_7$14 = /* @__PURE__ */ from_html(`<p class="state svelte-16yv5w3">No plugins available.</p>`);
-	var root_8$13 = /* @__PURE__ */ from_html(`<li><button type="button" role="option"><!> <span class="svelte-16yv5w3">Browser</span></button></li>`);
-	var root_9$13 = /* @__PURE__ */ from_html(`<li><button type="button" role="option"><!> <span class="svelte-16yv5w3"> </span></button></li>`);
-	var root_10$10 = /* @__PURE__ */ from_html(`<ul class="svelte-16yv5w3"><!> <!></ul>`);
-	var root_11$10 = /* @__PURE__ */ from_html(`<div class="plugin-popover svelte-16yv5w3" role="listbox" aria-label="Plugins"><!></div>`);
-	var root_12$10 = /* @__PURE__ */ from_html(`<div><button type="button" aria-haspopup="listbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="svelte-16yv5w3"><path d="M8.5 4.5v4m7-4v4M6.5 8.5h11v3a5.5 5.5 0 0 1-11 0v-3Z"></path><path d="M12 17v3"></path></svg></button> <!> <!> <!></div>`);
+	var root$44 = /* @__PURE__ */ from_html(`<div aria-label="Browser selected for the next prompt"><!> <span class="selected-plugin-name svelte-16yv5w3">Browser</span> <button class="selected-plugin-remove svelte-16yv5w3" type="button" aria-label="Remove Browser from the next prompt" title="Remove Browser"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" class="svelte-16yv5w3"><path d="m4 4 8 8M12 4l-8 8"></path></svg></button></div>`);
+	var root_1$34 = /* @__PURE__ */ from_html(`<div><!> <span class="selected-plugin-name svelte-16yv5w3"> </span> <button class="selected-plugin-remove svelte-16yv5w3" type="button"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" class="svelte-16yv5w3"><path d="m4 4 8 8M12 4l-8 8"></path></svg></button></div>`);
+	var root_2$32 = /* @__PURE__ */ from_html(`<p class="state svelte-16yv5w3">Loading plugins…</p>`);
+	var root_3$28 = /* @__PURE__ */ from_html(`<p class="state svelte-16yv5w3" role="alert"> </p>`);
+	var root_4$26 = /* @__PURE__ */ from_html(`<p class="state svelte-16yv5w3" role="status"> </p>`);
+	var root_5$20 = /* @__PURE__ */ from_html(`<p class="state svelte-16yv5w3" role="status">Loading plugins…</p>`);
+	var root_6$19 = /* @__PURE__ */ from_html(`<p class="state svelte-16yv5w3">Plugins are unavailable. Refresh them in Settings.</p>`);
+	var root_7$16 = /* @__PURE__ */ from_html(`<p class="state svelte-16yv5w3">No plugins available.</p>`);
+	var root_8$15 = /* @__PURE__ */ from_html(`<li><button type="button" role="option"><!> <span class="svelte-16yv5w3">Browser</span></button></li>`);
+	var root_9$15 = /* @__PURE__ */ from_html(`<li><button type="button" role="option"><!> <span class="svelte-16yv5w3"> </span></button></li>`);
+	var root_10$12 = /* @__PURE__ */ from_html(`<ul class="svelte-16yv5w3"><!> <!></ul>`);
+	var root_11$12 = /* @__PURE__ */ from_html(`<div class="plugin-popover svelte-16yv5w3" role="listbox" aria-label="Plugins"><!></div>`);
+	var root_12$12 = /* @__PURE__ */ from_html(`<div><button type="button" aria-haspopup="listbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="svelte-16yv5w3"><path d="M8.5 4.5v4m7-4v4M6.5 8.5h11v3a5.5 5.5 0 0 1-11 0v-3Z"></path><path d="M12 17v3"></path></svg></button> <!> <!> <!></div>`);
 	function PluginPicker($$anchor, $$props) {
 		push($$props, true);
 		const BROWSER_APP_ID = "browser@openai-bundled";
@@ -21668,14 +21670,14 @@ createHTML: (html) => {
 		var fragment = comment$1();
 		var node = first_child(fragment);
 		var consequent_9 = ($$anchor) => {
-			var div = root_12$10();
+			var div = root_12$12();
 			let classes;
 			var button = child(div);
 			let classes_1;
 			bind_this(button, ($$value) => set(trigger, $$value), () => get(trigger));
 			var node_1 = sibling(button, 2);
 			var consequent = ($$anchor) => {
-				var div_1 = root$41();
+				var div_1 = root$44();
 				let classes_2;
 				set_attribute(div_1, "data-plugin-id", BROWSER_APP_ID);
 				var node_2 = child(div_1);
@@ -21697,7 +21699,7 @@ createHTML: (html) => {
 			});
 			var node_3 = sibling(node_1, 2);
 			each(node_3, 17, () => get(selectedApps), (selection) => selection.selectionId, ($$anchor, selection) => {
-				var div_2 = root_1$33();
+				var div_2 = root_1$34();
 				let classes_3;
 				var node_4 = child(div_2);
 				PluginIcon(node_4, {
@@ -21729,37 +21731,37 @@ createHTML: (html) => {
 			});
 			var node_5 = sibling(node_3, 2);
 			var consequent_8 = ($$anchor) => {
-				var div_3 = root_11$10();
+				var div_3 = root_11$12();
 				var node_6 = child(div_3);
 				var consequent_1 = ($$anchor) => {
-					append($$anchor, root_2$31());
+					append($$anchor, root_2$32());
 				};
 				var consequent_2 = ($$anchor) => {
-					var p_1 = root_3$27();
+					var p_1 = root_3$28();
 					var text_1 = only_child(p_1, true);
 					template_effect(() => set_text(text_1, get(apps).error));
 					append($$anchor, p_1);
 				};
 				var consequent_3 = ($$anchor) => {
-					var p_2 = root_4$24();
+					var p_2 = root_4$26();
 					var text_2 = only_child(p_2, true);
 					template_effect(() => set_text(text_2, get(apps).unavailableReason));
 					append($$anchor, p_2);
 				};
 				var consequent_4 = ($$anchor) => {
-					append($$anchor, root_5$19());
+					append($$anchor, root_5$20());
 				};
 				var consequent_5 = ($$anchor) => {
-					append($$anchor, root_6$17());
+					append($$anchor, root_6$19());
 				};
 				var consequent_6 = ($$anchor) => {
-					append($$anchor, root_7$14());
+					append($$anchor, root_7$16());
 				};
 				var alternate = ($$anchor) => {
-					var ul = root_10$10();
+					var ul = root_10$12();
 					var node_7 = child(ul);
 					var consequent_7 = ($$anchor) => {
-						var li = root_8$13();
+						var li = root_8$15();
 						var button_3 = child(li);
 						let classes_4;
 						set_attribute(button_3, "data-plugin-id", BROWSER_APP_ID);
@@ -21784,7 +21786,7 @@ createHTML: (html) => {
 					});
 					each(sibling(node_7, 2), 17, () => get(catalogItems), (app) => app.id, ($$anchor, app) => {
 						const selection = /* @__PURE__ */ user_derived(() => chosen(get(app).id));
-						var li_1 = root_9$13();
+						var li_1 = root_9$15();
 						var button_4 = child(li_1);
 						let classes_5;
 						var node_10 = child(button_4);
@@ -21883,7 +21885,7 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/LiveDiffStats.svelte
-	var root$40 = /* @__PURE__ */ from_html(`<span role="status" aria-live="polite" aria-atomic="true"><span aria-hidden="true">(</span><span class="added svelte-7mvx88"> </span><span aria-hidden="true">,</span><span class="removed svelte-7mvx88"> </span><span aria-hidden="true">)</span></span>`);
+	var root$43 = /* @__PURE__ */ from_html(`<span role="status" aria-live="polite" aria-atomic="true"><span aria-hidden="true">(</span><span class="added svelte-7mvx88"> </span><span aria-hidden="true">,</span><span class="removed svelte-7mvx88"> </span><span aria-hidden="true">)</span></span>`);
 	function LiveDiffStats($$anchor, $$props) {
 		push($$props, true);
 		let owner = prop($$props, "owner", 3, "");
@@ -21917,7 +21919,7 @@ createHTML: (html) => {
 		var fragment = comment$1();
 		var node = first_child(fragment);
 		var consequent = ($$anchor) => {
-			var span = root$40();
+			var span = root$43();
 			let classes;
 			var span_1 = sibling(child(span));
 			var text = only_child(span_1);
@@ -21935,6 +21937,90 @@ createHTML: (html) => {
 		};
 		if_block(node, ($$render) => {
 			if (get(stats)) $$render(consequent);
+		});
+		append($$anchor, fragment);
+		pop();
+	}
+	//#endregion
+	//#region src/lib/cache-window.ts
+	var WINDOW_MS = 18e5;
+	function hasDocumentedWindow(model) {
+		return model !== null && /^gpt-(?:[6-9](?:\.\d+)?|5\.(?:[6-9]|[1-9]\d+))(?:-|$)/.test(model);
+	}
+	function positiveCount(value) {
+		return value !== null && BigInt(value) > 0n;
+	}
+	function cacheWindowEstimate(view, nowMs) {
+		const last = view?.report?.last;
+		const observed = view?.cacheReportAtMs;
+		if (!view?.visible || !view.connected || !view.current || !last || observed === null || observed === void 0 || !hasDocumentedWindow(view.model) || !Number.isFinite(nowMs) || observed > nowMs || !positiveCount(last.cachedInputTokens) && !positiveCount(last.cacheWriteInputTokens)) return null;
+		const remaining = WINDOW_MS - Math.max(0, nowMs - observed);
+		const description = "Estimate from the last Codex usage report. OpenAI documents a 30-minute minimum for this model family; Codex does not report the cache expiry. Reuse may refresh the window.";
+		if (remaining <= 0) return {
+			label: "30m+",
+			elapsed: true,
+			description
+		};
+		const seconds = Math.ceil(remaining / 1e3);
+		return {
+			label: `${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`,
+			elapsed: false,
+			description
+		};
+	}
+	//#endregion
+	//#region src/components/CacheWindowTimer.svelte
+	var root$42 = /* @__PURE__ */ from_html(`<span class="cache-window-timer svelte-1y99zu1" role="timer" aria-live="off">Cache <strong class="svelte-1y99zu1"> </strong></span>`);
+	function CacheWindowTimer($$anchor, $$props) {
+		push($$props, true);
+		let owner = "";
+		let usage = /* @__PURE__ */ state(null);
+		let now = /* @__PURE__ */ state(proxy(Date.now()));
+		const estimate = /* @__PURE__ */ user_derived(() => cacheWindowEstimate(get(usage), get(now)));
+		onMount(() => {
+			owner = $$props.owner || "";
+			const switchOwner = (event) => {
+				const next = String(event.detail || "");
+				if (!$$props.owner && next !== owner) {
+					owner = next;
+					set(usage, null);
+				}
+			};
+			const update = (event) => {
+				const next = usageSnapshot(event.detail, owner);
+				if (next) {
+					set(usage, next, true);
+					set(now, Date.now(), true);
+				}
+			};
+			const target = $$props.eventTarget || window;
+			window.addEventListener("central-agent:conversation-key", switchOwner);
+			target.addEventListener("central-agent:conversation-state", update);
+			const timer = window.setInterval(() => {
+				if (get(estimate) && !get(estimate).elapsed) set(now, Date.now(), true);
+			}, 1e3);
+			return () => {
+				window.clearInterval(timer);
+				window.removeEventListener("central-agent:conversation-key", switchOwner);
+				target.removeEventListener("central-agent:conversation-state", update);
+			};
+		});
+		var fragment = comment$1();
+		var node = first_child(fragment);
+		var consequent = ($$anchor) => {
+			var span = root$42();
+			var text = only_child(sibling(child(span)), true);
+			reset(span);
+			template_effect(() => {
+				set_attribute(span, "data-cache-window", get(estimate).elapsed ? "elapsed" : "estimated");
+				set_attribute(span, "aria-label", get(estimate).elapsed ? "Last confirmed cache activity was over 30 minutes ago" : `Estimated cache window ${get(estimate).label} remaining`);
+				set_attribute(span, "title", get(estimate).description);
+				set_text(text, get(estimate).elapsed ? get(estimate).label : `~${get(estimate).label}`);
+			});
+			append($$anchor, span);
+		};
+		if_block(node, ($$render) => {
+			if (get(estimate)) $$render(consequent);
 		});
 		append($$anchor, fragment);
 		pop();
@@ -22304,11 +22390,11 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/Composer.svelte
-	var root$39 = /* @__PURE__ */ from_html(`<p class="draft-warning svelte-1n8df3y" role="status"> </p>`);
-	var root_1$32 = /* @__PURE__ */ from_html(`<p class="draft-warning svelte-1n8df3y" role="alert"> </p>`);
-	var root_2$30 = /* @__PURE__ */ from_svg(`<path d="m9 5 10 7-10 7Z" fill="currentColor" stroke="none"></path>`);
-	var root_3$26 = /* @__PURE__ */ from_svg(`<path d="M12 19V5m-6 6 6-6 6 6"></path>`);
-	var root_4$23 = /* @__PURE__ */ from_html(`<div id="composer" role="group" aria-label="Agent message composer"><!> <!> <!> <!> <div id="queued-agent-request" class="queued-agent-request" role="status" hidden=""><span>Request queued while Time Machine recovers the previous checkpoint.</span> <button id="discard-failed-checkpoint" type="button" hidden="">Discard failed checkpoint</button> <button id="cancel-queued-agent-request" type="button">Cancel queued request</button></div> <div id="composer-attachments" class="composer-attachments"></div> <textarea id="chat-input" maxlength="10000" aria-label="Message for the agent"></textarea> <div id="agent-prompt-queue" class="agent-prompt-queue" role="status" aria-live="polite" hidden=""><span id="agent-prompt-queue-label"></span> <button id="clear-agent-prompt-queue" type="button">Clear queue</button></div> <div class="composer-actions svelte-1n8df3y"><button id="attach-files" class="action attach-files" type="button" aria-label="Attach files" title="Attach PNG, JPEG, MP3, WAV, or UTF-8 text/code files"><span class="attach-files-plus" aria-hidden="true"></span></button> <!> <div class="tetra-config" data-compound="tetra-configuration"><button id="tetra-config-button" class="tetra-config-button" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="tetra-config-menu" aria-label="Configure provider, model, effort and speed"><span id="tetra-config-visual" class="tetra-config-visual" aria-hidden="true"><!></span></button></div> <!></div> <div class="composer-work-slot svelte-1n8df3y"><button id="send-agent" class="action composer-work-action send-agent svelte-1n8df3y" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="svelte-1n8df3y"><!></svg></button> <button id="stop-agent" class="action composer-work-action stop-agent svelte-1n8df3y" type="button"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="svelte-1n8df3y"><rect x="6" y="6" width="12" height="12" rx="2"></rect></svg></button></div> <div id="model-config-note" class="model-config-note svelte-1n8df3y" hidden=""></div> <!></div> <div id="agent-delivery-options" class="agent-delivery-options" role="group" aria-label="Delivery for the active request"><span class="agent-delivery-label">Active request</span> <button id="agent-delivery-now" class="agent-delivery-choice" type="button">Send now</button> <button id="agent-delivery-queue" class="agent-delivery-choice" type="button">Queue</button></div>`, 1);
+	var root$41 = /* @__PURE__ */ from_html(`<p class="draft-warning svelte-1n8df3y" role="status"> </p>`);
+	var root_1$33 = /* @__PURE__ */ from_html(`<p class="draft-warning svelte-1n8df3y" role="alert"> </p>`);
+	var root_2$31 = /* @__PURE__ */ from_svg(`<path d="m9 5 10 7-10 7Z" fill="currentColor" stroke="none"></path>`);
+	var root_3$27 = /* @__PURE__ */ from_svg(`<path d="M12 19V5m-6 6 6-6 6 6"></path>`);
+	var root_4$25 = /* @__PURE__ */ from_html(`<div id="composer" role="group" aria-label="Agent message composer"><!> <!> <!> <!> <div id="queued-agent-request" class="queued-agent-request" role="status" hidden=""><span>Request queued while Time Machine recovers the previous checkpoint.</span> <button id="discard-failed-checkpoint" type="button" hidden="">Discard failed checkpoint</button> <button id="cancel-queued-agent-request" type="button">Cancel queued request</button></div> <div id="composer-attachments" class="composer-attachments"></div> <textarea id="chat-input" maxlength="10000" aria-label="Message for the agent"></textarea> <div id="agent-prompt-queue" class="agent-prompt-queue" role="status" aria-live="polite" hidden=""><span id="agent-prompt-queue-label"></span> <button id="clear-agent-prompt-queue" type="button">Clear queue</button></div> <div class="composer-actions svelte-1n8df3y"><button id="attach-files" class="action attach-files" type="button" aria-label="Attach files" title="Attach PNG, JPEG, MP3, WAV, or UTF-8 text/code files"><span class="attach-files-plus" aria-hidden="true"></span></button> <!> <div class="tetra-config" data-compound="tetra-configuration"><button id="tetra-config-button" class="tetra-config-button" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="tetra-config-menu" aria-label="Configure provider, model, effort and speed"><span id="tetra-config-visual" class="tetra-config-visual" aria-hidden="true"><!></span></button></div> <!> <!></div> <div class="composer-work-slot svelte-1n8df3y"><button id="send-agent" class="action composer-work-action send-agent svelte-1n8df3y" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="svelte-1n8df3y"><!></svg></button> <button id="stop-agent" class="action composer-work-action stop-agent svelte-1n8df3y" type="button"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="svelte-1n8df3y"><rect x="6" y="6" width="12" height="12" rx="2"></rect></svg></button></div> <div id="model-config-note" class="model-config-note svelte-1n8df3y" hidden=""></div> <!></div> <div id="agent-delivery-options" class="agent-delivery-options" role="group" aria-label="Delivery for the active request"><span class="agent-delivery-label">Active request</span> <button id="agent-delivery-now" class="agent-delivery-choice" type="button">Send now</button> <button id="agent-delivery-queue" class="agent-delivery-choice" type="button">Queue</button></div>`, 1);
 	function Composer($$anchor, $$props) {
 		push($$props, true);
 		let conversationKey = "";
@@ -22564,7 +22650,7 @@ createHTML: (html) => {
 			set(dragOver, false);
 			emit("central-agent:drop-context", { dataTransfer: event.dataTransfer });
 		}
-		var fragment = root_4$23();
+		var fragment = root_4$25();
 		var div = first_child(fragment);
 		let classes;
 		var node = child(div);
@@ -22573,7 +22659,7 @@ createHTML: (html) => {
 		NativeCommands(node_1, {});
 		var node_2 = sibling(node_1, 2);
 		var consequent = ($$anchor) => {
-			var p = root$39();
+			var p = root$41();
 			var text = only_child(p, true);
 			template_effect(() => set_text(text, get(draftWarning)));
 			append($$anchor, p);
@@ -22583,7 +22669,7 @@ createHTML: (html) => {
 		});
 		var node_3 = sibling(node_2, 2);
 		var consequent_1 = ($$anchor) => {
-			var p_1 = root_1$32();
+			var p_1 = root_1$33();
 			var text_1 = only_child(p_1);
 			template_effect(() => set_text(text_1, `Draft not saved: ${get(draftSaveError) ?? ""}`));
 			append($$anchor, p_1);
@@ -22611,19 +22697,21 @@ createHTML: (html) => {
 		reset(span);
 		reset(button_4);
 		reset(div_4);
-		LiveDiffStats(sibling(div_4, 2), {});
+		var node_6 = sibling(div_4, 2);
+		LiveDiffStats(node_6, {});
+		CacheWindowTimer(sibling(node_6, 2), {});
 		reset(div_3);
 		var div_5 = sibling(div_3, 2);
 		var button_5 = child(div_5);
 		var svg = child(button_5);
-		var node_7 = child(svg);
+		var node_8 = child(svg);
 		var consequent_2 = ($$anchor) => {
-			append($$anchor, root_2$30());
+			append($$anchor, root_2$31());
 		};
 		var alternate = ($$anchor) => {
-			append($$anchor, root_3$26());
+			append($$anchor, root_3$27());
 		};
-		if_block(node_7, ($$render) => {
+		if_block(node_8, ($$render) => {
 			if (get(primaryAction) === "resume") $$render(consequent_2);
 			else $$render(alternate, -1);
 		});
@@ -41632,9 +41720,9 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/FileEditor.svelte
-	var root$38 = /* @__PURE__ */ from_html(`<div><button type="button" class="file-name svelte-tb8e3p"><span class="file-icon svelte-tb8e3p" aria-hidden="true"></span> <span> </span></button> <button type="button" class="close-file svelte-tb8e3p">×</button></div>`);
-	var root_1$31 = /* @__PURE__ */ from_html(`<div class="file-editor-status svelte-tb8e3p" role="status"> </div>`);
-	var root_2$29 = /* @__PURE__ */ from_html(`<div aria-label="Chat and open files"><button type="button">Chat</button> <!></div> <div><div class="file-editor-toolbar svelte-tb8e3p"><span class="file-path svelte-tb8e3p"> </span> <button type="button" title="Save (Ctrl+S)" class="svelte-tb8e3p">Save</button> <button type="button" class="svelte-tb8e3p">Reload</button> <button type="button" title="Find / replace (Ctrl+F)" class="svelte-tb8e3p">Find</button></div> <div class="file-editor-code svelte-tb8e3p"></div> <div class="file-editor-footer svelte-tb8e3p"><span class="svelte-tb8e3p"> </span> <span class="svelte-tb8e3p"> </span> <span class="svelte-tb8e3p"> </span></div></div> <!> <dialog class="file-editor-dialog svelte-tb8e3p" aria-labelledby="editor-confirm-title"><h2 id="editor-confirm-title" class="svelte-tb8e3p">Discard unsaved changes?</h2> <p class="svelte-tb8e3p"> </p> <p class="svelte-tb8e3p">Your unsaved edits will be discarded. The file on disk will not be changed.</p> <div class="svelte-tb8e3p"><button type="button" class="svelte-tb8e3p">Cancel</button><button type="button" class="svelte-tb8e3p">Discard changes</button></div></dialog>`, 1);
+	var root$40 = /* @__PURE__ */ from_html(`<div><button type="button" class="file-name svelte-tb8e3p"><span class="file-icon svelte-tb8e3p" aria-hidden="true"></span> <span> </span></button> <button type="button" class="close-file svelte-tb8e3p">×</button></div>`);
+	var root_1$32 = /* @__PURE__ */ from_html(`<div class="file-editor-status svelte-tb8e3p" role="status"> </div>`);
+	var root_2$30 = /* @__PURE__ */ from_html(`<div aria-label="Chat and open files"><button type="button">Chat</button> <!></div> <div><div class="file-editor-toolbar svelte-tb8e3p"><span class="file-path svelte-tb8e3p"> </span> <button type="button" title="Save (Ctrl+S)" class="svelte-tb8e3p">Save</button> <button type="button" class="svelte-tb8e3p">Reload</button> <button type="button" title="Find / replace (Ctrl+F)" class="svelte-tb8e3p">Find</button></div> <div class="file-editor-code svelte-tb8e3p"></div> <div class="file-editor-footer svelte-tb8e3p"><span class="svelte-tb8e3p"> </span> <span class="svelte-tb8e3p"> </span> <span class="svelte-tb8e3p"> </span></div></div> <!> <dialog class="file-editor-dialog svelte-tb8e3p" aria-labelledby="editor-confirm-title"><h2 id="editor-confirm-title" class="svelte-tb8e3p">Discard unsaved changes?</h2> <p class="svelte-tb8e3p"> </p> <p class="svelte-tb8e3p">Your unsaved edits will be discarded. The file on disk will not be changed.</p> <div class="svelte-tb8e3p"><button type="button" class="svelte-tb8e3p">Cancel</button><button type="button" class="svelte-tb8e3p">Discard changes</button></div></dialog>`, 1);
 	function FileEditor($$anchor, $$props) {
 		push($$props, true);
 		let documents = /* @__PURE__ */ state(proxy([]));
@@ -41815,13 +41903,13 @@ createHTML: (html) => {
 				view?.destroy();
 			};
 		});
-		var fragment = root_2$29();
+		var fragment = root_2$30();
 		var div = first_child(fragment);
 		let classes;
 		var button = child(div);
 		let classes_1;
 		each(sibling(button, 2), 17, () => get(documents), (doc) => doc.id, ($$anchor, doc) => {
-			var div_1 = root$38();
+			var div_1 = root$40();
 			let classes_2;
 			var button_1 = child(div_1);
 			var span = child(button_1);
@@ -41868,7 +41956,7 @@ createHTML: (html) => {
 		reset(div_2);
 		var node_2 = sibling(div_2, 2);
 		var consequent = ($$anchor) => {
-			var div_6 = root_1$31();
+			var div_6 = root_1$32();
 			var text_7 = only_child(div_6, true);
 			template_effect(() => set_text(text_7, get(status)));
 			append($$anchor, div_6);
@@ -42041,32 +42129,32 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/NativeRequestCard.svelte
-	var root$37 = /* @__PURE__ */ from_html(`<p class="svelte-1k6mkma"> </p>`);
-	var root_1$30 = /* @__PURE__ */ from_html(`<p class="svelte-1k6mkma">Destination <code class="svelte-1k6mkma"> </code></p> <p class="svelte-1k6mkma">Protocol <code class="svelte-1k6mkma"> </code></p>`, 1);
-	var root_2$28 = /* @__PURE__ */ from_html(`<p class="svelte-1k6mkma">MCP server: <strong> </strong></p>`);
-	var root_3$25 = /* @__PURE__ */ from_html(`<p class="svelte-1k6mkma">Directory <code class="svelte-1k6mkma"> </code></p>`);
-	var root_4$22 = /* @__PURE__ */ from_html(`<p class="svelte-1k6mkma">Environment <code class="svelte-1k6mkma"> </code></p>`);
-	var root_5$18 = /* @__PURE__ */ from_html(`<details class="svelte-1k6mkma"><summary class="svelte-1k6mkma">Reported command context</summary><pre class="svelte-1k6mkma"> </pre></details>`);
-	var root_6$16 = /* @__PURE__ */ from_html(`<pre class="svelte-1k6mkma"> </pre>`);
-	var root_7$13 = /* @__PURE__ */ from_html(`<p class="svelte-1k6mkma">Requested write root <code class="svelte-1k6mkma"> </code></p>`);
-	var root_8$12 = /* @__PURE__ */ from_html(`<details class="svelte-1k6mkma"><summary class="svelte-1k6mkma"> </summary><!></details>`);
-	var root_9$12 = /* @__PURE__ */ from_html(`<p class="svelte-1k6mkma">Codex has not supplied a file preview for this request.</p>`);
-	var root_10$9 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1k6mkma">Allow once</button>`);
-	var root_11$9 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1k6mkma">Decline</button>`);
-	var root_12$9 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1k6mkma">Cancel request</button>`);
-	var root_13$9 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1k6mkma">Allow for session</button>`);
-	var root_14$9 = /* @__PURE__ */ from_html(`<pre class="svelte-1k6mkma"> </pre> <button type="button" class="svelte-1k6mkma">Accept proposed command policy</button>`, 1);
-	var root_15$9 = /* @__PURE__ */ from_html(`<pre class="svelte-1k6mkma"> </pre> <button type="button" class="svelte-1k6mkma">Apply this network policy</button>`, 1);
-	var root_16$9 = /* @__PURE__ */ from_html(`<details class="svelte-1k6mkma"><summary class="svelte-1k6mkma">Session and policy choices</summary> <p class="svelte-1k6mkma">Session approval applies to the scope defined by Codex until this native session ends. A proposed policy amendment can affect future requests.</p> <!> <!> <!></details>`);
-	var root_17$6 = /* @__PURE__ */ from_html(`<p class="svelte-1k6mkma">Codex did not offer a supported decision for this request. You can stop the turn.</p>`);
-	var root_18$5 = /* @__PURE__ */ from_html(`<div class="actions svelte-1k6mkma"><!> <!> <!></div> <!>`, 1);
-	var root_19$5 = /* @__PURE__ */ from_html(`<pre class="svelte-1k6mkma"> </pre> <p class="svelte-1k6mkma">Only the permissions shown above will be granted. No other paths or network access are added.</p> <div class="actions svelte-1k6mkma"><button type="button" class="svelte-1k6mkma">Grant for this turn</button> <button type="button" class="svelte-1k6mkma">Deny permissions</button></div> <details class="svelte-1k6mkma"><summary class="svelte-1k6mkma">Longer permission scope</summary><button type="button" class="svelte-1k6mkma">Grant for this session</button></details>`, 1);
-	var root_20$5 = /* @__PURE__ */ from_html(`<input type="password" required="" autocomplete="off" class="svelte-1k6mkma"/>`);
-	var root_21$3 = /* @__PURE__ */ from_html(`<textarea required="" rows="2" class="svelte-1k6mkma"></textarea>`);
-	var root_22$3 = /* @__PURE__ */ from_html(`<p class="svelte-1k6mkma"><button type="button" class="svelte-1k6mkma"> </button> </p>`);
-	var root_23$2 = /* @__PURE__ */ from_html(`<details open="" class="svelte-1k6mkma"><summary class="svelte-1k6mkma">Suggested answers</summary> <!></details>`);
+	var root$39 = /* @__PURE__ */ from_html(`<p class="svelte-1k6mkma"> </p>`);
+	var root_1$31 = /* @__PURE__ */ from_html(`<p class="svelte-1k6mkma">Destination <code class="svelte-1k6mkma"> </code></p> <p class="svelte-1k6mkma">Protocol <code class="svelte-1k6mkma"> </code></p>`, 1);
+	var root_2$29 = /* @__PURE__ */ from_html(`<p class="svelte-1k6mkma">MCP server: <strong> </strong></p>`);
+	var root_3$26 = /* @__PURE__ */ from_html(`<p class="svelte-1k6mkma">Directory <code class="svelte-1k6mkma"> </code></p>`);
+	var root_4$24 = /* @__PURE__ */ from_html(`<p class="svelte-1k6mkma">Environment <code class="svelte-1k6mkma"> </code></p>`);
+	var root_5$19 = /* @__PURE__ */ from_html(`<details class="svelte-1k6mkma"><summary class="svelte-1k6mkma">Reported command context</summary><pre class="svelte-1k6mkma"> </pre></details>`);
+	var root_6$18 = /* @__PURE__ */ from_html(`<pre class="svelte-1k6mkma"> </pre>`);
+	var root_7$15 = /* @__PURE__ */ from_html(`<p class="svelte-1k6mkma">Requested write root <code class="svelte-1k6mkma"> </code></p>`);
+	var root_8$14 = /* @__PURE__ */ from_html(`<details class="svelte-1k6mkma"><summary class="svelte-1k6mkma"> </summary><!></details>`);
+	var root_9$14 = /* @__PURE__ */ from_html(`<p class="svelte-1k6mkma">Codex has not supplied a file preview for this request.</p>`);
+	var root_10$11 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1k6mkma">Allow once</button>`);
+	var root_11$11 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1k6mkma">Decline</button>`);
+	var root_12$11 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1k6mkma">Cancel request</button>`);
+	var root_13$11 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1k6mkma">Allow for session</button>`);
+	var root_14$11 = /* @__PURE__ */ from_html(`<pre class="svelte-1k6mkma"> </pre> <button type="button" class="svelte-1k6mkma">Accept proposed command policy</button>`, 1);
+	var root_15$11 = /* @__PURE__ */ from_html(`<pre class="svelte-1k6mkma"> </pre> <button type="button" class="svelte-1k6mkma">Apply this network policy</button>`, 1);
+	var root_16$11 = /* @__PURE__ */ from_html(`<details class="svelte-1k6mkma"><summary class="svelte-1k6mkma">Session and policy choices</summary> <p class="svelte-1k6mkma">Session approval applies to the scope defined by Codex until this native session ends. A proposed policy amendment can affect future requests.</p> <!> <!> <!></details>`);
+	var root_17$8 = /* @__PURE__ */ from_html(`<p class="svelte-1k6mkma">Codex did not offer a supported decision for this request. You can stop the turn.</p>`);
+	var root_18$6 = /* @__PURE__ */ from_html(`<div class="actions svelte-1k6mkma"><!> <!> <!></div> <!>`, 1);
+	var root_19$6 = /* @__PURE__ */ from_html(`<pre class="svelte-1k6mkma"> </pre> <p class="svelte-1k6mkma">Only the permissions shown above will be granted. No other paths or network access are added.</p> <div class="actions svelte-1k6mkma"><button type="button" class="svelte-1k6mkma">Grant for this turn</button> <button type="button" class="svelte-1k6mkma">Deny permissions</button></div> <details class="svelte-1k6mkma"><summary class="svelte-1k6mkma">Longer permission scope</summary><button type="button" class="svelte-1k6mkma">Grant for this session</button></details>`, 1);
+	var root_20$6 = /* @__PURE__ */ from_html(`<input type="password" required="" autocomplete="off" class="svelte-1k6mkma"/>`);
+	var root_21$5 = /* @__PURE__ */ from_html(`<textarea required="" rows="2" class="svelte-1k6mkma"></textarea>`);
+	var root_22$4 = /* @__PURE__ */ from_html(`<p class="svelte-1k6mkma"><button type="button" class="svelte-1k6mkma"> </button> </p>`);
+	var root_23$3 = /* @__PURE__ */ from_html(`<details open="" class="svelte-1k6mkma"><summary class="svelte-1k6mkma">Suggested answers</summary> <!></details>`);
 	var root_24$2 = /* @__PURE__ */ from_html(`<label class="svelte-1k6mkma"> <!></label> <!>`, 1);
-	var root_25 = /* @__PURE__ */ from_html(`<form autocomplete="off" class="svelte-1k6mkma"><fieldset class="svelte-1k6mkma"><!> <div class="actions svelte-1k6mkma"><button type="submit" class="svelte-1k6mkma">Send answers</button><button type="button" class="svelte-1k6mkma">Dismiss questions</button></div></fieldset></form>`);
+	var root_25$1 = /* @__PURE__ */ from_html(`<form autocomplete="off" class="svelte-1k6mkma"><fieldset class="svelte-1k6mkma"><!> <div class="actions svelte-1k6mkma"><button type="submit" class="svelte-1k6mkma">Send answers</button><button type="button" class="svelte-1k6mkma">Dismiss questions</button></div></fieldset></form>`);
 	var root_26 = /* @__PURE__ */ from_html(`<p class="svelte-1k6mkma">The external page is requested by this MCP server. Check the address before opening it; opening it does not approve the request.</p> <pre class="svelte-1k6mkma"> </pre> <div class="actions svelte-1k6mkma"><button type="button" class="svelte-1k6mkma">Open authorization page</button> <button type="button" class="svelte-1k6mkma">I have completed the external step</button></div>`, 1);
 	var root_27 = /* @__PURE__ */ from_html(`<span class="svelte-1k6mkma"> </span>`);
 	var root_28 = /* @__PURE__ */ from_html(`<option>Select…</option>`);
@@ -42128,7 +42216,7 @@ createHTML: (html) => {
 		var text = only_child(h3, true);
 		var node = sibling(h3, 2);
 		var consequent = ($$anchor) => {
-			var p_1 = root$37();
+			var p_1 = root$39();
 			var text_1 = only_child(p_1, true);
 			template_effect(() => set_text(text_1, get(presentation).explanation));
 			append($$anchor, p_1);
@@ -42138,7 +42226,7 @@ createHTML: (html) => {
 		});
 		var node_1 = sibling(node, 2);
 		var consequent_1 = ($$anchor) => {
-			var fragment = root_1$30();
+			var fragment = root_1$31();
 			var p_2 = first_child(fragment);
 			var text_2 = only_child(sibling(child(p_2)), true);
 			reset(p_2);
@@ -42156,7 +42244,7 @@ createHTML: (html) => {
 		});
 		var node_2 = sibling(node_1, 2);
 		var consequent_2 = ($$anchor) => {
-			var p_4 = root_2$28();
+			var p_4 = root_2$29();
 			var text_4 = only_child(sibling(child(p_4)), true);
 			reset(p_4);
 			template_effect(() => set_text(text_4, get(p).serverName));
@@ -42167,7 +42255,7 @@ createHTML: (html) => {
 		});
 		var node_3 = sibling(node_2, 2);
 		var consequent_3 = ($$anchor) => {
-			var p_5 = root$37();
+			var p_5 = root$39();
 			var text_5 = only_child(p_5, true);
 			template_effect(() => set_text(text_5, get(p).reason || get(p).message));
 			append($$anchor, p_5);
@@ -42177,7 +42265,7 @@ createHTML: (html) => {
 		});
 		var node_4 = sibling(node_3, 2);
 		var consequent_4 = ($$anchor) => {
-			var p_6 = root_3$25();
+			var p_6 = root_3$26();
 			var text_6 = only_child(sibling(child(p_6)), true);
 			reset(p_6);
 			template_effect(() => set_text(text_6, get(p).cwd));
@@ -42188,7 +42276,7 @@ createHTML: (html) => {
 		});
 		var node_5 = sibling(node_4, 2);
 		var consequent_5 = ($$anchor) => {
-			var p_7 = root_4$22();
+			var p_7 = root_4$24();
 			var text_7 = only_child(sibling(child(p_7)), true);
 			reset(p_7);
 			template_effect(() => set_text(text_7, get(p).environmentId));
@@ -42202,14 +42290,14 @@ createHTML: (html) => {
 			var fragment_1 = comment$1();
 			var node_7 = first_child(fragment_1);
 			var consequent_6 = ($$anchor) => {
-				var details = root_5$18();
+				var details = root_5$19();
 				var text_8 = only_child(sibling(child(details)), true);
 				reset(details);
 				template_effect(() => set_text(text_8, get(p).command));
 				append($$anchor, details);
 			};
 			var alternate = ($$anchor) => {
-				var pre_1 = root_6$16();
+				var pre_1 = root_6$18();
 				var text_9 = only_child(pre_1, true);
 				template_effect(() => set_text(text_9, get(p).command));
 				append($$anchor, pre_1);
@@ -42225,7 +42313,7 @@ createHTML: (html) => {
 		});
 		var node_8 = sibling(node_6, 2);
 		var consequent_8 = ($$anchor) => {
-			var p_8 = root_7$13();
+			var p_8 = root_7$15();
 			var text_10 = only_child(sibling(child(p_8)), true);
 			reset(p_8);
 			template_effect(() => set_text(text_10, get(p).grantRoot));
@@ -42238,7 +42326,7 @@ createHTML: (html) => {
 		var consequent_9 = ($$anchor) => {
 			var fragment_2 = comment$1();
 			each(first_child(fragment_2), 17, () => $$props.request.item?.changes || [], (change) => change.path, ($$anchor, change) => {
-				var details_1 = root_8$12();
+				var details_1 = root_8$14();
 				var summary = child(details_1);
 				var text_11 = only_child(summary, true);
 				var node_11 = sibling(summary);
@@ -42258,7 +42346,7 @@ createHTML: (html) => {
 				template_effect(() => set_text(text_11, get(change).path));
 				append($$anchor, details_1);
 			}, ($$anchor) => {
-				append($$anchor, root_9$12());
+				append($$anchor, root_9$14());
 			});
 			append($$anchor, fragment_2);
 		};
@@ -42267,11 +42355,11 @@ createHTML: (html) => {
 		});
 		var node_12 = sibling(node_9, 2);
 		var consequent_18 = ($$anchor) => {
-			var fragment_3 = root_18$5();
+			var fragment_3 = root_18$6();
 			var div = first_child(fragment_3);
 			var node_13 = child(div);
 			var consequent_10 = ($$anchor) => {
-				var button = root_10$9();
+				var button = root_10$11();
 				template_effect(() => button.disabled = $$props.request.responding);
 				delegated("click", button, () => answer({ kind: "accept" }));
 				append($$anchor, button);
@@ -42281,7 +42369,7 @@ createHTML: (html) => {
 			});
 			var node_14 = sibling(node_13, 2);
 			var consequent_11 = ($$anchor) => {
-				var button_1 = root_11$9();
+				var button_1 = root_11$11();
 				template_effect(() => button_1.disabled = $$props.request.responding);
 				delegated("click", button_1, () => answer({ kind: "decline" }));
 				append($$anchor, button_1);
@@ -42291,7 +42379,7 @@ createHTML: (html) => {
 			});
 			var node_15 = sibling(node_14, 2);
 			var consequent_12 = ($$anchor) => {
-				var button_2 = root_12$9();
+				var button_2 = root_12$11();
 				template_effect(() => button_2.disabled = $$props.request.responding);
 				delegated("click", button_2, () => answer({ kind: "cancel" }));
 				append($$anchor, button_2);
@@ -42302,10 +42390,10 @@ createHTML: (html) => {
 			reset(div);
 			var node_16 = sibling(div, 2);
 			var consequent_16 = ($$anchor) => {
-				var details_2 = root_16$9();
+				var details_2 = root_16$11();
 				var node_17 = sibling(child(details_2), 4);
 				var consequent_13 = ($$anchor) => {
-					var button_3 = root_13$9();
+					var button_3 = root_13$11();
 					template_effect(() => button_3.disabled = $$props.request.responding);
 					delegated("click", button_3, () => answer({ kind: "session" }));
 					append($$anchor, button_3);
@@ -42315,7 +42403,7 @@ createHTML: (html) => {
 				});
 				var node_18 = sibling(node_17, 2);
 				var consequent_14 = ($$anchor) => {
-					var fragment_4 = root_14$9();
+					var fragment_4 = root_14$11();
 					var pre_2 = first_child(fragment_4);
 					var text_12 = only_child(pre_2, true);
 					var button_4 = sibling(pre_2, 2);
@@ -42333,7 +42421,7 @@ createHTML: (html) => {
 					var fragment_5 = comment$1();
 					var node_20 = first_child(fragment_5);
 					var consequent_15 = ($$anchor) => {
-						var fragment_6 = root_15$9();
+						var fragment_6 = root_15$11();
 						var pre_3 = first_child(fragment_6);
 						var text_13 = only_child(pre_3, true);
 						var button_5 = sibling(pre_3, 2);
@@ -42357,7 +42445,7 @@ createHTML: (html) => {
 				append($$anchor, details_2);
 			};
 			var consequent_17 = ($$anchor) => {
-				append($$anchor, root_17$6());
+				append($$anchor, root_17$8());
 			};
 			if_block(node_16, ($$render) => {
 				if (get(choices)?.session || get(choices)?.execPolicy || get(choices)?.networkPolicies.length) $$render(consequent_16);
@@ -42366,7 +42454,7 @@ createHTML: (html) => {
 			append($$anchor, fragment_3);
 		};
 		var consequent_19 = ($$anchor) => {
-			var fragment_7 = root_19$5();
+			var fragment_7 = root_19$6();
 			var pre_4 = first_child(fragment_7);
 			var text_14 = only_child(pre_4, true);
 			var div_1 = sibling(pre_4, 4);
@@ -42400,7 +42488,7 @@ createHTML: (html) => {
 			append($$anchor, fragment_7);
 		};
 		var consequent_22 = ($$anchor) => {
-			var form = root_25();
+			var form = root_25$1();
 			var fieldset = child(form);
 			var node_21 = child(fieldset);
 			each(node_21, 17, () => get(p).questions || [], (question) => question.id, ($$anchor, question) => {
@@ -42409,12 +42497,12 @@ createHTML: (html) => {
 				var text_15 = child(label_1);
 				var node_22 = sibling(text_15);
 				var consequent_20 = ($$anchor) => {
-					var input = root_20$5();
+					var input = root_20$6();
 					template_effect(() => set_attribute(input, "name", get(question).id));
 					append($$anchor, input);
 				};
 				var alternate_1 = ($$anchor) => {
-					var textarea = root_21$3();
+					var textarea = root_21$5();
 					template_effect(() => set_attribute(textarea, "name", get(question).id));
 					append($$anchor, textarea);
 				};
@@ -42425,9 +42513,9 @@ createHTML: (html) => {
 				reset(label_1);
 				var node_23 = sibling(label_1, 2);
 				var consequent_21 = ($$anchor) => {
-					var details_4 = root_23$2();
+					var details_4 = root_23$3();
 					each(sibling(child(details_4), 2), 17, () => get(question).options, index, ($$anchor, option) => {
-						var p_11 = root_22$3();
+						var p_11 = root_22$4();
 						var button_9 = child(p_11);
 						var text_16 = only_child(button_9, true);
 						var text_17 = sibling(button_9);
@@ -42686,11 +42774,11 @@ createHTML: (html) => {
 	delegate(["click"]);
 	//#endregion
 	//#region src/components/NativeRequests.svelte
-	var root$36 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1vhttyf">I reviewed the history · dismiss delivery warning</button>`);
-	var root_1$29 = /* @__PURE__ */ from_html(`<p class="svelte-1vhttyf"> </p> <button type="button" class="svelte-1vhttyf">Check native history</button> <!>`, 1);
-	var root_2$27 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1vhttyf">Load Codex history</button>`);
-	var root_3$24 = /* @__PURE__ */ from_html(`<p role="alert" class="svelte-1vhttyf"> </p><button type="button" class="svelte-1vhttyf">Dismiss message</button>`, 1);
-	var root_4$21 = /* @__PURE__ */ from_html(`<div class="native-requests svelte-1vhttyf" role="region" aria-label="Codex decisions"><!> <!> <!></div>`);
+	var root$38 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1vhttyf">I reviewed the history · dismiss delivery warning</button>`);
+	var root_1$30 = /* @__PURE__ */ from_html(`<p class="svelte-1vhttyf"> </p> <button type="button" class="svelte-1vhttyf">Check native history</button> <!>`, 1);
+	var root_2$28 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1vhttyf">Load Codex history</button>`);
+	var root_3$25 = /* @__PURE__ */ from_html(`<p role="alert" class="svelte-1vhttyf"> </p><button type="button" class="svelte-1vhttyf">Dismiss message</button>`, 1);
+	var root_4$23 = /* @__PURE__ */ from_html(`<div class="native-requests svelte-1vhttyf" role="region" aria-label="Codex decisions"><!> <!> <!></div>`);
 	function NativeRequests($$anchor, $$props) {
 		push($$props, true);
 		let owner = /* @__PURE__ */ state("");
@@ -42787,16 +42875,16 @@ createHTML: (html) => {
 		var fragment = comment$1();
 		var node = first_child(fragment);
 		var consequent_4 = ($$anchor) => {
-			var div = root_4$21();
+			var div = root_4$23();
 			var node_1 = child(div);
 			var consequent_1 = ($$anchor) => {
-				var fragment_1 = root_1$29();
+				var fragment_1 = root_1$30();
 				var p = first_child(fragment_1);
 				var text = only_child(p);
 				var button = sibling(p, 2);
 				var node_2 = sibling(button, 2);
 				var consequent = ($$anchor) => {
-					var button_1 = root$36();
+					var button_1 = root$38();
 					delegated("click", button_1, () => control({
 						kind: "review_delivery",
 						message_id: get(receipt)
@@ -42811,7 +42899,7 @@ createHTML: (html) => {
 				append($$anchor, fragment_1);
 			};
 			var consequent_2 = ($$anchor) => {
-				var button_2 = root_2$27();
+				var button_2 = root_2$28();
 				delegated("click", button_2, () => control({ kind: "read" }));
 				append($$anchor, button_2);
 			};
@@ -42821,7 +42909,7 @@ createHTML: (html) => {
 			});
 			var node_3 = sibling(node_1, 2);
 			var consequent_3 = ($$anchor) => {
-				var fragment_2 = root_3$24();
+				var fragment_2 = root_3$25();
 				var p_1 = first_child(fragment_2);
 				var text_1 = only_child(p_1, true);
 				var button_3 = sibling(p_1);
@@ -42852,7 +42940,7 @@ createHTML: (html) => {
 	delegate(["click"]);
 	//#endregion
 	//#region src/components/ChatSurface.svelte
-	var root$35 = /* @__PURE__ */ from_html(`<!> <div class="conversation-toolbar" hidden="" aria-hidden="true"><span class="conversation-title">Agent</span> <span id="conversation-workspace" class="conversation-workspace">No workspace connected</span> <span id="conversation-state" class="conversation-state">Idle</span></div> <div id="chat-messages" class="chat-messages"></div> <!> <!>`, 1);
+	var root$37 = /* @__PURE__ */ from_html(`<!> <div class="conversation-toolbar" hidden="" aria-hidden="true"><span class="conversation-title">Agent</span> <span id="conversation-workspace" class="conversation-workspace">No workspace connected</span> <span id="conversation-state" class="conversation-state">Idle</span></div> <div id="chat-messages" class="chat-messages"></div> <!> <!>`, 1);
 	function ChatSurface($$anchor, $$props) {
 		push($$props, false);
 		let messages = /* @__PURE__ */ mutable_source();
@@ -42880,7 +42968,7 @@ createHTML: (html) => {
 			};
 		});
 		init();
-		var fragment = root$35();
+		var fragment = root$37();
 		var node = first_child(fragment);
 		FileEditor(node, {});
 		var div = sibling(node, 4);
@@ -42893,9 +42981,9 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/ModelPicker.svelte
-	var root$34 = /* @__PURE__ */ from_html(`<span class="model-description svelte-1lis8xj"> </span>`);
-	var root_1$28 = /* @__PURE__ */ from_html(`<option> </option>`);
-	var root_2$26 = /* @__PURE__ */ from_html(`<div class="model-field"><span class="model-field-copy svelte-1lis8xj"><span class="model-label"> </span> <!></span> <select class="model-select" aria-hidden="true" tabindex="-1"><!></select> <button class="model-picker-button" type="button" aria-haspopup="listbox" aria-expanded="false"><span class="model-picker-value"> </span> <span class="model-picker-chevron" aria-hidden="true"></span></button> <div class="model-picker-menu" role="listbox" hidden=""></div></div>`);
+	var root$36 = /* @__PURE__ */ from_html(`<span class="model-description svelte-1lis8xj"> </span>`);
+	var root_1$29 = /* @__PURE__ */ from_html(`<option> </option>`);
+	var root_2$27 = /* @__PURE__ */ from_html(`<div class="model-field"><span class="model-field-copy svelte-1lis8xj"><span class="model-label"> </span> <!></span> <select class="model-select" aria-hidden="true" tabindex="-1"><!></select> <button class="model-picker-button" type="button" aria-haspopup="listbox" aria-expanded="false"><span class="model-picker-value"> </span> <span class="model-picker-chevron" aria-hidden="true"></span></button> <div class="model-picker-menu" role="listbox" hidden=""></div></div>`);
 	function ModelPicker($$anchor, $$props) {
 		push($$props, true);
 		let description = prop($$props, "description", 3, ""), options = prop($$props, "options", 19, () => []);
@@ -42904,13 +42992,13 @@ createHTML: (html) => {
 		const buttonId = /* @__PURE__ */ user_derived(() => `${$$props.kind}-picker-button`);
 		const valueId = /* @__PURE__ */ user_derived(() => `${$$props.kind}-picker-value`);
 		const menuId = /* @__PURE__ */ user_derived(() => `${$$props.kind}-picker-menu`);
-		var div = root_2$26();
+		var div = root_2$27();
 		var span = child(div);
 		var span_1 = child(span);
 		var text = only_child(span_1, true);
 		var node = sibling(span_1, 2);
 		var consequent = ($$anchor) => {
-			var span_2 = root$34();
+			var span_2 = root$36();
 			var text_1 = only_child(span_2, true);
 			template_effect(() => {
 				set_attribute(span_2, "id", `${$$props.kind}-picker-description`);
@@ -42927,7 +43015,7 @@ createHTML: (html) => {
 		var consequent_1 = ($$anchor) => {
 			var fragment = comment$1();
 			each(first_child(fragment), 17, options, (option) => option.value, ($$anchor, option) => {
-				var option_1 = root_1$28();
+				var option_1 = root_1$29();
 				var text_2 = only_child(option_1, true);
 				var option_1_value = {};
 				template_effect(() => {
@@ -42939,7 +43027,7 @@ createHTML: (html) => {
 			append($$anchor, fragment);
 		};
 		var alternate = ($$anchor) => {
-			var option_2 = root_1$28();
+			var option_2 = root_1$29();
 			var text_3 = only_child(option_2, true);
 			var option_2_value = {};
 			template_effect(() => {
@@ -43004,7 +43092,7 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/AgentConfiguration.svelte
-	var root$33 = /* @__PURE__ */ from_html(`<div id="tetra-config-menu" class="tetra-config-menu svelte-1x2qeqj" role="dialog" aria-label="Agent configuration" data-phase="closed" hidden=""><div class="configuration-heading svelte-1x2qeqj"><span class="svelte-1x2qeqj">Agent profile</span> <button type="button" aria-label="Close agent configuration" title="Close profile" class="svelte-1x2qeqj">×</button></div> <div class="tetra-config-part svelte-1x2qeqj" data-config-part="subscription"><!></div> <div class="tetra-config-part svelte-1x2qeqj" data-config-part="model"><!></div> <div class="tetra-config-part svelte-1x2qeqj" data-config-part="effort"><!></div> <div class="tetra-config-part svelte-1x2qeqj" data-config-part="speed"><!></div> <p id="tetra-config-summary" hidden=""></p></div>`);
+	var root$35 = /* @__PURE__ */ from_html(`<div id="tetra-config-menu" class="tetra-config-menu svelte-1x2qeqj" role="dialog" aria-label="Agent configuration" data-phase="closed" hidden=""><div class="configuration-heading svelte-1x2qeqj"><span class="svelte-1x2qeqj">Agent profile</span> <button type="button" aria-label="Close agent configuration" title="Close profile" class="svelte-1x2qeqj">×</button></div> <div class="tetra-config-part svelte-1x2qeqj" data-config-part="subscription"><!></div> <div class="tetra-config-part svelte-1x2qeqj" data-config-part="model"><!></div> <div class="tetra-config-part svelte-1x2qeqj" data-config-part="effort"><!></div> <div class="tetra-config-part svelte-1x2qeqj" data-config-part="speed"><!></div> <p id="tetra-config-summary" hidden=""></p></div>`);
 	function AgentConfiguration($$anchor, $$props) {
 		push($$props, false);
 		let menu = /* @__PURE__ */ mutable_source();
@@ -43185,7 +43273,7 @@ createHTML: (html) => {
 		}
 		var $$exports = { setOpen };
 		init();
-		var div = root$33();
+		var div = root$35();
 		var div_1 = child(div);
 		var button_1 = sibling(child(div_1), 2);
 		reset(div_1);
@@ -43231,13 +43319,13 @@ createHTML: (html) => {
 	delegate(["click"]);
 	//#endregion
 	//#region src/components/ConfigurationSection.svelte
-	var root$32 = /* @__PURE__ */ from_svg(`<path></path>`);
-	var root_1$27 = /* @__PURE__ */ from_html(`<span class="section-icon svelte-zmwjzj" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" class="svelte-zmwjzj"></svg></span>`);
-	var root_2$25 = /* @__PURE__ */ from_html(`<span class="section-description svelte-zmwjzj"> </span>`);
-	var root_3$23 = /* @__PURE__ */ from_html(`<span class="section-scope svelte-zmwjzj"> </span>`);
-	var root_4$20 = /* @__PURE__ */ from_html(`<h2 class="svelte-zmwjzj"><button type="button" class="section-toggle svelte-zmwjzj"><!> <span class="section-copy svelte-zmwjzj"><span class="configuration-section-title svelte-zmwjzj"> </span><!></span> <!> <span class="section-chevron svelte-zmwjzj" aria-hidden="true">›</span></button></h2>`);
-	var root_5$17 = /* @__PURE__ */ from_html(`<h2 class="section-heading svelte-zmwjzj"><span class="section-copy svelte-zmwjzj"><span class="configuration-section-title svelte-zmwjzj"> </span><!></span> <!></h2>`);
-	var root_6$15 = /* @__PURE__ */ from_html(`<section><!> <div class="configuration-content svelte-zmwjzj"><!></div></section>`);
+	var root$34 = /* @__PURE__ */ from_svg(`<path></path>`);
+	var root_1$28 = /* @__PURE__ */ from_html(`<span class="section-icon svelte-zmwjzj" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" class="svelte-zmwjzj"></svg></span>`);
+	var root_2$26 = /* @__PURE__ */ from_html(`<span class="section-description svelte-zmwjzj"> </span>`);
+	var root_3$24 = /* @__PURE__ */ from_html(`<span class="section-scope svelte-zmwjzj"> </span>`);
+	var root_4$22 = /* @__PURE__ */ from_html(`<h2 class="svelte-zmwjzj"><button type="button" class="section-toggle svelte-zmwjzj"><!> <span class="section-copy svelte-zmwjzj"><span class="configuration-section-title svelte-zmwjzj"> </span><!></span> <!> <span class="section-chevron svelte-zmwjzj" aria-hidden="true">›</span></button></h2>`);
+	var root_5$18 = /* @__PURE__ */ from_html(`<h2 class="section-heading svelte-zmwjzj"><span class="section-copy svelte-zmwjzj"><span class="configuration-section-title svelte-zmwjzj"> </span><!></span> <!></h2>`);
+	var root_6$17 = /* @__PURE__ */ from_html(`<section><!> <div class="configuration-content svelte-zmwjzj"><!></div></section>`);
 	function ConfigurationSection($$anchor, $$props) {
 		const sectionId = props_id();
 		push($$props, true);
@@ -43260,21 +43348,21 @@ createHTML: (html) => {
 		const contentId = `${sectionId}-configuration-content`;
 		const compact = getContext$1("central-agent:compact-configuration") === true;
 		let expanded = /* @__PURE__ */ state(proxy(untrack(() => initiallyOpen())));
-		var section_1 = root_6$15();
+		var section_1 = root_6$17();
 		let classes;
 		var node = child(section_1);
 		var consequent_6 = ($$anchor) => {
 			var fragment = comment$1();
 			var node_1 = first_child(fragment);
 			var consequent_3 = ($$anchor) => {
-				var h2 = root_4$20();
+				var h2 = root_4$22();
 				var button = child(h2);
 				var node_2 = child(button);
 				var consequent = ($$anchor) => {
-					var span = root_1$27();
+					var span = root_1$28();
 					var svg = child(span);
 					each(svg, 21, () => iconPaths[$$props.icon], index, ($$anchor, path) => {
-						var path_1 = root$32();
+						var path_1 = root$34();
 						template_effect(() => set_attribute(path_1, "d", get(path)));
 						append($$anchor, path_1);
 					});
@@ -43290,7 +43378,7 @@ createHTML: (html) => {
 				var text = only_child(span_2, true);
 				var node_3 = sibling(span_2);
 				var consequent_1 = ($$anchor) => {
-					var span_3 = root_2$25();
+					var span_3 = root_2$26();
 					var text_1 = only_child(span_3, true);
 					template_effect(() => set_text(text_1, description()));
 					append($$anchor, span_3);
@@ -43301,7 +43389,7 @@ createHTML: (html) => {
 				reset(span_1);
 				var node_4 = sibling(span_1, 2);
 				var consequent_2 = ($$anchor) => {
-					var span_4 = root_3$23();
+					var span_4 = root_3$24();
 					var text_2 = only_child(span_4, true);
 					template_effect(() => set_text(text_2, scope()));
 					append($$anchor, span_4);
@@ -43321,13 +43409,13 @@ createHTML: (html) => {
 				append($$anchor, h2);
 			};
 			var alternate = ($$anchor) => {
-				var h2_1 = root_5$17();
+				var h2_1 = root_5$18();
 				var span_5 = child(h2_1);
 				var span_6 = child(span_5);
 				var text_3 = only_child(span_6, true);
 				var node_5 = sibling(span_6);
 				var consequent_4 = ($$anchor) => {
-					var span_7 = root_2$25();
+					var span_7 = root_2$26();
 					var text_4 = only_child(span_7, true);
 					template_effect(() => set_text(text_4, description()));
 					append($$anchor, span_7);
@@ -43338,7 +43426,7 @@ createHTML: (html) => {
 				reset(span_5);
 				var node_6 = sibling(span_5, 2);
 				var consequent_5 = ($$anchor) => {
-					var span_8 = root_3$23();
+					var span_8 = root_3$24();
 					var text_5 = only_child(span_8, true);
 					template_effect(() => set_text(text_5, scope()));
 					append($$anchor, span_8);
@@ -43375,11 +43463,11 @@ createHTML: (html) => {
 	delegate(["click"]);
 	//#endregion
 	//#region src/components/SettingsPicker.svelte
-	var root$31 = /* @__PURE__ */ from_html(`<span class="settings-picker-description svelte-1jqvkrl"> </span>`);
-	var root_1$26 = /* @__PURE__ */ from_html(`<option> </option>`);
-	var root_2$24 = /* @__PURE__ */ from_html(`<span class="model-picker-option-description svelte-1jqvkrl"> </span>`);
-	var root_3$22 = /* @__PURE__ */ from_html(`<button type="button" role="option"><span><span class="model-picker-option-title svelte-1jqvkrl"> </span> <!></span> <span class="model-picker-check svelte-1jqvkrl" aria-hidden="true">✓</span></button>`);
-	var root_4$19 = /* @__PURE__ */ from_html(`<div><span class="settings-picker-copy svelte-1jqvkrl"><span class="settings-picker-label model-label svelte-1jqvkrl"> </span> <!></span> <select class="model-select settings-native-select svelte-1jqvkrl" aria-hidden="true" tabindex="-1"></select> <button class="model-picker-button settings-picker-button svelte-1jqvkrl" type="button" aria-haspopup="listbox"><span class="model-picker-value svelte-1jqvkrl"> </span> <span class="model-picker-chevron svelte-1jqvkrl" aria-hidden="true"></span></button> <div class="model-picker-menu settings-picker-menu svelte-1jqvkrl" role="listbox" tabindex="-1"></div></div>`);
+	var root$33 = /* @__PURE__ */ from_html(`<span class="settings-picker-description svelte-1jqvkrl"> </span>`);
+	var root_1$27 = /* @__PURE__ */ from_html(`<option> </option>`);
+	var root_2$25 = /* @__PURE__ */ from_html(`<span class="model-picker-option-description svelte-1jqvkrl"> </span>`);
+	var root_3$23 = /* @__PURE__ */ from_html(`<button type="button" role="option"><span><span class="model-picker-option-title svelte-1jqvkrl"> </span> <!></span> <span class="model-picker-check svelte-1jqvkrl" aria-hidden="true">✓</span></button>`);
+	var root_4$21 = /* @__PURE__ */ from_html(`<div><span class="settings-picker-copy svelte-1jqvkrl"><span class="settings-picker-label model-label svelte-1jqvkrl"> </span> <!></span> <select class="model-select settings-native-select svelte-1jqvkrl" aria-hidden="true" tabindex="-1"></select> <button class="model-picker-button settings-picker-button svelte-1jqvkrl" type="button" aria-haspopup="listbox"><span class="model-picker-value svelte-1jqvkrl"> </span> <span class="model-picker-chevron svelte-1jqvkrl" aria-hidden="true"></span></button> <div class="model-picker-menu settings-picker-menu svelte-1jqvkrl" role="listbox" tabindex="-1"></div></div>`);
 	function SettingsPicker($$anchor, $$props) {
 		push($$props, true);
 		let disabled = prop($$props, "disabled", 3, false), presentation = prop($$props, "presentation", 3, "settings"), contained = prop($$props, "contained", 3, false);
@@ -43456,14 +43544,14 @@ createHTML: (html) => {
 			document.addEventListener("pointerdown", outside);
 			return () => document.removeEventListener("pointerdown", outside);
 		});
-		var div = root_4$19();
+		var div = root_4$21();
 		let classes;
 		var span = child(div);
 		var span_1 = child(span);
 		var text = only_child(span_1, true);
 		var node = sibling(span_1, 2);
 		var consequent = ($$anchor) => {
-			var span_2 = root$31();
+			var span_2 = root$33();
 			var text_1 = only_child(span_2, true);
 			template_effect(() => {
 				set_attribute(span_2, "id", `${$$props.id}-picker-description`);
@@ -43477,7 +43565,7 @@ createHTML: (html) => {
 		reset(span);
 		var select_1 = sibling(span, 2);
 		each(select_1, 21, () => $$props.options, (option) => option.value, ($$anchor, option) => {
-			var option_1 = root_1$26();
+			var option_1 = root_1$27();
 			var text_2 = only_child(option_1, true);
 			var option_1_value = {};
 			template_effect(() => {
@@ -43498,14 +43586,14 @@ createHTML: (html) => {
 		bind_this(button_1, ($$value) => button = $$value, () => button);
 		var div_1 = sibling(button_1, 2);
 		each(div_1, 21, () => $$props.options, (option) => option.value, ($$anchor, option) => {
-			var button_2 = root_3$22();
+			var button_2 = root_3$23();
 			let classes_1;
 			var span_4 = child(button_2);
 			var span_5 = child(span_4);
 			var text_4 = only_child(span_5, true);
 			var node_1 = sibling(span_5, 2);
 			var consequent_1 = ($$anchor) => {
-				var span_6 = root_2$24();
+				var span_6 = root_2$25();
 				var text_5 = only_child(span_6, true);
 				template_effect(() => set_text(text_5, get(option).description));
 				append($$anchor, span_6);
@@ -43573,16 +43661,16 @@ createHTML: (html) => {
 	]);
 	//#endregion
 	//#region src/components/NativeAccess.svelte
-	var root$30 = /* @__PURE__ */ from_html(`<p class="settings-note svelte-xl8vwz">The selected conversation keeps the summary preference already reported by Codex.</p>`);
-	var root_1$25 = /* @__PURE__ */ from_html(`<div class="native-access native-summary settings-option-panel svelte-xl8vwz"><!> <!></div>`);
-	var root_2$23 = /* @__PURE__ */ from_html(`<p class="settings-note svelte-xl8vwz">Finish or clear active and queued Codex work before changing shared permissions.</p>`);
-	var root_3$21 = /* @__PURE__ */ from_html(`<p class="settings-note svelte-xl8vwz">The saved choice is unavailable under the current managed restrictions. Select an allowed option before sending another prompt.</p>`);
-	var root_4$18 = /* @__PURE__ */ from_html(`<p class="settings-note svelte-xl8vwz"> </p>`);
-	var root_5$16 = /* @__PURE__ */ from_html(`<div class="native-access native-workspace-access settings-option-panel svelte-xl8vwz"><!> <p class="access-note svelte-xl8vwz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="svelte-xl8vwz"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v6"></path><path d="M12 7h.01"></path></svg> <span> </span></p> <p class="settings-note svelte-xl8vwz">This choice is shared by every Codex agent and remains active after restarting Supervisor. Supervisor's own tools use the confirmation policy below.</p> <!> <!> <!></div>`);
-	var root_6$14 = /* @__PURE__ */ from_html(`<p role="alert" class="svelte-xl8vwz"> </p>`);
-	var root_7$12 = /* @__PURE__ */ from_html(`<!> <!> <!>`, 1);
-	var root_8$11 = /* @__PURE__ */ from_html(`<dialog class="workspace-confirm-dialog svelte-xl8vwz" aria-label="Allow full Codex access?"><h2>Allow full access?</h2> <p class="svelte-xl8vwz">All Codex agents in Supervisor will be able to run commands and modify files outside their projects, with network access and without command approval prompts. This choice is saved and remains active after restarting the app, until you change it. Connected tools may still ask for separate permission.</p> <div class="workspace-confirm-actions"><button type="button" class="svelte-xl8vwz">Cancel</button><button type="button" class="svelte-xl8vwz">Allow full access</button></div></dialog>`);
-	var root_9$11 = /* @__PURE__ */ from_html(`<!> <!>`, 1);
+	var root$32 = /* @__PURE__ */ from_html(`<p class="settings-note svelte-xl8vwz">The selected conversation keeps the summary preference already reported by Codex.</p>`);
+	var root_1$26 = /* @__PURE__ */ from_html(`<div class="native-access native-summary settings-option-panel svelte-xl8vwz"><!> <!></div>`);
+	var root_2$24 = /* @__PURE__ */ from_html(`<p class="settings-note svelte-xl8vwz">Finish or clear active and queued Codex work before changing shared permissions.</p>`);
+	var root_3$22 = /* @__PURE__ */ from_html(`<p class="settings-note svelte-xl8vwz">The saved choice is unavailable under the current managed restrictions. Select an allowed option before sending another prompt.</p>`);
+	var root_4$20 = /* @__PURE__ */ from_html(`<p class="settings-note svelte-xl8vwz"> </p>`);
+	var root_5$17 = /* @__PURE__ */ from_html(`<div class="native-access native-workspace-access settings-option-panel svelte-xl8vwz"><!> <p class="access-note svelte-xl8vwz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="svelte-xl8vwz"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v6"></path><path d="M12 7h.01"></path></svg> <span> </span></p> <p class="settings-note svelte-xl8vwz">This choice is shared by every Codex agent and remains active after restarting Supervisor. Supervisor's own tools use the confirmation policy below.</p> <!> <!> <!></div>`);
+	var root_6$16 = /* @__PURE__ */ from_html(`<p role="alert" class="svelte-xl8vwz"> </p>`);
+	var root_7$14 = /* @__PURE__ */ from_html(`<!> <!> <!>`, 1);
+	var root_8$13 = /* @__PURE__ */ from_html(`<dialog class="workspace-confirm-dialog svelte-xl8vwz" aria-label="Allow full Codex access?"><h2>Allow full access?</h2> <p class="svelte-xl8vwz">All Codex agents in Supervisor will be able to run commands and modify files outside their projects, with network access and without command approval prompts. This choice is saved and remains active after restarting the app, until you change it. Connected tools may still ask for separate permission.</p> <div class="workspace-confirm-actions"><button type="button" class="svelte-xl8vwz">Cancel</button><button type="button" class="svelte-xl8vwz">Allow full access</button></div></dialog>`);
+	var root_9$13 = /* @__PURE__ */ from_html(`<!> <!>`, 1);
 	function NativeAccess($$anchor, $$props) {
 		push($$props, true);
 		let settingsVisible = prop($$props, "settingsVisible", 3, true), presentation = prop($$props, "presentation", 3, "all");
@@ -43686,13 +43774,13 @@ createHTML: (html) => {
 				description: "Keep the setting already reported by Codex."
 			}
 		];
-		var fragment = root_9$11();
+		var fragment = root_9$13();
 		var node = first_child(fragment);
 		var consequent_7 = ($$anchor) => {
-			var fragment_1 = root_7$12();
+			var fragment_1 = root_7$14();
 			var node_1 = first_child(fragment_1);
 			var consequent_1 = ($$anchor) => {
-				var div = root_1$25();
+				var div = root_1$26();
 				var node_2 = child(div);
 				{
 					let $0 = /* @__PURE__ */ user_derived(() => get(view).summary ?? "inherit");
@@ -43714,7 +43802,7 @@ createHTML: (html) => {
 				}
 				var node_3 = sibling(node_2, 2);
 				var consequent = ($$anchor) => {
-					append($$anchor, root$30());
+					append($$anchor, root$32());
 				};
 				if_block(node_3, ($$render) => {
 					if (get(view).summary === null) $$render(consequent);
@@ -43735,7 +43823,7 @@ createHTML: (html) => {
 					initiallyOpen: true,
 					collapsible: false,
 					children: ($$anchor, $$slotProps) => {
-						var div_1 = root_5$16();
+						var div_1 = root_5$17();
 						var node_5 = child(div_1);
 						{
 							let $0 = /* @__PURE__ */ user_derived(() => get(view).permissionsDisabled ?? get(view).disabled);
@@ -43766,14 +43854,14 @@ createHTML: (html) => {
 						reset(p_1);
 						var node_6 = sibling(p_1, 4);
 						var consequent_2 = ($$anchor) => {
-							append($$anchor, root_2$23());
+							append($$anchor, root_2$24());
 						};
 						if_block(node_6, ($$render) => {
 							if (get(view).permissionsBusy) $$render(consequent_2);
 						});
 						var node_7 = sibling(node_6, 2);
 						var consequent_3 = ($$anchor) => {
-							append($$anchor, root_3$21());
+							append($$anchor, root_3$22());
 						};
 						var d_1 = /* @__PURE__ */ user_derived(() => get(view).options.some((option) => option.value === get(view)?.selected && !option.allowed));
 						if_block(node_7, ($$render) => {
@@ -43781,7 +43869,7 @@ createHTML: (html) => {
 						});
 						var node_8 = sibling(node_7, 2);
 						var consequent_4 = ($$anchor) => {
-							var p_4 = root_4$18();
+							var p_4 = root_4$20();
 							var text_1 = only_child(p_4, true);
 							template_effect(() => set_text(text_1, get(view).options[0]?.reason || "Native permission requirements are unavailable."));
 							append($$anchor, p_4);
@@ -43802,7 +43890,7 @@ createHTML: (html) => {
 			});
 			var node_9 = sibling(node_4, 2);
 			var consequent_6 = ($$anchor) => {
-				var p_5 = root_6$14();
+				var p_5 = root_6$16();
 				var text_2 = only_child(p_5, true);
 				template_effect(() => set_text(text_2, get(error) || get(view).error));
 				append($$anchor, p_5);
@@ -43817,7 +43905,7 @@ createHTML: (html) => {
 		});
 		var node_10 = sibling(node, 2);
 		var consequent_8 = ($$anchor) => {
-			var dialog_1 = root_8$11();
+			var dialog_1 = root_8$13();
 			var div_2 = sibling(child(dialog_1), 4);
 			var button = child(div_2);
 			var button_1 = sibling(button);
@@ -43848,29 +43936,29 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/NativeHistory.svelte
-	var root$29 = /* @__PURE__ */ from_html(`<p class="svelte-137p3j1">A native fork is pending or its result is uncertain. Use native history to link the fork of the original source. No new prompt will create a replacement conversation here.</p>`);
-	var root_1$24 = /* @__PURE__ */ from_html(`<!> <button type="button" class="svelte-137p3j1">Browse Codex history…</button>`, 1);
-	var root_2$22 = /* @__PURE__ */ from_html(`<span class="svelte-137p3j1"> </span>`);
-	var root_3$20 = /* @__PURE__ */ from_html(`<nav class="source-switch svelte-137p3j1" aria-label="Codex history source"><button type="button">Local</button> <button type="button"><svg class="cloud-icon svelte-137p3j1" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 18.25h9.25a4 4 0 0 0 .4-7.98A5.75 5.75 0 0 0 6.2 8.9a4.7 4.7 0 0 0 1.3 9.35Z"></path></svg> Cloud<!></button></nav>`);
-	var root_4$17 = /* @__PURE__ */ from_html(`<p class="svelte-137p3j1">The conversation remains archived until you explicitly restore it.</p>`);
-	var root_5$15 = /* @__PURE__ */ from_html(`<p role="alert" class="svelte-137p3j1"> </p>`);
-	var root_6$13 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-137p3j1">Waiting for Codex. Closing this list does not cancel or retry the accepted request.</p>`);
-	var root_7$11 = /* @__PURE__ */ from_html(`<section class="confirmation svelte-137p3j1" aria-label="Confirm native conversation destination" tabindex="-1"><h3 class="svelte-137p3j1"> </h3> <p class="svelte-137p3j1"> </p><p class="svelte-137p3j1"> </p> <p class="svelte-137p3j1"> </p> <p class="svelte-137p3j1">Future prompts use this local directory and your selected permissions. No prompt is sent now; other-provider history and the draft are preserved.</p> <!> <div class="actions svelte-137p3j1"><button type="button" class="svelte-137p3j1">Cancel choice</button><button type="button" class="svelte-137p3j1"> </button></div> <!> <!></section>`);
-	var root_8$10 = /* @__PURE__ */ from_html(`<p class="svelte-137p3j1">Create or select a local project chat or graph agent without a Codex binding to link history or create a fork. Existing histories are never replaced.</p>`);
-	var root_9$10 = /* @__PURE__ */ from_html(`<p class="svelte-137p3j1">Codex requires an active conversation to create a fork. You can link archived history here, then explicitly restore it using its conversation controls before forking. Nothing is restored automatically.</p>`);
-	var root_10$8 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-137p3j1">Loading native history…</p>`);
-	var root_11$8 = /* @__PURE__ */ from_html(`<p class="svelte-137p3j1">No conversations match this search.</p>`);
-	var root_12$8 = /* @__PURE__ */ from_html(`<article class="svelte-137p3j1"><h3 class="svelte-137p3j1"> </h3> <p class="svelte-137p3j1"> </p> <p class="svelte-137p3j1"> </p> <div class="actions svelte-137p3j1"><button type="button" class="svelte-137p3j1">Link to this chat…</button> <button type="button" class="svelte-137p3j1">Fork into this chat…</button></div></article>`);
-	var root_13$8 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-137p3j1">Load more</button>`);
-	var root_14$8 = /* @__PURE__ */ from_html(`<p class="svelte-137p3j1">History from the local Codex runtime, including CLI and other App Server clients. Browsing does not resume a conversation or send a model prompt. Prompt text, native titles and full source paths stay outside this list.</p> <form class="svelte-137p3j1"><label class="svelte-137p3j1">Search native titles (case-sensitive)<input class="svelte-137p3j1"/></label> <label class="archive svelte-137p3j1"><input type="checkbox" class="svelte-137p3j1"/>Archived only</label> <button type="submit" class="svelte-137p3j1">Search / refresh</button></form> <!> <!> <!> <!> <div class="results"><!> <!> <!></div>`, 1);
-	var root_15$8 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-137p3j1">Loading Codex Cloud chats…</p>`);
-	var root_16$8 = /* @__PURE__ */ from_html(`<p class="svelte-137p3j1">No Codex Cloud chats were found for this account.</p>`);
-	var root_17$5 = /* @__PURE__ */ from_html(`<article class="cloud-task svelte-137p3j1"><div class="cloud-heading svelte-137p3j1"><svg class="cloud-icon svelte-137p3j1" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 18.25h9.25a4 4 0 0 0 .4-7.98A5.75 5.75 0 0 0 6.2 8.9a4.7 4.7 0 0 0 1.3 9.35Z"></path></svg> <div><h3 class="svelte-137p3j1"> </h3><p class="svelte-137p3j1"> </p></div> <span class="cloud-status svelte-137p3j1"> </span></div> <p class="cloud-meta svelte-137p3j1"> <!></p> <p class="cloud-summary svelte-137p3j1"> </p> <div class="actions svelte-137p3j1"><button type="button" class="svelte-137p3j1">Open chat</button> <button type="button" class="svelte-137p3j1">View changes</button></div></article>`);
-	var root_18$4 = /* @__PURE__ */ from_html(`<span role="status">Loading…</span>`);
-	var root_19$4 = /* @__PURE__ */ from_html(`<p class="svelte-137p3j1">No file changes were reported for this attempt.</p>`);
-	var root_20$4 = /* @__PURE__ */ from_html(`<section class="cloud-diff svelte-137p3j1" aria-label="Codex Cloud changes"><div class="cloud-diff-heading svelte-137p3j1"><h3 class="svelte-137p3j1"> </h3><!></div> <!></section>`);
-	var root_21$2 = /* @__PURE__ */ from_html(`<div class="cloud-intro svelte-137p3j1"><div class="svelte-137p3j1"><h3 class="svelte-137p3j1">ChatGPT subscription</h3><p class="svelte-137p3j1">Cloud chats from the account connected to Supervisor. They run in OpenAI cloud environments and remain separate from local App Server conversations.</p></div> <div class="actions svelte-137p3j1"><button type="button" class="svelte-137p3j1">Refresh</button><button type="button" class="svelte-137p3j1">New cloud chat</button></div></div> <!> <!> <!> <div class="results cloud-results svelte-137p3j1"><!> <!> <!></div> <!>`, 1);
-	var root_22$2 = /* @__PURE__ */ from_html(`<!> <dialog class="native-history workspace-confirm-dialog svelte-137p3j1" aria-label="Native Codex history"><header class="svelte-137p3j1"><h2 class="svelte-137p3j1">Codex history</h2><button type="button" class="svelte-137p3j1">Close</button></header> <!> <!></dialog>`, 1);
+	var root$31 = /* @__PURE__ */ from_html(`<p class="svelte-137p3j1">A native fork is pending or its result is uncertain. Use native history to link the fork of the original source. No new prompt will create a replacement conversation here.</p>`);
+	var root_1$25 = /* @__PURE__ */ from_html(`<!> <button type="button" class="svelte-137p3j1">Browse Codex history…</button>`, 1);
+	var root_2$23 = /* @__PURE__ */ from_html(`<span class="svelte-137p3j1"> </span>`);
+	var root_3$21 = /* @__PURE__ */ from_html(`<nav class="source-switch svelte-137p3j1" aria-label="Codex history source"><button type="button">Local</button> <button type="button"><svg class="cloud-icon svelte-137p3j1" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 18.25h9.25a4 4 0 0 0 .4-7.98A5.75 5.75 0 0 0 6.2 8.9a4.7 4.7 0 0 0 1.3 9.35Z"></path></svg> Cloud<!></button></nav>`);
+	var root_4$19 = /* @__PURE__ */ from_html(`<p class="svelte-137p3j1">The conversation remains archived until you explicitly restore it.</p>`);
+	var root_5$16 = /* @__PURE__ */ from_html(`<p role="alert" class="svelte-137p3j1"> </p>`);
+	var root_6$15 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-137p3j1">Waiting for Codex. Closing this list does not cancel or retry the accepted request.</p>`);
+	var root_7$13 = /* @__PURE__ */ from_html(`<section class="confirmation svelte-137p3j1" aria-label="Confirm native conversation destination" tabindex="-1"><h3 class="svelte-137p3j1"> </h3> <p class="svelte-137p3j1"> </p><p class="svelte-137p3j1"> </p> <p class="svelte-137p3j1"> </p> <p class="svelte-137p3j1">Future prompts use this local directory and your selected permissions. No prompt is sent now; other-provider history and the draft are preserved.</p> <!> <div class="actions svelte-137p3j1"><button type="button" class="svelte-137p3j1">Cancel choice</button><button type="button" class="svelte-137p3j1"> </button></div> <!> <!></section>`);
+	var root_8$12 = /* @__PURE__ */ from_html(`<p class="svelte-137p3j1">Create or select a local project chat or graph agent without a Codex binding to link history or create a fork. Existing histories are never replaced.</p>`);
+	var root_9$12 = /* @__PURE__ */ from_html(`<p class="svelte-137p3j1">Codex requires an active conversation to create a fork. You can link archived history here, then explicitly restore it using its conversation controls before forking. Nothing is restored automatically.</p>`);
+	var root_10$10 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-137p3j1">Loading native history…</p>`);
+	var root_11$10 = /* @__PURE__ */ from_html(`<p class="svelte-137p3j1">No conversations match this search.</p>`);
+	var root_12$10 = /* @__PURE__ */ from_html(`<article class="svelte-137p3j1"><h3 class="svelte-137p3j1"> </h3> <p class="svelte-137p3j1"> </p> <p class="svelte-137p3j1"> </p> <div class="actions svelte-137p3j1"><button type="button" class="svelte-137p3j1">Link to this chat…</button> <button type="button" class="svelte-137p3j1">Fork into this chat…</button></div></article>`);
+	var root_13$10 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-137p3j1">Load more</button>`);
+	var root_14$10 = /* @__PURE__ */ from_html(`<p class="svelte-137p3j1">History from the local Codex runtime, including CLI and other App Server clients. Browsing does not resume a conversation or send a model prompt. Prompt text, native titles and full source paths stay outside this list.</p> <form class="svelte-137p3j1"><label class="svelte-137p3j1">Search native titles (case-sensitive)<input class="svelte-137p3j1"/></label> <label class="archive svelte-137p3j1"><input type="checkbox" class="svelte-137p3j1"/>Archived only</label> <button type="submit" class="svelte-137p3j1">Search / refresh</button></form> <!> <!> <!> <!> <div class="results"><!> <!> <!></div>`, 1);
+	var root_15$10 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-137p3j1">Loading Codex Cloud chats…</p>`);
+	var root_16$10 = /* @__PURE__ */ from_html(`<p class="svelte-137p3j1">No Codex Cloud chats were found for this account.</p>`);
+	var root_17$7 = /* @__PURE__ */ from_html(`<article class="cloud-task svelte-137p3j1"><div class="cloud-heading svelte-137p3j1"><svg class="cloud-icon svelte-137p3j1" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 18.25h9.25a4 4 0 0 0 .4-7.98A5.75 5.75 0 0 0 6.2 8.9a4.7 4.7 0 0 0 1.3 9.35Z"></path></svg> <div><h3 class="svelte-137p3j1"> </h3><p class="svelte-137p3j1"> </p></div> <span class="cloud-status svelte-137p3j1"> </span></div> <p class="cloud-meta svelte-137p3j1"> <!></p> <p class="cloud-summary svelte-137p3j1"> </p> <div class="actions svelte-137p3j1"><button type="button" class="svelte-137p3j1">Open chat</button> <button type="button" class="svelte-137p3j1">View changes</button></div></article>`);
+	var root_18$5 = /* @__PURE__ */ from_html(`<span role="status">Loading…</span>`);
+	var root_19$5 = /* @__PURE__ */ from_html(`<p class="svelte-137p3j1">No file changes were reported for this attempt.</p>`);
+	var root_20$5 = /* @__PURE__ */ from_html(`<section class="cloud-diff svelte-137p3j1" aria-label="Codex Cloud changes"><div class="cloud-diff-heading svelte-137p3j1"><h3 class="svelte-137p3j1"> </h3><!></div> <!></section>`);
+	var root_21$4 = /* @__PURE__ */ from_html(`<div class="cloud-intro svelte-137p3j1"><div class="svelte-137p3j1"><h3 class="svelte-137p3j1">ChatGPT subscription</h3><p class="svelte-137p3j1">Cloud chats from the account connected to Supervisor. They run in OpenAI cloud environments and remain separate from local App Server conversations.</p></div> <div class="actions svelte-137p3j1"><button type="button" class="svelte-137p3j1">Refresh</button><button type="button" class="svelte-137p3j1">New cloud chat</button></div></div> <!> <!> <!> <div class="results cloud-results svelte-137p3j1"><!> <!> <!></div> <!>`, 1);
+	var root_22$3 = /* @__PURE__ */ from_html(`<!> <dialog class="native-history workspace-confirm-dialog svelte-137p3j1" aria-label="Native Codex history"><header class="svelte-137p3j1"><h2 class="svelte-137p3j1">Codex history</h2><button type="button" class="svelte-137p3j1">Close</button></header> <!> <!></dialog>`, 1);
 	function NativeHistory($$anchor, $$props) {
 		push($$props, true);
 		let dialogOnly = prop($$props, "dialogOnly", 3, false);
@@ -44111,13 +44199,13 @@ createHTML: (html) => {
 				window.removeEventListener("central-agent:app-server-conversation", update);
 			};
 		});
-		var fragment = root_22$2();
+		var fragment = root_22$3();
 		var node = first_child(fragment);
 		var consequent_1 = ($$anchor) => {
-			var fragment_1 = root_1$24();
+			var fragment_1 = root_1$25();
 			var node_1 = first_child(fragment_1);
 			var consequent = ($$anchor) => {
-				append($$anchor, root$29());
+				append($$anchor, root$31());
 			};
 			if_block(node_1, ($$render) => {
 				if ($$props.conversation.pendingFork) $$render(consequent);
@@ -44136,14 +44224,14 @@ createHTML: (html) => {
 		reset(header);
 		var node_2 = sibling(header, 2);
 		var consequent_3 = ($$anchor) => {
-			var nav = root_3$20();
+			var nav = root_3$21();
 			var button_2 = child(nav);
 			let classes;
 			var button_3 = sibling(button_2, 2);
 			let classes_1;
 			var node_3 = sibling(child(button_3), 2);
 			var consequent_2 = ($$anchor) => {
-				var span = root_2$22();
+				var span = root_2$23();
 				var text = only_child(span, true);
 				template_effect(() => set_text(text, get(history).cloud.items.length));
 				append($$anchor, span);
@@ -44168,7 +44256,7 @@ createHTML: (html) => {
 		});
 		var node_4 = sibling(node_2, 2);
 		var consequent_7 = ($$anchor) => {
-			var section = root_7$11();
+			var section = root_7$13();
 			var h3 = child(section);
 			var text_1 = only_child(h3, true);
 			var p_1 = sibling(h3, 2);
@@ -44179,7 +44267,7 @@ createHTML: (html) => {
 			var text_4 = only_child(p_3, true);
 			var node_5 = sibling(p_3, 4);
 			var consequent_4 = ($$anchor) => {
-				append($$anchor, root_4$17());
+				append($$anchor, root_4$19());
 			};
 			if_block(node_5, ($$render) => {
 				if (get(history)?.archived && !get(choice).fork) $$render(consequent_4);
@@ -44191,7 +44279,7 @@ createHTML: (html) => {
 			reset(div);
 			var node_6 = sibling(div, 2);
 			var consequent_5 = ($$anchor) => {
-				var p_5 = root_5$15();
+				var p_5 = root_5$16();
 				var text_6 = only_child(p_5, true);
 				template_effect(() => set_text(text_6, get(error) || get(history)?.error));
 				append($$anchor, p_5);
@@ -44201,7 +44289,7 @@ createHTML: (html) => {
 			});
 			var node_7 = sibling(node_6, 2);
 			var consequent_6 = ($$anchor) => {
-				append($$anchor, root_6$13());
+				append($$anchor, root_6$15());
 			};
 			if_block(node_7, ($$render) => {
 				if (get(submitting)) $$render(consequent_6);
@@ -44230,7 +44318,7 @@ createHTML: (html) => {
 			var fragment_2 = comment$1();
 			var node_8 = first_child(fragment_2);
 			var consequent_14 = ($$anchor) => {
-				var fragment_3 = root_14$8();
+				var fragment_3 = root_14$10();
 				var form = sibling(first_child(fragment_3), 2);
 				var label = child(form);
 				var input = sibling(child(label));
@@ -44245,7 +44333,7 @@ createHTML: (html) => {
 				reset(form);
 				var node_9 = sibling(form, 2);
 				var consequent_8 = ($$anchor) => {
-					append($$anchor, root_8$10());
+					append($$anchor, root_8$12());
 				};
 				var d_1 = /* @__PURE__ */ user_derived(() => !canImportHistory($$props.conversation));
 				if_block(node_9, ($$render) => {
@@ -44253,7 +44341,7 @@ createHTML: (html) => {
 				});
 				var node_10 = sibling(node_9, 2);
 				var consequent_9 = ($$anchor) => {
-					var p_8 = root_5$15();
+					var p_8 = root_5$16();
 					var text_7 = only_child(p_8, true);
 					template_effect(() => set_text(text_7, get(error) || get(history)?.error));
 					append($$anchor, p_8);
@@ -44263,14 +44351,14 @@ createHTML: (html) => {
 				});
 				var node_11 = sibling(node_10, 2);
 				var consequent_10 = ($$anchor) => {
-					append($$anchor, root_9$10());
+					append($$anchor, root_9$12());
 				};
 				if_block(node_11, ($$render) => {
 					if (get(history)?.archived) $$render(consequent_10);
 				});
 				var node_12 = sibling(node_11, 2);
 				var consequent_11 = ($$anchor) => {
-					append($$anchor, root_10$8());
+					append($$anchor, root_10$10());
 				};
 				if_block(node_12, ($$render) => {
 					if (get(loading)) $$render(consequent_11);
@@ -44278,14 +44366,14 @@ createHTML: (html) => {
 				var div_1 = sibling(node_12, 2);
 				var node_13 = child(div_1);
 				var consequent_12 = ($$anchor) => {
-					append($$anchor, root_11$8());
+					append($$anchor, root_11$10());
 				};
 				if_block(node_13, ($$render) => {
 					if (get(history) && !get(loading) && !get(history).items.length && !get(history).error) $$render(consequent_12);
 				});
 				var node_14 = sibling(node_13, 2);
 				each(node_14, 17, () => get(history)?.items || [], (item) => item.id, ($$anchor, item) => {
-					var article = root_12$8();
+					var article = root_12$10();
 					var h3_1 = child(article);
 					var text_8 = only_child(h3_1, true);
 					var p_12 = sibling(h3_1, 2);
@@ -44315,7 +44403,7 @@ createHTML: (html) => {
 				});
 				var node_15 = sibling(node_14, 2);
 				var consequent_13 = ($$anchor) => {
-					var button_9 = root_13$8();
+					var button_9 = root_13$10();
 					template_effect(() => button_9.disabled = get(loading) || get(submitting));
 					delegated("click", button_9, more);
 					append($$anchor, button_9);
@@ -44338,7 +44426,7 @@ createHTML: (html) => {
 				append($$anchor, fragment_3);
 			};
 			var alternate = ($$anchor) => {
-				var fragment_4 = root_21$2();
+				var fragment_4 = root_21$4();
 				var div_3 = first_child(fragment_4);
 				var div_4 = sibling(child(div_3), 2);
 				var button_10 = child(div_4);
@@ -44347,7 +44435,7 @@ createHTML: (html) => {
 				reset(div_3);
 				var node_16 = sibling(div_3, 2);
 				var consequent_15 = ($$anchor) => {
-					var p_14 = root_5$15();
+					var p_14 = root_5$16();
 					var text_11 = only_child(p_14, true);
 					template_effect(() => set_text(text_11, get(error)));
 					append($$anchor, p_14);
@@ -44357,7 +44445,7 @@ createHTML: (html) => {
 				});
 				var node_17 = sibling(node_16, 2);
 				var consequent_16 = ($$anchor) => {
-					var p_15 = root_5$15();
+					var p_15 = root_5$16();
 					var text_12 = only_child(p_15, true);
 					template_effect(() => set_text(text_12, get(history).cloud.error));
 					append($$anchor, p_15);
@@ -44367,7 +44455,7 @@ createHTML: (html) => {
 				});
 				var node_18 = sibling(node_17, 2);
 				var consequent_17 = ($$anchor) => {
-					append($$anchor, root_15$8());
+					append($$anchor, root_15$10());
 				};
 				if_block(node_18, ($$render) => {
 					if (get(history)?.cloud?.busy && !get(history).cloud.items.length) $$render(consequent_17);
@@ -44375,14 +44463,14 @@ createHTML: (html) => {
 				var div_5 = sibling(node_18, 2);
 				var node_19 = child(div_5);
 				var consequent_18 = ($$anchor) => {
-					append($$anchor, root_16$8());
+					append($$anchor, root_16$10());
 				};
 				if_block(node_19, ($$render) => {
 					if (get(history)?.cloud && !get(history).cloud.busy && !get(history).cloud.items.length && !get(history).cloud.error) $$render(consequent_18);
 				});
 				var node_20 = sibling(node_19, 2);
 				each(node_20, 17, () => get(history)?.cloud?.items || [], (item) => item.id, ($$anchor, item) => {
-					var article_1 = root_17$5();
+					var article_1 = root_17$7();
 					var div_6 = child(article_1);
 					var div_7 = sibling(child(div_6), 2);
 					var h3_2 = child(div_7);
@@ -44429,7 +44517,7 @@ createHTML: (html) => {
 				});
 				var node_22 = sibling(node_20, 2);
 				var consequent_20 = ($$anchor) => {
-					var button_14 = root_13$8();
+					var button_14 = root_13$10();
 					template_effect(() => button_14.disabled = get(history).cloud.busy);
 					delegated("click", button_14, cloudMore);
 					append($$anchor, button_14);
@@ -44441,13 +44529,13 @@ createHTML: (html) => {
 				var node_23 = sibling(div_5, 2);
 				var consequent_25 = ($$anchor) => {
 					const diff = /* @__PURE__ */ user_derived(() => get(history).cloud.diff);
-					var section_1 = root_20$4();
+					var section_1 = root_20$5();
 					var div_9 = child(section_1);
 					var h3_3 = child(div_9);
 					var text_19 = only_child(h3_3);
 					var node_24 = sibling(h3_3);
 					var consequent_21 = ($$anchor) => {
-						append($$anchor, root_18$4());
+						append($$anchor, root_18$5());
 					};
 					if_block(node_24, ($$render) => {
 						if (get(diff).busy) $$render(consequent_21);
@@ -44455,13 +44543,13 @@ createHTML: (html) => {
 					reset(div_9);
 					var node_25 = sibling(div_9, 2);
 					var consequent_22 = ($$anchor) => {
-						var p_21 = root_5$15();
+						var p_21 = root_5$16();
 						var text_20 = only_child(p_21, true);
 						template_effect(() => set_text(text_20, get(diff).error));
 						append($$anchor, p_21);
 					};
 					var consequent_23 = ($$anchor) => {
-						append($$anchor, root_19$4());
+						append($$anchor, root_19$5());
 					};
 					var consequent_24 = ($$anchor) => {
 						{
@@ -44517,22 +44605,22 @@ createHTML: (html) => {
 	delegate(["click"]);
 	//#endregion
 	//#region src/components/NativeSkills.svelte
-	var root_1$23 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1ibfo37">Codex skills…</button>`);
-	var root_2$21 = /* @__PURE__ */ from_html(`<div class="actions svelte-1ibfo37"><span> </span><button type="button" class="svelte-1ibfo37">Remove</button></div>`);
-	var root_3$19 = /* @__PURE__ */ from_html(`<section class="selected-skills svelte-1ibfo37" data-config-persistent="" aria-label="Skills selected for the next prompt"><p class="svelte-1ibfo37">With your next prompt</p> <!> <p class="svelte-1ibfo37">Codex loads the selected instructions when you send or queue a prompt. Selection alone runs nothing.</p></section>`);
-	var root_4$16 = /* @__PURE__ */ from_html(`<p role="alert" class="svelte-1ibfo37"> </p>`);
-	var root_5$14 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1ibfo37">Reconnect Codex</button> <p class="svelte-1ibfo37">Reconnects all Codex agents and reloads the official plugin references. Finish active and queued work first.</p>`, 1);
-	var root_6$12 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-1ibfo37"> </p>`);
-	var root_7$10 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-1ibfo37">Waiting for Codex to change its shared configuration. Closing this dialog does not cancel or retry the request.</p>`);
-	var root_8$9 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-1ibfo37">Loading skills…</p>`);
-	var root_9$9 = /* @__PURE__ */ from_html(`<p class="svelte-1ibfo37">Last observed inventory. Refresh before changing a skill.</p>`);
-	var root_10$7 = /* @__PURE__ */ from_html(`<p class="svelte-1ibfo37">No skills were returned for this directory.</p>`);
-	var root_11$7 = /* @__PURE__ */ from_html(`<article class="svelte-1ibfo37"><h3 class="svelte-1ibfo37"> </h3><p class="svelte-1ibfo37"> </p> <p class="svelte-1ibfo37"> </p> <details><summary class="svelte-1ibfo37">Skill path</summary><p class="path svelte-1ibfo37"> </p></details> <button type="button" class="svelte-1ibfo37"> </button> <button type="button" class="svelte-1ibfo37"> </button></article>`);
-	var root_12$7 = /* @__PURE__ */ from_html(`<p class="svelte-1ibfo37"> </p>`);
-	var root_13$7 = /* @__PURE__ */ from_html(`<section aria-label="Skill discovery errors" class="svelte-1ibfo37"><h3 class="svelte-1ibfo37">Discovery issues</h3><!></section>`);
-	var root_14$7 = /* @__PURE__ */ from_html(`<section aria-label="Confirm shared skill configuration" class="svelte-1ibfo37"><h3 class="svelte-1ibfo37"> </h3><p class="path svelte-1ibfo37"> </p> <p class="svelte-1ibfo37">This changes Codex's shared skill configuration, including other conversations and clients using the same Codex configuration. It is not a setting for only this chat. No skill files are deleted and no prompt is sent.</p> <p class="svelte-1ibfo37">Codex policies remain authoritative. Refresh after the change to see the effective state; existing sessions may keep their loaded configuration.</p> <div class="actions svelte-1ibfo37"><button type="button" class="svelte-1ibfo37">Cancel</button><button type="button" class="svelte-1ibfo37"> </button></div></section>`);
-	var root_15$7 = /* @__PURE__ */ from_html(`<section aria-label="Confirm process-scoped extra skill roots" class="svelte-1ibfo37"><h3 class="svelte-1ibfo37">Set extra skill roots for this Codex process?</h3> <label class="svelte-1ibfo37">One existing absolute directory per line<textarea spellcheck="false" class="svelte-1ibfo37"></textarea></label> <p class="svelte-1ibfo37">This replaces the extra roots for the current App Server process and affects discovery in other native conversations. It does not copy, edit, enable, or run any skill. The setting is not persisted by Supervisor and is cleared on reconnect.</p> <div class="actions svelte-1ibfo37"><button type="button" class="svelte-1ibfo37">Cancel</button><button type="button" class="svelte-1ibfo37">Set process roots</button></div></section>`);
-	var root_16$7 = /* @__PURE__ */ from_html(`<!> <!> <dialog class="native-skills workspace-confirm-dialog svelte-1ibfo37" aria-label="Native Codex skills"><header class="svelte-1ibfo37"><h2 class="svelte-1ibfo37">Codex skills</h2><button type="button" class="svelte-1ibfo37">Close</button></header> <p class="path svelte-1ibfo37"> </p> <p class="svelte-1ibfo37">Skills discovered by Codex for this project. This list does not read their instructions into the chat or run a model.</p> <p role="status" class="svelte-1ibfo37"> </p> <p role="status" class="svelte-1ibfo37"> </p> <!> <!> <form class="svelte-1ibfo37"><label class="svelte-1ibfo37">Filter skills<input class="svelte-1ibfo37"/></label> <button type="submit" class="svelte-1ibfo37">Refresh from Codex</button></form> <section aria-label="Process-scoped extra skill roots" class="svelte-1ibfo37"><h3 class="svelte-1ibfo37">Extra discovery roots</h3> <p class="svelte-1ibfo37"> </p> <button type="button" class="svelte-1ibfo37">Configure extra roots…</button></section> <!> <!> <!> <!> <!> <!> <!> <!> <!></dialog>`, 1);
+	var root_1$24 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1ibfo37">Codex skills…</button>`);
+	var root_2$22 = /* @__PURE__ */ from_html(`<div class="actions svelte-1ibfo37"><span> </span><button type="button" class="svelte-1ibfo37">Remove</button></div>`);
+	var root_3$20 = /* @__PURE__ */ from_html(`<section class="selected-skills svelte-1ibfo37" data-config-persistent="" aria-label="Skills selected for the next prompt"><p class="svelte-1ibfo37">With your next prompt</p> <!> <p class="svelte-1ibfo37">Codex loads the selected instructions when you send or queue a prompt. Selection alone runs nothing.</p></section>`);
+	var root_4$18 = /* @__PURE__ */ from_html(`<p role="alert" class="svelte-1ibfo37"> </p>`);
+	var root_5$15 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1ibfo37">Reconnect Codex</button> <p class="svelte-1ibfo37">Reconnects all Codex agents and reloads the official plugin references. Finish active and queued work first.</p>`, 1);
+	var root_6$14 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-1ibfo37"> </p>`);
+	var root_7$12 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-1ibfo37">Waiting for Codex to change its shared configuration. Closing this dialog does not cancel or retry the request.</p>`);
+	var root_8$11 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-1ibfo37">Loading skills…</p>`);
+	var root_9$11 = /* @__PURE__ */ from_html(`<p class="svelte-1ibfo37">Last observed inventory. Refresh before changing a skill.</p>`);
+	var root_10$9 = /* @__PURE__ */ from_html(`<p class="svelte-1ibfo37">No skills were returned for this directory.</p>`);
+	var root_11$9 = /* @__PURE__ */ from_html(`<article class="svelte-1ibfo37"><h3 class="svelte-1ibfo37"> </h3><p class="svelte-1ibfo37"> </p> <p class="svelte-1ibfo37"> </p> <details><summary class="svelte-1ibfo37">Skill path</summary><p class="path svelte-1ibfo37"> </p></details> <button type="button" class="svelte-1ibfo37"> </button> <button type="button" class="svelte-1ibfo37"> </button></article>`);
+	var root_12$9 = /* @__PURE__ */ from_html(`<p class="svelte-1ibfo37"> </p>`);
+	var root_13$9 = /* @__PURE__ */ from_html(`<section aria-label="Skill discovery errors" class="svelte-1ibfo37"><h3 class="svelte-1ibfo37">Discovery issues</h3><!></section>`);
+	var root_14$9 = /* @__PURE__ */ from_html(`<section aria-label="Confirm shared skill configuration" class="svelte-1ibfo37"><h3 class="svelte-1ibfo37"> </h3><p class="path svelte-1ibfo37"> </p> <p class="svelte-1ibfo37">This changes Codex's shared skill configuration, including other conversations and clients using the same Codex configuration. It is not a setting for only this chat. No skill files are deleted and no prompt is sent.</p> <p class="svelte-1ibfo37">Codex policies remain authoritative. Refresh after the change to see the effective state; existing sessions may keep their loaded configuration.</p> <div class="actions svelte-1ibfo37"><button type="button" class="svelte-1ibfo37">Cancel</button><button type="button" class="svelte-1ibfo37"> </button></div></section>`);
+	var root_15$9 = /* @__PURE__ */ from_html(`<section aria-label="Confirm process-scoped extra skill roots" class="svelte-1ibfo37"><h3 class="svelte-1ibfo37">Set extra skill roots for this Codex process?</h3> <label class="svelte-1ibfo37">One existing absolute directory per line<textarea spellcheck="false" class="svelte-1ibfo37"></textarea></label> <p class="svelte-1ibfo37">This replaces the extra roots for the current App Server process and affects discovery in other native conversations. It does not copy, edit, enable, or run any skill. The setting is not persisted by Supervisor and is cleared on reconnect.</p> <div class="actions svelte-1ibfo37"><button type="button" class="svelte-1ibfo37">Cancel</button><button type="button" class="svelte-1ibfo37">Set process roots</button></div></section>`);
+	var root_16$9 = /* @__PURE__ */ from_html(`<!> <!> <dialog class="native-skills workspace-confirm-dialog svelte-1ibfo37" aria-label="Native Codex skills"><header class="svelte-1ibfo37"><h2 class="svelte-1ibfo37">Codex skills</h2><button type="button" class="svelte-1ibfo37">Close</button></header> <p class="path svelte-1ibfo37"> </p> <p class="svelte-1ibfo37">Skills discovered by Codex for this project. This list does not read their instructions into the chat or run a model.</p> <p role="status" class="svelte-1ibfo37"> </p> <p role="status" class="svelte-1ibfo37"> </p> <!> <!> <form class="svelte-1ibfo37"><label class="svelte-1ibfo37">Filter skills<input class="svelte-1ibfo37"/></label> <button type="submit" class="svelte-1ibfo37">Refresh from Codex</button></form> <section aria-label="Process-scoped extra skill roots" class="svelte-1ibfo37"><h3 class="svelte-1ibfo37">Extra discovery roots</h3> <p class="svelte-1ibfo37"> </p> <button type="button" class="svelte-1ibfo37">Configure extra roots…</button></section> <!> <!> <!> <!> <!> <!> <!> <!> <!></dialog>`, 1);
 	function NativeSkills($$anchor, $$props) {
 		push($$props, true);
 		let dialogOnly = prop($$props, "dialogOnly", 3, false);
@@ -44732,10 +44820,10 @@ createHTML: (html) => {
 				window.removeEventListener("central-agent:app-server-skills", update);
 			};
 		});
-		var fragment = root_16$7();
+		var fragment = root_16$9();
 		var node = first_child(fragment);
 		var consequent = ($$anchor) => {
-			var button = root_1$23();
+			var button = root_1$24();
 			template_effect(($0) => button.disabled = $0, [() => !available()]);
 			delegated("click", button, open);
 			append($$anchor, button);
@@ -44745,9 +44833,9 @@ createHTML: (html) => {
 		});
 		var node_1 = sibling(node, 2);
 		var consequent_1 = ($$anchor) => {
-			var section = root_3$19();
+			var section = root_3$20();
 			each(sibling(child(section), 2), 17, () => get(selected), (skill) => skill.id, ($$anchor, skill) => {
-				var div = root_2$21();
+				var div = root_2$22();
 				var span = child(div);
 				var text = only_child(span);
 				var button_1 = sibling(span);
@@ -44778,7 +44866,7 @@ createHTML: (html) => {
 		var text_3 = only_child(p_2);
 		var node_3 = sibling(p_2, 2);
 		var consequent_2 = ($$anchor) => {
-			var p_3 = root_4$16();
+			var p_3 = root_4$18();
 			var text_4 = only_child(p_3, true);
 			template_effect(() => set_text(text_4, get(computerUseError)));
 			append($$anchor, p_3);
@@ -44788,7 +44876,7 @@ createHTML: (html) => {
 		});
 		var node_4 = sibling(node_3, 2);
 		var consequent_3 = ($$anchor) => {
-			var fragment_1 = root_5$14();
+			var fragment_1 = root_5$15();
 			var button_3 = first_child(fragment_1);
 			next(2);
 			template_effect(($0) => button_3.disabled = $0, [() => !get(computerUseCanReconnect) || get(writing) || get(loading) || !available() || !!$$props.conversation?.busy]);
@@ -44812,7 +44900,7 @@ createHTML: (html) => {
 		reset(section_1);
 		var node_5 = sibling(section_1, 2);
 		var consequent_4 = ($$anchor) => {
-			var p_5 = root_4$16();
+			var p_5 = root_4$18();
 			var text_6 = only_child(p_5, true);
 			template_effect(() => set_text(text_6, get(error) || get(inventory)?.error));
 			append($$anchor, p_5);
@@ -44822,7 +44910,7 @@ createHTML: (html) => {
 		});
 		var node_6 = sibling(node_5, 2);
 		var consequent_5 = ($$anchor) => {
-			var p_6 = root_6$12();
+			var p_6 = root_6$14();
 			var text_7 = only_child(p_6, true);
 			template_effect(() => set_text(text_7, get(notice)));
 			append($$anchor, p_6);
@@ -44832,17 +44920,17 @@ createHTML: (html) => {
 		});
 		var node_7 = sibling(node_6, 2);
 		var consequent_6 = ($$anchor) => {
-			append($$anchor, root_7$10());
+			append($$anchor, root_7$12());
 		};
 		if_block(node_7, ($$render) => {
 			if (get(writing)) $$render(consequent_6);
 		});
 		var node_8 = sibling(node_7, 2);
 		var consequent_7 = ($$anchor) => {
-			append($$anchor, root_8$9());
+			append($$anchor, root_8$11());
 		};
 		var consequent_8 = ($$anchor) => {
-			append($$anchor, root_9$9());
+			append($$anchor, root_9$11());
 		};
 		if_block(node_8, ($$render) => {
 			if (get(loading)) $$render(consequent_7);
@@ -44850,14 +44938,14 @@ createHTML: (html) => {
 		});
 		var node_9 = sibling(node_8, 2);
 		var consequent_9 = ($$anchor) => {
-			append($$anchor, root_10$7());
+			append($$anchor, root_10$9());
 		};
 		if_block(node_9, ($$render) => {
 			if (get(inventory)?.current && !get(inventory).items.length) $$render(consequent_9);
 		});
 		var node_10 = sibling(node_9, 2);
 		each(node_10, 17, () => (get(inventory)?.items || []).filter((item) => `${item.name} ${item.description} ${item.path}`.toLowerCase().includes(get(search).toLowerCase())), (skill) => skill.path, ($$anchor, skill) => {
-			var article = root_11$7();
+			var article = root_11$9();
 			var h3 = child(article);
 			var text_8 = only_child(h3, true);
 			var p_11 = sibling(h3);
@@ -44888,9 +44976,9 @@ createHTML: (html) => {
 		});
 		var node_11 = sibling(node_10, 2);
 		var consequent_10 = ($$anchor) => {
-			var section_2 = root_13$7();
+			var section_2 = root_13$9();
 			each(sibling(child(section_2)), 17, () => get(inventory).errors, index, ($$anchor, issue) => {
-				var p_14 = root_12$7();
+				var p_14 = root_12$9();
 				var text_14 = only_child(p_14);
 				template_effect(() => set_text(text_14, `${get(issue).path ?? ""}: ${get(issue).message ?? ""}`));
 				append($$anchor, p_14);
@@ -44903,7 +44991,7 @@ createHTML: (html) => {
 		});
 		var node_13 = sibling(node_11, 2);
 		var consequent_11 = ($$anchor) => {
-			var section_3 = root_14$7();
+			var section_3 = root_14$9();
 			var h3_1 = child(section_3);
 			var text_15 = only_child(h3_1);
 			var p_15 = sibling(h3_1);
@@ -44929,7 +45017,7 @@ createHTML: (html) => {
 		});
 		var node_14 = sibling(node_13, 2);
 		var consequent_12 = ($$anchor) => {
-			var section_4 = root_15$7();
+			var section_4 = root_15$9();
 			var label_1 = sibling(child(section_4), 2);
 			var textarea = sibling(child(label_1));
 			remove_textarea_child(textarea);
@@ -45012,43 +45100,43 @@ createHTML: (html) => {
 	};
 	//#endregion
 	//#region src/components/NativePreferences.svelte
-	var root$28 = /* @__PURE__ */ from_html(`<option> </option>`);
-	var root_1$22 = /* @__PURE__ */ from_html(`<select class="svelte-m0sotb"><!><!></select>`);
-	var root_2$20 = /* @__PURE__ */ from_html(`<input spellcheck="false" class="svelte-m0sotb"/>`);
-	var root_3$18 = /* @__PURE__ */ from_html(`<form class="svelte-m0sotb"><h3 class="svelte-m0sotb"> </h3> <label class="svelte-m0sotb">New saved value <!></label> <p class="svelte-m0sotb">Use the exact native model, effort or service-tier identifier. Codex validates availability and managed policies. Token overrides do not increase a model's supported capacity.</p> <div class="row svelte-m0sotb"><button type="button" class="svelte-m0sotb">Cancel</button><button type="submit" class="svelte-m0sotb">Review change</button></div></form>`);
-	var root_4$15 = /* @__PURE__ */ from_html(`<p class="svelte-m0sotb">Remove only this key from the base user configuration. Codex will determine the resulting value from its remaining configuration layers and built-in defaults. This does not reset the whole configuration.</p>`);
-	var root_5$13 = /* @__PURE__ */ from_html(`<section aria-label="Confirm shared Codex preference" class="svelte-m0sotb"><h3 class="svelte-m0sotb"> </h3><p class="path svelte-m0sotb"> </p><p class="path svelte-m0sotb"> </p> <!> <p class="svelte-m0sotb">This changes Codex preferences shared by conversations in Supervisor. The native server checks the observed file version and rejects conflicting writes. Project or managed settings may override it.</p> <p class="svelte-m0sotb">Existing conversations are not reloaded. No prompt is sent and no project file is changed.</p> <div class="row svelte-m0sotb"><button type="button" class="svelte-m0sotb">Back</button><button type="button" class="svelte-m0sotb"> </button></div></section>`);
-	var root_6$11 = /* @__PURE__ */ from_html(`<!> <!>`, 1);
-	var root_7$9 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-m0sotb">Codex defaults…</button>`);
-	var root_8$8 = /* @__PURE__ */ from_html(`<p role="alert" class="svelte-m0sotb"> </p>`);
-	var root_9$8 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-m0sotb"> </p>`);
-	var root_10$6 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-m0sotb">Waiting for the shared configuration write. Closing this dialog will not cancel or retry it.</p>`);
-	var root_11$6 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-m0sotb">Loading native configuration…</p>`);
-	var root_12$6 = /* @__PURE__ */ from_html(`<p class="svelte-m0sotb">Last observed settings. Refresh before editing.</p>`);
-	var root_13$6 = /* @__PURE__ */ from_html(`<p class="svelte-m0sotb">No enabled base user configuration file was returned. These preferences are read-only.</p>`);
-	var root_14$6 = /* @__PURE__ */ from_html(`<p class="svelte-m0sotb">total counts the full active context (Codex default). body_after_prefix counts only growth after the retained compaction-window prefix. Codex owns compaction and token accounting; this does not change the context-usage monitor or increase model capacity.</p>`);
-	var root_15$6 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-m0sotb">Clear saved value…</button>`);
-	var root_16$6 = /* @__PURE__ */ from_html(`<p class="path svelte-m0sotb"> </p>`);
-	var root_17$4 = /* @__PURE__ */ from_html(`<article class="svelte-m0sotb"><div class="row svelte-m0sotb"><h3 class="svelte-m0sotb"> </h3><button type="button" class="svelte-m0sotb">Edit…</button></div> <p class="svelte-m0sotb">Effective: <span class="path svelte-m0sotb"> </span></p> <!> <details><summary class="svelte-m0sotb">Source and saved default</summary><p class="path svelte-m0sotb"> </p><p class="svelte-m0sotb"> </p><!><p class="svelte-m0sotb"> </p><!></details> <!></article>`);
-	var root_18$3 = /* @__PURE__ */ from_html(`<p class="svelte-m0sotb"> </p><!>`, 1);
-	var root_19$3 = /* @__PURE__ */ from_html(`<!> <!> <details><summary class="svelte-m0sotb">Configuration layers</summary><!></details>`, 1);
-	var root_20$3 = /* @__PURE__ */ from_html(`<!> <dialog class="native-preferences workspace-confirm-dialog svelte-m0sotb" aria-label="Native Codex defaults"><header class="svelte-m0sotb"><h2 class="svelte-m0sotb">Codex defaults</h2><button type="button" class="svelte-m0sotb">Close</button></header> <p class="path svelte-m0sotb"> </p> <p class="svelte-m0sotb">Effective configuration on disk for this project, not the settings of an already-running conversation. Your composer selections can override these defaults.</p> <button type="button" class="svelte-m0sotb">Refresh from Codex</button> <!> <!> <!> <!> <!></dialog>`, 1);
+	var root$30 = /* @__PURE__ */ from_html(`<option> </option>`);
+	var root_1$23 = /* @__PURE__ */ from_html(`<select class="svelte-m0sotb"><!><!></select>`);
+	var root_2$21 = /* @__PURE__ */ from_html(`<input spellcheck="false" class="svelte-m0sotb"/>`);
+	var root_3$19 = /* @__PURE__ */ from_html(`<form class="svelte-m0sotb"><h3 class="svelte-m0sotb"> </h3> <label class="svelte-m0sotb">New saved value <!></label> <p class="svelte-m0sotb">Use the exact native model, effort or service-tier identifier. Codex validates availability and managed policies. Token overrides do not increase a model's supported capacity.</p> <div class="row svelte-m0sotb"><button type="button" class="svelte-m0sotb">Cancel</button><button type="submit" class="svelte-m0sotb">Review change</button></div></form>`);
+	var root_4$17 = /* @__PURE__ */ from_html(`<p class="svelte-m0sotb">Remove only this key from the base user configuration. Codex will determine the resulting value from its remaining configuration layers and built-in defaults. This does not reset the whole configuration.</p>`);
+	var root_5$14 = /* @__PURE__ */ from_html(`<section aria-label="Confirm shared Codex preference" class="svelte-m0sotb"><h3 class="svelte-m0sotb"> </h3><p class="path svelte-m0sotb"> </p><p class="path svelte-m0sotb"> </p> <!> <p class="svelte-m0sotb">This changes Codex preferences shared by conversations in Supervisor. The native server checks the observed file version and rejects conflicting writes. Project or managed settings may override it.</p> <p class="svelte-m0sotb">Existing conversations are not reloaded. No prompt is sent and no project file is changed.</p> <div class="row svelte-m0sotb"><button type="button" class="svelte-m0sotb">Back</button><button type="button" class="svelte-m0sotb"> </button></div></section>`);
+	var root_6$13 = /* @__PURE__ */ from_html(`<!> <!>`, 1);
+	var root_7$11 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-m0sotb">Codex defaults…</button>`);
+	var root_8$10 = /* @__PURE__ */ from_html(`<p role="alert" class="svelte-m0sotb"> </p>`);
+	var root_9$10 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-m0sotb"> </p>`);
+	var root_10$8 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-m0sotb">Waiting for the shared configuration write. Closing this dialog will not cancel or retry it.</p>`);
+	var root_11$8 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-m0sotb">Loading native configuration…</p>`);
+	var root_12$8 = /* @__PURE__ */ from_html(`<p class="svelte-m0sotb">Last observed settings. Refresh before editing.</p>`);
+	var root_13$8 = /* @__PURE__ */ from_html(`<p class="svelte-m0sotb">No enabled base user configuration file was returned. These preferences are read-only.</p>`);
+	var root_14$8 = /* @__PURE__ */ from_html(`<p class="svelte-m0sotb">total counts the full active context (Codex default). body_after_prefix counts only growth after the retained compaction-window prefix. Codex owns compaction and token accounting; this does not change the context-usage monitor or increase model capacity.</p>`);
+	var root_15$8 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-m0sotb">Clear saved value…</button>`);
+	var root_16$8 = /* @__PURE__ */ from_html(`<p class="path svelte-m0sotb"> </p>`);
+	var root_17$6 = /* @__PURE__ */ from_html(`<article class="svelte-m0sotb"><div class="row svelte-m0sotb"><h3 class="svelte-m0sotb"> </h3><button type="button" class="svelte-m0sotb">Edit…</button></div> <p class="svelte-m0sotb">Effective: <span class="path svelte-m0sotb"> </span></p> <!> <details><summary class="svelte-m0sotb">Source and saved default</summary><p class="path svelte-m0sotb"> </p><p class="svelte-m0sotb"> </p><!><p class="svelte-m0sotb"> </p><!></details> <!></article>`);
+	var root_18$4 = /* @__PURE__ */ from_html(`<p class="svelte-m0sotb"> </p><!>`, 1);
+	var root_19$4 = /* @__PURE__ */ from_html(`<!> <!> <details><summary class="svelte-m0sotb">Configuration layers</summary><!></details>`, 1);
+	var root_20$4 = /* @__PURE__ */ from_html(`<!> <dialog class="native-preferences workspace-confirm-dialog svelte-m0sotb" aria-label="Native Codex defaults"><header class="svelte-m0sotb"><h2 class="svelte-m0sotb">Codex defaults</h2><button type="button" class="svelte-m0sotb">Close</button></header> <p class="path svelte-m0sotb"> </p> <p class="svelte-m0sotb">Effective configuration on disk for this project, not the settings of an already-running conversation. Your composer selections can override these defaults.</p> <button type="button" class="svelte-m0sotb">Refresh from Codex</button> <!> <!> <!> <!> <!></dialog>`, 1);
 	function NativePreferences($$anchor, $$props) {
 		push($$props, true);
 		const preferenceEditor = ($$anchor) => {
-			var fragment = root_6$11();
+			var fragment = root_6$13();
 			var node = first_child(fragment);
 			var consequent_2 = ($$anchor) => {
-				var form = root_3$18();
+				var form = root_3$19();
 				var h3 = child(form);
 				var text = only_child(h3);
 				var label = sibling(h3, 2);
 				var node_1 = sibling(child(label));
 				var consequent_1 = ($$anchor) => {
-					var select_1 = root_1$22();
+					var select_1 = root_1$23();
 					var node_2 = child(select_1);
 					var consequent = ($$anchor) => {
-						var option_1 = root$28();
+						var option_1 = root$30();
 						var text_1 = only_child(option_1, true);
 						var option_1_value = {};
 						template_effect(() => {
@@ -45062,7 +45150,7 @@ createHTML: (html) => {
 						if (get(d_1)) $$render(consequent);
 					});
 					each(sibling(node_2), 17, () => preferenceChoices[get(editing).key], index, ($$anchor, option) => {
-						var option_2 = root$28();
+						var option_2 = root$30();
 						var text_2 = only_child(option_2, true);
 						var option_2_value = {};
 						template_effect(() => {
@@ -45077,7 +45165,7 @@ createHTML: (html) => {
 					append($$anchor, select_1);
 				};
 				var alternate = ($$anchor) => {
-					var input = root_2$20();
+					var input = root_2$21();
 					remove_input_defaults(input);
 					bind_value(input, () => get(value), ($$value) => set(value, $$value));
 					append($$anchor, input);
@@ -45108,7 +45196,7 @@ createHTML: (html) => {
 			});
 			var node_4 = sibling(node, 2);
 			var consequent_4 = ($$anchor) => {
-				var section = root_5$13();
+				var section = root_5$14();
 				var h3_1 = child(section);
 				var text_3 = only_child(h3_1, true);
 				var p_1 = sibling(h3_1);
@@ -45117,7 +45205,7 @@ createHTML: (html) => {
 				var text_5 = only_child(p_2, true);
 				var node_5 = sibling(p_2, 2);
 				var consequent_3 = ($$anchor) => {
-					append($$anchor, root_4$15());
+					append($$anchor, root_4$17());
 				};
 				if_block(node_5, ($$render) => {
 					if (get(choice).operation === "clear") $$render(consequent_3);
@@ -45305,10 +45393,10 @@ createHTML: (html) => {
 				window.removeEventListener("central-agent:app-server-preferences", update);
 			};
 		});
-		var fragment_1 = root_20$3();
+		var fragment_1 = root_20$4();
 		var node_6 = first_child(fragment_1);
 		var consequent_5 = ($$anchor) => {
-			var button_4 = root_7$9();
+			var button_4 = root_7$11();
 			template_effect(($0) => button_4.disabled = $0, [() => !available()]);
 			delegated("click", button_4, open);
 			append($$anchor, button_4);
@@ -45325,7 +45413,7 @@ createHTML: (html) => {
 		var button_6 = sibling(p_4, 4);
 		var node_7 = sibling(button_6, 2);
 		var consequent_6 = ($$anchor) => {
-			var p_5 = root_8$8();
+			var p_5 = root_8$10();
 			var text_8 = only_child(p_5, true);
 			template_effect(() => set_text(text_8, get(error) || get(inventory)?.error));
 			append($$anchor, p_5);
@@ -45335,7 +45423,7 @@ createHTML: (html) => {
 		});
 		var node_8 = sibling(node_7, 2);
 		var consequent_7 = ($$anchor) => {
-			var p_6 = root_9$8();
+			var p_6 = root_9$10();
 			var text_9 = only_child(p_6, true);
 			template_effect(() => set_text(text_9, get(notice)));
 			append($$anchor, p_6);
@@ -45345,17 +45433,17 @@ createHTML: (html) => {
 		});
 		var node_9 = sibling(node_8, 2);
 		var consequent_8 = ($$anchor) => {
-			append($$anchor, root_10$6());
+			append($$anchor, root_10$8());
 		};
 		if_block(node_9, ($$render) => {
 			if (get(writing)) $$render(consequent_8);
 		});
 		var node_10 = sibling(node_9, 2);
 		var consequent_9 = ($$anchor) => {
-			append($$anchor, root_11$6());
+			append($$anchor, root_11$8());
 		};
 		var consequent_10 = ($$anchor) => {
-			append($$anchor, root_12$6());
+			append($$anchor, root_12$8());
 		};
 		if_block(node_10, ($$render) => {
 			if (get(loading)) $$render(consequent_9);
@@ -45363,17 +45451,17 @@ createHTML: (html) => {
 		});
 		var node_11 = sibling(node_10, 2);
 		var consequent_17 = ($$anchor) => {
-			var fragment_2 = root_19$3();
+			var fragment_2 = root_19$4();
 			var node_12 = first_child(fragment_2);
 			var consequent_11 = ($$anchor) => {
-				append($$anchor, root_13$6());
+				append($$anchor, root_13$8());
 			};
 			if_block(node_12, ($$render) => {
 				if (!get(inventory).snapshot.target) $$render(consequent_11);
 			});
 			var node_13 = sibling(node_12, 2);
 			each(node_13, 17, () => get(inventory).snapshot.preferences, (preference) => preference.key, ($$anchor, preference) => {
-				var article = root_17$4();
+				var article = root_17$6();
 				var div_2 = child(article);
 				var h3_2 = child(div_2);
 				var text_10 = only_child(h3_2, true);
@@ -45384,7 +45472,7 @@ createHTML: (html) => {
 				reset(p_11);
 				var node_14 = sibling(p_11, 2);
 				var consequent_12 = ($$anchor) => {
-					append($$anchor, root_14$6());
+					append($$anchor, root_14$8());
 				};
 				if_block(node_14, ($$render) => {
 					if (get(preference).key === "model_auto_compact_token_limit_scope") $$render(consequent_12);
@@ -45396,7 +45484,7 @@ createHTML: (html) => {
 				var text_13 = only_child(p_14);
 				var node_15 = sibling(p_14);
 				var consequent_13 = ($$anchor) => {
-					var button_8 = root_15$6();
+					var button_8 = root_15$8();
 					template_effect(($0) => button_8.disabled = $0, [() => !canEdit()]);
 					delegated("click", button_8, () => reviewClear(get(preference)));
 					append($$anchor, button_8);
@@ -45408,7 +45496,7 @@ createHTML: (html) => {
 				var text_14 = only_child(p_15);
 				var node_16 = sibling(p_15);
 				var consequent_14 = ($$anchor) => {
-					var p_16 = root_16$6();
+					var p_16 = root_16$8();
 					var text_15 = only_child(p_16, true);
 					template_effect(() => set_text(text_15, get(preference).origin.location));
 					append($$anchor, p_16);
@@ -45438,12 +45526,12 @@ createHTML: (html) => {
 			});
 			var details_1 = sibling(node_13, 2);
 			each(sibling(child(details_1)), 17, () => get(inventory).snapshot.layers, index, ($$anchor, layer) => {
-				var fragment_4 = root_18$3();
+				var fragment_4 = root_18$4();
 				var p_17 = first_child(fragment_4);
 				var text_16 = only_child(p_17);
 				var node_19 = sibling(p_17);
 				var consequent_16 = ($$anchor) => {
-					var p_18 = root_16$6();
+					var p_18 = root_16$8();
 					var text_17 = only_child(p_18, true);
 					template_effect(() => set_text(text_17, get(layer).location));
 					append($$anchor, p_18);
@@ -45507,23 +45595,23 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/NativeGoal.svelte
-	var root$27 = /* @__PURE__ */ from_html(`<p class="hint svelte-1ujjfjc">Resume the native conversation to manage its goal.</p>`);
-	var root_1$21 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1ujjfjc">Goal…</button> <!>`, 1);
-	var root_2$19 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-1ujjfjc"> </p>`);
-	var root_3$17 = /* @__PURE__ */ from_html(`<p role="alert" class="svelte-1ujjfjc"> </p>`);
-	var root_4$14 = /* @__PURE__ */ from_html(`<p class="svelte-1ujjfjc">Last observed state only. Refresh before changing the goal.</p>`);
-	var root_5$12 = /* @__PURE__ */ from_html(`<h3 class="svelte-1ujjfjc"> </h3><p class="objective svelte-1ujjfjc"> </p> <p class="svelte-1ujjfjc"> </p> <div class="row svelte-1ujjfjc"><button type="button" class="svelte-1ujjfjc">Set active…</button> <button type="button" class="svelte-1ujjfjc">Pause goal…</button> <button type="button" class="svelte-1ujjfjc">Mark blocked…</button> <button type="button" class="svelte-1ujjfjc">Mark complete…</button> <button type="button" class="svelte-1ujjfjc">Remove goal…</button></div>`, 1);
-	var root_6$10 = /* @__PURE__ */ from_html(`<p class="svelte-1ujjfjc">No native goal in this conversation.</p>`);
-	var root_7$8 = /* @__PURE__ */ from_html(`<!> <!>`, 1);
-	var root_8$7 = /* @__PURE__ */ from_html(`<label class="svelte-1ujjfjc">Token budget<input inputmode="numeric" class="svelte-1ujjfjc"/></label>`);
-	var root_9$7 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1ujjfjc">Change budget only…</button>`);
-	var root_10$5 = /* @__PURE__ */ from_html(`<p class="objective svelte-1ujjfjc"> </p><p class="svelte-1ujjfjc">The goal will be paused. A different objective, or replacing a completed goal, resets native accounting. The same unfinished objective retains its accounting.</p>`, 1);
-	var root_11$5 = /* @__PURE__ */ from_html(`<p class="svelte-1ujjfjc">Codex owns execution and may consume your account usage. This does not grant new filesystem permissions or apply pending composer settings.</p>`);
-	var root_12$5 = /* @__PURE__ */ from_html(`<p class="svelte-1ujjfjc"> </p> <!>`, 1);
-	var root_13$5 = /* @__PURE__ */ from_html(`<p class="svelte-1ujjfjc">Remove this goal from Codex. This does not delete conversation history or restore project files.</p>`);
-	var root_14$5 = /* @__PURE__ */ from_html(`<p class="svelte-1ujjfjc"> </p>`);
-	var root_15$5 = /* @__PURE__ */ from_html(`<section aria-label="Confirm native goal change" class="svelte-1ujjfjc"><h3 class="svelte-1ujjfjc">Confirm goal change</h3> <!> <!> <p class="svelte-1ujjfjc">Pausing, completing or removing a goal is not a request to interrupt a running turn. Use Stop separately. Closing this dialog does not cancel a sent change.</p> <p class="svelte-1ujjfjc">Codex is read again before the edit; this API cannot atomically prevent a simultaneous edit from another client.</p> <div class="row svelte-1ujjfjc"><button type="button" class="svelte-1ujjfjc">Back</button><button type="button" class="svelte-1ujjfjc">Confirm change</button></div></section>`);
-	var root_16$5 = /* @__PURE__ */ from_html(`<!> <dialog class="native-goal workspace-confirm-dialog svelte-1ujjfjc" aria-label="Native Codex goal"><header class="svelte-1ujjfjc"><h2 class="svelte-1ujjfjc">Conversation goal</h2><button type="button" class="svelte-1ujjfjc">Close</button></header> <p class="svelte-1ujjfjc">Scoped to the currently loaded native Codex conversation.</p> <p class="svelte-1ujjfjc">The goal belongs to the loaded Codex session. Changing the project, model or permissions in the composer does not reconfigure that session until a new prompt is accepted.</p> <button type="button" class="svelte-1ujjfjc">Refresh goal</button> <!> <!> <!> <details class="svelte-1ujjfjc"><summary class="svelte-1ujjfjc"> </summary> <label class="svelte-1ujjfjc">Objective<textarea rows="4" placeholder="Describe the outcome" class="svelte-1ujjfjc"></textarea></label> <label class="row svelte-1ujjfjc"><input type="checkbox" class="svelte-1ujjfjc"/> Set an optional token budget</label> <!> <div class="row svelte-1ujjfjc"><button type="button" class="svelte-1ujjfjc"> </button> <!></div></details> <!></dialog>`, 1);
+	var root$29 = /* @__PURE__ */ from_html(`<p class="hint svelte-1ujjfjc">Resume the native conversation to manage its goal.</p>`);
+	var root_1$22 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1ujjfjc">Goal…</button> <!>`, 1);
+	var root_2$20 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-1ujjfjc"> </p>`);
+	var root_3$18 = /* @__PURE__ */ from_html(`<p role="alert" class="svelte-1ujjfjc"> </p>`);
+	var root_4$16 = /* @__PURE__ */ from_html(`<p class="svelte-1ujjfjc">Last observed state only. Refresh before changing the goal.</p>`);
+	var root_5$13 = /* @__PURE__ */ from_html(`<h3 class="svelte-1ujjfjc"> </h3><p class="objective svelte-1ujjfjc"> </p> <p class="svelte-1ujjfjc"> </p> <div class="row svelte-1ujjfjc"><button type="button" class="svelte-1ujjfjc">Set active…</button> <button type="button" class="svelte-1ujjfjc">Pause goal…</button> <button type="button" class="svelte-1ujjfjc">Mark blocked…</button> <button type="button" class="svelte-1ujjfjc">Mark complete…</button> <button type="button" class="svelte-1ujjfjc">Remove goal…</button></div>`, 1);
+	var root_6$12 = /* @__PURE__ */ from_html(`<p class="svelte-1ujjfjc">No native goal in this conversation.</p>`);
+	var root_7$10 = /* @__PURE__ */ from_html(`<!> <!>`, 1);
+	var root_8$9 = /* @__PURE__ */ from_html(`<label class="svelte-1ujjfjc">Token budget<input inputmode="numeric" class="svelte-1ujjfjc"/></label>`);
+	var root_9$9 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1ujjfjc">Change budget only…</button>`);
+	var root_10$7 = /* @__PURE__ */ from_html(`<p class="objective svelte-1ujjfjc"> </p><p class="svelte-1ujjfjc">The goal will be paused. A different objective, or replacing a completed goal, resets native accounting. The same unfinished objective retains its accounting.</p>`, 1);
+	var root_11$7 = /* @__PURE__ */ from_html(`<p class="svelte-1ujjfjc">Codex owns execution and may consume your account usage. This does not grant new filesystem permissions or apply pending composer settings.</p>`);
+	var root_12$7 = /* @__PURE__ */ from_html(`<p class="svelte-1ujjfjc"> </p> <!>`, 1);
+	var root_13$7 = /* @__PURE__ */ from_html(`<p class="svelte-1ujjfjc">Remove this goal from Codex. This does not delete conversation history or restore project files.</p>`);
+	var root_14$7 = /* @__PURE__ */ from_html(`<p class="svelte-1ujjfjc"> </p>`);
+	var root_15$7 = /* @__PURE__ */ from_html(`<section aria-label="Confirm native goal change" class="svelte-1ujjfjc"><h3 class="svelte-1ujjfjc">Confirm goal change</h3> <!> <!> <p class="svelte-1ujjfjc">Pausing, completing or removing a goal is not a request to interrupt a running turn. Use Stop separately. Closing this dialog does not cancel a sent change.</p> <p class="svelte-1ujjfjc">Codex is read again before the edit; this API cannot atomically prevent a simultaneous edit from another client.</p> <div class="row svelte-1ujjfjc"><button type="button" class="svelte-1ujjfjc">Back</button><button type="button" class="svelte-1ujjfjc">Confirm change</button></div></section>`);
+	var root_16$7 = /* @__PURE__ */ from_html(`<!> <dialog class="native-goal workspace-confirm-dialog svelte-1ujjfjc" aria-label="Native Codex goal"><header class="svelte-1ujjfjc"><h2 class="svelte-1ujjfjc">Conversation goal</h2><button type="button" class="svelte-1ujjfjc">Close</button></header> <p class="svelte-1ujjfjc">Scoped to the currently loaded native Codex conversation.</p> <p class="svelte-1ujjfjc">The goal belongs to the loaded Codex session. Changing the project, model or permissions in the composer does not reconfigure that session until a new prompt is accepted.</p> <button type="button" class="svelte-1ujjfjc">Refresh goal</button> <!> <!> <!> <details class="svelte-1ujjfjc"><summary class="svelte-1ujjfjc"> </summary> <label class="svelte-1ujjfjc">Objective<textarea rows="4" placeholder="Describe the outcome" class="svelte-1ujjfjc"></textarea></label> <label class="row svelte-1ujjfjc"><input type="checkbox" class="svelte-1ujjfjc"/> Set an optional token budget</label> <!> <div class="row svelte-1ujjfjc"><button type="button" class="svelte-1ujjfjc"> </button> <!></div></details> <!></dialog>`, 1);
 	function NativeGoal($$anchor, $$props) {
 		push($$props, true);
 		let dialogOnly = prop($$props, "dialogOnly", 3, false);
@@ -45667,14 +45755,14 @@ createHTML: (html) => {
 				window.removeEventListener("central-agent:app-server-conversation", failure);
 			};
 		});
-		var fragment = root_16$5();
+		var fragment = root_16$7();
 		var node = first_child(fragment);
 		var consequent_1 = ($$anchor) => {
-			var fragment_1 = root_1$21();
+			var fragment_1 = root_1$22();
 			var button = first_child(fragment_1);
 			var node_1 = sibling(button, 2);
 			var consequent = ($$anchor) => {
-				append($$anchor, root$27());
+				append($$anchor, root$29());
 			};
 			if_block(node_1, ($$render) => {
 				if (!$$props.conversation.nativeLoaded) $$render(consequent);
@@ -45693,7 +45781,7 @@ createHTML: (html) => {
 		var button_2 = sibling(header, 6);
 		var node_2 = sibling(button_2, 2);
 		var consequent_2 = ($$anchor) => {
-			var p_1 = root_2$19();
+			var p_1 = root_2$20();
 			var text = only_child(p_1, true);
 			template_effect(() => set_text(text, $$props.conversation?.goal?.writing ? "Updating native goal…" : "Reading native goal…"));
 			append($$anchor, p_1);
@@ -45703,7 +45791,7 @@ createHTML: (html) => {
 		});
 		var node_3 = sibling(node_2, 2);
 		var consequent_3 = ($$anchor) => {
-			var p_2 = root_3$17();
+			var p_2 = root_3$18();
 			var text_1 = only_child(p_2, true);
 			template_effect(() => set_text(text_1, get(error) || $$props.conversation?.goal?.error));
 			append($$anchor, p_2);
@@ -45713,10 +45801,10 @@ createHTML: (html) => {
 		});
 		var node_4 = sibling(node_3, 2);
 		var consequent_7 = ($$anchor) => {
-			var fragment_2 = root_7$8();
+			var fragment_2 = root_7$10();
 			var node_5 = first_child(fragment_2);
 			var consequent_4 = ($$anchor) => {
-				append($$anchor, root_4$14());
+				append($$anchor, root_4$16());
 			};
 			if_block(node_5, ($$render) => {
 				if (!$$props.conversation.goal.current) $$render(consequent_4);
@@ -45724,7 +45812,7 @@ createHTML: (html) => {
 			var node_6 = sibling(node_5, 2);
 			var consequent_5 = ($$anchor) => {
 				const goal = /* @__PURE__ */ user_derived(() => $$props.conversation.goal.goal);
-				var fragment_3 = root_5$12();
+				var fragment_3 = root_5$13();
 				var h3 = first_child(fragment_3);
 				var text_2 = only_child(h3, true);
 				var p_4 = sibling(h3);
@@ -45778,7 +45866,7 @@ createHTML: (html) => {
 				append($$anchor, fragment_3);
 			};
 			var consequent_6 = ($$anchor) => {
-				append($$anchor, root_6$10());
+				append($$anchor, root_6$12());
 			};
 			if_block(node_6, ($$render) => {
 				if ($$props.conversation.goal.goal) $$render(consequent_5);
@@ -45803,7 +45891,7 @@ createHTML: (html) => {
 		reset(label_1);
 		var node_7 = sibling(label_1, 2);
 		var consequent_8 = ($$anchor) => {
-			var label_2 = root_8$7();
+			var label_2 = root_8$9();
 			var input_1 = sibling(child(label_2));
 			remove_input_defaults(input_1);
 			reset(label_2);
@@ -45818,7 +45906,7 @@ createHTML: (html) => {
 		var text_6 = only_child(button_8, true);
 		var node_8 = sibling(button_8, 2);
 		var consequent_9 = ($$anchor) => {
-			var button_9 = root_9$7();
+			var button_9 = root_9$9();
 			template_effect(($0) => button_9.disabled = $0, [() => get(waiting) || !goalEditable($$props.conversation)]);
 			delegated("click", button_9, reviewBudget);
 			append($$anchor, button_9);
@@ -45830,22 +45918,22 @@ createHTML: (html) => {
 		reset(details);
 		var node_9 = sibling(details, 2);
 		var consequent_15 = ($$anchor) => {
-			var section = root_15$5();
+			var section = root_15$7();
 			var node_10 = sibling(child(section), 2);
 			var consequent_10 = ($$anchor) => {
-				var fragment_4 = root_10$5();
+				var fragment_4 = root_10$7();
 				var text_7 = only_child(first_child(fragment_4), true);
 				next();
 				template_effect(() => set_text(text_7, get(choice).edit.objective));
 				append($$anchor, fragment_4);
 			};
 			var consequent_12 = ($$anchor) => {
-				var fragment_5 = root_12$5();
+				var fragment_5 = root_12$7();
 				var p_8 = first_child(fragment_5);
 				var text_8 = only_child(p_8);
 				var node_11 = sibling(p_8, 2);
 				var consequent_11 = ($$anchor) => {
-					append($$anchor, root_11$5());
+					append($$anchor, root_11$7());
 				};
 				if_block(node_11, ($$render) => {
 					if (get(choice).edit.status === "active") $$render(consequent_11);
@@ -45854,7 +45942,7 @@ createHTML: (html) => {
 				append($$anchor, fragment_5);
 			};
 			var consequent_13 = ($$anchor) => {
-				append($$anchor, root_13$5());
+				append($$anchor, root_13$7());
 			};
 			if_block(node_10, ($$render) => {
 				if (get(choice).edit.kind === "replace") $$render(consequent_10);
@@ -45863,7 +45951,7 @@ createHTML: (html) => {
 			});
 			var node_12 = sibling(node_10, 2);
 			var consequent_14 = ($$anchor) => {
-				var p_11 = root_14$5();
+				var p_11 = root_14$7();
 				var text_9 = only_child(p_11, true);
 				template_effect(($0) => set_text(text_9, $0), [() => get(choice).edit.token_budget === null ? "No goal token budget. Account and native runtime limits still apply." : `Goal token budget: ${get(choice).edit.token_budget.toLocaleString()}.`]);
 				append($$anchor, p_11);
@@ -45905,16 +45993,16 @@ createHTML: (html) => {
 	delegate(["click"]);
 	//#endregion
 	//#region src/components/NativeApps.svelte
-	var root$26 = /* @__PURE__ */ from_html(`<p role="alert" class="svelte-4a89yl"> </p>`);
-	var root_1$20 = /* @__PURE__ */ from_html(`<p class="unavailable svelte-4a89yl" role="status"> </p>`);
-	var root_2$18 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-4a89yl"> </p>`);
-	var root_3$16 = /* @__PURE__ */ from_html(`<p class="svelte-4a89yl"> </p>`);
-	var root_4$13 = /* @__PURE__ */ from_html(`<label class="filter svelte-4a89yl">Filter plugins<input type="search" placeholder="Name, description or availability" class="svelte-4a89yl"/></label> <!>`, 1);
-	var root_5$11 = /* @__PURE__ */ from_html(`<p class="svelte-4a89yl">No user-facing plugins are installed for this conversation.</p>`);
-	var root_6$9 = /* @__PURE__ */ from_html(`<p class="svelte-4a89yl">No plugin matches this filter.</p>`);
-	var root_7$7 = /* @__PURE__ */ from_html(`<li class="svelte-4a89yl"><div class="plugin-heading svelte-4a89yl"><!><strong class="svelte-4a89yl"> </strong><span class="svelte-4a89yl"> </span></div> <!></li>`);
-	var root_8$6 = /* @__PURE__ */ from_html(`<ul class="svelte-4a89yl"></ul>`);
-	var root_9$6 = /* @__PURE__ */ from_html(`<details class="native-apps svelte-4a89yl"><summary class="svelte-4a89yl">Plugins</summary> <p class="svelte-4a89yl">Inspect the user-facing plugins installed in Codex. Select them from the message composer; Codex still owns installation, authentication, policy and execution.</p> <button type="button" class="svelte-4a89yl"> </button> <!> <!> <!> <!> <!></details>`);
+	var root$28 = /* @__PURE__ */ from_html(`<p role="alert" class="svelte-4a89yl"> </p>`);
+	var root_1$21 = /* @__PURE__ */ from_html(`<p class="unavailable svelte-4a89yl" role="status"> </p>`);
+	var root_2$19 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-4a89yl"> </p>`);
+	var root_3$17 = /* @__PURE__ */ from_html(`<p class="svelte-4a89yl"> </p>`);
+	var root_4$15 = /* @__PURE__ */ from_html(`<label class="filter svelte-4a89yl">Filter plugins<input type="search" placeholder="Name, description or availability" class="svelte-4a89yl"/></label> <!>`, 1);
+	var root_5$12 = /* @__PURE__ */ from_html(`<p class="svelte-4a89yl">No user-facing plugins are installed for this conversation.</p>`);
+	var root_6$11 = /* @__PURE__ */ from_html(`<p class="svelte-4a89yl">No plugin matches this filter.</p>`);
+	var root_7$9 = /* @__PURE__ */ from_html(`<li class="svelte-4a89yl"><div class="plugin-heading svelte-4a89yl"><!><strong class="svelte-4a89yl"> </strong><span class="svelte-4a89yl"> </span></div> <!></li>`);
+	var root_8$8 = /* @__PURE__ */ from_html(`<ul class="svelte-4a89yl"></ul>`);
+	var root_9$8 = /* @__PURE__ */ from_html(`<details class="native-apps svelte-4a89yl"><summary class="svelte-4a89yl">Plugins</summary> <p class="svelte-4a89yl">Inspect the user-facing plugins installed in Codex. Select them from the message composer; Codex still owns installation, authentication, policy and execution.</p> <button type="button" class="svelte-4a89yl"> </button> <!> <!> <!> <!> <!></details>`);
 	function NativeApps($$anchor, $$props) {
 		push($$props, true);
 		let filter = /* @__PURE__ */ state("");
@@ -45924,12 +46012,12 @@ createHTML: (html) => {
 			return appMatches(app, get(normalizedFilter));
 		}
 		const visibleApps = /* @__PURE__ */ user_derived(() => ($$props.view?.items || []).filter(appMatches$1));
-		var details = root_9$6();
+		var details = root_9$8();
 		var button = sibling(child(details), 4);
 		var text = only_child(button, true);
 		var node = sibling(button, 2);
 		var consequent = ($$anchor) => {
-			var p = root$26();
+			var p = root$28();
 			var text_1 = only_child(p, true);
 			template_effect(() => set_text(text_1, $$props.view.error));
 			append($$anchor, p);
@@ -45939,7 +46027,7 @@ createHTML: (html) => {
 		});
 		var node_1 = sibling(node, 2);
 		var consequent_1 = ($$anchor) => {
-			var p_1 = root_1$20();
+			var p_1 = root_1$21();
 			var text_2 = only_child(p_1, true);
 			template_effect(() => set_text(text_2, $$props.view.unavailableReason));
 			append($$anchor, p_1);
@@ -45949,7 +46037,7 @@ createHTML: (html) => {
 		});
 		var node_2 = sibling(node_1, 2);
 		var consequent_2 = ($$anchor) => {
-			var p_2 = root_2$18();
+			var p_2 = root_2$19();
 			var text_3 = only_child(p_2, true);
 			template_effect(() => set_text(text_3, $$props.view.notice));
 			append($$anchor, p_2);
@@ -45959,14 +46047,14 @@ createHTML: (html) => {
 		});
 		var node_3 = sibling(node_2, 2);
 		var consequent_4 = ($$anchor) => {
-			var fragment = root_4$13();
+			var fragment = root_4$15();
 			var label = first_child(fragment);
 			var input = sibling(child(label));
 			remove_input_defaults(input);
 			reset(label);
 			var node_4 = sibling(label, 2);
 			var consequent_3 = ($$anchor) => {
-				var p_3 = root_3$16();
+				var p_3 = root_3$17();
 				var text_4 = only_child(p_3);
 				template_effect(() => set_text(text_4, `${get(visibleApps).length ?? ""} of ${$$props.view.items.length ?? ""} plugins match.`));
 				append($$anchor, p_3);
@@ -45985,7 +46073,7 @@ createHTML: (html) => {
 			var fragment_1 = comment$1();
 			var node_6 = first_child(fragment_1);
 			var consequent_5 = ($$anchor) => {
-				var p_4 = root_3$16();
+				var p_4 = root_3$17();
 				var text_5 = only_child(p_4, true);
 				template_effect(() => set_text(text_5, $$props.view?.inventoryId ? "The last plugin inventory is stale. Refresh before selecting a plugin." : "Refresh to inspect plugins available for the next prompt."));
 				append($$anchor, p_4);
@@ -45996,15 +46084,15 @@ createHTML: (html) => {
 			append($$anchor, fragment_1);
 		};
 		var consequent_7 = ($$anchor) => {
-			append($$anchor, root_5$11());
+			append($$anchor, root_5$12());
 		};
 		var consequent_8 = ($$anchor) => {
-			append($$anchor, root_6$9());
+			append($$anchor, root_6$11());
 		};
 		var alternate = ($$anchor) => {
-			var ul = root_8$6();
+			var ul = root_8$8();
 			each(ul, 21, () => get(visibleApps), (app) => app.id, ($$anchor, app) => {
-				var li = root_7$7();
+				var li = root_7$9();
 				var div = child(li);
 				var node_7 = child(div);
 				PluginIcon(node_7, {
@@ -46024,7 +46112,7 @@ createHTML: (html) => {
 				reset(div);
 				var node_8 = sibling(div, 2);
 				var consequent_9 = ($$anchor) => {
-					var p_7 = root_3$16();
+					var p_7 = root_3$17();
 					var text_8 = only_child(p_7, true);
 					template_effect(() => set_text(text_8, get(app).description));
 					append($$anchor, p_7);
@@ -46060,24 +46148,24 @@ createHTML: (html) => {
 	delegate(["click"]);
 	//#endregion
 	//#region src/components/NativeConversation.svelte
-	var root$25 = /* @__PURE__ */ from_html(`<p class="svelte-1ly1hrs">Connect this conversation to Codex to choose skills and apps.</p>`);
-	var root_1$19 = /* @__PURE__ */ from_html(`<!> <!>`, 1);
-	var root_2$17 = /* @__PURE__ */ from_html(`<p class="svelte-1ly1hrs">Connect Codex in AI accounts to use native conversation actions.</p>`);
-	var root_3$15 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-1ly1hrs">Waiting for the current operation.</p>`);
-	var root_4$12 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-1ly1hrs"> </p>`);
-	var root_5$10 = /* @__PURE__ */ from_html(`<p role="alert" class="svelte-1ly1hrs"> </p>`);
-	var root_6$8 = /* @__PURE__ */ from_html(`<p class="svelte-1ly1hrs">Ask Codex to condense this conversation's model context. Details available to future turns may be summarized. Codex owns this operation and may use your account allowance.</p> <p class="svelte-1ly1hrs">This does not reset the chat, restore files or create a Time Machine checkpoint. Your draft, attachments and other conversations remain unchanged. An acknowledgement means started, not completed; progress follows native events. Stop requests interruption when Codex reports the active turn.</p>`, 1);
-	var root_7$6 = /* @__PURE__ */ from_html(`<p class="svelte-1ly1hrs">Supervisor has not submitted a turn through this connection. If Codex has no saved history for it after reconnecting, you can remove this unused local link.</p> <p class="svelte-1ly1hrs">No Codex history or files are deleted. Any existing native history remains available through Browse Codex history. Your draft, attachments and other-provider messages stay here. Your next prompt will start a new native conversation.</p>`, 1);
-	var root_8$5 = /* @__PURE__ */ from_html(`<label class="svelte-1ly1hrs"> <textarea required="" class="svelte-1ly1hrs"></textarea></label>`);
-	var root_9$5 = /* @__PURE__ */ from_html(`<label class="svelte-1ly1hrs">Separate conversation name<input required="" class="svelte-1ly1hrs"/></label>`);
-	var root_10$4 = /* @__PURE__ */ from_html(`<label class="svelte-1ly1hrs">Review target<select class="svelte-1ly1hrs"><option>Uncommitted changes</option><option>Compare with branch</option><option>Specific commit</option><option>Custom instructions</option></select></label> <!> <label class="svelte-1ly1hrs">Review destination<select class="svelte-1ly1hrs"><option>This conversation</option><option>New separate conversation</option></select></label> <!> <p class="svelte-1ly1hrs"> </p> <p class="svelte-1ly1hrs">This starts Codex's native reviewer in this conversation and uses your account allowance. The session is prepared in read-only mode with native command approvals. The configured Codex reviewer chooses its model; this is not a normal composer submission.</p> <p class="svelte-1ly1hrs">Your draft and attachments stay unchanged. Stop remains available while reviewing. No checkpoint or file restore is created.</p> <p class="svelte-1ly1hrs"> </p>`, 1);
-	var root_11$4 = /* @__PURE__ */ from_html(`<option> </option>`);
-	var root_12$4 = /* @__PURE__ */ from_html(`<label class="svelte-1ly1hrs">New conversation name<input required="" class="svelte-1ly1hrs"/></label> <label class="svelte-1ly1hrs">History boundary<select class="svelte-1ly1hrs"><option>Entire observed history</option><!></select></label> <p class="svelte-1ly1hrs">Codex will copy its history into a new native thread, linked to a new project chat or a second agent card on the same graph node. No files, worktree or other-provider messages are copied. No prompt is sent.</p> <p class="svelte-1ly1hrs"> </p><p class="svelte-1ly1hrs">The original draft stays here. The new conversation uses Supervisor's shared Codex workspace access. Use Open branch when you want to switch.</p>`, 1);
-	var root_13$4 = /* @__PURE__ */ from_html(`<label class="svelte-1ly1hrs">Conversation name<input required="" class="svelte-1ly1hrs"/></label>`);
-	var root_14$4 = /* @__PURE__ */ from_html(`<p class="svelte-1ly1hrs">Codex will archive this conversation and attempt to archive its spawned child conversations. It can be restored later. No project files are deleted.</p>`);
-	var root_15$4 = /* @__PURE__ */ from_html(`<p class="svelte-1ly1hrs">Restore this conversation's native history. Child conversations are not automatically restored. No files are restored or changed.</p>`);
-	var root_16$4 = /* @__PURE__ */ from_html(`<p class="svelte-1ly1hrs">Permanently delete this conversation and its spawned child conversations from Codex, including archived children. This cannot be undone. Project files, the local chat and other providers' histories are not deleted.</p> <p class="svelte-1ly1hrs">Codex may refuse deletion while a fork still references this history. A refusal keeps the conversation available; forks are never deleted automatically to bypass it.</p>`, 1);
-	var root_17$3 = /* @__PURE__ */ from_html(`<div class="native-configuration svelte-1ly1hrs"><!> <!> <!> <!> <!> <!> <!></div> <dialog class="workspace-confirm-dialog svelte-1ly1hrs" aria-label="Manage Codex conversation"><form><h2> </h2> <!> <div class="workspace-confirm-actions"><button type="button" class="svelte-1ly1hrs">Cancel</button> <button type="submit" class="svelte-1ly1hrs"> </button></div></form></dialog>`, 1);
+	var root$27 = /* @__PURE__ */ from_html(`<p class="svelte-1ly1hrs">Connect this conversation to Codex to choose skills and apps.</p>`);
+	var root_1$20 = /* @__PURE__ */ from_html(`<!> <!>`, 1);
+	var root_2$18 = /* @__PURE__ */ from_html(`<p class="svelte-1ly1hrs">Connect Codex in AI accounts to use native conversation actions.</p>`);
+	var root_3$16 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-1ly1hrs">Waiting for the current operation.</p>`);
+	var root_4$14 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-1ly1hrs"> </p>`);
+	var root_5$11 = /* @__PURE__ */ from_html(`<p role="alert" class="svelte-1ly1hrs"> </p>`);
+	var root_6$10 = /* @__PURE__ */ from_html(`<p class="svelte-1ly1hrs">Ask Codex to condense this conversation's model context. Details available to future turns may be summarized. Codex owns this operation and may use your account allowance.</p> <p class="svelte-1ly1hrs">This does not reset the chat, restore files or create a Time Machine checkpoint. Your draft, attachments and other conversations remain unchanged. An acknowledgement means started, not completed; progress follows native events. Stop requests interruption when Codex reports the active turn.</p>`, 1);
+	var root_7$8 = /* @__PURE__ */ from_html(`<p class="svelte-1ly1hrs">Supervisor has not submitted a turn through this connection. If Codex has no saved history for it after reconnecting, you can remove this unused local link.</p> <p class="svelte-1ly1hrs">No Codex history or files are deleted. Any existing native history remains available through Browse Codex history. Your draft, attachments and other-provider messages stay here. Your next prompt will start a new native conversation.</p>`, 1);
+	var root_8$7 = /* @__PURE__ */ from_html(`<label class="svelte-1ly1hrs"> <textarea required="" class="svelte-1ly1hrs"></textarea></label>`);
+	var root_9$7 = /* @__PURE__ */ from_html(`<label class="svelte-1ly1hrs">Separate conversation name<input required="" class="svelte-1ly1hrs"/></label>`);
+	var root_10$6 = /* @__PURE__ */ from_html(`<label class="svelte-1ly1hrs">Review target<select class="svelte-1ly1hrs"><option>Uncommitted changes</option><option>Compare with branch</option><option>Specific commit</option><option>Custom instructions</option></select></label> <!> <label class="svelte-1ly1hrs">Review destination<select class="svelte-1ly1hrs"><option>This conversation</option><option>New separate conversation</option></select></label> <!> <p class="svelte-1ly1hrs"> </p> <p class="svelte-1ly1hrs">This starts Codex's native reviewer in this conversation and uses your account allowance. The session is prepared in read-only mode with native command approvals. The configured Codex reviewer chooses its model; this is not a normal composer submission.</p> <p class="svelte-1ly1hrs">Your draft and attachments stay unchanged. Stop remains available while reviewing. No checkpoint or file restore is created.</p> <p class="svelte-1ly1hrs"> </p>`, 1);
+	var root_11$6 = /* @__PURE__ */ from_html(`<option> </option>`);
+	var root_12$6 = /* @__PURE__ */ from_html(`<label class="svelte-1ly1hrs">New conversation name<input required="" class="svelte-1ly1hrs"/></label> <label class="svelte-1ly1hrs">History boundary<select class="svelte-1ly1hrs"><option>Entire observed history</option><!></select></label> <p class="svelte-1ly1hrs">Codex will copy its history into a new native thread, linked to a new project chat or a second agent card on the same graph node. No files, worktree or other-provider messages are copied. No prompt is sent.</p> <p class="svelte-1ly1hrs"> </p><p class="svelte-1ly1hrs">The original draft stays here. The new conversation uses Supervisor's shared Codex workspace access. Use Open branch when you want to switch.</p>`, 1);
+	var root_13$6 = /* @__PURE__ */ from_html(`<label class="svelte-1ly1hrs">Conversation name<input required="" class="svelte-1ly1hrs"/></label>`);
+	var root_14$6 = /* @__PURE__ */ from_html(`<p class="svelte-1ly1hrs">Codex will archive this conversation and attempt to archive its spawned child conversations. It can be restored later. No project files are deleted.</p>`);
+	var root_15$6 = /* @__PURE__ */ from_html(`<p class="svelte-1ly1hrs">Restore this conversation's native history. Child conversations are not automatically restored. No files are restored or changed.</p>`);
+	var root_16$6 = /* @__PURE__ */ from_html(`<p class="svelte-1ly1hrs">Permanently delete this conversation and its spawned child conversations from Codex, including archived children. This cannot be undone. Project files, the local chat and other providers' histories are not deleted.</p> <p class="svelte-1ly1hrs">Codex may refuse deletion while a fork still references this history. A refusal keeps the conversation available; forks are never deleted automatically to bypass it.</p>`, 1);
+	var root_17$5 = /* @__PURE__ */ from_html(`<div class="native-configuration svelte-1ly1hrs"><!> <!> <!> <!> <!> <!> <!></div> <dialog class="workspace-confirm-dialog svelte-1ly1hrs" aria-label="Manage Codex conversation"><form><h2> </h2> <!> <div class="workspace-confirm-actions"><button type="button" class="svelte-1ly1hrs">Cancel</button> <button type="submit" class="svelte-1ly1hrs"> </button></div></form></dialog>`, 1);
 	function NativeConversation($$anchor, $$props) {
 		push($$props, true);
 		let settingsVisible = prop($$props, "settingsVisible", 3, true);
@@ -46268,7 +46356,7 @@ createHTML: (html) => {
 		function separateReviewNotice() {
 			return get(view)?.historyMode === "paginated" ? "This Codex version does not support separate review delivery for paginated histories. To keep the review separate, explicitly create a fork, open it, then start an inline review there. These are two distinct native actions." : get(view)?.historyMode === "legacy" ? "Separate delivery creates a new local conversation and binds only the reviewThreadId returned by Codex. It is never inferred from the source thread." : "Codex did not report a compatible history mode, so separate delivery stays unavailable. Refresh native history or use an explicit fork followed by inline review.";
 		}
-		var fragment = root_17$3();
+		var fragment = root_17$5();
 		var div = first_child(fragment);
 		var node = child(div);
 		NativeHistory(node, {
@@ -46319,7 +46407,7 @@ createHTML: (html) => {
 				initiallyOpen: true,
 				collapsible: false,
 				children: ($$anchor, $$slotProps) => {
-					var fragment_2 = root_1$19();
+					var fragment_2 = root_1$20();
 					var node_4 = first_child(fragment_2);
 					NativeSkills(node_4, {
 						get owner() {
@@ -46352,7 +46440,7 @@ createHTML: (html) => {
 						append($$anchor, fragment_3);
 					};
 					var consequent_1 = ($$anchor) => {
-						append($$anchor, root$25());
+						append($$anchor, root$27());
 					};
 					if_block(node_5, ($$render) => {
 						if (get(view)?.visible && (!get(view).binding || !get(view).binding.deleted)) $$render(consequent);
@@ -46383,10 +46471,10 @@ createHTML: (html) => {
 		});
 		var node_7 = sibling(node_3, 2);
 		var consequent_3 = ($$anchor) => {
-			append($$anchor, root_2$17());
+			append($$anchor, root_2$18());
 		};
 		var consequent_4 = ($$anchor) => {
-			append($$anchor, root_3$15());
+			append($$anchor, root_3$16());
 		};
 		if_block(node_7, ($$render) => {
 			if (!get(view)?.connected) $$render(consequent_3);
@@ -46394,7 +46482,7 @@ createHTML: (html) => {
 		});
 		var node_8 = sibling(node_7, 2);
 		var consequent_5 = ($$anchor) => {
-			var p_3 = root_4$12();
+			var p_3 = root_4$14();
 			var text = only_child(p_3, true);
 			template_effect(() => set_text(text, get(view).compaction === "stop_requested" ? "Stop requested. Waiting for a native turn to interrupt." : get(view).compaction === "running" ? "Codex is compacting this context; follow native progress in the conversation." : get(view).compaction === "accepted" ? "Compaction accepted. Waiting for native activity; it is not complete yet." : "Requesting native context compaction…"));
 			append($$anchor, p_3);
@@ -46404,7 +46492,7 @@ createHTML: (html) => {
 		});
 		var node_9 = sibling(node_8, 2);
 		var consequent_6 = ($$anchor) => {
-			var p_4 = root_5$10();
+			var p_4 = root_5$11();
 			var text_1 = only_child(p_4, true);
 			template_effect(() => set_text(text_1, get(error)));
 			append($$anchor, p_4);
@@ -46419,17 +46507,17 @@ createHTML: (html) => {
 		var text_2 = only_child(h2, true);
 		var node_10 = sibling(h2, 2);
 		var consequent_7 = ($$anchor) => {
-			var fragment_6 = root_6$8();
+			var fragment_6 = root_6$10();
 			next(2);
 			append($$anchor, fragment_6);
 		};
 		var consequent_8 = ($$anchor) => {
-			var fragment_7 = root_7$6();
+			var fragment_7 = root_7$8();
 			next(2);
 			append($$anchor, fragment_7);
 		};
 		var consequent_11 = ($$anchor) => {
-			var fragment_8 = root_10$4();
+			var fragment_8 = root_10$6();
 			var label = first_child(fragment_8);
 			var select = sibling(child(label));
 			var option = child(select);
@@ -46445,7 +46533,7 @@ createHTML: (html) => {
 			reset(label);
 			var node_11 = sibling(label, 2);
 			var consequent_9 = ($$anchor) => {
-				var label_1 = root_8$5();
+				var label_1 = root_8$7();
 				var text_3 = child(label_1, true);
 				var textarea = sibling(text_3);
 				remove_textarea_child(textarea);
@@ -46469,7 +46557,7 @@ createHTML: (html) => {
 			reset(label_2);
 			var node_12 = sibling(label_2, 2);
 			var consequent_10 = ($$anchor) => {
-				var label_3 = root_9$5();
+				var label_3 = root_9$7();
 				var input = sibling(child(label_3));
 				remove_input_defaults(input);
 				reset(label_3);
@@ -46492,7 +46580,7 @@ createHTML: (html) => {
 			append($$anchor, fragment_8);
 		};
 		var consequent_12 = ($$anchor) => {
-			var fragment_9 = root_12$4();
+			var fragment_9 = root_12$6();
 			var label_4 = first_child(fragment_9);
 			var input_1 = sibling(child(label_4));
 			remove_input_defaults(input_1);
@@ -46502,7 +46590,7 @@ createHTML: (html) => {
 			var option_6 = child(select_2);
 			option_6.value = option_6.__value = "";
 			each(sibling(option_6), 19, () => get(view)?.completedTurns || [], (turn) => turn.id, ($$anchor, turn, index) => {
-				var option_7 = root_11$4();
+				var option_7 = root_11$6();
 				var text_6 = only_child(option_7);
 				var option_7_value = {};
 				template_effect(() => {
@@ -46522,7 +46610,7 @@ createHTML: (html) => {
 			append($$anchor, fragment_9);
 		};
 		var consequent_13 = ($$anchor) => {
-			var label_6 = root_13$4();
+			var label_6 = root_13$6();
 			var input_2 = sibling(child(label_6));
 			remove_input_defaults(input_2);
 			reset(label_6);
@@ -46530,13 +46618,13 @@ createHTML: (html) => {
 			append($$anchor, label_6);
 		};
 		var consequent_14 = ($$anchor) => {
-			append($$anchor, root_14$4());
+			append($$anchor, root_14$6());
 		};
 		var consequent_15 = ($$anchor) => {
-			append($$anchor, root_15$4());
+			append($$anchor, root_15$6());
 		};
 		var alternate_1 = ($$anchor) => {
-			var fragment_10 = root_16$4();
+			var fragment_10 = root_16$6();
 			next(2);
 			append($$anchor, fragment_10);
 		};
@@ -46576,8 +46664,8 @@ createHTML: (html) => {
 	delegate(["click"]);
 	//#endregion
 	//#region src/components/MainAgentSettings.svelte
-	var root$24 = /* @__PURE__ */ from_html(`<div class="response-settings svelte-1lw8el3"><div class="settings-option-panel"><!></div> <div class="compatibility-setting svelte-1lw8el3" hidden="" aria-hidden="true"><!></div> <!></div>`);
-	var root_1$18 = /* @__PURE__ */ from_html(`<div class="main-agent-settings svelte-1lw8el3"><div class="agent-settings-primary svelte-1lw8el3"><!> <!></div> <div class="codex-tools-settings svelte-1lw8el3"><p class="codex-tools-copy settings-section-copy svelte-1lw8el3"> </p> <!></div></div>`);
+	var root$26 = /* @__PURE__ */ from_html(`<div class="response-settings svelte-1lw8el3"><div class="settings-option-panel"><!></div> <div class="compatibility-setting svelte-1lw8el3" hidden="" aria-hidden="true"><!></div> <!></div>`);
+	var root_1$19 = /* @__PURE__ */ from_html(`<div class="main-agent-settings svelte-1lw8el3"><div class="agent-settings-primary svelte-1lw8el3"><!> <!></div> <div class="codex-tools-settings svelte-1lw8el3"><p class="codex-tools-copy settings-section-copy svelte-1lw8el3"> </p> <!></div></div>`);
 	function MainAgentSettings($$anchor, $$props) {
 		push($$props, true);
 		let host = prop($$props, "host", 7);
@@ -46647,7 +46735,7 @@ createHTML: (html) => {
 			};
 		});
 		var $$exports = { prepareDialogs };
-		var div = root_1$18();
+		var div = root_1$19();
 		var div_1 = child(div);
 		var node = child(div_1);
 		ConfigurationSection(node, {
@@ -46658,7 +46746,7 @@ createHTML: (html) => {
 			initiallyOpen: true,
 			collapsible: false,
 			children: ($$anchor, $$slotProps) => {
-				var div_2 = root$24();
+				var div_2 = root$26();
 				var div_3 = child(div_2);
 				ModelPicker(child(div_3), {
 					kind: "personality",
@@ -46697,9 +46785,9 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/BrowserPanelToggle.svelte
-	var root$23 = /* @__PURE__ */ from_svg(`<path d="m10 9-3 3 3 3"></path>`);
-	var root_1$17 = /* @__PURE__ */ from_svg(`<path d="m8 9 3 3-3 3"></path>`);
-	var root_2$16 = /* @__PURE__ */ from_html(`<button id="toggle-web-panel" type="button" class="svelte-13o8wiq"><svg viewBox="0 0 24 24" aria-hidden="true" class="svelte-13o8wiq"><rect x="3" y="4" width="18" height="16" rx="3"></rect><path d="M15 4v16"></path><!></svg></button>`);
+	var root$25 = /* @__PURE__ */ from_svg(`<path d="m10 9-3 3 3 3"></path>`);
+	var root_1$18 = /* @__PURE__ */ from_svg(`<path d="m8 9 3 3-3 3"></path>`);
+	var root_2$17 = /* @__PURE__ */ from_html(`<button id="toggle-web-panel" type="button" class="svelte-13o8wiq"><svg viewBox="0 0 24 24" aria-hidden="true" class="svelte-13o8wiq"><rect x="3" y="4" width="18" height="16" rx="3"></rect><path d="M15 4v16"></path><!></svg></button>`);
 	function BrowserPanelToggle($$anchor, $$props) {
 		push($$props, true);
 		let minimized = /* @__PURE__ */ state(false);
@@ -46710,14 +46798,14 @@ createHTML: (html) => {
 		}
 		const label = /* @__PURE__ */ user_derived(() => get(minimized) ? "Restore web panel" : "Minimize web panel");
 		var $$exports = { update };
-		var button = root_2$16();
+		var button = root_2$17();
 		var svg = child(button);
 		var node = sibling(child(svg), 2);
 		var consequent = ($$anchor) => {
-			append($$anchor, root$23());
+			append($$anchor, root$25());
 		};
 		var alternate = ($$anchor) => {
-			append($$anchor, root_1$17());
+			append($$anchor, root_1$18());
 		};
 		if_block(node, ($$render) => {
 			if (get(minimized)) $$render(consequent);
@@ -46740,10 +46828,10 @@ createHTML: (html) => {
 	delegate(["click"]);
 	//#endregion
 	//#region src/components/CollaborationIndicator.svelte
-	var root$22 = /* @__PURE__ */ from_html(`<span data-collaboration-active="" role="img"><svg viewBox="0 0 18 18" aria-hidden="true" class="svelte-e3q102"><path d="M7.25 4.25H5.5L3.25 6.5v5l2.25 2.25h1.75" class="svelte-e3q102"></path><path d="M10.75 4.25h1.75l2.25 2.25v5l-2.25 2.25h-1.75" class="svelte-e3q102"></path><path class="collaboration-bridge svelte-e3q102" d="M6.25 9h5.5"></path><path class="collaboration-core svelte-e3q102" d="m9 6.9 2.1 2.1L9 11.1 6.9 9Z"></path></svg></span>`);
+	var root$24 = /* @__PURE__ */ from_html(`<span data-collaboration-active="" role="img"><svg viewBox="0 0 18 18" aria-hidden="true" class="svelte-e3q102"><path d="M7.25 4.25H5.5L3.25 6.5v5l2.25 2.25h1.75" class="svelte-e3q102"></path><path d="M10.75 4.25h1.75l2.25 2.25v5l-2.25 2.25h-1.75" class="svelte-e3q102"></path><path class="collaboration-bridge svelte-e3q102" d="M6.25 9h5.5"></path><path class="collaboration-core svelte-e3q102" d="m9 6.9 2.1 2.1L9 11.1 6.9 9Z"></path></svg></span>`);
 	function CollaborationIndicator($$anchor, $$props) {
 		let label = prop($$props, "label", 3, "Agents collaborating"), compact = prop($$props, "compact", 3, false);
-		var span = root$22();
+		var span = root$24();
 		let classes;
 		template_effect(() => {
 			classes = set_class(span, 1, "collaboration-indicator svelte-e3q102", null, classes, { compact: compact() });
@@ -46754,10 +46842,11 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/AgentGraphHeader.svelte
-	var root$21 = /* @__PURE__ */ from_html(`<strong class="agent-console-title svelte-z7pw0e"> </strong>`);
-	var root_1$16 = /* @__PURE__ */ from_svg(`<path d="M8 8h9v9H8zM6 14H5V5h9v1"></path>`);
-	var root_2$15 = /* @__PURE__ */ from_svg(`<path d="M6 12h12"></path>`);
-	var root_3$14 = /* @__PURE__ */ from_html(`<header><span class="terminal-lights svelte-z7pw0e" aria-hidden="true"><i></i><i></i><i></i></span> <!> <!> <!> <div class="agent-console-header-actions svelte-z7pw0e"><button class="agent-console-minimize svelte-z7pw0e" data-action="focus" type="button"><svg viewBox="0 0 24 24" aria-hidden="true" class="svelte-z7pw0e"><path></path></svg></button> <button class="agent-console-stop svelte-z7pw0e" data-action="remove" type="button" hidden="">Remove</button> <button class="agent-console-minimize svelte-z7pw0e" data-action="minimize" type="button"><svg viewBox="0 0 24 24" aria-hidden="true" class="svelte-z7pw0e"><!></svg></button> <button class="agent-profile-toggle svelte-z7pw0e" type="button" aria-label="Configure agent model" title="Provider, model, effort and speed"><!></button> <button class="agent-console-close svelte-z7pw0e" data-action="close" type="button" aria-label="Close agent window">×</button></div> <div class="agent-console-profile-controls svelte-z7pw0e" data-phase="closed"><div class="graph-profile-fields svelte-z7pw0e"><label class="agent-console-field svelte-z7pw0e">Provider<select data-role="provider" class="svelte-z7pw0e"></select></label> <label class="agent-console-field svelte-z7pw0e">Model<select data-role="model" class="svelte-z7pw0e"></select></label> <label class="agent-console-field svelte-z7pw0e">Effort<select data-role="effort" class="svelte-z7pw0e"></select></label> <label class="agent-console-field svelte-z7pw0e">Speed<select data-role="speed" class="svelte-z7pw0e"></select></label></div></div></header> <div class="agent-console-compatibility svelte-z7pw0e" hidden="" aria-hidden="true"><span class="agent-console-name"></span> <span class="agent-console-group"></span> <span class="agent-console-phase"></span> <button class="agent-console-link-button" data-action="link" type="button">Connect</button> <div class="agent-console-meta"><span data-role="directory"></span><span data-role="profile"></span></div> <select data-role="context" aria-label="Stored context window" disabled=""><option>Automatic</option></select> <div class="agent-console-context" data-role="context-monitor" data-state="waiting"><span data-role="context-value"></span><span data-role="context-detail"></span> <span data-role="context-progress"><i data-role="context-fill"></i></span></div> <div class="agent-console-assignment"><input data-role="name" maxlength="80" aria-label="Agent name"/> <input data-role="mission" maxlength="2000" aria-label="Agent mission"/> <button data-action="save" type="button">Assign</button></div></div>`, 1);
+	var root$23 = /* @__PURE__ */ from_html(`<strong class="agent-console-title svelte-z7pw0e"> </strong>`);
+	var root_1$17 = /* @__PURE__ */ from_svg(`<path d="M8 8h9v9H8zM6 14H5V5h9v1"></path>`);
+	var root_2$16 = /* @__PURE__ */ from_svg(`<path d="M6 12h12"></path>`);
+	var root_3$15 = /* @__PURE__ */ from_html(`<div class="agent-console-field model-field svelte-z7pw0e"><span class="model-label"> </span> <select class="graph-native-select svelte-z7pw0e" aria-hidden="true" tabindex="-1"></select> <button class="model-picker-button svelte-z7pw0e" type="button" aria-haspopup="listbox" aria-expanded="false"><span class="model-picker-value svelte-z7pw0e">—</span> <span class="model-picker-chevron svelte-z7pw0e" aria-hidden="true"></span></button> <div class="model-picker-menu svelte-z7pw0e" role="listbox" hidden=""></div></div>`);
+	var root_4$13 = /* @__PURE__ */ from_html(`<header><span class="terminal-lights svelte-z7pw0e" aria-hidden="true"><i></i><i></i><i></i></span> <!> <!> <!> <div class="agent-console-header-actions svelte-z7pw0e"><button class="agent-console-minimize svelte-z7pw0e" data-action="focus" type="button"><svg viewBox="0 0 24 24" aria-hidden="true" class="svelte-z7pw0e"><path></path></svg></button> <button class="agent-console-stop svelte-z7pw0e" data-action="remove" type="button" hidden="">Remove</button> <button class="agent-console-minimize svelte-z7pw0e" data-action="minimize" type="button"><svg viewBox="0 0 24 24" aria-hidden="true" class="svelte-z7pw0e"><!></svg></button> <button class="agent-profile-toggle svelte-z7pw0e" type="button" aria-label="Configure agent model" title="Provider, model, effort and speed"><!></button> <button class="agent-console-close svelte-z7pw0e" data-action="close" type="button" aria-label="Close agent window">×</button></div> <div class="agent-console-profile-controls svelte-z7pw0e" data-phase="closed"><div class="graph-profile-fields svelte-z7pw0e"></div></div></header> <div class="agent-console-compatibility svelte-z7pw0e" hidden="" aria-hidden="true"><span class="agent-console-name"></span> <span class="agent-console-group"></span> <span class="agent-console-phase"></span> <button class="agent-console-link-button" data-action="link" type="button">Connect</button> <div class="agent-console-meta"><span data-role="directory"></span><span data-role="profile"></span></div> <select data-role="context" aria-label="Stored context window" disabled=""><option>Automatic</option></select> <div class="agent-console-context" data-role="context-monitor" data-state="waiting"><span data-role="context-value"></span><span data-role="context-detail"></span> <span data-role="context-progress"><i data-role="context-fill"></i></span></div> <div class="agent-console-assignment"><input data-role="name" maxlength="80" aria-label="Agent name"/> <input data-role="mission" maxlength="2000" aria-label="Agent mission"/> <button data-action="save" type="button">Assign</button></div></div>`, 1);
 	function AgentGraphHeader($$anchor, $$props) {
 		push($$props, true);
 		let title = prop($$props, "title", 3, ""), working = prop($$props, "working", 3, false), minimized = prop($$props, "minimized", 3, false), focused = prop($$props, "focused", 3, false);
@@ -46765,17 +46854,126 @@ createHTML: (html) => {
 		let profileVisible = /* @__PURE__ */ state(false);
 		let profileButton;
 		let profilePanel;
+		const profileRoles = [
+			{
+				role: "provider",
+				label: "Provider"
+			},
+			{
+				role: "model",
+				label: "Model"
+			},
+			{
+				role: "effort",
+				label: "Effort"
+			},
+			{
+				role: "speed",
+				label: "Speed"
+			}
+		];
+		let profilePickers = [];
 		let profileRevision = 0;
 		let popupMotion;
 		let markMotion = [];
 		const profileId = /* @__PURE__ */ user_derived(() => `graph-profile-${$$props.owner}`);
 		const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 		const markPaths = () => [...profileButton.querySelectorAll("[data-supervisor-logo] path")];
+		function closePicker(picker, returnFocus = false) {
+			if (picker.menu.hidden) return;
+			picker.menu.hidden = true;
+			picker.button.setAttribute("aria-expanded", "false");
+			if (returnFocus) picker.button.focus();
+		}
+		function closeAllPickers(except) {
+			profilePickers.forEach((picker) => {
+				if (picker !== except) closePicker(picker);
+			});
+		}
+		function syncPicker(picker) {
+			const options = [...picker.select.options];
+			const selected = options.find((option) => option.value === picker.select.value) || options[0];
+			const disabled = picker.select.disabled || !options.length;
+			const signature = JSON.stringify([
+				disabled,
+				selected?.value,
+				options.map((option) => [
+					option.value,
+					option.textContent,
+					option.title
+				])
+			]);
+			if (picker.signature === signature) return;
+			picker.signature = signature;
+			picker.button.disabled = disabled;
+			picker.value.textContent = selected?.textContent || "—";
+			picker.button.title = selected?.title || selected?.textContent || "";
+			if (disabled) closePicker(picker);
+			const hadOptionFocus = picker.menu.contains(document.activeElement);
+			picker.menu.replaceChildren(...options.map((option) => {
+				const active = option.value === selected?.value;
+				const row = document.createElement("button");
+				row.type = "button";
+				row.className = `model-picker-option${active ? " is-selected" : ""}`;
+				row.setAttribute("role", "option");
+				row.setAttribute("aria-selected", String(active));
+				row.dataset.value = option.value;
+				const copy = document.createElement("span");
+				const title = document.createElement("span");
+				title.className = "model-picker-option-title";
+				title.textContent = option.textContent;
+				copy.append(title);
+				if (option.title) {
+					const description = document.createElement("span");
+					description.className = "model-picker-option-description";
+					description.textContent = option.title;
+					copy.append(description);
+				}
+				const check = document.createElement("span");
+				check.className = "model-picker-check";
+				check.setAttribute("aria-hidden", "true");
+				check.textContent = "✓";
+				row.append(copy, check);
+				row.addEventListener("click", () => {
+					const changed = picker.select.value !== option.value;
+					picker.select.value = option.value;
+					syncPicker(picker);
+					closePicker(picker, true);
+					if (changed) picker.select.dispatchEvent(new Event("change", { bubbles: true }));
+				});
+				return row;
+			}));
+			if (hadOptionFocus && !picker.menu.hidden) picker.menu.querySelector("[aria-selected=\"true\"]")?.focus();
+		}
+		function openPicker(picker, focusSelected = false) {
+			syncPicker(picker);
+			if (picker.button.disabled) return;
+			const shouldOpen = picker.menu.hidden;
+			closeAllPickers();
+			if (!shouldOpen) return;
+			picker.menu.hidden = false;
+			picker.button.setAttribute("aria-expanded", "true");
+			requestAnimationFrame(() => {
+				if (picker.menu.hidden) return;
+				const selected = picker.menu.querySelector("[aria-selected=\"true\"]");
+				selected?.scrollIntoView({ block: "nearest" });
+				if (focusSelected) selected?.focus();
+			});
+		}
+		function movePickerFocus(picker, step) {
+			const options = [...picker.menu.querySelectorAll(".model-picker-option")];
+			if (!options.length) return;
+			const current = options.indexOf(document.activeElement);
+			options[current < 0 ? step > 0 ? 0 : options.length - 1 : (current + step + options.length) % options.length].focus();
+		}
+		function focusProfileRole(role) {
+			profilePickers.find((picker) => picker.role === role)?.button.focus();
+		}
 		async function setProfileOpen(next, role, returnFocus = false, immediate = false) {
 			if (next === get(profileOpen) && !immediate) {
 				if (next && role) {
 					await tick();
-					profilePanel?.querySelector(`[data-role="${role}"]`)?.focus();
+					focusProfileRole(role);
 				}
 				return;
 			}
@@ -46785,6 +46983,7 @@ createHTML: (html) => {
 			const transforms = pieces.map((path) => getComputedStyle(path).transform);
 			const generation = ++profileRevision;
 			set(profileOpen, next, true);
+			if (!next) closeAllPickers();
 			popupMotion?.cancel();
 			markMotion.forEach((animation) => animation.cancel());
 			markMotion = [];
@@ -46794,7 +46993,10 @@ createHTML: (html) => {
 			if (generation !== profileRevision) return;
 			profilePanel.inert = !next;
 			profilePanel.dataset.phase = next ? "opening" : "closing";
-			if (next && role) profilePanel.querySelector(`[data-role="${role}"]`)?.focus();
+			if (next) {
+				profilePickers.forEach(syncPicker);
+				if (role) focusProfileRole(role);
+			}
 			if (!next && returnFocus) profileButton.focus();
 			const style = getComputedStyle(profilePanel);
 			const duration = immediate || reduced() ? 0 : parseFloat(style.getPropertyValue("--ca-profile-motion-duration"));
@@ -46849,6 +47051,69 @@ createHTML: (html) => {
 			setProfileOpen(false, void 0, returnFocus);
 		}
 		onMount(() => {
+			const observers = [];
+			profilePickers = profileRoles.map(({ role }) => {
+				const field = profilePanel.querySelector(`[data-picker="${role}"]`);
+				const picker = {
+					role,
+					field,
+					select: field.querySelector("select"),
+					button: field.querySelector(".model-picker-button"),
+					value: field.querySelector(".model-picker-value"),
+					menu: field.querySelector(".model-picker-menu"),
+					signature: ""
+				};
+				const sync = () => syncPicker(picker);
+				picker.select.addEventListener("change", sync);
+				picker.select.addEventListener("central-agent:profile-sync", sync);
+				const observer = new MutationObserver(sync);
+				observer.observe(picker.select, {
+					childList: true,
+					subtree: true,
+					attributes: true,
+					attributeFilter: [
+						"disabled",
+						"title",
+						"label",
+						"value"
+					]
+				});
+				observers.push(observer);
+				picker.button.addEventListener("click", () => openPicker(picker));
+				picker.button.addEventListener("keydown", (event) => {
+					if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+						event.preventDefault();
+						if (picker.menu.hidden) openPicker(picker, true);
+						else movePickerFocus(picker, event.key === "ArrowDown" ? 1 : -1);
+					} else if (event.key === "Escape" && !picker.menu.hidden) {
+						event.preventDefault();
+						event.stopPropagation();
+						closePicker(picker, true);
+					}
+				});
+				picker.menu.addEventListener("keydown", (event) => {
+					if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+						event.preventDefault();
+						movePickerFocus(picker, event.key === "ArrowDown" ? 1 : -1);
+					} else if (event.key === "Home" || event.key === "End") {
+						event.preventDefault();
+						const options = picker.menu.querySelectorAll(".model-picker-option");
+						(event.key === "Home" ? options[0] : options[options.length - 1])?.focus();
+					} else if (event.key === "Escape") {
+						event.preventDefault();
+						event.stopPropagation();
+						closePicker(picker, true);
+					}
+				});
+				sync();
+				return picker;
+			});
+			const outsidePicker = (event) => {
+				if (!(event.target instanceof Node)) return;
+				profilePickers.forEach((picker) => {
+					if (!picker.field.contains(event.target)) closePicker(picker);
+				});
+			};
 			const outsideProfile = (event) => {
 				if (get(profileOpen) && event.target instanceof Node && !profilePanel.contains(event.target) && !profileButton.contains(event.target)) closeProfile(false);
 			};
@@ -46872,6 +47137,8 @@ createHTML: (html) => {
 			};
 			document.addEventListener("pointerdown", outsideProfile, true);
 			document.addEventListener("focusin", outsideProfile);
+			document.addEventListener("pointerdown", outsidePicker, true);
+			document.addEventListener("focusin", outsidePicker);
 			$$props.eventTarget.addEventListener("keydown", profileKey);
 			$$props.eventTarget.addEventListener("central-agent:slash-ui", modelShortcut);
 			preference.addEventListener("change", motionChanged);
@@ -46879,19 +47146,22 @@ createHTML: (html) => {
 				profileRevision++;
 				popupMotion?.cancel();
 				markMotion.forEach((animation) => animation.cancel());
+				observers.forEach((observer) => observer.disconnect());
 				document.removeEventListener("pointerdown", outsideProfile, true);
 				document.removeEventListener("focusin", outsideProfile);
+				document.removeEventListener("pointerdown", outsidePicker, true);
+				document.removeEventListener("focusin", outsidePicker);
 				$$props.eventTarget.removeEventListener("keydown", profileKey);
 				$$props.eventTarget.removeEventListener("central-agent:slash-ui", modelShortcut);
 				preference.removeEventListener("change", motionChanged);
 			};
 		});
-		var fragment = root_3$14();
+		var fragment = root_4$13();
 		var header = first_child(fragment);
 		let classes;
 		var node = sibling(child(header), 2);
 		var consequent = ($$anchor) => {
-			var strong = root$21();
+			var strong = root$23();
 			var text = only_child(strong, true);
 			template_effect(() => {
 				set_attribute(strong, "title", title());
@@ -46935,10 +47205,10 @@ createHTML: (html) => {
 		var svg_1 = child(button_1);
 		var node_3 = child(svg_1);
 		var consequent_2 = ($$anchor) => {
-			append($$anchor, root_1$16());
+			append($$anchor, root_1$17());
 		};
 		var alternate = ($$anchor) => {
-			append($$anchor, root_2$15());
+			append($$anchor, root_2$16());
 		};
 		if_block(node_3, ($$render) => {
 			if (minimized()) $$render(consequent_2);
@@ -46953,15 +47223,45 @@ createHTML: (html) => {
 		next(2);
 		reset(div);
 		var div_1 = sibling(div, 2);
+		var div_2 = child(div_1);
+		each(div_2, 21, () => profileRoles, index, ($$anchor, $$item) => {
+			let role = () => get($$item).role;
+			let label = () => get($$item).label;
+			var div_3 = root_3$15();
+			var span = child(div_3);
+			var text_1 = only_child(span, true);
+			var select = sibling(span, 2);
+			var button_3 = sibling(select, 2);
+			var span_1 = child(button_3);
+			next(2);
+			reset(button_3);
+			var div_4 = sibling(button_3, 2);
+			reset(div_3);
+			template_effect(() => {
+				set_attribute(div_3, "data-picker", role());
+				set_attribute(span, "id", `${get(profileId)}-${role()}-label`);
+				set_text(text_1, label());
+				set_attribute(select, "data-role", role());
+				set_attribute(button_3, "data-profile-trigger", role());
+				set_attribute(button_3, "aria-controls", `${get(profileId)}-${role()}-menu`);
+				set_attribute(button_3, "aria-labelledby", `${get(profileId)}-${role()}-label ${get(profileId)}-${role()}-value`);
+				set_attribute(span_1, "id", `${get(profileId)}-${role()}-value`);
+				set_attribute(div_4, "id", `${get(profileId)}-${role()}-menu`);
+				set_attribute(div_4, "aria-labelledby", `${get(profileId)}-${role()}-label`);
+			});
+			append($$anchor, div_3);
+		});
+		reset(div_2);
+		reset(div_1);
 		bind_this(div_1, ($$value) => profilePanel = $$value, () => profilePanel);
 		reset(header);
-		var div_2 = sibling(header, 2);
-		var select = sibling(child(div_2), 10);
-		var option = child(select);
-		option.value = option.__value = "";
-		reset(select);
+		var div_5 = sibling(header, 2);
+		var select_1 = sibling(child(div_5), 10);
+		var option_1 = child(select_1);
+		option_1.value = option_1.__value = "";
+		reset(select_1);
 		next(4);
-		reset(div_2);
+		reset(div_5);
 		template_effect(() => {
 			classes = set_class(header, 1, "agent-console-header svelte-z7pw0e", null, classes, { minimized: minimized() });
 			set_attribute(button, "aria-label", focused() ? "Exit focus" : "Focus conversation");
@@ -47008,12 +47308,12 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/FileAttachments.svelte
-	var root$20 = /* @__PURE__ */ from_html(`<img class="svelte-1j79agk"/>`);
-	var root_1$15 = /* @__PURE__ */ from_html(`<span class="file-icon svelte-1j79agk" aria-hidden="true"></span>`);
-	var root_2$14 = /* @__PURE__ */ from_html(`<small class="svelte-1j79agk"> </small>`);
-	var root_3$13 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1j79agk">×</button>`);
-	var root_4$11 = /* @__PURE__ */ from_html(`<li class="svelte-1j79agk"><!> <div class="svelte-1j79agk"><strong class="svelte-1j79agk"> </strong><!><small class="svelte-1j79agk"> </small></div> <!></li>`);
-	var root_5$9 = /* @__PURE__ */ from_html(`<ul class="svelte-1j79agk"></ul>`);
+	var root$22 = /* @__PURE__ */ from_html(`<img class="svelte-1j79agk"/>`);
+	var root_1$16 = /* @__PURE__ */ from_html(`<span class="file-icon svelte-1j79agk" aria-hidden="true"></span>`);
+	var root_2$15 = /* @__PURE__ */ from_html(`<small class="svelte-1j79agk"> </small>`);
+	var root_3$14 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1j79agk">×</button>`);
+	var root_4$12 = /* @__PURE__ */ from_html(`<li class="svelte-1j79agk"><!> <div class="svelte-1j79agk"><strong class="svelte-1j79agk"> </strong><!><small class="svelte-1j79agk"> </small></div> <!></li>`);
+	var root_5$10 = /* @__PURE__ */ from_html(`<ul class="svelte-1j79agk"></ul>`);
 	function FileAttachments($$anchor, $$props) {
 		push($$props, true);
 		let files = prop($$props, "files", 19, () => []), disabled = prop($$props, "disabled", 3, false);
@@ -47029,12 +47329,12 @@ createHTML: (html) => {
 		var fragment = comment$1();
 		var node = first_child(fragment);
 		var consequent_3 = ($$anchor) => {
-			var ul = root_5$9();
+			var ul = root_5$10();
 			each(ul, 21, () => get(items), (file) => file.id, ($$anchor, file) => {
-				var li = root_4$11();
+				var li = root_4$12();
 				var node_1 = child(li);
 				var consequent = ($$anchor) => {
-					var img = root$20();
+					var img = root$22();
 					template_effect(($0) => {
 						set_attribute(img, "src", $0);
 						set_attribute(img, "alt", get(file).name);
@@ -47043,7 +47343,7 @@ createHTML: (html) => {
 				};
 				var d = /* @__PURE__ */ user_derived(() => attachmentPreview(get(file).previewDataUrl));
 				var alternate = ($$anchor) => {
-					var span = root_1$15();
+					var span = root_1$16();
 					action(span, ($$node, $$action_arg) => icon?.($$node, $$action_arg), () => get(file).iconKey || "file");
 					append($$anchor, span);
 				};
@@ -47056,7 +47356,7 @@ createHTML: (html) => {
 				var text = only_child(strong, true);
 				var node_2 = sibling(strong);
 				var consequent_1 = ($$anchor) => {
-					var small = root_2$14();
+					var small = root_2$15();
 					var text_1 = only_child(small, true);
 					template_effect(() => set_text(text_1, get(file).sourceLabel));
 					append($$anchor, small);
@@ -47068,7 +47368,7 @@ createHTML: (html) => {
 				reset(div);
 				var node_3 = sibling(div, 2);
 				var consequent_2 = ($$anchor) => {
-					var button = root_3$13();
+					var button = root_3$14();
 					template_effect(() => {
 						button.disabled = disabled();
 						set_attribute(button, "aria-label", `Remove ${get(file).name} from draft`);
@@ -47122,10 +47422,10 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/NativeMedia.svelte
-	var root$19 = /* @__PURE__ */ from_html(`<button class="preview svelte-189ey51" type="button" aria-label="Enlarge generated image"><img alt="Generated by Codex" class="svelte-189ey51"/></button> <figcaption class="svelte-189ey51"> </figcaption>`, 1);
-	var root_1$14 = /* @__PURE__ */ from_html(`<figcaption role="status" class="svelte-189ey51"> </figcaption>`);
-	var root_2$13 = /* @__PURE__ */ from_html(`<img alt="Generated by Codex, enlarged" class="svelte-189ey51"/>`);
-	var root_3$12 = /* @__PURE__ */ from_html(`<figure class="native-media svelte-189ey51"><!></figure> <dialog aria-label="Generated image preview" class="svelte-189ey51"><button type="button" class="svelte-189ey51">Close preview</button> <!></dialog>`, 1);
+	var root$21 = /* @__PURE__ */ from_html(`<button class="preview svelte-189ey51" type="button" aria-label="Enlarge generated image"><img alt="Generated by Codex" class="svelte-189ey51"/></button> <figcaption class="svelte-189ey51"> </figcaption>`, 1);
+	var root_1$15 = /* @__PURE__ */ from_html(`<figcaption role="status" class="svelte-189ey51"> </figcaption>`);
+	var root_2$14 = /* @__PURE__ */ from_html(`<img alt="Generated by Codex, enlarged" class="svelte-189ey51"/>`);
+	var root_3$13 = /* @__PURE__ */ from_html(`<figure class="native-media svelte-189ey51"><!></figure> <dialog aria-label="Generated image preview" class="svelte-189ey51"><button type="button" class="svelte-189ey51">Close preview</button> <!></dialog>`, 1);
 	function NativeMedia($$anchor, $$props) {
 		push($$props, true);
 		let current = /* @__PURE__ */ state(proxy(untrack(() => $$props.value)));
@@ -47145,11 +47445,11 @@ createHTML: (html) => {
 		var fragment = comment$1();
 		var node = first_child(fragment);
 		var consequent_2 = ($$anchor) => {
-			var fragment_1 = root_3$12();
+			var fragment_1 = root_3$13();
 			var figure = first_child(fragment_1);
 			var node_1 = child(figure);
 			var consequent = ($$anchor) => {
-				var fragment_2 = root$19();
+				var fragment_2 = root$21();
 				var button = first_child(fragment_2);
 				var img = only_child(button);
 				var text = only_child(sibling(button, 2));
@@ -47165,7 +47465,7 @@ createHTML: (html) => {
 				append($$anchor, fragment_2);
 			};
 			var alternate = ($$anchor) => {
-				var figcaption_1 = root_1$14();
+				var figcaption_1 = root_1$15();
 				var text_1 = only_child(figcaption_1, true);
 				template_effect(() => set_text(text_1, get(failed) ? "This image could not be decoded. The original result remains in native Codex history." : get(media).label));
 				append($$anchor, figcaption_1);
@@ -47179,7 +47479,7 @@ createHTML: (html) => {
 			var button_1 = child(dialog_1);
 			var node_2 = sibling(button_1, 2);
 			var consequent_1 = ($$anchor) => {
-				var img_1 = root_2$13();
+				var img_1 = root_2$14();
 				template_effect(() => {
 					set_attribute(img_1, "src", get(media).previewDataUrl);
 					set_attribute(img_1, "width", get(media).width);
@@ -47247,23 +47547,23 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/SnapshotPreviews.svelte
-	var root$18 = /* @__PURE__ */ from_html(`<img loading="lazy" class="svelte-1tlzs83"/>`);
-	var root_1$13 = /* @__PURE__ */ from_html(`<p role="alert" class="svelte-1tlzs83"> </p>`);
-	var root_2$12 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1tlzs83">Refresh tab</button> <button type="button" class="svelte-1tlzs83">Remove</button>`, 1);
-	var root_3$11 = /* @__PURE__ */ from_html(`<section class="svelte-1tlzs83"><!> <strong class="svelte-1tlzs83"> </strong><p class="svelte-1tlzs83"> </p> <p class="svelte-1tlzs83"> </p> <!> <!></section>`);
-	var root_4$10 = /* @__PURE__ */ from_html(`<label class="svelte-1tlzs83"><input type="checkbox" class="svelte-1tlzs83"/>Follow live until submission</label> <button type="button" class="svelte-1tlzs83">Refresh output</button> <button type="button" class="svelte-1tlzs83">Remove</button>`, 1);
-	var root_5$8 = /* @__PURE__ */ from_html(`<section class="svelte-1tlzs83"><strong class="svelte-1tlzs83"> </strong><p class="svelte-1tlzs83"> </p> <div role="region" tabindex="0" aria-label="Captured shell output" class="svelte-1tlzs83"><pre class="svelte-1tlzs83"> </pre></div> <p class="svelte-1tlzs83"> </p> <!></section>`);
-	var root_6$7 = /* @__PURE__ */ from_html(`<!> <!>`, 1);
+	var root$20 = /* @__PURE__ */ from_html(`<img loading="lazy" class="svelte-1tlzs83"/>`);
+	var root_1$14 = /* @__PURE__ */ from_html(`<p role="alert" class="svelte-1tlzs83"> </p>`);
+	var root_2$13 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1tlzs83">Refresh tab</button> <button type="button" class="svelte-1tlzs83">Remove</button>`, 1);
+	var root_3$12 = /* @__PURE__ */ from_html(`<section class="svelte-1tlzs83"><!> <strong class="svelte-1tlzs83"> </strong><p class="svelte-1tlzs83"> </p> <p class="svelte-1tlzs83"> </p> <!> <!></section>`);
+	var root_4$11 = /* @__PURE__ */ from_html(`<label class="svelte-1tlzs83"><input type="checkbox" class="svelte-1tlzs83"/>Follow live until submission</label> <button type="button" class="svelte-1tlzs83">Refresh output</button> <button type="button" class="svelte-1tlzs83">Remove</button>`, 1);
+	var root_5$9 = /* @__PURE__ */ from_html(`<section class="svelte-1tlzs83"><strong class="svelte-1tlzs83"> </strong><p class="svelte-1tlzs83"> </p> <div role="region" tabindex="0" aria-label="Captured shell output" class="svelte-1tlzs83"><pre class="svelte-1tlzs83"> </pre></div> <p class="svelte-1tlzs83"> </p> <!></section>`);
+	var root_6$9 = /* @__PURE__ */ from_html(`<!> <!>`, 1);
 	function SnapshotPreviews($$anchor, $$props) {
 		push($$props, true);
 		let disabled = prop($$props, "disabled", 3, false);
-		var fragment = root_6$7();
+		var fragment = root_6$9();
 		var node = first_child(fragment);
 		each(node, 17, () => $$props.draft.tabs, (tab) => tab.tabId, ($$anchor, tab) => {
-			var section = root_3$11();
+			var section = root_3$12();
 			var node_1 = child(section);
 			var consequent = ($$anchor) => {
-				var img = root$18();
+				var img = root$20();
 				template_effect(($0) => {
 					set_attribute(img, "src", $0);
 					set_attribute(img, "alt", `Page preview: ${get(tab).title}`);
@@ -47282,7 +47582,7 @@ createHTML: (html) => {
 			var text_2 = only_child(p_1);
 			var node_2 = sibling(p_1, 2);
 			var consequent_1 = ($$anchor) => {
-				var p_2 = root_1$13();
+				var p_2 = root_1$14();
 				var text_3 = only_child(p_2, true);
 				template_effect(() => set_text(text_3, get(tab).error));
 				append($$anchor, p_2);
@@ -47292,7 +47592,7 @@ createHTML: (html) => {
 			});
 			var node_3 = sibling(node_2, 2);
 			var consequent_2 = ($$anchor) => {
-				var fragment_1 = root_2$12();
+				var fragment_1 = root_2$13();
 				var button = first_child(fragment_1);
 				var button_1 = sibling(button, 2);
 				template_effect(() => {
@@ -47323,7 +47623,7 @@ createHTML: (html) => {
 			append($$anchor, section);
 		});
 		each(sibling(node, 2), 17, () => $$props.draft.shells, (shell) => shell.sessionId, ($$anchor, shell) => {
-			var section_1 = root_5$8();
+			var section_1 = root_5$9();
 			var strong_1 = child(section_1);
 			var text_4 = only_child(strong_1, true);
 			var p_3 = sibling(strong_1);
@@ -47335,7 +47635,7 @@ createHTML: (html) => {
 			var text_7 = only_child(p_4);
 			var node_5 = sibling(p_4, 2);
 			var consequent_3 = ($$anchor) => {
-				var fragment_2 = root_4$10();
+				var fragment_2 = root_4$11();
 				var label = first_child(fragment_2);
 				var input = child(label);
 				remove_input_defaults(input);
@@ -47384,16 +47684,16 @@ createHTML: (html) => {
 	delegate(["click", "change"]);
 	//#endregion
 	//#region src/components/GraphMessage.svelte
-	var root$17 = /* @__PURE__ */ from_html(`<span class="chat-role svelte-5429yl">Reasoning</span>`);
-	var root_1$12 = /* @__PURE__ */ from_html(`<span class="chat-role svelte-5429yl"> </span>`);
-	var root_2$11 = /* @__PURE__ */ from_html(`<span class="chat-role svelte-5429yl">System</span>`);
-	var root_3$10 = /* @__PURE__ */ from_html(`<code class="svelte-5429yl"> </code>`);
-	var root_4$9 = /* @__PURE__ */ from_html(`<span class="activity-context svelte-5429yl"> </span>`);
-	var root_5$7 = /* @__PURE__ */ from_html(`<span class="diff-stats"><span class="added svelte-5429yl"> </span> / <span class="removed svelte-5429yl"> </span></span>`);
-	var root_6$6 = /* @__PURE__ */ from_html(`<details class="activity-inline-diff svelte-5429yl"><summary class="svelte-5429yl">View diff</summary><!></details>`);
-	var root_7$5 = /* @__PURE__ */ from_html(`<div class="activity-detail svelte-5429yl"><!> <!> <!> <!></div>`);
-	var root_8$4 = /* @__PURE__ */ from_html(`<div></div>`);
-	var root_9$4 = /* @__PURE__ */ from_html(`<!> <div></div> <!> <!> <!> <!> <!> <!>`, 1);
+	var root$19 = /* @__PURE__ */ from_html(`<span class="chat-role svelte-5429yl">Reasoning</span>`);
+	var root_1$13 = /* @__PURE__ */ from_html(`<span class="chat-role svelte-5429yl"> </span>`);
+	var root_2$12 = /* @__PURE__ */ from_html(`<span class="chat-role svelte-5429yl">System</span>`);
+	var root_3$11 = /* @__PURE__ */ from_html(`<code class="svelte-5429yl"> </code>`);
+	var root_4$10 = /* @__PURE__ */ from_html(`<span class="activity-context svelte-5429yl"> </span>`);
+	var root_5$8 = /* @__PURE__ */ from_html(`<span class="diff-stats"><span class="added svelte-5429yl"> </span> / <span class="removed svelte-5429yl"> </span></span>`);
+	var root_6$8 = /* @__PURE__ */ from_html(`<details class="activity-inline-diff svelte-5429yl"><summary class="svelte-5429yl">View diff</summary><!></details>`);
+	var root_7$7 = /* @__PURE__ */ from_html(`<div class="activity-detail svelte-5429yl"><!> <!> <!> <!></div>`);
+	var root_8$6 = /* @__PURE__ */ from_html(`<div></div>`);
+	var root_9$6 = /* @__PURE__ */ from_html(`<!> <div></div> <!> <!> <!> <!> <!> <!>`, 1);
 	function GraphMessage($$anchor, $$props) {
 		push($$props, true);
 		let message = /* @__PURE__ */ state(proxy(untrack(() => $$props.initial)));
@@ -47439,19 +47739,19 @@ createHTML: (html) => {
 			return { update: render };
 		}
 		var $$exports = { update };
-		var fragment = root_9$4();
+		var fragment = root_9$6();
 		var node = first_child(fragment);
 		var consequent = ($$anchor) => {
-			append($$anchor, root$17());
+			append($$anchor, root$19());
 		};
 		var consequent_1 = ($$anchor) => {
-			var span_1 = root_1$12();
+			var span_1 = root_1$13();
 			var text = only_child(span_1, true);
 			template_effect(() => set_text(text, get(message).activityStatus || "Action"));
 			append($$anchor, span_1);
 		};
 		var consequent_2 = ($$anchor) => {
-			append($$anchor, root_2$11());
+			append($$anchor, root_2$12());
 		};
 		if_block(node, ($$render) => {
 			if (get(message).kind === "reasoning") $$render(consequent);
@@ -47486,10 +47786,10 @@ createHTML: (html) => {
 		}
 		var node_4 = sibling(node_3, 2);
 		var consequent_8 = ($$anchor) => {
-			var div_1 = root_7$5();
+			var div_1 = root_7$7();
 			var node_5 = child(div_1);
 			var consequent_4 = ($$anchor) => {
-				var code = root_3$10();
+				var code = root_3$11();
 				var text_1 = only_child(code, true);
 				template_effect(() => set_text(text_1, get(message).activityDetail));
 				append($$anchor, code);
@@ -47499,7 +47799,7 @@ createHTML: (html) => {
 			});
 			var node_6 = sibling(node_5, 2);
 			var consequent_5 = ($$anchor) => {
-				var span_3 = root_4$9();
+				var span_3 = root_4$10();
 				var text_2 = only_child(span_3, true);
 				template_effect(() => set_text(text_2, get(message).activityContext));
 				append($$anchor, span_3);
@@ -47509,7 +47809,7 @@ createHTML: (html) => {
 			});
 			var node_7 = sibling(node_6, 2);
 			var consequent_6 = ($$anchor) => {
-				var span_4 = root_5$7();
+				var span_4 = root_5$8();
 				var span_5 = child(span_4);
 				var text_3 = only_child(span_5);
 				var text_4 = only_child(sibling(span_5, 2));
@@ -47525,7 +47825,7 @@ createHTML: (html) => {
 			});
 			var node_8 = sibling(node_7, 2);
 			var consequent_7 = ($$anchor) => {
-				var details = root_6$6();
+				var details = root_6$8();
 				var node_9 = sibling(child(details));
 				{
 					let $0 = /* @__PURE__ */ user_derived(() => String(get(message).id));
@@ -47553,7 +47853,7 @@ createHTML: (html) => {
 		});
 		var node_10 = sibling(node_4, 2);
 		var consequent_9 = ($$anchor) => {
-			var div_2 = root_8$4();
+			var div_2 = root_8$6();
 			action(div_2, ($$node, $$action_arg) => artifacts?.($$node, $$action_arg), () => get(message).artifacts);
 			append($$anchor, div_2);
 		};
@@ -47562,7 +47862,7 @@ createHTML: (html) => {
 		});
 		var node_11 = sibling(node_10, 2);
 		var consequent_10 = ($$anchor) => {
-			var div_3 = root_8$4();
+			var div_3 = root_8$6();
 			action(div_3, ($$node, $$action_arg) => checkpoint?.($$node, $$action_arg), () => get(message).checkpoint);
 			append($$anchor, div_3);
 		};
@@ -47575,10 +47875,10 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/WorkDisclosure.svelte
-	var root$16 = /* @__PURE__ */ from_html(`<p class="work-history-status svelte-yz7bn4" role="status">Caricamento delle attività…</p>`);
-	var root_1$11 = /* @__PURE__ */ from_html(`<div class="work-history-status svelte-yz7bn4" role="status"><p class="svelte-yz7bn4"> </p><button type="button" class="svelte-yz7bn4">Riprova</button></div>`);
-	var root_2$10 = /* @__PURE__ */ from_html(`<p class="work-history-empty svelte-yz7bn4">Non sono state registrate attività intermedie per questo turno.</p>`);
-	var root_3$9 = /* @__PURE__ */ from_html(`<summary class="work-history-toggle svelte-yz7bn4"><span class="agent-work-group-title svelte-yz7bn4"> </span> <span class="work-history-chevron svelte-yz7bn4" aria-hidden="true"><span class="closed svelte-yz7bn4">&gt;</span><span class="opened svelte-yz7bn4">▾</span></span></summary> <!>`, 1);
+	var root$18 = /* @__PURE__ */ from_html(`<p class="work-history-status svelte-yz7bn4" role="status">Caricamento delle attività…</p>`);
+	var root_1$12 = /* @__PURE__ */ from_html(`<div class="work-history-status svelte-yz7bn4" role="status"><p class="svelte-yz7bn4"> </p><button type="button" class="svelte-yz7bn4">Riprova</button></div>`);
+	var root_2$11 = /* @__PURE__ */ from_html(`<p class="work-history-empty svelte-yz7bn4">Non sono state registrate attività intermedie per questo turno.</p>`);
+	var root_3$10 = /* @__PURE__ */ from_html(`<summary class="work-history-toggle svelte-yz7bn4"><span class="agent-work-group-title svelte-yz7bn4"> </span> <span class="work-history-chevron svelte-yz7bn4" aria-hidden="true"><span class="closed svelte-yz7bn4">&gt;</span><span class="opened svelte-yz7bn4">▾</span></span></summary> <!>`, 1);
 	function WorkDisclosure($$anchor, $$props) {
 		push($$props, true);
 		function request() {
@@ -47602,17 +47902,17 @@ createHTML: (html) => {
 			$$props.group.addEventListener("toggle", toggle);
 			return () => $$props.group.removeEventListener("toggle", toggle);
 		});
-		var fragment = root_3$9();
+		var fragment = root_3$10();
 		var summary = first_child(fragment);
 		var text = only_child(child(summary), true);
 		next(2);
 		reset(summary);
 		var node = sibling(summary, 2);
 		var consequent = ($$anchor) => {
-			append($$anchor, root$16());
+			append($$anchor, root$18());
 		};
 		var consequent_1 = ($$anchor) => {
-			var div = root_1$11();
+			var div = root_1$12();
 			var p_1 = child(div);
 			var text_1 = only_child(p_1, true);
 			var button = sibling(p_1);
@@ -47622,7 +47922,7 @@ createHTML: (html) => {
 			append($$anchor, div);
 		};
 		var consequent_2 = ($$anchor) => {
-			append($$anchor, root_2$10());
+			append($$anchor, root_2$11());
 		};
 		if_block(node, ($$render) => {
 			if ($$props.history?.state === "loading" || $$props.history?.state === "unloaded") $$render(consequent);
@@ -47636,9 +47936,9 @@ createHTML: (html) => {
 	delegate(["click"]);
 	//#endregion
 	//#region src/components/ActivityDisclosure.svelte
-	var root$15 = /* @__PURE__ */ from_html(`<summary class="activity-disclosure-toggle svelte-1vsdy7k"><svg class="activity-icon svelte-1vsdy7k" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g class="command-icon svelte-1vsdy7k"><rect x="3" y="3" width="18" height="18" rx="4"></rect><path d="m7 8 3 3-3 3m6 1h4"></path></g><g class="web-icon svelte-1vsdy7k"><circle cx="12" cy="12" r="9"></circle><ellipse cx="12" cy="12" rx="4" ry="9"></ellipse><path d="M3 12h18"></path></g><g class="other-icon svelte-1vsdy7k"><path d="M7 6h10M7 12h10M7 18h6"></path><path d="M3 6h.1M3 12h.1M3 18h.1"></path></g></svg> <span class="activity-group-title svelte-1vsdy7k"> </span> <span class="activity-group-meta svelte-1vsdy7k"> </span> <span class="activity-group-chevron svelte-1vsdy7k" aria-hidden="true"><span class="closed svelte-1vsdy7k">&gt;</span><span class="opened svelte-1vsdy7k">▾</span></span></summary>`);
+	var root$17 = /* @__PURE__ */ from_html(`<summary class="activity-disclosure-toggle svelte-1vsdy7k"><svg class="activity-icon svelte-1vsdy7k" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g class="command-icon svelte-1vsdy7k"><rect x="3" y="3" width="18" height="18" rx="4"></rect><path d="m7 8 3 3-3 3m6 1h4"></path></g><g class="web-icon svelte-1vsdy7k"><circle cx="12" cy="12" r="9"></circle><ellipse cx="12" cy="12" rx="4" ry="9"></ellipse><path d="M3 12h18"></path></g><g class="other-icon svelte-1vsdy7k"><path d="M7 6h10M7 12h10M7 18h6"></path><path d="M3 6h.1M3 12h.1M3 18h.1"></path></g></svg> <span class="activity-group-title svelte-1vsdy7k"> </span> <span class="activity-group-meta svelte-1vsdy7k"> </span> <span class="activity-group-chevron svelte-1vsdy7k" aria-hidden="true"><span class="closed svelte-1vsdy7k">&gt;</span><span class="opened svelte-1vsdy7k">▾</span></span></summary>`);
 	function ActivityDisclosure($$anchor, $$props) {
-		var summary = root$15();
+		var summary = root$17();
 		var span = sibling(child(summary), 2);
 		var text = only_child(span, true);
 		var text_1 = only_child(sibling(span, 2), true);
@@ -47652,7 +47952,7 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/QuestionReply.svelte
-	var root$14 = /* @__PURE__ */ from_html(`<div class="reply-entry svelte-1o9esms"><div class="question svelte-1o9esms"> </div> <div class="answer svelte-1o9esms"> </div></div>`);
+	var root$16 = /* @__PURE__ */ from_html(`<div class="reply-entry svelte-1o9esms"><div class="question svelte-1o9esms"> </div> <div class="answer svelte-1o9esms"> </div></div>`);
 	function QuestionReply($$anchor, $$props) {
 		push($$props, true);
 		let message = /* @__PURE__ */ state(proxy(untrack(() => $$props.initial)));
@@ -47662,7 +47962,7 @@ createHTML: (html) => {
 		var $$exports = { update };
 		var fragment = comment$1();
 		each(first_child(fragment), 17, () => get(message).nativeQuestionReply?.entries || [], index, ($$anchor, entry) => {
-			var div = root$14();
+			var div = root$16();
 			var div_1 = child(div);
 			var text = only_child(div_1, true);
 			var text_1 = only_child(sibling(div_1, 2), true);
@@ -47679,7 +47979,7 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/InputDeliveryStatus.svelte
-	var root$13 = /* @__PURE__ */ from_html(`<span class="input-delivery-status svelte-utzuum" role="status">Sending…</span>`);
+	var root$15 = /* @__PURE__ */ from_html(`<span class="input-delivery-status svelte-utzuum" role="status">Sending…</span>`);
 	function InputDeliveryStatus($$anchor, $$props) {
 		push($$props, true);
 		let status = /* @__PURE__ */ state(proxy(untrack(() => $$props.initial.submissionStatus)));
@@ -47690,7 +47990,7 @@ createHTML: (html) => {
 		var fragment = comment$1();
 		var node = first_child(fragment);
 		var consequent = ($$anchor) => {
-			append($$anchor, root$13());
+			append($$anchor, root$15());
 		};
 		if_block(node, ($$render) => {
 			if (get(status) === "sending") $$render(consequent);
@@ -48544,8 +48844,8 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/GraphTimeline.svelte
-	var root$12 = /* @__PURE__ */ from_html(`<button class="earlier svelte-1oll4cf" type="button"> </button>`);
-	var root_1$10 = /* @__PURE__ */ from_html(`<!> <div class="agent-console-log graph-timeline svelte-1oll4cf" role="log" aria-live="off" aria-label="Agent conversation"></div>`, 1);
+	var root$14 = /* @__PURE__ */ from_html(`<button class="earlier svelte-1oll4cf" type="button"> </button>`);
+	var root_1$11 = /* @__PURE__ */ from_html(`<!> <div class="agent-console-log graph-timeline svelte-1oll4cf" role="log" aria-live="off" aria-label="Agent conversation"></div>`, 1);
 	function GraphTimeline($$anchor, $$props) {
 		push($$props, true);
 		let log;
@@ -48616,10 +48916,10 @@ createHTML: (html) => {
 				rows.clear();
 			};
 		});
-		var fragment = root_1$10();
+		var fragment = root_1$11();
 		var node = first_child(fragment);
 		var consequent = ($$anchor) => {
-			var button = root$12();
+			var button = root$14();
 			var text = only_child(button);
 			template_effect(() => set_text(text, `Load earlier sessions · ${get(older) ?? ""} remaining`));
 			delegated("click", button, () => $$props.eventTarget.dispatchEvent(new CustomEvent("central-agent:graph-history-earlier", { detail: {
@@ -48648,7 +48948,7 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/TaskVerificationStatus.svelte
-	var root$11 = /* @__PURE__ */ from_html(`<button type="button"><span class="verification-mark svelte-bhkr64" aria-hidden="true"></span><span> </span></button> <div class="verification-panel svelte-bhkr64" popover="auto" role="dialog"><strong class="svelte-bhkr64"> </strong> <p class="svelte-bhkr64"> </p></div>`, 1);
+	var root$13 = /* @__PURE__ */ from_html(`<button type="button"><span class="verification-mark svelte-bhkr64" aria-hidden="true"></span><span> </span></button> <div class="verification-panel svelte-bhkr64" popover="auto" role="dialog"><strong class="svelte-bhkr64"> </strong> <p class="svelte-bhkr64"> </p></div>`, 1);
 	function TaskVerificationStatus($$anchor, $$props) {
 		push($$props, true);
 		let trigger = /* @__PURE__ */ state(void 0);
@@ -48666,7 +48966,7 @@ createHTML: (html) => {
 		var fragment = comment$1();
 		var node = first_child(fragment);
 		var consequent = ($$anchor) => {
-			var fragment_1 = root$11();
+			var fragment_1 = root$13();
 			var button = first_child(fragment_1);
 			let classes;
 			var text = only_child(sibling(child(button)), true);
@@ -48706,9 +49006,9 @@ createHTML: (html) => {
 	delegate(["click"]);
 	//#endregion
 	//#region src/components/GraphContexts.svelte
-	var root$10 = /* @__PURE__ */ from_html(`<p role="alert" class="svelte-a4znaw"> </p>`);
-	var root_1$9 = /* @__PURE__ */ from_html(`<p class="svelte-a4znaw">Snapshots are sent only with your prompt. Follow live stops at submission and does not grant command access.</p>`);
-	var root_2$9 = /* @__PURE__ */ from_html(`<div class="contexts svelte-a4znaw"><!> <!> <!></div>`);
+	var root$12 = /* @__PURE__ */ from_html(`<p role="alert" class="svelte-a4znaw"> </p>`);
+	var root_1$10 = /* @__PURE__ */ from_html(`<p class="svelte-a4znaw">Snapshots are sent only with your prompt. Follow live stops at submission and does not grant command access.</p>`);
+	var root_2$10 = /* @__PURE__ */ from_html(`<div class="contexts svelte-a4znaw"><!> <!> <!></div>`);
 	function GraphContexts($$anchor, $$props) {
 		push($$props, true);
 		let disabled = prop($$props, "disabled", 3, false), enabled = prop($$props, "enabled", 3, false);
@@ -48754,10 +49054,10 @@ createHTML: (html) => {
 				$$props.eventTarget.removeEventListener("drop", drop);
 			};
 		});
-		var div = root_2$9();
+		var div = root_2$10();
 		var node = child(div);
 		var consequent = ($$anchor) => {
-			var p = root$10();
+			var p = root$12();
 			var text = only_child(p, true);
 			template_effect(() => set_text(text, get(error)));
 			append($$anchor, p);
@@ -48777,7 +49077,7 @@ createHTML: (html) => {
 		});
 		var node_2 = sibling(node_1, 2);
 		var consequent_1 = ($$anchor) => {
-			append($$anchor, root_1$9());
+			append($$anchor, root_1$10());
 		};
 		if_block(node_2, ($$render) => {
 			if ($$props.draft.tabs.length || $$props.draft.shells.length) $$render(consequent_1);
@@ -48840,23 +49140,23 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/AgentGraphCard.svelte
-	var root$9 = /* @__PURE__ */ from_html(`<div class="file-drop-overlay svelte-1b309v7" aria-hidden="true"><span>Drop files or photos to attach</span></div>`);
-	var root_1$8 = /* @__PURE__ */ from_html(`<nav class="supervision-scope svelte-1b309v7" aria-label="Supervisor conversation view"><button type="button">Supervisor</button> <button type="button"><span>Observed agent</span><small class="svelte-1b309v7"> </small></button></nav>`);
-	var root_2$8 = /* @__PURE__ */ from_html(`<div class="timeline-pane svelte-1b309v7" data-timeline-scope="observed"><!></div>`);
-	var root_3$8 = /* @__PURE__ */ from_html(`<small>Continuous supervision is active</small>`);
-	var root_4$8 = /* @__PURE__ */ from_html(`<small> </small>`);
-	var root_5$6 = /* @__PURE__ */ from_html(`<div class="observed-state svelte-1b309v7" role="status"><span><strong class="svelte-1b309v7"> </strong> </span> <!> <!> <!></div>`);
-	var root_6$5 = /* @__PURE__ */ from_html(`<p role="alert" class="svelte-1b309v7"> </p>`);
-	var root_7$4 = /* @__PURE__ */ from_html(`<span>Send now adds these files to the active turn; Queue starts a new turn.</span>`);
-	var root_8$3 = /* @__PURE__ */ from_html(`<div class="graph-delivery svelte-1b309v7" role="group" aria-label="Delivery for this node's active request"><span>Active request</span> <button type="button" class="svelte-1b309v7">Send now</button> <button type="button" class="svelte-1b309v7">Queue</button> <button type="button" class="svelte-1b309v7">Cancel</button> <!></div>`);
-	var root_9$3 = /* @__PURE__ */ from_html(`<div class="graph-delivery svelte-1b309v7" role="status"><span> </span> <button type="button" class="svelte-1b309v7">Clear queue</button></div>`);
-	var root_10$3 = /* @__PURE__ */ from_html(`<div class="graph-agent-status svelte-1b309v7"><div class="graph-conversation-controls svelte-1b309v7"><!> <!> <!> <!> <div class="graph-file-drafts svelte-1b309v7"><!></div> <!> <!> <!></div> <!> <!> <!> <footer class="agent-console-approval svelte-1b309v7" hidden=""><span class="agent-console-approval-title">Approval required</span> <p class="agent-console-approval-summary svelte-1b309v7"></p> <span class="agent-console-approval-meta"></span> <div class="agent-console-approval-actions"><button class="agent-console-action deny" data-action="deny" type="button">Deny</button> <button class="agent-console-action approve" data-action="approve" type="button">Approve once</button></div></footer></div>`);
-	var root_11$3 = /* @__PURE__ */ from_html(`<button type="button" class="attach-file svelte-1b309v7" aria-label="Attach files"><span class="attach-files-plus svelte-1b309v7" aria-hidden="true"></span></button> <!> <!>`, 1);
-	var root_12$3 = /* @__PURE__ */ from_html(`<span class="steer-label svelte-1b309v7">Steer active turn</span>`);
-	var root_13$3 = /* @__PURE__ */ from_svg(`<path d="m9 5 10 7-10 7Z" fill="currentColor" stroke="none"></path>`);
-	var root_14$3 = /* @__PURE__ */ from_svg(`<path d="M12 19V5m-6 6 6-6 6 6"></path>`);
-	var root_15$3 = /* @__PURE__ */ from_html(`<p class="graph-availability svelte-1b309v7" role="status"> </p>`);
-	var root_16$3 = /* @__PURE__ */ from_html(`<!> <!> <div class="agent-console-body svelte-1b309v7"><!> <div class="timeline-pane svelte-1b309v7" data-timeline-scope="supervisor"><!></div> <!> <!> <!> <form class="agent-console-compose svelte-1b309v7"><div class="graph-prompt-field svelte-1b309v7"><textarea data-role="message" maxlength="10000" title="Enter to send · Shift+Enter for a new line" class="svelte-1b309v7"></textarea> <div class="graph-prompt-actions svelte-1b309v7"><!></div> <div class="graph-work-slot svelte-1b309v7"><button class="graph-work-action svelte-1b309v7" data-action="stop" data-work-action="stop" type="button"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="svelte-1b309v7"><rect x="6" y="6" width="12" height="12" rx="2"></rect></svg></button> <button class="graph-work-action svelte-1b309v7" data-action="submit" type="submit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="svelte-1b309v7"><!></svg></button></div></div> <!></form></div>`, 1);
+	var root$11 = /* @__PURE__ */ from_html(`<div class="file-drop-overlay svelte-1b309v7" aria-hidden="true"><span>Drop files or photos to attach</span></div>`);
+	var root_1$9 = /* @__PURE__ */ from_html(`<nav class="supervision-scope svelte-1b309v7" aria-label="Supervisor conversation view"><button type="button">Supervisor</button> <button type="button"><span>Observed agent</span><small class="svelte-1b309v7"> </small></button></nav>`);
+	var root_2$9 = /* @__PURE__ */ from_html(`<div class="timeline-pane svelte-1b309v7" data-timeline-scope="observed"><!></div>`);
+	var root_3$9 = /* @__PURE__ */ from_html(`<small>Continuous supervision is active</small>`);
+	var root_4$9 = /* @__PURE__ */ from_html(`<small> </small>`);
+	var root_5$7 = /* @__PURE__ */ from_html(`<div class="observed-state svelte-1b309v7" role="status"><span><strong class="svelte-1b309v7"> </strong> </span> <!> <!> <!></div>`);
+	var root_6$7 = /* @__PURE__ */ from_html(`<p role="alert" class="svelte-1b309v7"> </p>`);
+	var root_7$6 = /* @__PURE__ */ from_html(`<span>Send now adds these files to the active turn; Queue starts a new turn.</span>`);
+	var root_8$5 = /* @__PURE__ */ from_html(`<div class="graph-delivery svelte-1b309v7" role="group" aria-label="Delivery for this node's active request"><span>Active request</span> <button type="button" class="svelte-1b309v7">Send now</button> <button type="button" class="svelte-1b309v7">Queue</button> <button type="button" class="svelte-1b309v7">Cancel</button> <!></div>`);
+	var root_9$5 = /* @__PURE__ */ from_html(`<div class="graph-delivery svelte-1b309v7" role="status"><span> </span> <button type="button" class="svelte-1b309v7">Clear queue</button></div>`);
+	var root_10$5 = /* @__PURE__ */ from_html(`<div class="graph-agent-status svelte-1b309v7"><div class="graph-conversation-controls svelte-1b309v7"><!> <!> <!> <!> <div class="graph-file-drafts svelte-1b309v7"><!></div> <!> <!> <!></div> <!> <!> <!> <footer class="agent-console-approval svelte-1b309v7" hidden=""><span class="agent-console-approval-title">Approval required</span> <p class="agent-console-approval-summary svelte-1b309v7"></p> <span class="agent-console-approval-meta"></span> <div class="agent-console-approval-actions"><button class="agent-console-action deny" data-action="deny" type="button">Deny</button> <button class="agent-console-action approve" data-action="approve" type="button">Approve once</button></div></footer></div>`);
+	var root_11$5 = /* @__PURE__ */ from_html(`<button type="button" class="attach-file svelte-1b309v7" aria-label="Attach files"><span class="attach-files-plus svelte-1b309v7" aria-hidden="true"></span></button> <!> <!>`, 1);
+	var root_12$5 = /* @__PURE__ */ from_html(`<span class="steer-label svelte-1b309v7">Steer active turn</span>`);
+	var root_13$5 = /* @__PURE__ */ from_svg(`<path d="m9 5 10 7-10 7Z" fill="currentColor" stroke="none"></path>`);
+	var root_14$5 = /* @__PURE__ */ from_svg(`<path d="M12 19V5m-6 6 6-6 6 6"></path>`);
+	var root_15$5 = /* @__PURE__ */ from_html(`<p class="graph-availability svelte-1b309v7" role="status"> </p>`);
+	var root_16$5 = /* @__PURE__ */ from_html(`<!> <!> <div class="agent-console-body svelte-1b309v7"><!> <div class="timeline-pane svelte-1b309v7" data-timeline-scope="supervisor"><!></div> <!> <!> <!> <form class="agent-console-compose svelte-1b309v7"><div class="graph-prompt-field svelte-1b309v7"><textarea data-role="message" maxlength="10000" title="Enter to send · Shift+Enter for a new line" class="svelte-1b309v7"></textarea> <div class="graph-prompt-actions svelte-1b309v7"><!> <!></div> <div class="graph-work-slot svelte-1b309v7"><button class="graph-work-action svelte-1b309v7" data-action="stop" data-work-action="stop" type="button"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="svelte-1b309v7"><rect x="6" y="6" width="12" height="12" rx="2"></rect></svg></button> <button class="graph-work-action svelte-1b309v7" data-action="submit" type="submit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="svelte-1b309v7"><!></svg></button></div></div> <!></form></div>`, 1);
 	function AgentGraphCard($$anchor, $$props) {
 		push($$props, true);
 		let eventTarget = prop($$props, "eventTarget", 7), title = prop($$props, "title", 3, "");
@@ -49191,7 +49491,7 @@ createHTML: (html) => {
 				delete eventTarget().dataset.fileDragOver;
 			};
 		});
-		var fragment = root_16$3();
+		var fragment = root_16$5();
 		var node = first_child(fragment);
 		{
 			let $0 = /* @__PURE__ */ user_derived(() => get(active) || Boolean(get(supervision)?.active));
@@ -49220,7 +49520,7 @@ createHTML: (html) => {
 		}
 		var node_1 = sibling(node, 2);
 		var consequent = ($$anchor) => {
-			append($$anchor, root$9());
+			append($$anchor, root$11());
 		};
 		if_block(node_1, ($$render) => {
 			if (get(fileDragOver)) $$render(consequent);
@@ -49228,7 +49528,7 @@ createHTML: (html) => {
 		var div_1 = sibling(node_1, 2);
 		var node_2 = child(div_1);
 		var consequent_1 = ($$anchor) => {
-			var nav = root_1$8();
+			var nav = root_1$9();
 			var button = child(nav);
 			let classes;
 			var button_1 = sibling(button, 2);
@@ -49264,7 +49564,7 @@ createHTML: (html) => {
 		var consequent_2 = ($$anchor) => {
 			var fragment_1 = comment$1();
 			key(first_child(fragment_1), () => get(supervision).targetOwner, ($$anchor) => {
-				var div_3 = root_2$8();
+				var div_3 = root_2$9();
 				GraphTimeline(child(div_3), {
 					get eventTarget() {
 						return eventTarget();
@@ -49284,7 +49584,7 @@ createHTML: (html) => {
 		});
 		var node_7 = sibling(node_4, 2);
 		var consequent_6 = ($$anchor) => {
-			var div_4 = root_5$6();
+			var div_4 = root_5$7();
 			var span = child(div_4);
 			var strong = child(span);
 			var text_1 = only_child(strong, true);
@@ -49292,14 +49592,14 @@ createHTML: (html) => {
 			reset(span);
 			var node_8 = sibling(span, 2);
 			var consequent_3 = ($$anchor) => {
-				append($$anchor, root_3$8());
+				append($$anchor, root_3$9());
 			};
 			if_block(node_8, ($$render) => {
 				if (get(supervision)?.monitoring) $$render(consequent_3);
 			});
 			var node_9 = sibling(node_8, 2);
 			var consequent_4 = ($$anchor) => {
-				var small_2 = root_4$8();
+				var small_2 = root_4$9();
 				var text_3 = only_child(small_2);
 				template_effect(() => set_text(text_3, `${get(supervision).pendingRequests ?? ""} ${get(supervision).pendingRequests === 1 ? "request needs" : "requests need"} attention`));
 				append($$anchor, small_2);
@@ -49336,7 +49636,7 @@ createHTML: (html) => {
 		});
 		var node_11 = sibling(node_7, 2);
 		var consequent_12 = ($$anchor) => {
-			var div_5 = root_10$3();
+			var div_5 = root_10$5();
 			var div_6 = child(div_5);
 			var node_12 = child(div_6);
 			NativeAccess(node_12, {
@@ -49408,7 +49708,7 @@ createHTML: (html) => {
 			});
 			var node_18 = sibling(node_17, 2);
 			var consequent_7 = ($$anchor) => {
-				var p = root_6$5();
+				var p = root_6$7();
 				var text_4 = only_child(p, true);
 				template_effect(() => set_text(text_4, get(fileError)));
 				append($$anchor, p);
@@ -49418,7 +49718,7 @@ createHTML: (html) => {
 			});
 			var node_19 = sibling(node_18, 2);
 			var consequent_8 = ($$anchor) => {
-				var p_1 = root_6$5();
+				var p_1 = root_6$7();
 				var text_5 = only_child(p_1);
 				template_effect(() => set_text(text_5, `Draft not saved: ${get(draftSaveError) ?? ""}`));
 				append($$anchor, p_1);
@@ -49441,13 +49741,13 @@ createHTML: (html) => {
 			});
 			var node_21 = sibling(node_20, 2);
 			var consequent_10 = ($$anchor) => {
-				var div_8 = root_8$3();
+				var div_8 = root_8$5();
 				var button_2 = sibling(child(div_8), 2);
 				var button_3 = sibling(button_2, 2);
 				var button_4 = sibling(button_3, 2);
 				var node_22 = sibling(button_4, 2);
 				var consequent_9 = ($$anchor) => {
-					append($$anchor, root_7$4());
+					append($$anchor, root_7$6());
 				};
 				if_block(node_22, ($$render) => {
 					if (get(files).length) $$render(consequent_9);
@@ -49468,7 +49768,7 @@ createHTML: (html) => {
 			});
 			var node_23 = sibling(node_21, 2);
 			var consequent_11 = ($$anchor) => {
-				var div_9 = root_9$3();
+				var div_9 = root_9$5();
 				var span_2 = child(div_9);
 				var text_6 = only_child(span_2);
 				var button_5 = sibling(span_2, 2);
@@ -49494,7 +49794,7 @@ createHTML: (html) => {
 		var div_11 = sibling(textarea, 2);
 		var node_24 = child(div_11);
 		var consequent_13 = ($$anchor) => {
-			var fragment_3 = root_11$3();
+			var fragment_3 = root_11$5();
 			var button_6 = first_child(fragment_3);
 			var node_25 = sibling(button_6, 2);
 			PluginPicker(node_25, {
@@ -49522,25 +49822,33 @@ createHTML: (html) => {
 			append($$anchor, fragment_3);
 		};
 		var alternate = ($$anchor) => {
-			append($$anchor, root_12$3());
+			append($$anchor, root_12$5());
 		};
 		if_block(node_24, ($$render) => {
 			if (!get(steeringObserved)) $$render(consequent_13);
 			else $$render(alternate, -1);
+		});
+		CacheWindowTimer(sibling(node_24, 2), {
+			get eventTarget() {
+				return eventTarget();
+			},
+			get owner() {
+				return $$props.owner;
+			}
 		});
 		reset(div_11);
 		var div_12 = sibling(div_11, 2);
 		var button_7 = child(div_12);
 		var button_8 = sibling(button_7, 2);
 		var svg = child(button_8);
-		var node_27 = child(svg);
+		var node_28 = child(svg);
 		var consequent_14 = ($$anchor) => {
-			append($$anchor, root_13$3());
+			append($$anchor, root_13$5());
 		};
 		var alternate_1 = ($$anchor) => {
-			append($$anchor, root_14$3());
+			append($$anchor, root_14$5());
 		};
-		if_block(node_27, ($$render) => {
+		if_block(node_28, ($$render) => {
 			if (get(primaryAction) === "resume") $$render(consequent_14);
 			else $$render(alternate_1, -1);
 		});
@@ -49549,9 +49857,9 @@ createHTML: (html) => {
 		reset(div_12);
 		bind_this(div_12, ($$value) => sendControl = $$value, () => sendControl);
 		reset(div_10);
-		var node_28 = sibling(div_10, 2);
+		var node_29 = sibling(div_10, 2);
 		var consequent_15 = ($$anchor) => {
-			var p_2 = root_15$3();
+			var p_2 = root_15$5();
 			var text_7 = only_child(p_2, true);
 			template_effect(() => {
 				set_attribute(p_2, "id", get(availabilityId));
@@ -49559,7 +49867,7 @@ createHTML: (html) => {
 			});
 			append($$anchor, p_2);
 		};
-		if_block(node_28, ($$render) => {
+		if_block(node_29, ($$render) => {
 			if (get(visibleBlockedReason) && (!get(canStop) || get(steeringObserved))) $$render(consequent_15);
 		});
 		reset(form);
@@ -49751,46 +50059,47 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/ProjectRegistry.svelte
-	var root$8 = /* @__PURE__ */ from_svg(`<svg viewBox="0 0 24 24" class="svelte-1unzn7a"><rect x="3" y="4" width="18" height="6" rx="2"></rect><rect x="3" y="14" width="18" height="6" rx="2"></rect><path d="M7 7h.01M7 17h.01M11 7h6M11 17h6"></path></svg>`);
-	var root_1$7 = /* @__PURE__ */ from_svg(`<svg viewBox="0 0 24 24" class="svelte-1unzn7a"><path d="M3 6.5h7l2 2h9v10H3z"></path></svg>`);
-	var root_2$7 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1unzn7a">New supervisor</button>`);
-	var root_3$7 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1unzn7a">Show folder</button>`);
-	var root_4$7 = /* @__PURE__ */ from_html(`<div class="menu-popover svelte-1unzn7a"><!> <button type="button" class="svelte-1unzn7a">Open terminal</button> <!> <button type="button" class="svelte-1unzn7a">Git status</button> <button type="button" class="svelte-1unzn7a"> </button> <button type="button" class="svelte-1unzn7a">Refresh metadata</button> <button class="remove svelte-1unzn7a" type="button">Remove from Supervisor</button></div>`);
-	var root_5$5 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1unzn7a"><span aria-hidden="true" class="svelte-1unzn7a">↳</span><span class="svelte-1unzn7a"> </span><small class="svelte-1unzn7a"> </small></button>`);
-	var root_6$4 = /* @__PURE__ */ from_html(`<div class="project-work svelte-1unzn7a"></div>`);
-	var root_7$3 = /* @__PURE__ */ from_html(`<p class="detected-note svelte-1unzn7a"> </p>`);
-	var root_8$2 = /* @__PURE__ */ from_html(`<p class="detected-note error svelte-1unzn7a"> </p>`);
-	var root_9$2 = /* @__PURE__ */ from_html(`<dl class="project-facts svelte-1unzn7a"><div class="svelte-1unzn7a"><dt class="svelte-1unzn7a">Git</dt><dd class="svelte-1unzn7a"> </dd></div> <div class="svelte-1unzn7a"><dt class="svelte-1unzn7a">Stack</dt><dd class="svelte-1unzn7a"> </dd></div> <div class="svelte-1unzn7a"><dt class="svelte-1unzn7a">Agents</dt><dd class="svelte-1unzn7a"> </dd></div> <div class="svelte-1unzn7a"><dt class="svelte-1unzn7a">Access</dt><dd class="svelte-1unzn7a"> </dd></div></dl> <!> <!> <div class="project-actions svelte-1unzn7a"><button type="button" class="svelte-1unzn7a">Open project</button> <button class="primary svelte-1unzn7a" type="button">Start agent</button></div>`, 1);
-	var root_10$2 = /* @__PURE__ */ from_html(`<article><div class="project-card-head svelte-1unzn7a"><span aria-hidden="true"><!></span> <button type="button"><strong class="svelte-1unzn7a"> </strong> <small class="svelte-1unzn7a"> </small></button> <div class="project-card-actions svelte-1unzn7a"><!> <div class="project-menu svelte-1unzn7a"><button class="menu-toggle svelte-1unzn7a" type="button"><svg class="project-menu-icon svelte-1unzn7a" viewBox="0 0 16 16" aria-hidden="true"><circle cx="4" cy="8" r="1"></circle><circle cx="8" cy="8" r="1"></circle><circle cx="12" cy="8" r="1"></circle></svg></button> <!></div></div></div> <!> <!></article>`);
-	var root_11$2 = /* @__PURE__ */ from_html(`<p class="svelte-1unzn7a">Local folders and explicit SSH directories</p>`);
-	var root_12$2 = /* @__PURE__ */ from_html(`<div role="status"> </div>`);
-	var root_13$2 = /* @__PURE__ */ from_html(`<h3 class="svelte-1unzn7a">Pinned</h3> <!>`, 1);
-	var root_14$2 = /* @__PURE__ */ from_html(`<div class="empty-projects svelte-1unzn7a"><strong class="svelte-1unzn7a">No projects yet</strong> <span class="svelte-1unzn7a">Add a folder, clone a repository, or connect an SSH directory.</span></div>`);
-	var root_15$2 = /* @__PURE__ */ from_html(`<button class="add-choice svelte-1unzn7a" type="button"><span class="choice-icon svelte-1unzn7a"><svg viewBox="0 0 24 24" class="svelte-1unzn7a"><path d="M3 6.5h7l2 2h9v10H3zM12 11v5m-2.5-2.5h5"></path></svg></span> <span class="svelte-1unzn7a"><strong class="svelte-1unzn7a">New project</strong><small class="svelte-1unzn7a">Create an empty project folder</small></span><i class="svelte-1unzn7a">›</i></button> <button class="add-choice svelte-1unzn7a" type="button"><span class="choice-icon svelte-1unzn7a"><svg viewBox="0 0 24 24" class="svelte-1unzn7a"><path d="M3 6.5h7l2 2h9v10H3z"></path></svg></span> <span class="svelte-1unzn7a"><strong class="svelte-1unzn7a">Local folder</strong><small class="svelte-1unzn7a">Open the native Windows folder picker</small></span><i class="svelte-1unzn7a">›</i></button> <button class="add-choice svelte-1unzn7a" type="button"><span class="choice-icon svelte-1unzn7a"><svg viewBox="0 0 24 24" class="svelte-1unzn7a"><circle cx="6" cy="5" r="2"></circle><circle cx="18" cy="7" r="2"></circle><circle cx="8" cy="19" r="2"></circle><path d="M7.5 6.2 16.4 7M7 6.7l.8 10.2"></path></svg></span> <span class="svelte-1unzn7a"><strong class="svelte-1unzn7a">Clone repository</strong><small class="svelte-1unzn7a">Clone a Git URL into a folder you choose</small></span><i class="svelte-1unzn7a">›</i></button> <button class="add-choice svelte-1unzn7a" type="button"><span class="choice-icon svelte-1unzn7a"><svg viewBox="0 0 24 24" class="svelte-1unzn7a"><rect x="3" y="4" width="18" height="6" rx="2"></rect><rect x="3" y="14" width="18" height="6" rx="2"></rect><path d="M7 7h.01M7 17h.01"></path></svg></span> <span class="svelte-1unzn7a"><strong class="svelte-1unzn7a">SSH directory</strong><small class="svelte-1unzn7a"> </small></span><i class="svelte-1unzn7a">›</i></button>`, 1);
-	var root_16$2 = /* @__PURE__ */ from_html(`<p class="form-status error svelte-1unzn7a" role="alert"> </p>`);
-	var root_17$2 = /* @__PURE__ */ from_html(`<form class="svelte-1unzn7a"><button class="back-choice svelte-1unzn7a" type="button">← All project sources</button> <label class="svelte-1unzn7a">Project name<input type="text" maxlength="80" placeholder="My project" autocomplete="off" required="" class="svelte-1unzn7a"/></label> <p class="form-help svelte-1unzn7a">Choose a destination next. A new, empty folder will be created and added to Supervisor.</p> <!> <button class="submit-project svelte-1unzn7a" type="submit">Choose location and create</button></form>`);
-	var root_18$2 = /* @__PURE__ */ from_html(`<p> </p>`);
-	var root_19$2 = /* @__PURE__ */ from_html(`<form class="svelte-1unzn7a"><button class="back-choice svelte-1unzn7a" type="button">← All project sources</button> <label class="svelte-1unzn7a">Repository URL<input type="text" inputmode="url" maxlength="2048" placeholder="https://github.com/owner/repository.git" autocomplete="off" required="" class="svelte-1unzn7a"/></label> <p class="form-help svelte-1unzn7a">You will choose the destination folder with the native Windows picker.</p> <!> <button class="submit-project svelte-1unzn7a" type="submit"> </button></form>`);
-	var root_20$2 = /* @__PURE__ */ from_html(`<option> </option>`);
-	var root_21$1 = /* @__PURE__ */ from_html(`<form class="svelte-1unzn7a"><button class="back-choice svelte-1unzn7a" type="button">← All project sources</button> <label class="svelte-1unzn7a">Server<select required="" class="svelte-1unzn7a"></select></label> <label class="svelte-1unzn7a">Remote directory<input type="text" maxlength="1024" placeholder="/srv/projects/my-app" autocomplete="off" required="" class="svelte-1unzn7a"/></label> <label class="svelte-1unzn7a">Project name <small class="svelte-1unzn7a">Optional</small><input type="text" maxlength="80" placeholder="Detected from the directory" autocomplete="off" class="svelte-1unzn7a"/></label> <!> <button class="submit-project svelte-1unzn7a" type="submit">Connect SSH project</button></form>`);
-	var root_22$1 = /* @__PURE__ */ from_html(`<div class="add-backdrop svelte-1unzn7a" role="presentation"><div class="add-dialog svelte-1unzn7a" role="dialog" aria-modal="true" aria-labelledby="add-project-title"><header class="svelte-1unzn7a"><div><h2 id="add-project-title" class="svelte-1unzn7a">Add project</h2><p class="svelte-1unzn7a">Choose one explicit project root. Supervisor will inspect it in the background.</p></div> <button type="button" aria-label="Close" class="svelte-1unzn7a">×</button></header> <!></div></div>`);
-	var root_23$1 = /* @__PURE__ */ from_html(`<div class="add-backdrop svelte-1unzn7a" role="presentation"><div class="remove-dialog svelte-1unzn7a" role="alertdialog" aria-modal="true" aria-labelledby="remove-project-title"><h2 id="remove-project-title" class="svelte-1unzn7a">Remove project?</h2> <p class="svelte-1unzn7a"><strong> </strong> will be removed from Supervisor. Its local or remote files will remain unchanged.</p> <div class="svelte-1unzn7a"><button type="button" class="svelte-1unzn7a">Cancel</button><button class="remove-confirm svelte-1unzn7a" type="button">Remove project</button></div></div></div>`);
-	var root_24$1 = /* @__PURE__ */ from_html(`<section aria-label="Supervisor projects"><header class="registry-header svelte-1unzn7a"><div><h2 class="svelte-1unzn7a">Projects</h2> <!></div> <button class="add-project svelte-1unzn7a" type="button"><svg class="project-add-icon svelte-1unzn7a" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10"></path></svg> Add project</button></header> <label class="registry-search svelte-1unzn7a"><svg viewBox="0 0 20 20" aria-hidden="true" class="svelte-1unzn7a"><circle cx="8.5" cy="8.5" r="4.75"></circle><path d="m12 12 4.2 4.2"></path></svg> <input type="search" placeholder="Find a project" autocomplete="off" aria-label="Find a project" class="svelte-1unzn7a"/> <kbd class="svelte-1unzn7a">Ctrl K</kbd></label> <button type="button"><svg viewBox="0 0 24 24" aria-hidden="true" class="svelte-1unzn7a"><path d="M3 7.5h7l2 2h9v9.5H3z"></path><path d="M12 5v8m-3-3 3 3 3-3"></path></svg> <span class="svelte-1unzn7a"><strong class="svelte-1unzn7a"> </strong><small class="svelte-1unzn7a">or choose a local folder</small></span></button> <!> <div class="project-list svelte-1unzn7a"><!> <h3 class="svelte-1unzn7a"> </h3> <!></div></section> <!> <!>`, 1);
+	var root$10 = /* @__PURE__ */ from_svg(`<svg viewBox="0 0 24 24" class="svelte-1unzn7a"><rect x="3" y="4" width="18" height="6" rx="2"></rect><rect x="3" y="14" width="18" height="6" rx="2"></rect><path d="M7 7h.01M7 17h.01M11 7h6M11 17h6"></path></svg>`);
+	var root_1$8 = /* @__PURE__ */ from_svg(`<svg viewBox="0 0 24 24" class="svelte-1unzn7a"><path d="M3 6.5h7l2 2h9v10H3z"></path></svg>`);
+	var root_2$8 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1unzn7a">New supervisor</button>`);
+	var root_3$8 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1unzn7a">Show folder</button>`);
+	var root_4$8 = /* @__PURE__ */ from_html(`<div class="menu-popover svelte-1unzn7a"><!> <button type="button" class="svelte-1unzn7a">Open terminal</button> <!> <button type="button" class="svelte-1unzn7a">Git status</button> <button type="button" class="svelte-1unzn7a"> </button> <button type="button" class="svelte-1unzn7a">Refresh metadata</button> <button class="remove svelte-1unzn7a" type="button">Remove from Supervisor</button></div>`);
+	var root_5$6 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1unzn7a"><span aria-hidden="true" class="svelte-1unzn7a">↳</span><span class="svelte-1unzn7a"> </span><small class="svelte-1unzn7a"> </small></button>`);
+	var root_6$6 = /* @__PURE__ */ from_html(`<div class="project-work svelte-1unzn7a"></div>`);
+	var root_7$5 = /* @__PURE__ */ from_html(`<p class="detected-note svelte-1unzn7a"> </p>`);
+	var root_8$4 = /* @__PURE__ */ from_html(`<p class="detected-note error svelte-1unzn7a"> </p>`);
+	var root_9$4 = /* @__PURE__ */ from_html(`<dl class="project-facts svelte-1unzn7a"><div class="svelte-1unzn7a"><dt class="svelte-1unzn7a">Git</dt><dd class="svelte-1unzn7a"> </dd></div> <div class="svelte-1unzn7a"><dt class="svelte-1unzn7a">Stack</dt><dd class="svelte-1unzn7a"> </dd></div> <div class="svelte-1unzn7a"><dt class="svelte-1unzn7a">Agents</dt><dd class="svelte-1unzn7a"> </dd></div> <div class="svelte-1unzn7a"><dt class="svelte-1unzn7a">Access</dt><dd class="svelte-1unzn7a"> </dd></div></dl> <!> <!> <div class="project-actions svelte-1unzn7a"><button type="button" class="svelte-1unzn7a">Open project</button> <button class="primary svelte-1unzn7a" type="button">Start agent</button></div>`, 1);
+	var root_10$4 = /* @__PURE__ */ from_html(`<article><div class="project-card-head svelte-1unzn7a"><span aria-hidden="true"><!></span> <button type="button"><strong class="svelte-1unzn7a"> </strong> <small class="svelte-1unzn7a"> </small></button> <div class="project-card-actions svelte-1unzn7a"><!> <div class="project-menu svelte-1unzn7a"><button class="menu-toggle svelte-1unzn7a" type="button"><svg class="project-menu-icon svelte-1unzn7a" viewBox="0 0 16 16" aria-hidden="true"><circle cx="4" cy="8" r="1"></circle><circle cx="8" cy="8" r="1"></circle><circle cx="12" cy="8" r="1"></circle></svg></button> <!></div></div></div> <!> <!></article>`);
+	var root_11$4 = /* @__PURE__ */ from_html(`<p class="svelte-1unzn7a">Local folders and explicit SSH directories</p>`);
+	var root_12$4 = /* @__PURE__ */ from_html(`<div role="status"> </div>`);
+	var root_13$4 = /* @__PURE__ */ from_html(`<div class="registry-status git-notice svelte-1unzn7a" role="status"><span class="svelte-1unzn7a"> </span><button type="button" aria-label="Dismiss Git status message" class="svelte-1unzn7a">×</button></div>`);
+	var root_14$4 = /* @__PURE__ */ from_html(`<h3 class="svelte-1unzn7a">Pinned</h3> <!>`, 1);
+	var root_15$4 = /* @__PURE__ */ from_html(`<div class="empty-projects svelte-1unzn7a"><strong class="svelte-1unzn7a">No projects yet</strong> <span class="svelte-1unzn7a">Add a folder, clone a repository, or connect an SSH directory.</span></div>`);
+	var root_16$4 = /* @__PURE__ */ from_html(`<button class="add-choice svelte-1unzn7a" type="button"><span class="choice-icon svelte-1unzn7a"><svg viewBox="0 0 24 24" class="svelte-1unzn7a"><path d="M3 6.5h7l2 2h9v10H3zM12 11v5m-2.5-2.5h5"></path></svg></span> <span class="svelte-1unzn7a"><strong class="svelte-1unzn7a">New project</strong><small class="svelte-1unzn7a">Create an empty project folder</small></span><i class="svelte-1unzn7a">›</i></button> <button class="add-choice svelte-1unzn7a" type="button"><span class="choice-icon svelte-1unzn7a"><svg viewBox="0 0 24 24" class="svelte-1unzn7a"><path d="M3 6.5h7l2 2h9v10H3z"></path></svg></span> <span class="svelte-1unzn7a"><strong class="svelte-1unzn7a">Local folder</strong><small class="svelte-1unzn7a">Open the native Windows folder picker</small></span><i class="svelte-1unzn7a">›</i></button> <button class="add-choice svelte-1unzn7a" type="button"><span class="choice-icon svelte-1unzn7a"><svg viewBox="0 0 24 24" class="svelte-1unzn7a"><circle cx="6" cy="5" r="2"></circle><circle cx="18" cy="7" r="2"></circle><circle cx="8" cy="19" r="2"></circle><path d="M7.5 6.2 16.4 7M7 6.7l.8 10.2"></path></svg></span> <span class="svelte-1unzn7a"><strong class="svelte-1unzn7a">Clone repository</strong><small class="svelte-1unzn7a">Clone a Git URL into a folder you choose</small></span><i class="svelte-1unzn7a">›</i></button> <button class="add-choice svelte-1unzn7a" type="button"><span class="choice-icon svelte-1unzn7a"><svg viewBox="0 0 24 24" class="svelte-1unzn7a"><rect x="3" y="4" width="18" height="6" rx="2"></rect><rect x="3" y="14" width="18" height="6" rx="2"></rect><path d="M7 7h.01M7 17h.01"></path></svg></span> <span class="svelte-1unzn7a"><strong class="svelte-1unzn7a">SSH directory</strong><small class="svelte-1unzn7a"> </small></span><i class="svelte-1unzn7a">›</i></button>`, 1);
+	var root_17$4 = /* @__PURE__ */ from_html(`<p class="form-status error svelte-1unzn7a" role="alert"> </p>`);
+	var root_18$3 = /* @__PURE__ */ from_html(`<form class="svelte-1unzn7a"><button class="back-choice svelte-1unzn7a" type="button">← All project sources</button> <label class="svelte-1unzn7a">Project name<input type="text" maxlength="80" placeholder="My project" autocomplete="off" required="" class="svelte-1unzn7a"/></label> <p class="form-help svelte-1unzn7a">Choose a destination next. A new, empty folder will be created and added to Supervisor.</p> <!> <button class="submit-project svelte-1unzn7a" type="submit">Choose location and create</button></form>`);
+	var root_19$3 = /* @__PURE__ */ from_html(`<p> </p>`);
+	var root_20$3 = /* @__PURE__ */ from_html(`<form class="svelte-1unzn7a"><button class="back-choice svelte-1unzn7a" type="button">← All project sources</button> <label class="svelte-1unzn7a">Repository URL<input type="text" inputmode="url" maxlength="2048" placeholder="https://github.com/owner/repository.git" autocomplete="off" required="" class="svelte-1unzn7a"/></label> <p class="form-help svelte-1unzn7a">You will choose the destination folder with the native Windows picker.</p> <!> <button class="submit-project svelte-1unzn7a" type="submit"> </button></form>`);
+	var root_21$3 = /* @__PURE__ */ from_html(`<option> </option>`);
+	var root_22$2 = /* @__PURE__ */ from_html(`<form class="svelte-1unzn7a"><button class="back-choice svelte-1unzn7a" type="button">← All project sources</button> <label class="svelte-1unzn7a">Server<select required="" class="svelte-1unzn7a"></select></label> <label class="svelte-1unzn7a">Remote directory<input type="text" maxlength="1024" placeholder="/srv/projects/my-app" autocomplete="off" required="" class="svelte-1unzn7a"/></label> <label class="svelte-1unzn7a">Project name <small class="svelte-1unzn7a">Optional</small><input type="text" maxlength="80" placeholder="Detected from the directory" autocomplete="off" class="svelte-1unzn7a"/></label> <!> <button class="submit-project svelte-1unzn7a" type="submit">Connect SSH project</button></form>`);
+	var root_23$2 = /* @__PURE__ */ from_html(`<div class="add-backdrop svelte-1unzn7a" role="presentation"><div class="add-dialog svelte-1unzn7a" role="dialog" aria-modal="true" aria-labelledby="add-project-title"><header class="svelte-1unzn7a"><div><h2 id="add-project-title" class="svelte-1unzn7a">Add project</h2><p class="svelte-1unzn7a">Choose one explicit project root. Supervisor will inspect it in the background.</p></div> <button type="button" aria-label="Close" class="svelte-1unzn7a">×</button></header> <!></div></div>`);
+	var root_24$1 = /* @__PURE__ */ from_html(`<div class="add-backdrop svelte-1unzn7a" role="presentation"><div class="remove-dialog svelte-1unzn7a" role="alertdialog" aria-modal="true" aria-labelledby="remove-project-title"><h2 id="remove-project-title" class="svelte-1unzn7a">Remove project?</h2> <p class="svelte-1unzn7a"><strong> </strong> will be removed from Supervisor. Its local or remote files will remain unchanged.</p> <div class="svelte-1unzn7a"><button type="button" class="svelte-1unzn7a">Cancel</button><button class="remove-confirm svelte-1unzn7a" type="button">Remove project</button></div></div></div>`);
+	var root_25 = /* @__PURE__ */ from_html(`<section aria-label="Supervisor projects"><header class="registry-header svelte-1unzn7a"><div><h2 class="svelte-1unzn7a">Projects</h2> <!></div> <button class="add-project svelte-1unzn7a" type="button"><svg class="project-add-icon svelte-1unzn7a" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10"></path></svg> Add project</button></header> <label class="registry-search svelte-1unzn7a"><svg viewBox="0 0 20 20" aria-hidden="true" class="svelte-1unzn7a"><circle cx="8.5" cy="8.5" r="4.75"></circle><path d="m12 12 4.2 4.2"></path></svg> <input type="search" placeholder="Find a project" autocomplete="off" aria-label="Find a project" class="svelte-1unzn7a"/> <kbd class="svelte-1unzn7a">Ctrl K</kbd></label> <button type="button"><svg viewBox="0 0 24 24" aria-hidden="true" class="svelte-1unzn7a"><path d="M3 7.5h7l2 2h9v9.5H3z"></path><path d="M12 5v8m-3-3 3 3 3-3"></path></svg> <span class="svelte-1unzn7a"><strong class="svelte-1unzn7a"> </strong><small class="svelte-1unzn7a">or choose a local folder</small></span></button> <!> <!> <div class="project-list svelte-1unzn7a"><!> <h3 class="svelte-1unzn7a">Projects</h3> <!></div></section> <!> <!>`, 1);
 	function ProjectRegistry($$anchor, $$props) {
 		push($$props, true);
 		const projectCard = ($$anchor, project = noop) => {
 			const liveWork = /* @__PURE__ */ user_derived(() => (project().activity || []).filter((work) => isWorking(work.state)));
-			var article = root_10$2();
+			var article = root_10$4();
 			let classes;
 			var div = child(article);
 			var span = child(div);
 			let classes_1;
 			var node = child(span);
 			var consequent = ($$anchor) => {
-				append($$anchor, root$8());
+				append($$anchor, root$10());
 			};
 			var alternate = ($$anchor) => {
-				append($$anchor, root_1$7());
+				append($$anchor, root_1$8());
 			};
 			if_block(node, ($$render) => {
 				if (project().source === "ssh") $$render(consequent);
@@ -49820,10 +50129,10 @@ createHTML: (html) => {
 			var button_1 = child(div_2);
 			var node_2 = sibling(button_1, 2);
 			var consequent_4 = ($$anchor) => {
-				var div_3 = root_4$7();
+				var div_3 = root_4$8();
 				var node_3 = child(div_3);
 				var consequent_2 = ($$anchor) => {
-					var button_2 = root_2$7();
+					var button_2 = root_2$8();
 					delegated("click", button_2, () => {
 						action("start-agent", {
 							source: project().source,
@@ -49840,7 +50149,7 @@ createHTML: (html) => {
 				var button_3 = sibling(node_3, 2);
 				var node_4 = sibling(button_3, 2);
 				var consequent_3 = ($$anchor) => {
-					var button_4 = root_3$7();
+					var button_4 = root_3$8();
 					delegated("click", button_4, () => {
 						action("folder", { root: project().id });
 						set(menuId, null);
@@ -49857,7 +50166,6 @@ createHTML: (html) => {
 				var button_8 = sibling(button_7, 2);
 				reset(div_3);
 				template_effect(() => {
-					button_5.disabled = !project().metadata?.gitRepository;
 					set_attribute(button_6, "aria-label", project().pinned ? "Unpin project" : "Pin project");
 					set_text(text_2, project().pinned ? "Unpin" : "Pin project");
 				});
@@ -49868,13 +50176,7 @@ createHTML: (html) => {
 					});
 					set(menuId, null);
 				});
-				delegated("click", button_5, () => {
-					action("git", {
-						source: project().source,
-						id: project().id
-					});
-					set(menuId, null);
-				});
+				delegated("click", button_5, () => requestGitStatus(project()));
 				delegated("click", button_6, () => {
 					action("pin", {
 						source: project().source,
@@ -49902,10 +50204,10 @@ createHTML: (html) => {
 			reset(div);
 			var node_5 = sibling(div, 2);
 			var consequent_5 = ($$anchor) => {
-				var div_4 = root_6$4();
+				var div_4 = root_6$6();
 				each(div_4, 21, () => get(liveWork), (work) => work.owner, ($$anchor, work) => {
 					const fileCount = /* @__PURE__ */ user_derived(() => get(work).files.filter((file) => isWorking(file.state)).length);
-					var button_9 = root_5$5();
+					var button_9 = root_5$6();
 					var span_1 = sibling(child(button_9));
 					var text_3 = only_child(span_1, true);
 					var text_4 = only_child(sibling(span_1), true);
@@ -49931,7 +50233,7 @@ createHTML: (html) => {
 			});
 			var node_6 = sibling(node_5, 2);
 			var consequent_9 = ($$anchor) => {
-				var fragment_1 = root_9$2();
+				var fragment_1 = root_9$4();
 				var dl = first_child(fragment_1);
 				var div_5 = child(dl);
 				var text_5 = only_child(sibling(child(div_5)), true);
@@ -49948,13 +50250,13 @@ createHTML: (html) => {
 				reset(dl);
 				var node_7 = sibling(dl, 2);
 				var consequent_6 = ($$anchor) => {
-					var p = root_7$3();
+					var p = root_7$5();
 					var text_9 = only_child(p);
 					template_effect(($0) => set_text(text_9, `Instructions · ${$0 ?? ""}`), [() => project().metadata.instructionFiles.join(" · ")]);
 					append($$anchor, p);
 				};
 				var consequent_7 = ($$anchor) => {
-					var p_1 = root_8$2();
+					var p_1 = root_8$4();
 					var text_10 = only_child(p_1, true);
 					template_effect(() => set_text(text_10, project().metadata.error));
 					append($$anchor, p_1);
@@ -49965,7 +50267,7 @@ createHTML: (html) => {
 				});
 				var node_8 = sibling(node_7, 2);
 				var consequent_8 = ($$anchor) => {
-					var p_2 = root_7$3();
+					var p_2 = root_7$5();
 					var text_11 = only_child(p_2);
 					template_effect(($0) => set_text(text_11, `Commands · ${$0 ?? ""}`), [() => project().metadata.commands.map((command) => command.label).join(" · ")]);
 					append($$anchor, p_2);
@@ -50042,6 +50344,7 @@ createHTML: (html) => {
 		let sshDirectory = /* @__PURE__ */ state("");
 		let sshName = /* @__PURE__ */ state("");
 		let menuId = /* @__PURE__ */ state(null);
+		let gitNotice = /* @__PURE__ */ state("");
 		let removeProject = /* @__PURE__ */ state(null);
 		let importWasActive = false;
 		let observedAddRequestId = 0;
@@ -50052,7 +50355,7 @@ createHTML: (html) => {
 			return !normalized || `${project.name}\n${project.path}\n${project.sshProfileName || ""}\n${project.metadata?.stack?.join(" ") || ""}`.toLocaleLowerCase().includes(normalized);
 		}));
 		const pinned = /* @__PURE__ */ user_derived(() => get(projects).filter((project) => project.pinned));
-		const recent = /* @__PURE__ */ user_derived(() => get(projects).filter((project) => !project.pinned));
+		const unpinned = /* @__PURE__ */ user_derived(() => get(projects).filter((project) => !project.pinned));
 		function update(next) {
 			set(registry, {
 				projects: Array.isArray(next?.projects) ? next.projects : [],
@@ -50087,6 +50390,7 @@ createHTML: (html) => {
 			}
 		}
 		function action(name, detail = {}) {
+			if (name !== "git") set(gitNotice, "");
 			$$props.eventTarget.dispatchEvent(new CustomEvent("central-agent:project-registry", {
 				bubbles: true,
 				detail: {
@@ -50127,6 +50431,18 @@ createHTML: (html) => {
 		function cardKey(project) {
 			return `${project.source}:${project.id}`;
 		}
+		function requestGitStatus(project) {
+			set(menuId, null);
+			if (project.scanning) set(gitNotice, `Git status for ${project.name} is still being detected. Try again shortly.`);
+			else if (!project.metadata?.gitRepository) set(gitNotice, `${project.name} is not a Git repository. Add a Git project or initialize and commit this folder first.`);
+			else {
+				set(gitNotice, "");
+				action("git", {
+					source: project.source,
+					id: project.id
+				});
+			}
+		}
 		function requestRemove(project) {
 			set(menuId, null);
 			set(removeProject, project, true);
@@ -50165,14 +50481,14 @@ createHTML: (html) => {
 			};
 		});
 		var $$exports = { update };
-		var fragment_2 = root_24$1();
+		var fragment_2 = root_25();
 		var section = first_child(fragment_2);
 		let classes_3;
 		var header = child(section);
 		var div_10 = child(header);
 		var node_9 = sibling(child(div_10), 2);
 		var consequent_10 = ($$anchor) => {
-			append($$anchor, root_11$2());
+			append($$anchor, root_11$4());
 		};
 		if_block(node_9, ($$render) => {
 			if (!compact()) $$render(consequent_10);
@@ -50195,7 +50511,7 @@ createHTML: (html) => {
 		reset(button_13);
 		var node_10 = sibling(button_13, 2);
 		var consequent_11 = ($$anchor) => {
-			var div_11 = root_12$2();
+			var div_11 = root_12$4();
 			let classes_5;
 			var text_13 = only_child(div_11, true);
 			template_effect(() => {
@@ -50207,107 +50523,119 @@ createHTML: (html) => {
 		if_block(node_10, ($$render) => {
 			if (get(registry).import.message && !get(addOpen)) $$render(consequent_11);
 		});
-		var div_12 = sibling(node_10, 2);
-		var node_11 = child(div_12);
+		var node_11 = sibling(node_10, 2);
 		var consequent_12 = ($$anchor) => {
-			var fragment_3 = root_13$2();
+			var div_12 = root_13$4();
+			var span_3 = child(div_12);
+			var text_14 = only_child(span_3, true);
+			var button_14 = sibling(span_3);
+			reset(div_12);
+			template_effect(() => set_text(text_14, get(gitNotice)));
+			delegated("click", button_14, () => set(gitNotice, ""));
+			append($$anchor, div_12);
+		};
+		if_block(node_11, ($$render) => {
+			if (get(gitNotice)) $$render(consequent_12);
+		});
+		var div_13 = sibling(node_11, 2);
+		var node_12 = child(div_13);
+		var consequent_13 = ($$anchor) => {
+			var fragment_3 = root_14$4();
 			each(sibling(first_child(fragment_3), 2), 17, () => get(pinned), (project) => cardKey(project), ($$anchor, project) => {
 				projectCard($$anchor, () => get(project));
 			});
 			append($$anchor, fragment_3);
 		};
-		if_block(node_11, ($$render) => {
-			if (get(pinned).length) $$render(consequent_12);
+		if_block(node_12, ($$render) => {
+			if (get(pinned).length) $$render(consequent_13);
 		});
-		var h3 = sibling(node_11, 2);
-		var text_14 = only_child(h3, true);
-		var node_13 = sibling(h3, 2);
-		var consequent_13 = ($$anchor) => {
+		var node_14 = sibling(node_12, 4);
+		var consequent_14 = ($$anchor) => {
 			var fragment_5 = comment$1();
-			each(first_child(fragment_5), 17, () => get(recent), (project) => cardKey(project), ($$anchor, project) => {
+			each(first_child(fragment_5), 17, () => get(unpinned), (project) => cardKey(project), ($$anchor, project) => {
 				projectCard($$anchor, () => get(project));
 			});
 			append($$anchor, fragment_5);
 		};
-		var consequent_14 = ($$anchor) => {
-			append($$anchor, root_14$2());
+		var consequent_15 = ($$anchor) => {
+			append($$anchor, root_15$4());
 		};
-		if_block(node_13, ($$render) => {
-			if (get(recent).length) $$render(consequent_13);
-			else if (!get(pinned).length) $$render(consequent_14, 1);
+		if_block(node_14, ($$render) => {
+			if (get(unpinned).length) $$render(consequent_14);
+			else if (!get(pinned).length) $$render(consequent_15, 1);
 		});
-		reset(div_12);
+		reset(div_13);
 		reset(section);
-		var node_15 = sibling(section, 2);
-		var consequent_21 = ($$anchor) => {
-			var div_14 = root_22$1();
-			var div_15 = child(div_14);
-			var header_1 = child(div_15);
-			var button_14 = sibling(child(header_1), 2);
+		var node_16 = sibling(section, 2);
+		var consequent_22 = ($$anchor) => {
+			var div_15 = root_23$2();
+			var div_16 = child(div_15);
+			var header_1 = child(div_16);
+			var button_15 = sibling(child(header_1), 2);
 			reset(header_1);
-			var node_16 = sibling(header_1, 2);
-			var consequent_15 = ($$anchor) => {
-				var fragment_7 = root_15$2();
-				var button_15 = first_child(fragment_7);
-				var button_16 = sibling(button_15, 2);
+			var node_17 = sibling(header_1, 2);
+			var consequent_16 = ($$anchor) => {
+				var fragment_7 = root_16$4();
+				var button_16 = first_child(fragment_7);
 				var button_17 = sibling(button_16, 2);
 				var button_18 = sibling(button_17, 2);
-				var span_3 = sibling(child(button_18), 2);
-				var text_15 = only_child(sibling(child(span_3)), true);
-				reset(span_3);
+				var button_19 = sibling(button_18, 2);
+				var span_4 = sibling(child(button_19), 2);
+				var text_15 = only_child(sibling(child(span_4)), true);
+				reset(span_4);
 				next();
-				reset(button_18);
+				reset(button_19);
 				template_effect(() => {
-					button_18.disabled = !get(registry).sshProfiles.length;
+					button_19.disabled = !get(registry).sshProfiles.length;
 					set_text(text_15, get(registry).sshProfiles.length ? "Use a saved server and an absolute remote path" : "Add an SSH server in Settings first");
 				});
-				delegated("click", button_15, () => set(addMode, "create"));
-				delegated("click", button_16, () => {
+				delegated("click", button_16, () => set(addMode, "create"));
+				delegated("click", button_17, () => {
 					closeAdd();
 					action("select-local");
 				});
-				delegated("click", button_17, () => set(addMode, "clone"));
-				delegated("click", button_18, () => set(addMode, "ssh"));
+				delegated("click", button_18, () => set(addMode, "clone"));
+				delegated("click", button_19, () => set(addMode, "ssh"));
 				append($$anchor, fragment_7);
 			};
-			var consequent_17 = ($$anchor) => {
-				var form = root_17$2();
-				var button_19 = child(form);
-				var label_1 = sibling(button_19, 2);
+			var consequent_18 = ($$anchor) => {
+				var form = root_18$3();
+				var button_20 = child(form);
+				var label_1 = sibling(button_20, 2);
 				var input_1 = sibling(child(label_1));
 				remove_input_defaults(input_1);
 				reset(label_1);
-				var node_17 = sibling(label_1, 4);
-				var consequent_16 = ($$anchor) => {
-					var p_4 = root_16$2();
+				var node_18 = sibling(label_1, 4);
+				var consequent_17 = ($$anchor) => {
+					var p_4 = root_17$4();
 					var text_16 = only_child(p_4, true);
 					template_effect(() => set_text(text_16, get(registry).import.message));
 					append($$anchor, p_4);
 				};
-				if_block(node_17, ($$render) => {
-					if (get(registry).import.kind === "create" && get(registry).import.error) $$render(consequent_16);
+				if_block(node_18, ($$render) => {
+					if (get(registry).import.kind === "create" && get(registry).import.error) $$render(consequent_17);
 				});
-				var button_20 = sibling(node_17, 2);
+				var button_21 = sibling(node_18, 2);
 				reset(form);
-				template_effect(($0) => button_20.disabled = $0, [() => !get(projectName).trim()]);
+				template_effect(($0) => button_21.disabled = $0, [() => !get(projectName).trim()]);
 				event("submit", form, (event) => {
 					event.preventDefault();
 					if (get(projectName).trim()) action("create", { name: get(projectName).trim() });
 				});
-				delegated("click", button_19, () => set(addMode, "choose"));
+				delegated("click", button_20, () => set(addMode, "choose"));
 				bind_value(input_1, () => get(projectName), ($$value) => set(projectName, $$value));
 				append($$anchor, form);
 			};
-			var consequent_19 = ($$anchor) => {
-				var form_1 = root_19$2();
-				var button_21 = child(form_1);
-				var label_2 = sibling(button_21, 2);
+			var consequent_20 = ($$anchor) => {
+				var form_1 = root_20$3();
+				var button_22 = child(form_1);
+				var label_2 = sibling(button_22, 2);
 				var input_2 = sibling(child(label_2));
 				remove_input_defaults(input_2);
 				reset(label_2);
-				var node_18 = sibling(label_2, 4);
-				var consequent_18 = ($$anchor) => {
-					var p_5 = root_18$2();
+				var node_19 = sibling(label_2, 4);
+				var consequent_19 = ($$anchor) => {
+					var p_5 = root_19$3();
 					let classes_6;
 					var text_17 = only_child(p_5, true);
 					template_effect(() => {
@@ -50316,29 +50644,29 @@ createHTML: (html) => {
 					});
 					append($$anchor, p_5);
 				};
-				if_block(node_18, ($$render) => {
-					if (get(registry).import.kind === "clone" && get(registry).import.message) $$render(consequent_18);
+				if_block(node_19, ($$render) => {
+					if (get(registry).import.kind === "clone" && get(registry).import.message) $$render(consequent_19);
 				});
-				var button_22 = sibling(node_18, 2);
-				var text_18 = only_child(button_22, true);
+				var button_23 = sibling(node_19, 2);
+				var text_18 = only_child(button_23, true);
 				reset(form_1);
 				template_effect(($0) => {
-					set_attribute(button_22, "aria-label", get(registry).import.active ? "Repository clone in progress" : "Choose destination and clone repository");
-					button_22.disabled = $0;
+					set_attribute(button_23, "aria-label", get(registry).import.active ? "Repository clone in progress" : "Choose destination and clone repository");
+					button_23.disabled = $0;
 					set_text(text_18, get(registry).import.active ? "Cloning…" : "Choose destination and clone");
 				}, [() => get(registry).import.active || !get(repository).trim()]);
 				event("submit", form_1, submitClone);
-				delegated("click", button_21, () => set(addMode, "choose"));
+				delegated("click", button_22, () => set(addMode, "choose"));
 				bind_value(input_2, () => get(repository), ($$value) => set(repository, $$value));
 				append($$anchor, form_1);
 			};
 			var alternate_1 = ($$anchor) => {
-				var form_2 = root_21$1();
-				var button_23 = child(form_2);
-				var label_3 = sibling(button_23, 2);
+				var form_2 = root_22$2();
+				var button_24 = child(form_2);
+				var label_3 = sibling(button_24, 2);
 				var select = sibling(child(label_3));
 				each(select, 21, () => get(registry).sshProfiles, (profile) => profile.id, ($$anchor, profile) => {
-					var option = root_20$2();
+					var option = root_21$3();
 					var text_19 = only_child(option);
 					var option_value = {};
 					template_effect(() => {
@@ -50358,9 +50686,9 @@ createHTML: (html) => {
 				var input_4 = sibling(child(label_5), 2);
 				remove_input_defaults(input_4);
 				reset(label_5);
-				var node_19 = sibling(label_5, 2);
-				var consequent_20 = ($$anchor) => {
-					var p_6 = root_18$2();
+				var node_20 = sibling(label_5, 2);
+				var consequent_21 = ($$anchor) => {
+					var p_6 = root_19$3();
 					let classes_7;
 					var text_20 = only_child(p_6, true);
 					template_effect(() => {
@@ -50369,67 +50697,66 @@ createHTML: (html) => {
 					});
 					append($$anchor, p_6);
 				};
-				if_block(node_19, ($$render) => {
-					if (get(registry).import.kind === "ssh" && get(registry).import.message) $$render(consequent_20);
+				if_block(node_20, ($$render) => {
+					if (get(registry).import.kind === "ssh" && get(registry).import.message) $$render(consequent_21);
 				});
-				var button_24 = sibling(node_19, 2);
+				var button_25 = sibling(node_20, 2);
 				reset(form_2);
-				template_effect(($0) => button_24.disabled = $0, [() => !get(sshProfileId) || !get(sshDirectory).trim()]);
+				template_effect(($0) => button_25.disabled = $0, [() => !get(sshProfileId) || !get(sshDirectory).trim()]);
 				event("submit", form_2, submitSsh);
-				delegated("click", button_23, () => set(addMode, "choose"));
+				delegated("click", button_24, () => set(addMode, "choose"));
 				bind_select_value(select, () => get(sshProfileId), ($$value) => set(sshProfileId, $$value));
 				bind_value(input_3, () => get(sshDirectory), ($$value) => set(sshDirectory, $$value));
 				bind_value(input_4, () => get(sshName), ($$value) => set(sshName, $$value));
 				append($$anchor, form_2);
 			};
-			if_block(node_16, ($$render) => {
-				if (get(addMode) === "choose") $$render(consequent_15);
-				else if (get(addMode) === "create") $$render(consequent_17, 1);
-				else if (get(addMode) === "clone") $$render(consequent_19, 2);
+			if_block(node_17, ($$render) => {
+				if (get(addMode) === "choose") $$render(consequent_16);
+				else if (get(addMode) === "create") $$render(consequent_18, 1);
+				else if (get(addMode) === "clone") $$render(consequent_20, 2);
 				else $$render(alternate_1, -1);
 			});
+			reset(div_16);
 			reset(div_15);
-			reset(div_14);
-			bind_this(div_14, ($$value) => set(modal, $$value), () => get(modal));
-			delegated("pointerdown", div_14, (event) => {
+			bind_this(div_15, ($$value) => set(modal, $$value), () => get(modal));
+			delegated("pointerdown", div_15, (event) => {
 				if (event.target === event.currentTarget) closeAdd();
 			});
-			delegated("click", button_14, closeAdd);
-			append($$anchor, div_14);
+			delegated("click", button_15, closeAdd);
+			append($$anchor, div_15);
 		};
-		if_block(node_15, ($$render) => {
-			if (get(addOpen)) $$render(consequent_21);
+		if_block(node_16, ($$render) => {
+			if (get(addOpen)) $$render(consequent_22);
 		});
-		var node_20 = sibling(node_15, 2);
-		var consequent_22 = ($$anchor) => {
-			var div_16 = root_23$1();
-			var div_17 = child(div_16);
-			var p_7 = sibling(child(div_17), 2);
+		var node_21 = sibling(node_16, 2);
+		var consequent_23 = ($$anchor) => {
+			var div_17 = root_24$1();
+			var div_18 = child(div_17);
+			var p_7 = sibling(child(div_18), 2);
 			var text_21 = only_child(child(p_7), true);
 			next();
 			reset(p_7);
-			var div_18 = sibling(p_7, 2);
-			var button_25 = child(div_18);
-			var button_26 = sibling(button_25);
+			var div_19 = sibling(p_7, 2);
+			var button_26 = child(div_19);
+			var button_27 = sibling(button_26);
+			reset(div_19);
 			reset(div_18);
 			reset(div_17);
-			reset(div_16);
 			template_effect(() => set_text(text_21, get(removeProject).name));
-			delegated("pointerdown", div_16, (event) => {
+			delegated("pointerdown", div_17, (event) => {
 				if (event.target === event.currentTarget) set(removeProject, null);
 			});
-			delegated("click", button_25, () => set(removeProject, null));
-			delegated("click", button_26, confirmRemove);
-			append($$anchor, div_16);
+			delegated("click", button_26, () => set(removeProject, null));
+			delegated("click", button_27, confirmRemove);
+			append($$anchor, div_17);
 		};
-		if_block(node_20, ($$render) => {
-			if (get(removeProject)) $$render(consequent_22);
+		if_block(node_21, ($$render) => {
+			if (get(removeProject)) $$render(consequent_23);
 		});
 		template_effect(() => {
 			classes_3 = set_class(section, 1, "project-registry svelte-1unzn7a", null, classes_3, { compact: compact() });
 			classes_4 = set_class(button_13, 1, "drop-folder svelte-1unzn7a", null, classes_4, { active: get(registry).dropActive });
 			set_text(text_12, get(registry).dropActive ? "Release to add this project" : "Drop a folder here");
-			set_text(text_14, get(pinned).length ? "Recent" : "Recent projects");
 		});
 		delegated("click", button_12, () => openAdd());
 		bind_value(input, () => get(query), ($$value) => set(query, $$value));
@@ -50505,14 +50832,14 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/ProjectChatTree.svelte
-	var root$7 = /* @__PURE__ */ from_html(`<button class="branch-toggle svelte-3ns8br" type="button"><svg viewBox="0 0 20 20" aria-hidden="true" class="svelte-3ns8br"><path></path></svg></button>`);
-	var root_1$6 = /* @__PURE__ */ from_svg(`<svg viewBox="0 0 20 20" class="svelte-3ns8br"><path d="M5 3v7a3 3 0 0 0 3 3h8m-4-4 4 4-4 4"></path></svg>`);
-	var root_2$6 = /* @__PURE__ */ from_html(`<span class="branch-glyph svelte-3ns8br" aria-hidden="true"><!></span>`);
-	var root_3$6 = /* @__PURE__ */ from_html(`<span class="chat-relation svelte-3ns8br"> </span>`);
-	var root_4$6 = /* @__PURE__ */ from_html(`<span class="workspace-chat-age svelte-3ns8br"> </span>`);
-	var root_5$4 = /* @__PURE__ */ from_html(`<div class="chat-inline svelte-3ns8br"><!></div>`);
-	var root_6$3 = /* @__PURE__ */ from_html(`<li class="chat-entry svelte-3ns8br"><div><!> <button class="workspace-chat-open svelte-3ns8br" type="button"><span class="chat-copy svelte-3ns8br"><span class="workspace-chat-title svelte-3ns8br"> </span> <!></span> <span class="workspace-chat-status svelte-3ns8br"><!></span></button> <span class="workspace-chat-actions svelte-3ns8br"><button class="workspace-row-menu svelte-3ns8br" type="button" title="Chat actions"><svg class="workspace-menu-icon svelte-3ns8br" viewBox="0 0 16 16" aria-hidden="true"><circle cx="4" cy="8" r="1"></circle><circle cx="8" cy="8" r="1"></circle><circle cx="12" cy="8" r="1"></circle></svg></button></span></div> <!></li>`);
-	var root_7$2 = /* @__PURE__ */ from_html(`<ul class="chat-tree svelte-3ns8br" aria-label="Chats and forks"></ul>`);
+	var root$9 = /* @__PURE__ */ from_html(`<button class="branch-toggle svelte-3ns8br" type="button"><svg viewBox="0 0 20 20" aria-hidden="true" class="svelte-3ns8br"><path></path></svg></button>`);
+	var root_1$7 = /* @__PURE__ */ from_svg(`<svg viewBox="0 0 20 20" class="svelte-3ns8br"><path d="M5 3v7a3 3 0 0 0 3 3h8m-4-4 4 4-4 4"></path></svg>`);
+	var root_2$7 = /* @__PURE__ */ from_html(`<span class="branch-glyph svelte-3ns8br" aria-hidden="true"><!></span>`);
+	var root_3$7 = /* @__PURE__ */ from_html(`<span class="chat-relation svelte-3ns8br"> </span>`);
+	var root_4$7 = /* @__PURE__ */ from_html(`<span class="workspace-chat-age svelte-3ns8br"> </span>`);
+	var root_5$5 = /* @__PURE__ */ from_html(`<div class="chat-inline svelte-3ns8br"><!></div>`);
+	var root_6$5 = /* @__PURE__ */ from_html(`<li class="chat-entry svelte-3ns8br"><div><!> <button class="workspace-chat-open svelte-3ns8br" type="button"><span class="chat-copy svelte-3ns8br"><span class="workspace-chat-title svelte-3ns8br"> </span> <!></span> <span class="workspace-chat-status svelte-3ns8br"><!></span></button> <span class="workspace-chat-actions svelte-3ns8br"><button class="workspace-row-menu svelte-3ns8br" type="button" title="Chat actions"><svg class="workspace-menu-icon svelte-3ns8br" viewBox="0 0 16 16" aria-hidden="true"><circle cx="4" cy="8" r="1"></circle><circle cx="8" cy="8" r="1"></circle><circle cx="12" cy="8" r="1"></circle></svg></button></span></div> <!></li>`);
+	var root_7$4 = /* @__PURE__ */ from_html(`<ul class="chat-tree svelte-3ns8br" aria-label="Chats and forks"></ul>`);
 	function ProjectChatTree($$anchor, $$props) {
 		push($$props, true);
 		let chats = prop($$props, "chats", 7), activeChatId = prop($$props, "activeChatId", 7), searching = prop($$props, "searching", 7, false), onOpen = prop($$props, "onOpen", 7), onActions = prop($$props, "onActions", 7);
@@ -50532,17 +50859,17 @@ createHTML: (html) => {
 			set(collapsed, next, true);
 		}
 		var $$exports = { update };
-		var ul = root_7$2();
+		var ul = root_7$4();
 		each(ul, 21, () => get(rows), (row) => row.chat.id, ($$anchor, row) => {
 			const chat = /* @__PURE__ */ user_derived(() => get(row).chat);
 			const relation = /* @__PURE__ */ user_derived(() => chatRelationship(get(chat)));
-			var li = root_6$3();
+			var li = root_6$5();
 			var div = child(li);
 			let classes;
 			let styles;
 			var node = child(div);
 			var consequent = ($$anchor) => {
-				var button = root$7();
+				var button = root$9();
 				var path = only_child(child(button));
 				reset(button);
 				template_effect(($0, $1, $2) => {
@@ -50558,10 +50885,10 @@ createHTML: (html) => {
 				append($$anchor, button);
 			};
 			var alternate = ($$anchor) => {
-				var span = root_2$6();
+				var span = root_2$7();
 				var node_1 = child(span);
 				var consequent_1 = ($$anchor) => {
-					append($$anchor, root_1$6());
+					append($$anchor, root_1$7());
 				};
 				if_block(node_1, ($$render) => {
 					if (get(chat).lineage?.kind === "fork" || get(chat).lineage?.kind === "pending") $$render(consequent_1);
@@ -50579,7 +50906,7 @@ createHTML: (html) => {
 			var text = only_child(span_2, true);
 			var node_2 = sibling(span_2, 2);
 			var consequent_2 = ($$anchor) => {
-				var span_3 = root_3$6();
+				var span_3 = root_3$7();
 				var text_1 = only_child(span_3, true);
 				template_effect(() => set_text(text_1, get(relation)));
 				append($$anchor, span_3);
@@ -50604,7 +50931,7 @@ createHTML: (html) => {
 				}
 			};
 			var alternate_1 = ($$anchor) => {
-				var span_5 = root_4$6();
+				var span_5 = root_4$7();
 				var text_2 = only_child(span_5, true);
 				template_effect(($0) => set_text(text_2, $0), [() => chatAge(get(chat))]);
 				append($$anchor, span_5);
@@ -50619,7 +50946,7 @@ createHTML: (html) => {
 			reset(div);
 			var node_4 = sibling(div, 2);
 			var consequent_4 = ($$anchor) => {
-				var div_1 = root_5$4();
+				var div_1 = root_5$5();
 				snippet$1(child(div_1), () => $$props.extra, () => get(chat));
 				reset(div_1);
 				append($$anchor, div_1);
@@ -50668,13 +50995,13 @@ createHTML: (html) => {
 	delegate(["click"]);
 	//#endregion
 	//#region src/components/BoardFiles.svelte
-	var root$6 = /* @__PURE__ */ from_svg(`<svg class="file-icon svelte-krbjw1" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h7l2 2h9v11H3z"></path></svg>`);
-	var root_1$5 = /* @__PURE__ */ from_html(`<span class="file-icon ca-file-icon svelte-krbjw1" aria-hidden="true"></span>`);
-	var root_2$5 = /* @__PURE__ */ from_html(`<small class="svelte-krbjw1"> </small>`);
-	var root_3$5 = /* @__PURE__ */ from_html(`<button type="button" class="file-row svelte-krbjw1"><span aria-hidden="true"> </span> <!> <span class="file-copy svelte-krbjw1"><strong class="svelte-krbjw1"> </strong><!></span> <!></button>`);
-	var root_4$5 = /* @__PURE__ */ from_html(`<p class="notice svelte-krbjw1"> </p>`);
-	var root_5$3 = /* @__PURE__ */ from_html(`<p class="notice svelte-krbjw1">Selecting a remote file opens the SSH terminal.</p>`);
-	var root_6$2 = /* @__PURE__ */ from_html(`<input class="search svelte-krbjw1" type="search" aria-label="Find a project file" placeholder="Find a file"/> <div class="file-scroll svelte-krbjw1" aria-label="Files and folders"></div> <!>`, 1);
+	var root$8 = /* @__PURE__ */ from_svg(`<svg class="file-icon svelte-krbjw1" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h7l2 2h9v11H3z"></path></svg>`);
+	var root_1$6 = /* @__PURE__ */ from_html(`<span class="file-icon ca-file-icon svelte-krbjw1" aria-hidden="true"></span>`);
+	var root_2$6 = /* @__PURE__ */ from_html(`<small class="svelte-krbjw1"> </small>`);
+	var root_3$6 = /* @__PURE__ */ from_html(`<button type="button" class="file-row svelte-krbjw1"><span aria-hidden="true"> </span> <!> <span class="file-copy svelte-krbjw1"><strong class="svelte-krbjw1"> </strong><!></span> <!></button>`);
+	var root_4$6 = /* @__PURE__ */ from_html(`<p class="notice svelte-krbjw1"> </p>`);
+	var root_5$4 = /* @__PURE__ */ from_html(`<p class="notice svelte-krbjw1">Selecting a remote file opens the SSH terminal.</p>`);
+	var root_6$4 = /* @__PURE__ */ from_html(`<input class="search svelte-krbjw1" type="search" aria-label="Find a project file" placeholder="Find a file"/> <div class="file-scroll svelte-krbjw1" aria-label="Files and folders"></div> <!>`, 1);
 	function BoardFiles($$anchor, $$props) {
 		push($$props, true);
 		let query = /* @__PURE__ */ state("");
@@ -50700,22 +51027,22 @@ createHTML: (html) => {
 			set(query, "");
 			set(expanded, /* @__PURE__ */ new Set(), true);
 		});
-		var fragment = root_6$2();
+		var fragment = root_6$4();
 		var input = first_child(fragment);
 		remove_input_defaults(input);
 		var div = sibling(input, 2);
 		each(div, 21, () => get(rows), (file) => file.path, ($$anchor, file) => {
 			const activityInfo = /* @__PURE__ */ user_derived(() => info(get(file).path));
-			var button = root_3$5();
+			var button = root_3$6();
 			let styles;
 			var span = child(button);
 			var text = only_child(span, true);
 			var node = sibling(span, 2);
 			var consequent = ($$anchor) => {
-				append($$anchor, root$6());
+				append($$anchor, root$8());
 			};
 			var alternate = ($$anchor) => {
-				var span_1 = root_1$5();
+				var span_1 = root_1$6();
 				action(span_1, ($$node, $$action_arg) => fileIcon?.($$node, $$action_arg), () => get(file).iconKey || "file");
 				append($$anchor, span_1);
 			};
@@ -50728,7 +51055,7 @@ createHTML: (html) => {
 			var text_1 = only_child(strong, true);
 			var node_1 = sibling(strong);
 			var consequent_1 = ($$anchor) => {
-				var small = root_2$5();
+				var small = root_2$6();
 				var text_2 = only_child(small, true);
 				template_effect(($0) => set_text(text_2, $0), [() => fileActivityLabel(get(activity), get(file).path, true, $$props.project?.source === "ssh")]);
 				append($$anchor, small);
@@ -50764,7 +51091,7 @@ createHTML: (html) => {
 			delegated("click", button, () => get(file).kind === "directory" ? toggle(get(file).path) : $$props.onOpen(get(file).path));
 			append($$anchor, button);
 		}, ($$anchor) => {
-			var p = root_4$5();
+			var p = root_4$6();
 			var text_3 = only_child(p, true);
 			template_effect(() => set_text(text_3, $$props.project ? "No matching files." : "Choose a project to browse its files."));
 			append($$anchor, p);
@@ -50772,7 +51099,7 @@ createHTML: (html) => {
 		reset(div);
 		var node_3 = sibling(div, 2);
 		var consequent_3 = ($$anchor) => {
-			append($$anchor, root_5$3());
+			append($$anchor, root_5$4());
 		};
 		if_block(node_3, ($$render) => {
 			if ($$props.project?.source === "ssh") $$render(consequent_3);
@@ -50784,11 +51111,11 @@ createHTML: (html) => {
 	delegate(["click"]);
 	//#endregion
 	//#region src/components/BoardConversationMenu.svelte
-	var root$5 = /* @__PURE__ */ from_html(`<div class="conversation-menu svelte-1tx4dak"><button class="menu-trigger svelte-1tx4dak" type="button" aria-haspopup="dialog"><svg viewBox="0 0 20 20" aria-hidden="true" class="svelte-1tx4dak"><path d="M3 6h5m4 0h5M3 14h9m4 0h1"></path><circle cx="10" cy="6" r="2"></circle><circle cx="14" cy="14" r="2"></circle></svg> <span> </span> <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4"></path></svg></button> <div class="menu-panel svelte-1tx4dak" popover="auto" role="dialog" tabindex="-1"><!></div></div>`);
+	var root$7 = /* @__PURE__ */ from_html(`<div><button class="menu-trigger svelte-1tx4dak" type="button" aria-haspopup="dialog"><svg viewBox="0 0 20 20" aria-hidden="true" class="svelte-1tx4dak"><path d="M3 6h5m4 0h5M3 14h9m4 0h1"></path><circle cx="10" cy="6" r="2"></circle><circle cx="14" cy="14" r="2"></circle></svg> <span class="svelte-1tx4dak"> </span> <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m6 8 4 4 4-4"></path></svg></button> <div class="menu-panel svelte-1tx4dak" popover="auto" role="dialog" tabindex="-1"><!></div></div>`);
 	function BoardConversationMenu($$anchor, $$props) {
 		const id = props_id();
 		push($$props, true);
-		let active = prop($$props, "active", 3, true);
+		let active = prop($$props, "active", 3, true), compact = prop($$props, "compact", 3, false);
 		let button;
 		let panel;
 		let open = /* @__PURE__ */ state(false);
@@ -50857,12 +51184,13 @@ createHTML: (html) => {
 				document.removeEventListener("scroll", scroll, true);
 			};
 		});
-		var div = root$5();
+		var div = root$7();
+		let classes;
 		var button_1 = child(div);
 		var span = sibling(child(button_1), 2);
 		var text = only_child(span, true);
 		var svg = sibling(span, 2);
-		let classes;
+		let classes_1;
 		reset(button_1);
 		bind_this(button_1, ($$value) => button = $$value, () => button);
 		var div_1 = sibling(button_1, 2);
@@ -50871,13 +51199,15 @@ createHTML: (html) => {
 		bind_this(div_1, ($$value) => panel = $$value, () => panel);
 		reset(div);
 		template_effect(() => {
+			classes = set_class(div, 1, "conversation-menu svelte-1tx4dak", null, classes, { compact: compact() });
 			set_attribute(div, "data-board-conversation-menu", $$props.owner);
+			set_attribute(button_1, "title", compact() ? $$props.label : void 0);
 			set_attribute(button_1, "aria-label", $$props.label);
 			set_attribute(button_1, "aria-expanded", get(open));
 			set_attribute(button_1, "aria-controls", `${id}-panel`);
 			set_attribute(span, "id", `${id}-label`);
 			set_text(text, $$props.label);
-			classes = set_class(svg, 0, "chevron svelte-1tx4dak", null, classes, { expanded: get(open) });
+			classes_1 = set_class(svg, 0, "chevron svelte-1tx4dak", null, classes_1, { expanded: get(open) });
 			set_attribute(div_1, "id", `${id}-panel`);
 			set_attribute(div_1, "aria-labelledby", `${id}-label`);
 		});
@@ -50897,11 +51227,11 @@ createHTML: (html) => {
 	delegate(["click", "keydown"]);
 	//#endregion
 	//#region src/components/ProjectFileActivity.svelte
-	var root$4 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-fgztmy"><span aria-hidden="true">↳</span> <small class="svelte-fgztmy"> </small></button>`);
-	var root_1$4 = /* @__PURE__ */ from_html(`<button type="button"><span class="state-symbol svelte-fgztmy" aria-hidden="true"> </span> <span class="file-copy svelte-fgztmy"><strong class="svelte-fgztmy"> </strong><small class="svelte-fgztmy"> </small></span> <!> <span class="file-state svelte-fgztmy"> </span></button>`);
-	var root_2$4 = /* @__PURE__ */ from_html(`<p class="svelte-fgztmy"> </p>`);
-	var root_3$4 = /* @__PURE__ */ from_html(`<p class="svelte-fgztmy">Showing a limited file activity list.</p>`);
-	var root_4$4 = /* @__PURE__ */ from_html(`<section class="file-activity svelte-fgztmy" aria-label="Task file activity"><header class="svelte-fgztmy"><h3 class="svelte-fgztmy">Task activity</h3><span class="svelte-fgztmy"> </span></header> <div class="work-filters svelte-fgztmy" aria-label="Filter file activity by task"><button type="button" class="svelte-fgztmy">All tasks</button> <!></div> <div class="activity-files svelte-fgztmy"><!> <!></div></section>`);
+	var root$6 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-fgztmy"><span aria-hidden="true">↳</span> <small class="svelte-fgztmy"> </small></button>`);
+	var root_1$5 = /* @__PURE__ */ from_html(`<button type="button"><span class="state-symbol svelte-fgztmy" aria-hidden="true"> </span> <span class="file-copy svelte-fgztmy"><strong class="svelte-fgztmy"> </strong><small class="svelte-fgztmy"> </small></span> <!> <span class="file-state svelte-fgztmy"> </span></button>`);
+	var root_2$5 = /* @__PURE__ */ from_html(`<p class="svelte-fgztmy"> </p>`);
+	var root_3$5 = /* @__PURE__ */ from_html(`<p class="svelte-fgztmy">Showing a limited file activity list.</p>`);
+	var root_4$5 = /* @__PURE__ */ from_html(`<section class="file-activity svelte-fgztmy" aria-label="Task file activity"><header class="svelte-fgztmy"><h3 class="svelte-fgztmy">Task activity</h3><span class="svelte-fgztmy"> </span></header> <div class="work-filters svelte-fgztmy" aria-label="Filter file activity by task"><button type="button" class="svelte-fgztmy">All tasks</button> <!></div> <div class="activity-files svelte-fgztmy"><!> <!></div></section>`);
 	function ProjectFileActivity($$anchor, $$props) {
 		push($$props, true);
 		let remote = prop($$props, "remote", 3, false), owner = prop($$props, "owner", 3, "");
@@ -50912,14 +51242,14 @@ createHTML: (html) => {
 		var fragment = comment$1();
 		var node = first_child(fragment);
 		var consequent_2 = ($$anchor) => {
-			var section = root_4$4();
+			var section = root_4$5();
 			var header = child(section);
 			var text = only_child(sibling(child(header)), true);
 			reset(header);
 			var div = sibling(header, 2);
 			var button = child(div);
 			each(sibling(button, 2), 17, () => $$props.work, (task) => task.owner, ($$anchor, task) => {
-				var button_1 = root$4();
+				var button_1 = root$6();
 				var text_1 = sibling(child(button_1));
 				var text_2 = only_child(sibling(text_1), true);
 				reset(button_1);
@@ -50936,7 +51266,7 @@ createHTML: (html) => {
 			var div_1 = sibling(div, 2);
 			var node_2 = child(div_1);
 			each(node_2, 17, () => get(files), (file) => file.path, ($$anchor, file) => {
-				var button_2 = root_1$4();
+				var button_2 = root_1$5();
 				let classes;
 				var span_1 = child(button_2);
 				var text_3 = only_child(span_1, true);
@@ -50981,14 +51311,14 @@ createHTML: (html) => {
 				delegated("click", button_2, () => $$props.onOpen(get(file).path));
 				append($$anchor, button_2);
 			}, ($$anchor) => {
-				var p = root_2$4();
+				var p = root_2$5();
 				var text_7 = only_child(p, true);
 				template_effect(() => set_text(text_7, get(working) ? "Waiting for file activity reported by the tools." : "No file activity reported for this task."));
 				append($$anchor, p);
 			});
 			var node_4 = sibling(node_2, 2);
 			var consequent_1 = ($$anchor) => {
-				append($$anchor, root_3$4());
+				append($$anchor, root_3$5());
 			};
 			var d_1 = /* @__PURE__ */ user_derived(() => (get(selected) ? [get(selected)] : $$props.work).some((task) => task.truncated));
 			if_block(node_4, ($$render) => {
@@ -51010,6 +51340,828 @@ createHTML: (html) => {
 		pop();
 	}
 	delegate(["click"]);
+	//#endregion
+	//#region src/lib/work-results.ts
+	function comparisonReady(a, b, reviewer) {
+		return !!a && !!b && a.owner !== b.owner && a.loaded && b.loaded && !a.busy && !b.busy && !a.partial && !b.partial && !a.remote && !b.remote && !a.pendingRequests && !b.pendingRequests && !!reviewer?.reviewer && !reviewer.busy && reviewer.owner !== a.owner && reviewer.owner !== b.owner && !!reviewer.threadId;
+	}
+	function commandOutcome(command) {
+		if (command.status === "succeeded" && command.exitCode === 0) return "Exit 0";
+		if (command.exitCode !== null) return `Exit ${command.exitCode}`;
+		return {
+			failed: "Failed",
+			stopped: "Stopped",
+			running: "Running",
+			not_reported: "Exit not reported"
+		}[command.status] || "Exit not reported";
+	}
+	function workStatus(report) {
+		if (report.busy) return "Working";
+		return {
+			completed: "Completed",
+			inProgress: "Interrupted connection",
+			failed: "Failed",
+			interrupted: "Stopped"
+		}[report.status] || report.status;
+	}
+	//#endregion
+	//#region src/components/WorkEvidence.svelte
+	var root$5 = /* @__PURE__ */ from_html(`<p role="alert" class="svelte-1lyut5g"> </p>`);
+	var root_1$4 = /* @__PURE__ */ from_html(`<p class="scope svelte-1lyut5g" role="status">Loading work details…</p>`);
+	var root_2$4 = /* @__PURE__ */ from_html(`<p class="svelte-1lyut5g">No recorded work is loaded. Open the conversation or refresh its history.</p>`);
+	var root_3$4 = /* @__PURE__ */ from_html(`<div><h4 class="svelte-1lyut5g">Request</h4><p class="prose svelte-1lyut5g"> </p></div>`);
+	var root_4$4 = /* @__PURE__ */ from_html(`<span><b class="svelte-1lyut5g"> </b> </span>`);
+	var root_5$3 = /* @__PURE__ */ from_html(`<span>Diff not reported</span>`);
+	var root_6$3 = /* @__PURE__ */ from_html(`<span> </span>`);
+	var root_7$3 = /* @__PURE__ */ from_html(`<div><h4 class="svelte-1lyut5g">Supervisor assessment</h4><p class="prose svelte-1lyut5g"> </p></div>`);
+	var root_8$3 = /* @__PURE__ */ from_html(`<details open="" class="svelte-1lyut5g"><summary class="svelte-1lyut5g">Reported result</summary><p class="prose svelte-1lyut5g"> </p></details>`);
+	var root_9$3 = /* @__PURE__ */ from_html(`<pre class="svelte-1lyut5g"> </pre>`);
+	var root_10$3 = /* @__PURE__ */ from_html(`<div class="record svelte-1lyut5g"><div class="record-head svelte-1lyut5g"><code class="svelte-1lyut5g"> </code><span class="svelte-1lyut5g"> </span></div><!></div>`);
+	var root_11$3 = /* @__PURE__ */ from_html(`<details class="svelte-1lyut5g"><summary class="svelte-1lyut5g">Commands & checks</summary> <p class="scope svelte-1lyut5g">Exit codes are reported by the runtime. They do not certify all acceptance criteria.</p> <!></details>`);
+	var root_12$3 = /* @__PURE__ */ from_html(`<p class="scope svelte-1lyut5g">No command or test outcome is reported in the available details.</p>`);
+	var root_13$3 = /* @__PURE__ */ from_html(`<li class="svelte-1lyut5g"><code class="svelte-1lyut5g"> </code><span class="svelte-1lyut5g"> </span></li>`);
+	var root_14$3 = /* @__PURE__ */ from_html(`<details class="svelte-1lyut5g"><summary class="svelte-1lyut5g"> </summary><ul class="svelte-1lyut5g"></ul></details>`);
+	var root_15$3 = /* @__PURE__ */ from_html(`<li class="svelte-1lyut5g"><span class="svelte-1lyut5g"> </span><span class="svelte-1lyut5g"> </span></li>`);
+	var root_16$3 = /* @__PURE__ */ from_html(`<details class="svelte-1lyut5g"><summary class="svelte-1lyut5g">Reported plan</summary><ul class="svelte-1lyut5g"></ul></details>`);
+	var root_17$3 = /* @__PURE__ */ from_html(`<span class="svelte-1lyut5g"> </span>`);
+	var root_18$2 = /* @__PURE__ */ from_html(`<details class="svelte-1lyut5g"><summary class="svelte-1lyut5g">Recorded diff</summary><pre class="svelte-1lyut5g"> </pre></details>`);
+	var root_19$2 = /* @__PURE__ */ from_html(`<p class="scope svelte-1lyut5g"> </p>`);
+	var root_20$2 = /* @__PURE__ */ from_html(`<div class="record svelte-1lyut5g"><div class="record-head svelte-1lyut5g"><strong class="svelte-1lyut5g"> </strong><!></div> <!> <!> <!></div>`);
+	var root_21$2 = /* @__PURE__ */ from_html(`<details class="svelte-1lyut5g"><summary class="svelte-1lyut5g">Activity, decisions & attachments</summary> <!></details>`);
+	var root_22$1 = /* @__PURE__ */ from_html(`<p class="scope svelte-1lyut5g">This bounded summary omits some older or lengthy evidence. The original conversation retains its history.</p>`);
+	var root_23$1 = /* @__PURE__ */ from_html(`<article class="evidence svelte-1lyut5g"><div class="evidence-heading svelte-1lyut5g"><h3 class="svelte-1lyut5g"> </h3><span class="svelte-1lyut5g"> </span></div> <p class="scope svelte-1lyut5g"> </p> <!> <!> <!> <div class="totals svelte-1lyut5g"><!> <span> </span> <!></div> <!> <!> <!> <!> <!> <!> <!></article>`);
+	function WorkEvidence($$anchor, $$props) {
+		push($$props, true);
+		const failed = /* @__PURE__ */ user_derived(() => $$props.report.commands.filter((command) => command.status === "failed").length);
+		const relevant = /* @__PURE__ */ user_derived(() => $$props.report.evidence.events.filter((event) => event.role === "system" || event.kind === "activity" || event.phase === "commentary" || event.attachments.length));
+		var article = root_23$1();
+		var div = child(article);
+		var h3 = child(div);
+		var text = only_child(h3, true);
+		var text_1 = only_child(sibling(h3), true);
+		reset(div);
+		var p = sibling(div, 2);
+		var text_2 = only_child(p);
+		var node = sibling(p, 2);
+		var consequent = ($$anchor) => {
+			var p_1 = root$5();
+			var text_3 = only_child(p_1, true);
+			template_effect(() => set_text(text_3, $$props.report.historyError));
+			append($$anchor, p_1);
+		};
+		var consequent_1 = ($$anchor) => {
+			append($$anchor, root_1$4());
+		};
+		if_block(node, ($$render) => {
+			if ($$props.report.historyError) $$render(consequent);
+			else if ($$props.report.historyState === "loading") $$render(consequent_1, 1);
+		});
+		var node_1 = sibling(node, 2);
+		var consequent_2 = ($$anchor) => {
+			append($$anchor, root_2$4());
+		};
+		if_block(node_1, ($$render) => {
+			if (!$$props.report.loaded) $$render(consequent_2);
+		});
+		var node_2 = sibling(node_1, 2);
+		var consequent_3 = ($$anchor) => {
+			var div_1 = root_3$4();
+			var text_4 = only_child(sibling(child(div_1)), true);
+			reset(div_1);
+			template_effect(() => set_text(text_4, $$props.report.evidence.objective));
+			append($$anchor, div_1);
+		};
+		if_block(node_2, ($$render) => {
+			if ($$props.report.evidence.objective) $$render(consequent_3);
+		});
+		var div_2 = sibling(node_2, 2);
+		var node_3 = child(div_2);
+		var consequent_4 = ($$anchor) => {
+			var span_1 = root_4$4();
+			var b = child(span_1);
+			var text_5 = only_child(b);
+			var text_6 = sibling(b);
+			reset(span_1);
+			template_effect(() => {
+				set_text(text_5, `+${$$props.report.diff.additions ?? ""} −${$$props.report.diff.deletions ?? ""}`);
+				set_text(text_6, ` · ${$$props.report.diff.fileCount ?? ""} files`);
+			});
+			append($$anchor, span_1);
+		};
+		var alternate = ($$anchor) => {
+			append($$anchor, root_5$3());
+		};
+		if_block(node_3, ($$render) => {
+			if ($$props.report.diff) $$render(consequent_4);
+			else $$render(alternate, -1);
+		});
+		var span_3 = sibling(node_3, 2);
+		var text_7 = only_child(span_3);
+		var node_4 = sibling(span_3, 2);
+		var consequent_5 = ($$anchor) => {
+			var span_4 = root_6$3();
+			var text_8 = only_child(span_4);
+			template_effect(() => set_text(text_8, `${$$props.report.pendingRequests ?? ""} pending requests`));
+			append($$anchor, span_4);
+		};
+		if_block(node_4, ($$render) => {
+			if ($$props.report.pendingRequests) $$render(consequent_5);
+		});
+		reset(div_2);
+		var node_5 = sibling(div_2, 2);
+		var consequent_6 = ($$anchor) => {
+			var div_3 = root_7$3();
+			var text_9 = only_child(sibling(child(div_3)), true);
+			reset(div_3);
+			template_effect(() => set_text(text_9, $$props.report.assessment.summary));
+			append($$anchor, div_3);
+		};
+		if_block(node_5, ($$render) => {
+			if ($$props.report.assessment) $$render(consequent_6);
+		});
+		var node_6 = sibling(node_5, 2);
+		var consequent_7 = ($$anchor) => {
+			var details = root_8$3();
+			var text_10 = only_child(sibling(child(details)), true);
+			reset(details);
+			template_effect(() => set_text(text_10, $$props.report.evidence.finalAnswer));
+			append($$anchor, details);
+		};
+		if_block(node_6, ($$render) => {
+			if ($$props.report.evidence.finalAnswer) $$render(consequent_7);
+		});
+		var node_7 = sibling(node_6, 2);
+		var consequent_9 = ($$anchor) => {
+			var details_1 = root_11$3();
+			each(sibling(child(details_1), 4), 17, () => $$props.report.commands, index, ($$anchor, command) => {
+				var div_4 = root_10$3();
+				var div_5 = child(div_4);
+				var code = child(div_5);
+				var text_11 = only_child(code, true);
+				var text_12 = only_child(sibling(code), true);
+				reset(div_5);
+				var node_9 = sibling(div_5);
+				var consequent_8 = ($$anchor) => {
+					var pre = root_9$3();
+					var text_13 = only_child(pre, true);
+					template_effect(() => set_text(text_13, get(command).output));
+					append($$anchor, pre);
+				};
+				if_block(node_9, ($$render) => {
+					if (get(command).output) $$render(consequent_8);
+				});
+				reset(div_4);
+				template_effect(($0) => {
+					set_text(text_11, get(command).command);
+					set_text(text_12, $0);
+				}, [() => commandOutcome(get(command))]);
+				append($$anchor, div_4);
+			});
+			reset(details_1);
+			append($$anchor, details_1);
+		};
+		var consequent_10 = ($$anchor) => {
+			append($$anchor, root_12$3());
+		};
+		if_block(node_7, ($$render) => {
+			if ($$props.report.commands.length) $$render(consequent_9);
+			else if ($$props.report.loaded) $$render(consequent_10, 1);
+		});
+		var node_10 = sibling(node_7, 2);
+		var consequent_11 = ($$anchor) => {
+			var details_2 = root_14$3();
+			var summary = child(details_2);
+			var text_14 = only_child(summary);
+			var ul = sibling(summary);
+			each(ul, 21, () => $$props.report.files, index, ($$anchor, file) => {
+				var li = root_13$3();
+				var code_1 = child(li);
+				var text_15 = only_child(code_1, true);
+				var text_16 = only_child(sibling(code_1), true);
+				reset(li);
+				template_effect(() => {
+					set_text(text_15, get(file).path);
+					set_text(text_16, get(file).state);
+				});
+				append($$anchor, li);
+			});
+			reset(ul);
+			reset(details_2);
+			template_effect(() => set_text(text_14, `Changed files · ${$$props.report.files.length ?? ""}`));
+			append($$anchor, details_2);
+		};
+		if_block(node_10, ($$render) => {
+			if ($$props.report.files.length) $$render(consequent_11);
+		});
+		var node_11 = sibling(node_10, 2);
+		var consequent_12 = ($$anchor) => {
+			var details_3 = root_16$3();
+			var ul_1 = sibling(child(details_3));
+			each(ul_1, 21, () => $$props.report.checks, index, ($$anchor, check) => {
+				var li_1 = root_15$3();
+				var span_7 = child(li_1);
+				var text_17 = only_child(span_7, true);
+				var text_18 = only_child(sibling(span_7), true);
+				reset(li_1);
+				template_effect(() => {
+					set_text(text_17, get(check).step);
+					set_text(text_18, get(check).status);
+				});
+				append($$anchor, li_1);
+			});
+			reset(ul_1);
+			reset(details_3);
+			append($$anchor, details_3);
+		};
+		if_block(node_11, ($$render) => {
+			if ($$props.report.checks.length) $$render(consequent_12);
+		});
+		var node_12 = sibling(node_11, 2);
+		var consequent_16 = ($$anchor) => {
+			var details_4 = root_21$2();
+			each(sibling(child(details_4), 2), 17, () => get(relevant), index, ($$anchor, event) => {
+				var div_6 = root_20$2();
+				var div_7 = child(div_6);
+				var strong = child(div_7);
+				var text_19 = only_child(strong, true);
+				var node_14 = sibling(strong);
+				var consequent_13 = ($$anchor) => {
+					var span_9 = root_17$3();
+					var text_20 = only_child(span_9, true);
+					template_effect(() => set_text(text_20, get(event).status));
+					append($$anchor, span_9);
+				};
+				if_block(node_14, ($$render) => {
+					if (get(event).status) $$render(consequent_13);
+				});
+				reset(div_7);
+				var node_15 = sibling(div_7, 2);
+				var consequent_14 = ($$anchor) => {
+					var pre_1 = root_9$3();
+					var text_21 = only_child(pre_1, true);
+					template_effect(() => set_text(text_21, get(event).detail));
+					append($$anchor, pre_1);
+				};
+				if_block(node_15, ($$render) => {
+					if (get(event).detail) $$render(consequent_14);
+				});
+				var node_16 = sibling(node_15, 2);
+				var consequent_15 = ($$anchor) => {
+					var details_5 = root_18$2();
+					var text_22 = only_child(sibling(child(details_5)), true);
+					reset(details_5);
+					template_effect(() => set_text(text_22, get(event).diff));
+					append($$anchor, details_5);
+				};
+				if_block(node_16, ($$render) => {
+					if (get(event).diff) $$render(consequent_15);
+				});
+				each(sibling(node_16, 2), 17, () => get(event).attachments, index, ($$anchor, file) => {
+					var p_8 = root_19$2();
+					var text_23 = only_child(p_8);
+					template_effect(() => set_text(text_23, `${get(file).name ?? ""} · ${get(file).kind ?? ""} · in source history`));
+					append($$anchor, p_8);
+				});
+				reset(div_6);
+				template_effect(() => set_text(text_19, get(event).text || get(event).category || "Activity"));
+				append($$anchor, div_6);
+			});
+			reset(details_4);
+			append($$anchor, details_4);
+		};
+		if_block(node_12, ($$render) => {
+			if (get(relevant).length) $$render(consequent_16);
+		});
+		var node_18 = sibling(node_12, 2);
+		var consequent_17 = ($$anchor) => {
+			append($$anchor, root_22$1());
+		};
+		if_block(node_18, ($$render) => {
+			if ($$props.report.evidence.eventsOmitted || $$props.report.commandsOmitted || $$props.report.filesTruncated) $$render(consequent_17);
+		});
+		reset(article);
+		template_effect(($0) => {
+			set_attribute(article, "aria-label", `Work evidence for ${$$props.report.title}`);
+			set_attribute(article, "data-work-evidence", $$props.report.owner);
+			set_text(text, $$props.report.title);
+			set_text(text_1, $0);
+			set_text(text_2, `Latest recorded turn${$$props.report.partial ? " · Details not fully loaded" : ""}`);
+			set_text(text_7, `${$$props.report.commands.length ?? ""} recorded commands${get(failed) ? ` · ${get(failed)} failed` : ""}`);
+		}, [() => workStatus($$props.report)]);
+		append($$anchor, article);
+		pop();
+	}
+	//#endregion
+	//#region src/components/WorkResults.svelte
+	var root$4 = /* @__PURE__ */ from_html(`<p class="notice svelte-1t81hy1" role="alert"> </p>`);
+	var root_1$3 = /* @__PURE__ */ from_html(`<p class="notice svelte-1t81hy1" role="status"> </p>`);
+	var root_2$3 = /* @__PURE__ */ from_html(`<p class="muted svelte-1t81hy1">Hand off requires an idle Codex conversation with loaded native history. Other providers keep their work summaries.</p>`);
+	var root_3$3 = /* @__PURE__ */ from_html(`<details><summary class="svelte-1t81hy1"> </summary><!></details>`);
+	var root_4$3 = /* @__PURE__ */ from_html(`<p class="svelte-1t81hy1">A new Codex agent continues from this conversation using its native history, objective and attachments. You can choose another model before sending the continuation.</p> <p class="muted svelte-1t81hy1">Project files are shared. No worktree or file snapshot is created. An active worker must be stopped first.</p> <label for="handoff-name" class="svelte-1t81hy1">New agent name</label><input id="handoff-name" maxlength="80" class="svelte-1t81hy1"/> <label for="handoff-instruction" class="svelte-1t81hy1">Continuation</label><textarea id="handoff-instruction" maxlength="4000" rows="4" class="svelte-1t81hy1"></textarea> <!> <!>`, 1);
+	var root_5$2 = /* @__PURE__ */ from_html(`<p class="muted svelte-1t81hy1">Add another conversation in this local project to compare two attempts.</p>`);
+	var root_6$2 = /* @__PURE__ */ from_html(`<p class="muted svelte-1t81hy1">Wait for another conversation to finish before comparing attempts.</p>`);
+	var root_7$2 = /* @__PURE__ */ from_html(`<!> <!>`, 1);
+	var root_8$2 = /* @__PURE__ */ from_html(`<p class="muted svelte-1t81hy1">No work details are available. Refresh to try again.</p>`);
+	var root_9$2 = /* @__PURE__ */ from_html(`<p role="status" class="svelte-1t81hy1">Loading recorded work…</p>`);
+	var root_10$2 = /* @__PURE__ */ from_html(`<p class="muted svelte-1t81hy1">Open an idle Codex Supervisor in this project and load its conversation to make it available here.</p>`);
+	var root_11$2 = /* @__PURE__ */ from_html(`<!> <p class="muted svelte-1t81hy1">The selected Codex Supervisor reviews these recorded attempts in read-only mode and explains its preference. This uses your connected account. It does not apply either diff. Attachment names are included; their content remains in the source history.</p> <!>`, 1);
+	var root_12$2 = /* @__PURE__ */ from_html(`<!> <div class="reports svelte-1t81hy1"><!><!></div> <!>`, 1);
+	var root_13$2 = /* @__PURE__ */ from_html(`<button class="primary svelte-1t81hy1" type="button" aria-label="Ask Supervisor to compare attempts"> </button>`);
+	var root_14$2 = /* @__PURE__ */ from_html(`<button class="primary svelte-1t81hy1" type="button">Open new agent</button>`);
+	var root_15$2 = /* @__PURE__ */ from_html(`<button class="primary svelte-1t81hy1" type="button" aria-label="Create handoff"> </button>`);
+	var root_16$2 = /* @__PURE__ */ from_html(`<button type="button" class="svelte-1t81hy1">Open conversation</button>`);
+	var root_17$2 = /* @__PURE__ */ from_html(`<dialog aria-labelledby="work-results-title"><header class="svelte-1t81hy1"><div><h2 id="work-results-title" class="svelte-1t81hy1"> </h2><p class="svelte-1t81hy1">Recorded work, with its original context.</p></div><button type="button" aria-label="Close work summary" class="svelte-1t81hy1">×</button></header> <!> <!> <!> <footer class="svelte-1t81hy1"><button type="button" class="svelte-1t81hy1">Refresh details</button><div><!></div></footer></dialog>`);
+	function WorkResults($$anchor, $$props) {
+		push($$props, true);
+		let active = prop($$props, "active", 3, true);
+		let dialog;
+		let mode = /* @__PURE__ */ state("summary");
+		let owner = /* @__PURE__ */ state("");
+		let openedProject = "";
+		let report = /* @__PURE__ */ state(null);
+		let otherReport = /* @__PURE__ */ state(null);
+		let candidates = /* @__PURE__ */ state(proxy([]));
+		let other = /* @__PURE__ */ state("");
+		let reviewer = /* @__PURE__ */ state("");
+		let error = /* @__PURE__ */ state("");
+		let notice = /* @__PURE__ */ state("");
+		let pending = /* @__PURE__ */ state(false);
+		let destination = /* @__PURE__ */ state("");
+		let forkReady = /* @__PURE__ */ state(false);
+		let title = /* @__PURE__ */ state("");
+		let instruction = /* @__PURE__ */ state("Continue the original objective from the point reached in this conversation. Keep its constraints and decisions, check the current files and reported failures, then complete the remaining work.");
+		let mainRequest = "";
+		let otherRequest = "";
+		let mutationRequest = "";
+		let inspectTimeout;
+		const reviewers = /* @__PURE__ */ user_derived(() => get(candidates).filter((candidate) => candidate.reviewer && candidate.owner !== get(other)));
+		const canCompare = /* @__PURE__ */ user_derived(() => comparisonReady(get(report), get(otherReport), get(reviewers).find((candidate) => candidate.owner === get(reviewer))));
+		const heading = /* @__PURE__ */ user_derived(() => get(mode) === "summary" ? "Work summary" : get(mode) === "compare" ? "Compare attempts" : "Hand off work");
+		user_effect(() => {
+			if (($$props.projectKey !== openedProject || !active()) && get(owner)) {
+				dialog?.close();
+				set(owner, "");
+				mainRequest = "";
+				otherRequest = "";
+				mutationRequest = "";
+				set(pending, false);
+				clearTimeout(inspectTimeout);
+			}
+		});
+		function send(action) {
+			const request_id = requestId();
+			$$props.eventTarget.dispatchEvent(new CustomEvent("central-agent:project-board", {
+				bubbles: true,
+				detail: {
+					action: "backend",
+					backendAction: {
+						type: "work",
+						request_id,
+						action
+					}
+				}
+			}));
+			return request_id;
+		}
+		function open(nextOwner, nextMode) {
+			if (get(pending)) return;
+			set(owner, nextOwner, true);
+			set(mode, nextMode, true);
+			openedProject = $$props.projectKey;
+			set(report, null);
+			set(otherReport, null);
+			set(candidates, [], true);
+			set(other, "");
+			set(reviewer, "");
+			set(error, "");
+			set(notice, "");
+			set(destination, "");
+			set(forkReady, false);
+			set(title, "");
+			dialog.showModal();
+			refresh(true);
+		}
+		function refresh(load = false) {
+			if (!get(owner) || get(pending)) return;
+			set(error, "");
+			mainRequest = send({
+				kind: "inspect",
+				owner: get(owner),
+				load
+			});
+			clearTimeout(inspectTimeout);
+			const expected = mainRequest;
+			inspectTimeout = setTimeout(() => {
+				if (dialog.open && mainRequest === expected && !get(report)) {
+					mainRequest = "";
+					set(error, "Work details did not respond. Try Refresh details.");
+				}
+			}, 15e3);
+			if (get(other)) otherRequest = send({
+				kind: "inspect",
+				owner: get(other),
+				load
+			});
+		}
+		function chooseOther(value) {
+			set(other, value, true);
+			set(otherReport, null);
+			set(error, "");
+			if (get(reviewer) === get(other)) set(reviewer, "");
+			otherRequest = send({
+				kind: "inspect",
+				owner: get(other),
+				load: true
+			});
+		}
+		function compare() {
+			const selected = get(reviewers).find((candidate) => candidate.owner === get(reviewer));
+			if (get(pending) || !get(canCompare) || !get(report) || !get(otherReport) || !selected) return;
+			set(pending, true);
+			set(error, "");
+			mutationRequest = send({
+				kind: "compare",
+				owner: get(owner),
+				revision: get(report).revision,
+				other: get(other),
+				other_revision: get(otherReport).revision,
+				reviewer: get(reviewer),
+				reviewer_thread: selected.threadId
+			});
+		}
+		function handoff() {
+			if (get(pending) || !get(report)?.canHandoff || !get(title).trim() || !get(instruction).trim() || get(destination)) return;
+			set(pending, true);
+			set(error, "");
+			mutationRequest = send({
+				kind: "handoff",
+				owner: get(owner),
+				revision: get(report).revision,
+				title: get(title).trim(),
+				instruction: get(instruction).trim()
+			});
+		}
+		function openDestination() {
+			if (!get(destination) || !get(forkReady)) return;
+			send({
+				kind: "open",
+				owner: get(destination)
+			});
+			dialog.close();
+		}
+		onMount(() => {
+			const receive = (event) => {
+				const d = event.detail;
+				if (!d?.requestId) return;
+				if (d.requestId === mutationRequest) {
+					mutationRequest = "";
+					set(pending, false);
+					if (d.error) {
+						set(error, d.error, true);
+						return;
+					}
+					if (d.result?.handoff) {
+						set(destination, d.result.destination, true);
+						set(notice, "Creating the native continuation…");
+						if (d.result.warning) set(error, d.result.warning, true);
+					} else if (d.result?.started) {
+						set(notice, "Comparison started in the selected Supervisor. Its result will appear in that conversation.");
+						dialog.close();
+					}
+					return;
+				}
+				if (!dialog.open) return;
+				if (d.requestId !== mainRequest && d.requestId !== otherRequest) return;
+				if (d.error) {
+					if (d.requestId === mainRequest) {
+						mainRequest = "";
+						clearTimeout(inspectTimeout);
+					} else otherRequest = "";
+					set(error, d.error, true);
+					return;
+				}
+				if (d.requestId === mainRequest) {
+					mainRequest = "";
+					clearTimeout(inspectTimeout);
+					if (d.result?.report?.owner !== get(owner)) return;
+					set(report, d.result.report, true);
+					set(candidates, d.result.candidates || [], true);
+					if (!get(title)) set(title, `Handoff · ${get(report)?.title || "Work"}`.slice(0, 80), true);
+				} else {
+					otherRequest = "";
+					if (d.result?.report?.owner === get(other)) set(otherReport, d.result.report, true);
+				}
+			};
+			const nativeUpdate = (event) => {
+				if (!dialog.open) return;
+				const d = event.detail;
+				if (get(destination) && (d?.owner === get(destination) || d?.owner === get(owner))) {
+					if (d.error) {
+						set(pending, false);
+						set(error, d.error, true);
+						set(notice, "The continuation may need recovery. Inspect the new card before retrying.");
+						return;
+					}
+					if (d.owner === get(destination) && d.change === "forked" || d.owner === get(owner) && d.change === "branched" && d.nativeConversation?.lastBranch?.owner === get(destination)) {
+						set(forkReady, true);
+						set(notice, "Ready. The new agent retains the native history and attachments. Open it, choose its model and send the prepared continuation.");
+					}
+				}
+				if (!get(pending) && !get(destination) && [get(owner), get(other)].includes(d?.owner)) {
+					if ([
+						"opened",
+						"history_hydrated",
+						"updated"
+					].includes(d.change)) refresh(true);
+					else if (["work_history_loading", "work_history_loaded"].includes(d.change)) refresh(false);
+					else if (d.change === "stream") {
+						const previous = d.owner === get(owner) ? get(report) : get(otherReport);
+						if (previous && typeof d.nativeConversation?.busy === "boolean" && previous.busy !== d.nativeConversation.busy) refresh(false);
+					}
+				}
+				if (d?.error && [get(owner), get(other)].includes(d.owner)) set(error, d.error, true);
+			};
+			window.addEventListener("central-agent:work-results", receive);
+			window.addEventListener("central-agent:app-server-conversation", nativeUpdate);
+			return () => {
+				clearTimeout(inspectTimeout);
+				window.removeEventListener("central-agent:work-results", receive);
+				window.removeEventListener("central-agent:app-server-conversation", nativeUpdate);
+			};
+		});
+		var $$exports = { open };
+		var dialog_1 = root_17$2();
+		let classes;
+		var header = child(dialog_1);
+		var div = child(header);
+		var text = only_child(child(div), true);
+		next();
+		reset(div);
+		var button = sibling(div);
+		reset(header);
+		var node = sibling(header, 2);
+		var consequent = ($$anchor) => {
+			var p = root$4();
+			var text_1 = only_child(p, true);
+			template_effect(() => set_text(text_1, get(error)));
+			append($$anchor, p);
+		};
+		if_block(node, ($$render) => {
+			if (get(error)) $$render(consequent);
+		});
+		var node_1 = sibling(node, 2);
+		var consequent_1 = ($$anchor) => {
+			var p_1 = root_1$3();
+			var text_2 = only_child(p_1, true);
+			template_effect(() => set_text(text_2, get(notice)));
+			append($$anchor, p_1);
+		};
+		if_block(node_1, ($$render) => {
+			if (get(notice)) $$render(consequent_1);
+		});
+		var node_2 = sibling(node_1, 2);
+		var consequent_4 = ($$anchor) => {
+			var fragment = root_4$3();
+			var input = sibling(first_child(fragment), 5);
+			remove_input_defaults(input);
+			var textarea = sibling(input, 3);
+			remove_textarea_child(textarea);
+			var node_3 = sibling(textarea, 2);
+			var consequent_2 = ($$anchor) => {
+				append($$anchor, root_2$3());
+			};
+			if_block(node_3, ($$render) => {
+				if (get(report) && !get(report).canHandoff) $$render(consequent_2);
+			});
+			var node_4 = sibling(node_3, 2);
+			var consequent_3 = ($$anchor) => {
+				var details = root_3$3();
+				var summary = child(details);
+				var text_3 = only_child(summary);
+				WorkEvidence(sibling(summary), { get report() {
+					return get(report);
+				} });
+				reset(details);
+				template_effect(() => set_text(text_3, `Source work · ${get(report).title ?? ""}`));
+				append($$anchor, details);
+			};
+			if_block(node_4, ($$render) => {
+				if (get(report)) $$render(consequent_3);
+			});
+			template_effect(() => {
+				input.disabled = get(pending) || !!get(destination);
+				textarea.disabled = get(pending) || !!get(destination);
+			});
+			bind_value(input, () => get(title), ($$value) => set(title, $$value));
+			bind_value(textarea, () => get(instruction), ($$value) => set(instruction, $$value));
+			append($$anchor, fragment);
+		};
+		var alternate_1 = ($$anchor) => {
+			var fragment_1 = root_12$2();
+			var node_6 = first_child(fragment_1);
+			var consequent_7 = ($$anchor) => {
+				var fragment_2 = root_7$2();
+				var node_7 = first_child(fragment_2);
+				{
+					let $0 = /* @__PURE__ */ user_derived(() => get(pending) || !get(report) || !get(candidates).some((candidate) => !candidate.busy));
+					let $1 = /* @__PURE__ */ user_derived(() => [{
+						value: "",
+						label: "Choose a conversation",
+						disabled: true
+					}, ...get(candidates).map((candidate) => ({
+						value: candidate.owner,
+						label: candidate.title,
+						disabled: candidate.busy
+					}))]);
+					SettingsPicker(node_7, {
+						id: "work-other",
+						label: "Other attempt",
+						presentation: "workspace",
+						contained: true,
+						get value() {
+							return get(other);
+						},
+						get disabled() {
+							return get($0);
+						},
+						get options() {
+							return get($1);
+						},
+						onSelect: chooseOther
+					});
+				}
+				var node_8 = sibling(node_7, 2);
+				var consequent_5 = ($$anchor) => {
+					append($$anchor, root_5$2());
+				};
+				var consequent_6 = ($$anchor) => {
+					append($$anchor, root_6$2());
+				};
+				var d_1 = /* @__PURE__ */ user_derived(() => get(report) && get(candidates).every((candidate) => candidate.busy));
+				if_block(node_8, ($$render) => {
+					if (get(report) && !get(candidates).length) $$render(consequent_5);
+					else if (get(d_1)) $$render(consequent_6, 1);
+				});
+				append($$anchor, fragment_2);
+			};
+			if_block(node_6, ($$render) => {
+				if (get(mode) === "compare") $$render(consequent_7);
+			});
+			var div_1 = sibling(node_6, 2);
+			var node_9 = child(div_1);
+			var consequent_8 = ($$anchor) => {
+				WorkEvidence($$anchor, { get report() {
+					return get(report);
+				} });
+			};
+			var consequent_9 = ($$anchor) => {
+				append($$anchor, root_8$2());
+			};
+			var alternate = ($$anchor) => {
+				append($$anchor, root_9$2());
+			};
+			if_block(node_9, ($$render) => {
+				if (get(report)) $$render(consequent_8);
+				else if (get(error)) $$render(consequent_9, 1);
+				else $$render(alternate, -1);
+			});
+			var node_10 = sibling(node_9);
+			var consequent_10 = ($$anchor) => {
+				WorkEvidence($$anchor, { get report() {
+					return get(otherReport);
+				} });
+			};
+			if_block(node_10, ($$render) => {
+				if (get(mode) === "compare" && get(otherReport)) $$render(consequent_10);
+			});
+			reset(div_1);
+			var node_11 = sibling(div_1, 2);
+			var consequent_12 = ($$anchor) => {
+				var fragment_5 = root_11$2();
+				var node_12 = first_child(fragment_5);
+				{
+					let $0 = /* @__PURE__ */ user_derived(() => get(pending) || !get(report) || !get(reviewers).length);
+					let $1 = /* @__PURE__ */ user_derived(() => [{
+						value: "",
+						label: "Choose an idle Supervisor",
+						disabled: true
+					}, ...get(reviewers).map((candidate) => ({
+						value: candidate.owner,
+						label: candidate.title
+					}))]);
+					SettingsPicker(node_12, {
+						id: "work-reviewer",
+						label: "Review with",
+						presentation: "workspace",
+						contained: true,
+						get value() {
+							return get(reviewer);
+						},
+						get disabled() {
+							return get($0);
+						},
+						get options() {
+							return get($1);
+						},
+						onSelect: (value) => set(reviewer, value, true)
+					});
+				}
+				var node_13 = sibling(node_12, 4);
+				var consequent_11 = ($$anchor) => {
+					append($$anchor, root_10$2());
+				};
+				if_block(node_13, ($$render) => {
+					if (get(report) && !get(reviewers).length) $$render(consequent_11);
+				});
+				append($$anchor, fragment_5);
+			};
+			if_block(node_11, ($$render) => {
+				if (get(mode) === "compare") $$render(consequent_12);
+			});
+			append($$anchor, fragment_1);
+		};
+		if_block(node_2, ($$render) => {
+			if (get(mode) === "handoff") $$render(consequent_4);
+			else $$render(alternate_1, -1);
+		});
+		var footer = sibling(node_2, 2);
+		var button_1 = child(footer);
+		var div_2 = sibling(button_1);
+		var node_14 = child(div_2);
+		var consequent_13 = ($$anchor) => {
+			var button_2 = root_13$2();
+			var text_4 = only_child(button_2, true);
+			template_effect(() => {
+				button_2.disabled = get(pending) || !get(canCompare);
+				set_text(text_4, get(pending) ? "Starting…" : "Ask Supervisor");
+			});
+			delegated("click", button_2, compare);
+			append($$anchor, button_2);
+		};
+		var consequent_15 = ($$anchor) => {
+			var fragment_6 = comment$1();
+			var node_15 = first_child(fragment_6);
+			var consequent_14 = ($$anchor) => {
+				var button_3 = root_14$2();
+				template_effect(() => button_3.disabled = !get(forkReady));
+				delegated("click", button_3, openDestination);
+				append($$anchor, button_3);
+			};
+			var alternate_2 = ($$anchor) => {
+				var button_4 = root_15$2();
+				var text_5 = only_child(button_4, true);
+				template_effect(($0) => {
+					button_4.disabled = $0;
+					set_text(text_5, get(pending) ? "Creating…" : "Create handoff");
+				}, [() => get(pending) || !get(report)?.canHandoff || !get(title).trim() || !get(instruction).trim()]);
+				delegated("click", button_4, handoff);
+				append($$anchor, button_4);
+			};
+			if_block(node_15, ($$render) => {
+				if (get(destination)) $$render(consequent_14);
+				else $$render(alternate_2, -1);
+			});
+			append($$anchor, fragment_6);
+		};
+		var alternate_3 = ($$anchor) => {
+			var button_5 = root_16$2();
+			delegated("click", button_5, () => {
+				send({
+					kind: "open",
+					owner: get(owner)
+				});
+				dialog.close();
+			});
+			append($$anchor, button_5);
+		};
+		if_block(node_14, ($$render) => {
+			if (get(mode) === "compare") $$render(consequent_13);
+			else if (get(mode) === "handoff") $$render(consequent_15, 1);
+			else $$render(alternate_3, -1);
+		});
+		reset(div_2);
+		reset(footer);
+		reset(dialog_1);
+		bind_this(dialog_1, ($$value) => dialog = $$value, () => dialog);
+		template_effect(() => {
+			classes = set_class(dialog_1, 1, "work-dialog svelte-1t81hy1", null, classes, { comparing: get(mode) === "compare" });
+			set_text(text, get(heading));
+			button_1.disabled = get(pending) || !!get(destination);
+		});
+		event("close", dialog_1, () => {
+			mainRequest = "";
+			otherRequest = "";
+			clearTimeout(inspectTimeout);
+		});
+		delegated("keydown", dialog_1, (event) => {
+			if (event.key === "Escape") event.stopPropagation();
+		});
+		delegated("click", button, () => dialog.close());
+		delegated("click", button_1, () => refresh(true));
+		append($$anchor, dialog_1);
+		return pop($$exports);
+	}
+	delegate(["keydown", "click"]);
 	//#endregion
 	//#region src/lib/board-layout.ts
 	var limit = (value, fallback, min, max) => typeof value === "number" && Number.isFinite(value) ? Math.min(max, Math.max(min, value)) : fallback;
@@ -51041,35 +52193,42 @@ createHTML: (html) => {
 	}
 	//#endregion
 	//#region src/components/ProjectBoard.svelte
-	var root_1$3 = /* @__PURE__ */ from_html(`<div class="inline-card-slot svelte-wj6vyt"></div>`);
-	var root_2$3 = /* @__PURE__ */ from_html(`<p role="alert" class="svelte-wj6vyt"> </p>`);
-	var root_3$3 = /* @__PURE__ */ from_html(`<div class="board-dialog-backdrop svelte-wj6vyt" role="presentation"><div class="board-dialog svelte-wj6vyt" role="dialog" aria-modal="true" aria-labelledby="worktree-title"><form class="svelte-wj6vyt"><h2 id="worktree-title" class="svelte-wj6vyt">New isolated task</h2><p class="svelte-wj6vyt">Create a branch and a linked working folder from the current HEAD. Your existing uncommitted changes stay in this project. Choose the destination in the next step.</p> <label for="worktree-name" class="svelte-wj6vyt">Task name</label><input id="worktree-name" maxlength="60" placeholder="For example, improve search" class="svelte-wj6vyt"/> <p class="svelte-wj6vyt">The worktree appears as its own project with a new conversation. Git history is shared; file changes remain separate.</p> <!><div class="dialog-actions svelte-wj6vyt"><button type="button" class="svelte-wj6vyt">Cancel</button><button class="dialog-primary svelte-wj6vyt" type="submit">Choose destination</button></div></form></div></div>`);
-	var root_4$3 = /* @__PURE__ */ from_html(`<div class="board-error svelte-wj6vyt" role="status"> <button type="button" aria-label="Dismiss message" class="svelte-wj6vyt">×</button></div>`);
-	var root_5$2 = /* @__PURE__ */ from_html(`<button class="saved-agents svelte-wj6vyt" type="button"> </button>`);
+	var root_1$2 = /* @__PURE__ */ from_html(`<div class="inline-card-slot svelte-wj6vyt"></div>`);
+	var root_2$2 = /* @__PURE__ */ from_html(`<p role="alert" class="svelte-wj6vyt"> </p>`);
+	var root_3$2 = /* @__PURE__ */ from_html(`<div class="board-dialog-backdrop svelte-wj6vyt" role="presentation"><div class="board-dialog svelte-wj6vyt" role="dialog" aria-modal="true" aria-labelledby="worktree-title"><form class="svelte-wj6vyt"><h2 id="worktree-title" class="svelte-wj6vyt">New isolated task</h2><p class="svelte-wj6vyt">This requires a Git project with committed files. Supervisor creates a new branch from the current commit; uncommitted changes stay in the original project.</p> <label for="worktree-name" class="svelte-wj6vyt">Task name</label><input id="worktree-name" maxlength="60" placeholder="For example, improve search" class="svelte-wj6vyt"/> <p class="svelte-wj6vyt">Next, choose a parent folder. Supervisor creates a new subfolder named after this task, then opens it as a project with its own conversation.</p> <!><div class="dialog-actions svelte-wj6vyt"><button type="button" class="svelte-wj6vyt">Cancel</button><button class="dialog-primary svelte-wj6vyt" type="submit">Choose parent folder</button></div></form></div></div>`);
+	var root_4$2 = /* @__PURE__ */ from_html(`<div class="board-error svelte-wj6vyt" role="status"> <button type="button" aria-label="Dismiss message" class="svelte-wj6vyt">×</button></div>`);
+	var root_5$1 = /* @__PURE__ */ from_html(`<button class="saved-agents svelte-wj6vyt" type="button"> </button>`);
 	var root_6$1 = /* @__PURE__ */ from_html(`<div class="empty-state svelte-wj6vyt"><span class="empty-symbol svelte-wj6vyt" aria-hidden="true">↳</span><strong class="svelte-wj6vyt"> </strong><p class="svelte-wj6vyt"> </p></div>`);
-	var root_7$1 = /* @__PURE__ */ from_html(`<div class="chat-actions svelte-wj6vyt" role="group" aria-label="Conversation actions"><strong class="svelte-wj6vyt"> </strong><button type="button" class="svelte-wj6vyt">Open conversation</button><button type="button" data-chat-action="rename" class="svelte-wj6vyt">Rename</button><button type="button" class="svelte-wj6vyt">Add supervisor to this chat</button><button type="button" data-chat-action="worktree" class="svelte-wj6vyt">New task in a worktree</button><button type="button" class="svelte-wj6vyt"> </button><button type="button" data-chat-action="delete" class="svelte-wj6vyt">Delete conversation</button><button type="button" class="svelte-wj6vyt">Close</button></div>`);
+	var root_7$1 = /* @__PURE__ */ from_html(`<div class="chat-actions svelte-wj6vyt" role="group" aria-label="Conversation actions"><strong class="svelte-wj6vyt"> </strong><button type="button" class="svelte-wj6vyt">Open conversation</button><button type="button" data-chat-action="rename" class="svelte-wj6vyt">Rename</button><button type="button" data-work-action="summary" class="svelte-wj6vyt">Work summary</button><button type="button" data-work-action="compare" class="svelte-wj6vyt">Compare attempts</button><button type="button" data-work-action="handoff" class="svelte-wj6vyt">Hand off</button><button type="button" class="svelte-wj6vyt">Add supervisor to this chat</button><button type="button" data-chat-action="worktree" class="svelte-wj6vyt">New task in a worktree</button><button type="button" class="svelte-wj6vyt"> </button><button type="button" data-chat-action="delete" class="svelte-wj6vyt">Delete conversation</button><button type="button" class="svelte-wj6vyt">Close</button></div>`);
 	var root_8$1 = /* @__PURE__ */ from_html(`<span class="agent-verification svelte-wj6vyt"><!></span>`);
-	var root_9$1 = /* @__PURE__ */ from_html(`<div class="agent-row-shell svelte-wj6vyt"><div><button type="button"><span class="agent-glyph svelte-wj6vyt" aria-hidden="true"><svg viewBox="0 0 24 24" class="svelte-wj6vyt"><path d="M4 7h10v10H4zM10 3h10v10M7 12h4"></path></svg></span> <span class="agent-copy svelte-wj6vyt"><strong class="svelte-wj6vyt"> </strong><small class="svelte-wj6vyt"> </small></span></button> <!> <button type="button" class="agent-row-menu svelte-wj6vyt" data-supervisor-menu-trigger="" aria-haspopup="menu"><svg viewBox="0 0 20 20" aria-hidden="true" class="svelte-wj6vyt"><circle cx="4" cy="10" r="1"></circle><circle cx="10" cy="10" r="1"></circle><circle cx="16" cy="10" r="1"></circle></svg></button></div> <!> <div class="inline-card-slot svelte-wj6vyt"></div></div>`);
-	var root_10$1 = /* @__PURE__ */ from_html(`<button class="primary svelte-wj6vyt" type="button">Add supervisor</button>`);
-	var root_11$1 = /* @__PURE__ */ from_html(`<div class="empty-state svelte-wj6vyt"><span class="empty-symbol svelte-wj6vyt" aria-hidden="true">⌘</span><strong class="svelte-wj6vyt">Your supervisor, here</strong><p class="svelte-wj6vyt"> </p><!></div>`);
-	var root_12$1 = /* @__PURE__ */ from_html(`<div class="agent-actions svelte-wj6vyt" role="menu"><strong class="svelte-wj6vyt"> </strong><button type="button" role="menuitem" data-supervisor-action="rename" class="svelte-wj6vyt">Rename</button><button type="button" role="menuitem" data-supervisor-action="delete" class="svelte-wj6vyt">Delete</button></div>`);
-	var root_13$1 = /* @__PURE__ */ from_html(`<p id="project-chat-title-error" class="dialog-error svelte-wj6vyt" role="alert"> </p>`);
-	var root_14$1 = /* @__PURE__ */ from_html(`<div class="board-dialog-backdrop svelte-wj6vyt" role="presentation"><div class="board-dialog svelte-wj6vyt" role="dialog" aria-modal="true" aria-labelledby="rename-project-chat-title"><form class="svelte-wj6vyt"><h2 id="rename-project-chat-title" class="svelte-wj6vyt">Rename project chat</h2> <p class="svelte-wj6vyt">Choose the title shown in this project, its conversation card and linked Supervisor selectors.</p> <label for="project-chat-title" class="svelte-wj6vyt">Title</label> <input id="project-chat-title" maxlength="120" autocomplete="off" class="svelte-wj6vyt"/> <!> <div class="dialog-actions svelte-wj6vyt"><button type="button" class="svelte-wj6vyt">Cancel</button><button class="dialog-primary svelte-wj6vyt" type="submit">Save title</button></div></form></div></div>`);
-	var root_15$1 = /* @__PURE__ */ from_html(`<div class="board-dialog-backdrop svelte-wj6vyt" role="presentation"><div class="board-dialog svelte-wj6vyt" role="alertdialog" aria-modal="true" aria-labelledby="delete-project-chat-title" aria-describedby="delete-project-chat-copy"><h2 id="delete-project-chat-title" class="svelte-wj6vyt">Delete conversation?</h2> <p id="delete-project-chat-copy" class="svelte-wj6vyt"><strong class="svelte-wj6vyt"> </strong> will be permanently removed from this project's local history. Project files and checkpoints remain unchanged.</p> <div class="dialog-actions svelte-wj6vyt"><button type="button" class="svelte-wj6vyt">Cancel</button><button class="dialog-primary svelte-wj6vyt" type="button" data-chat-confirm-delete="">Delete conversation</button></div></div></div>`);
-	var root_16$1 = /* @__PURE__ */ from_html(`<p id="supervisor-name-error" class="dialog-error svelte-wj6vyt" role="alert"> </p>`);
-	var root_17$1 = /* @__PURE__ */ from_html(`<div class="board-dialog svelte-wj6vyt" role="dialog" aria-modal="true" aria-labelledby="rename-supervisor-title"><form class="svelte-wj6vyt"><h2 id="rename-supervisor-title" class="svelte-wj6vyt">Rename supervisor</h2> <p class="svelte-wj6vyt">Choose the name shown on this saved supervisor card.</p> <label for="supervisor-name" class="svelte-wj6vyt">Name</label> <input id="supervisor-name" maxlength="80" autocomplete="off" class="svelte-wj6vyt"/> <!> <div class="dialog-actions svelte-wj6vyt"><button type="button" class="svelte-wj6vyt">Cancel</button><button class="dialog-primary svelte-wj6vyt" type="submit">Save name</button></div></form></div>`);
-	var root_18$1 = /* @__PURE__ */ from_html(`<div class="board-dialog svelte-wj6vyt" role="alertdialog" aria-modal="true" aria-labelledby="delete-supervisor-title" aria-describedby="delete-supervisor-copy"><h2 id="delete-supervisor-title" class="svelte-wj6vyt">Delete supervisor?</h2> <p id="delete-supervisor-copy" class="svelte-wj6vyt"><strong class="svelte-wj6vyt"> </strong>, its saved card and its local association will be removed. Linked project conversations and project files remain unchanged.</p> <div class="dialog-actions svelte-wj6vyt"><button type="button" class="svelte-wj6vyt">Cancel</button><button class="dialog-primary svelte-wj6vyt" type="button" data-supervisor-confirm-delete="">Delete supervisor</button></div></div>`);
-	var root_19$1 = /* @__PURE__ */ from_html(`<div class="board-dialog-backdrop svelte-wj6vyt" role="presentation"><!></div>`);
-	var root_20$1 = /* @__PURE__ */ from_html(`<!> <section aria-label="Projects, conversations, supervisors and files"><!> <div class="board-columns svelte-wj6vyt"><aside class="project-lane lane svelte-wj6vyt" aria-label="Projects" data-board-lane="projects"><div data-central-agent-svelte="project-registry" class="svelte-wj6vyt"><!></div> <!></aside> <button class="lane-resizer board-divider svelte-wj6vyt" type="button" aria-label="Resize projects column"></button> <div class="conversation-lanes svelte-wj6vyt"><button class="lane-resizer between-chats svelte-wj6vyt" type="button" aria-label="Resize conversation columns"></button> <section aria-label="Project chats" data-board-lane="chats"><header class="lane-heading svelte-wj6vyt"><div><h2 class="svelte-wj6vyt">Project chats</h2><p class="svelte-wj6vyt"> </p></div><button type="button" class="icon-button svelte-wj6vyt" aria-label="New project chat"><svg class="plus-icon svelte-wj6vyt" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10"></path></svg></button></header> <label class="search svelte-wj6vyt"><svg viewBox="0 0 20 20" aria-hidden="true" class="svelte-wj6vyt"><circle cx="8" cy="8" r="5"></circle><path d="m12 12 5 5"></path></svg><input type="search" placeholder="Find a conversation" aria-label="Find a project conversation" class="svelte-wj6vyt"/></label> <div id="project-chat-window-layer" class="project-chat-window-layer svelte-wj6vyt" aria-label="Open project conversation cards"><div class="chat-scroll svelte-wj6vyt"><!></div></div> <!></section> <section class="agent-lane lane svelte-wj6vyt" aria-label="Supervisor agents" data-board-lane="supervisors"><header class="lane-heading svelte-wj6vyt"><div><h2 class="svelte-wj6vyt">Supervisors</h2><p class="svelte-wj6vyt">Agents in this project</p></div><button type="button" class="icon-button svelte-wj6vyt" aria-label="New supervisor"><svg class="plus-icon svelte-wj6vyt" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10"></path></svg></button></header> <div id="agent-window-layer" class="agent-window-layer svelte-wj6vyt" aria-label="Saved agent cards"><div class="agent-list svelte-wj6vyt"><!> <!> <!></div> <!></div></section></div> <button class="lane-resizer board-divider svelte-wj6vyt" type="button" aria-label="Resize files column"></button> <section class="file-lane lane svelte-wj6vyt" aria-label="Project files" data-board-lane="files"><header class="lane-heading svelte-wj6vyt"><div><h2 class="svelte-wj6vyt">Project files</h2></div><button type="button" class="icon-button svelte-wj6vyt"> </button></header> <div class="files-content svelte-wj6vyt"><!> <!></div></section></div> <div class="card-parking svelte-wj6vyt" hidden=""></div></section> <!> <!> <!>`, 1);
+	var root_9$1 = /* @__PURE__ */ from_html(`<div class="agent-association-menu svelte-wj6vyt"><!></div>`);
+	var root_10$1 = /* @__PURE__ */ from_html(`<div class="agent-row-shell svelte-wj6vyt"><div><button type="button"><span class="agent-glyph svelte-wj6vyt" aria-hidden="true"><svg viewBox="0 0 24 24" class="svelte-wj6vyt"><path d="M4 7h10v10H4zM10 3h10v10M7 12h4"></path></svg></span> <span class="agent-copy svelte-wj6vyt"><strong class="svelte-wj6vyt"> </strong><small class="svelte-wj6vyt"> </small></span></button> <!> <!> <button type="button" class="agent-row-menu svelte-wj6vyt" data-supervisor-menu-trigger="" aria-haspopup="menu"><svg viewBox="0 0 20 20" aria-hidden="true" class="svelte-wj6vyt"><circle cx="4" cy="10" r="1"></circle><circle cx="10" cy="10" r="1"></circle><circle cx="16" cy="10" r="1"></circle></svg></button></div> <div class="inline-card-slot svelte-wj6vyt"></div></div>`);
+	var root_11$1 = /* @__PURE__ */ from_html(`<button class="primary svelte-wj6vyt" type="button">Add supervisor</button>`);
+	var root_12$1 = /* @__PURE__ */ from_html(`<div class="empty-state svelte-wj6vyt"><span class="empty-symbol svelte-wj6vyt" aria-hidden="true">⌘</span><strong class="svelte-wj6vyt">Your supervisor, here</strong><p class="svelte-wj6vyt"> </p><!></div>`);
+	var root_13$1 = /* @__PURE__ */ from_html(`<div class="agent-actions svelte-wj6vyt" role="menu"><strong class="svelte-wj6vyt"> </strong><button type="button" role="menuitem" data-supervisor-action="rename" class="svelte-wj6vyt">Rename</button><button type="button" role="menuitem" data-work-action="summary" class="svelte-wj6vyt">Work summary</button><button type="button" role="menuitem" data-work-action="compare" class="svelte-wj6vyt">Compare attempts</button><button type="button" role="menuitem" data-work-action="handoff" class="svelte-wj6vyt">Hand off</button><button type="button" role="menuitem" data-supervisor-action="delete" class="svelte-wj6vyt">Delete</button></div>`);
+	var root_14$1 = /* @__PURE__ */ from_html(`<p id="project-chat-title-error" class="dialog-error svelte-wj6vyt" role="alert"> </p>`);
+	var root_15$1 = /* @__PURE__ */ from_html(`<div class="board-dialog-backdrop svelte-wj6vyt" role="presentation"><div class="board-dialog svelte-wj6vyt" role="dialog" aria-modal="true" aria-labelledby="rename-project-chat-title"><form class="svelte-wj6vyt"><h2 id="rename-project-chat-title" class="svelte-wj6vyt">Rename project chat</h2> <p class="svelte-wj6vyt">Choose the title shown in this project, its conversation card and linked Supervisor selectors.</p> <label for="project-chat-title" class="svelte-wj6vyt">Title</label> <input id="project-chat-title" maxlength="120" autocomplete="off" class="svelte-wj6vyt"/> <!> <div class="dialog-actions svelte-wj6vyt"><button type="button" class="svelte-wj6vyt">Cancel</button><button class="dialog-primary svelte-wj6vyt" type="submit">Save title</button></div></form></div></div>`);
+	var root_16$1 = /* @__PURE__ */ from_html(`<div class="board-dialog-backdrop svelte-wj6vyt" role="presentation"><div class="board-dialog svelte-wj6vyt" role="alertdialog" aria-modal="true" aria-labelledby="delete-project-chat-title" aria-describedby="delete-project-chat-copy"><h2 id="delete-project-chat-title" class="svelte-wj6vyt">Delete conversation?</h2> <p id="delete-project-chat-copy" class="svelte-wj6vyt"><strong class="svelte-wj6vyt"> </strong> will be permanently removed from this project's local history. Project files and checkpoints remain unchanged.</p> <div class="dialog-actions svelte-wj6vyt"><button type="button" class="svelte-wj6vyt">Cancel</button><button class="dialog-primary svelte-wj6vyt" type="button" data-chat-confirm-delete="">Delete conversation</button></div></div></div>`);
+	var root_17$1 = /* @__PURE__ */ from_html(`<p id="supervisor-name-error" class="dialog-error svelte-wj6vyt" role="alert"> </p>`);
+	var root_18$1 = /* @__PURE__ */ from_html(`<div class="board-dialog svelte-wj6vyt" role="dialog" aria-modal="true" aria-labelledby="rename-supervisor-title"><form class="svelte-wj6vyt"><h2 id="rename-supervisor-title" class="svelte-wj6vyt">Rename supervisor</h2> <p class="svelte-wj6vyt">Choose the name shown on this saved supervisor card.</p> <label for="supervisor-name" class="svelte-wj6vyt">Name</label> <input id="supervisor-name" maxlength="80" autocomplete="off" class="svelte-wj6vyt"/> <!> <div class="dialog-actions svelte-wj6vyt"><button type="button" class="svelte-wj6vyt">Cancel</button><button class="dialog-primary svelte-wj6vyt" type="submit">Save name</button></div></form></div>`);
+	var root_19$1 = /* @__PURE__ */ from_html(`<div class="board-dialog svelte-wj6vyt" role="alertdialog" aria-modal="true" aria-labelledby="delete-supervisor-title" aria-describedby="delete-supervisor-copy"><h2 id="delete-supervisor-title" class="svelte-wj6vyt">Delete supervisor?</h2> <p id="delete-supervisor-copy" class="svelte-wj6vyt"><strong class="svelte-wj6vyt"> </strong>, its saved card and its local association will be removed. Linked project conversations and project files remain unchanged.</p> <div class="dialog-actions svelte-wj6vyt"><button type="button" class="svelte-wj6vyt">Cancel</button><button class="dialog-primary svelte-wj6vyt" type="button" data-supervisor-confirm-delete="">Delete supervisor</button></div></div>`);
+	var root_20$1 = /* @__PURE__ */ from_html(`<div class="board-dialog-backdrop svelte-wj6vyt" role="presentation"><!></div>`);
+	var root_21$1 = /* @__PURE__ */ from_html(`<!> <!> <section aria-label="Projects, conversations, supervisors and files"><!> <div class="board-columns svelte-wj6vyt"><aside class="project-lane lane svelte-wj6vyt" aria-label="Projects" data-board-lane="projects"><div data-central-agent-svelte="project-registry" class="svelte-wj6vyt"><!></div> <!></aside> <button class="lane-resizer board-divider svelte-wj6vyt" type="button" aria-label="Resize projects column"></button> <div class="conversation-lanes svelte-wj6vyt"><button class="lane-resizer between-chats svelte-wj6vyt" type="button" aria-label="Resize conversation columns"></button> <section aria-label="Project chats" data-board-lane="chats"><header class="lane-heading svelte-wj6vyt"><div><h2 class="svelte-wj6vyt">Project chats</h2><p class="svelte-wj6vyt"> </p></div><button type="button" class="icon-button svelte-wj6vyt" aria-label="New project chat"><svg class="plus-icon svelte-wj6vyt" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10"></path></svg></button></header> <label class="search svelte-wj6vyt"><svg viewBox="0 0 20 20" aria-hidden="true" class="svelte-wj6vyt"><circle cx="8" cy="8" r="5"></circle><path d="m12 12 5 5"></path></svg><input type="search" placeholder="Find a conversation" aria-label="Find a project conversation" class="svelte-wj6vyt"/></label> <div id="project-chat-window-layer" class="project-chat-window-layer svelte-wj6vyt" aria-label="Open project conversation cards"><div class="chat-scroll svelte-wj6vyt"><!></div></div> <!></section> <section class="agent-lane lane svelte-wj6vyt" aria-label="Supervisor agents" data-board-lane="supervisors"><header class="lane-heading svelte-wj6vyt"><div><h2 class="svelte-wj6vyt">Supervisors</h2><p class="svelte-wj6vyt">Agents in this project</p></div><button type="button" class="icon-button svelte-wj6vyt" aria-label="New supervisor"><svg class="plus-icon svelte-wj6vyt" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10"></path></svg></button></header> <div id="agent-window-layer" class="agent-window-layer svelte-wj6vyt" aria-label="Saved agent cards"><div class="agent-list svelte-wj6vyt"><!> <!> <!></div> <!></div></section></div> <button class="lane-resizer board-divider svelte-wj6vyt" type="button" aria-label="Resize files column"></button> <section class="file-lane lane svelte-wj6vyt" aria-label="Project files" data-board-lane="files"><header class="lane-heading svelte-wj6vyt"><div><h2 class="svelte-wj6vyt">Project files</h2></div><button type="button" class="icon-button svelte-wj6vyt"> </button></header> <div class="files-content svelte-wj6vyt"><!> <!></div></section></div> <div class="card-parking svelte-wj6vyt" hidden=""></div></section> <!> <!> <!>`, 1);
 	function ProjectBoard($$anchor, $$props) {
 		push($$props, true);
 		const chatCard = ($$anchor, chat = noop) => {
-			var div = root_1$3();
+			var div = root_1$2();
 			action(div, ($$node, $$action_arg) => cardSlot?.($$node, $$action_arg), () => `chat:${chat().id}`);
 			append($$anchor, div);
 		};
 		let snapshot = /* @__PURE__ */ state(proxy({}));
 		let registry;
+		let workResults;
+		function showWork(owner, mode) {
+			set(chatMenu, null);
+			set(agentMenu, null);
+			workResults.open(owner, mode);
+		}
 		let selectedKey = /* @__PURE__ */ state("");
 		let selectedChat = /* @__PURE__ */ state(null);
 		let selectedAgent = /* @__PURE__ */ state(null);
@@ -51450,7 +52609,14 @@ createHTML: (html) => {
 				left: Math.max(8, Math.min(bounds.right - 196, window.innerWidth - 204))
 			}, true);
 			set(agentMenu, agent, true);
-			tick().then(() => get(agentMenuElement)?.querySelector("button")?.focus());
+			tick().then(() => {
+				if (!get(agentMenuElement)) return;
+				set(agentMenuPosition, {
+					...get(agentMenuPosition),
+					top: Math.max(8, Math.min(bounds.bottom + 6, window.innerHeight - get(agentMenuElement).offsetHeight - 8))
+				}, true);
+				get(agentMenuElement).querySelector("button")?.focus();
+			});
 		}
 		function renameSupervisor() {
 			if (!get(agentMenu)) return;
@@ -51647,26 +52813,41 @@ createHTML: (html) => {
 			revealAgent,
 			focusWork
 		};
-		var fragment = root_20$1();
+		var fragment = root_21$1();
 		event("keydown", $window, boardKeydown);
 		var node_1 = first_child(fragment);
+		{
+			let $0 = /* @__PURE__ */ user_derived(() => get(snapshot).expanded !== false);
+			bind_this(WorkResults(node_1, {
+				get eventTarget() {
+					return $$props.eventTarget;
+				},
+				get projectKey() {
+					return get(selectedKey);
+				},
+				get active() {
+					return get($0);
+				}
+			}), ($$value) => workResults = $$value, () => workResults);
+		}
+		var node_2 = sibling(node_1, 2);
 		var consequent_1 = ($$anchor) => {
-			var div_1 = root_3$3();
+			var div_1 = root_3$2();
 			var div_2 = child(div_1);
 			var form = child(div_2);
 			var input = sibling(child(form), 4);
 			remove_input_defaults(input);
-			var node_2 = sibling(input, 4);
+			var node_3 = sibling(input, 4);
 			var consequent = ($$anchor) => {
-				var p = root_2$3();
+				var p = root_2$2();
 				var text = only_child(p, true);
 				template_effect(() => set_text(text, get(isolateError)));
 				append($$anchor, p);
 			};
-			if_block(node_2, ($$render) => {
+			if_block(node_3, ($$render) => {
 				if (get(isolateError)) $$render(consequent);
 			});
-			var div_3 = sibling(node_2);
+			var div_3 = sibling(node_3);
 			var button = child(div_3);
 			next();
 			reset(div_3);
@@ -51690,14 +52871,14 @@ createHTML: (html) => {
 			delegated("click", button, () => set(isolate, false));
 			append($$anchor, div_1);
 		};
-		if_block(node_1, ($$render) => {
+		if_block(node_2, ($$render) => {
 			if (get(isolate)) $$render(consequent_1);
 		});
-		var section = sibling(node_1, 2);
+		var section = sibling(node_2, 2);
 		let classes;
-		var node_3 = child(section);
+		var node_4 = child(section);
 		var consequent_2 = ($$anchor) => {
-			var div_4 = root_4$3();
+			var div_4 = root_4$2();
 			var text_1 = child(div_4, true);
 			var button_1 = sibling(text_1);
 			reset(div_4);
@@ -51705,10 +52886,10 @@ createHTML: (html) => {
 			delegated("click", button_1, () => set(error, ""));
 			append($$anchor, div_4);
 		};
-		if_block(node_3, ($$render) => {
+		if_block(node_4, ($$render) => {
 			if (get(error)) $$render(consequent_2);
 		});
-		var div_5 = sibling(node_3, 2);
+		var div_5 = sibling(node_4, 2);
 		let styles;
 		var aside = child(div_5);
 		var div_6 = child(aside);
@@ -51722,9 +52903,9 @@ createHTML: (html) => {
 			}
 		}), ($$value) => registry = $$value, () => registry);
 		reset(div_6);
-		var node_5 = sibling(div_6, 2);
+		var node_6 = sibling(div_6, 2);
 		var consequent_3 = ($$anchor) => {
-			var button_2 = root_5$2();
+			var button_2 = root_5$1();
 			var text_2 = only_child(button_2);
 			template_effect(() => set_text(text_2, `Other saved agents · ${get(detached).length ?? ""}`));
 			delegated("click", button_2, () => {
@@ -51736,7 +52917,7 @@ createHTML: (html) => {
 			});
 			append($$anchor, button_2);
 		};
-		if_block(node_5, ($$render) => {
+		if_block(node_6, ($$render) => {
 			if (get(detached).length) $$render(consequent_3);
 		});
 		reset(aside);
@@ -51758,7 +52939,7 @@ createHTML: (html) => {
 		reset(label);
 		var div_9 = sibling(label, 2);
 		var div_10 = child(div_9);
-		var node_6 = child(div_10);
+		var node_7 = child(div_10);
 		var consequent_4 = ($$anchor) => {
 			{
 				let $0 = /* @__PURE__ */ user_derived(() => !!get(chatQuery));
@@ -51796,7 +52977,7 @@ createHTML: (html) => {
 			});
 			append($$anchor, div_11);
 		};
-		if_block(node_6, ($$render) => {
+		if_block(node_7, ($$render) => {
 			if (get(visibleChats).length) $$render(consequent_4);
 			else $$render(alternate, -1);
 		});
@@ -51804,7 +52985,7 @@ createHTML: (html) => {
 		bind_this(div_10, ($$value) => set(chatScroll, $$value), () => get(chatScroll));
 		reset(div_9);
 		bind_this(div_9, ($$value) => set(chatWindowLayer, $$value), () => get(chatWindowLayer));
-		var node_7 = sibling(div_9, 2);
+		var node_8 = sibling(div_9, 2);
 		var consequent_5 = ($$anchor) => {
 			var div_12 = root_7$1();
 			var strong_1 = child(div_12);
@@ -51814,74 +52995,81 @@ createHTML: (html) => {
 			var button_8 = sibling(button_7);
 			var button_9 = sibling(button_8);
 			var button_10 = sibling(button_9);
-			var text_7 = only_child(button_10, true);
 			var button_11 = sibling(button_10);
 			var button_12 = sibling(button_11);
+			var button_13 = sibling(button_12);
+			var text_7 = only_child(button_13, true);
+			var button_14 = sibling(button_13);
+			var button_15 = sibling(button_14);
 			reset(div_12);
 			bind_this(div_12, ($$value) => set(menuElement, $$value), () => get(menuElement));
 			template_effect(() => {
 				set_text(text_6, get(chatMenu).title);
-				button_9.disabled = get(selected)?.source !== "local";
+				button_10.disabled = get(chatMenu).mutationLocked;
+				button_12.disabled = get(selected)?.source !== "local";
 				set_text(text_7, get(chatMenu).pinned ? "Unpin conversation" : "Pin conversation");
-				button_11.disabled = get(chatMenu).mutationLocked;
+				button_14.disabled = get(chatMenu).mutationLocked;
 			});
 			delegated("click", button_6, () => {
 				if (get(chatMenu)) chooseChat(get(chatMenu));
 			});
 			delegated("click", button_7, renameProjectChat);
-			delegated("click", button_8, () => {
+			delegated("click", button_8, () => get(chatMenu) && showWork(`chat:${get(chatMenu).id}`, "summary"));
+			delegated("click", button_9, () => get(chatMenu) && showWork(`chat:${get(chatMenu).id}`, "compare"));
+			delegated("click", button_10, () => get(chatMenu) && showWork(`chat:${get(chatMenu).id}`, "handoff"));
+			delegated("click", button_11, () => {
 				newAgent();
 				set(chatMenu, null);
 			});
-			delegated("click", button_9, () => {
+			delegated("click", button_12, () => {
 				set(isolate, true);
 				set(isolateName, "");
 				set(isolateError, "");
 				set(chatMenu, null);
 			});
-			delegated("click", button_10, () => {
+			delegated("click", button_13, () => {
 				dispatch("pin-chat", {
 					chatId: get(chatMenu)?.id,
 					pinned: !get(chatMenu)?.pinned
 				});
 				set(chatMenu, null);
 			});
-			delegated("click", button_11, deleteProjectChat);
-			delegated("click", button_12, () => set(chatMenu, null));
+			delegated("click", button_14, deleteProjectChat);
+			delegated("click", button_15, () => set(chatMenu, null));
 			append($$anchor, div_12);
 		};
-		if_block(node_7, ($$render) => {
+		if_block(node_8, ($$render) => {
 			if (get(chatMenu)) $$render(consequent_5);
 		});
 		reset(section_1);
 		bind_this(section_1, ($$value) => set(chatLane, $$value), () => get(chatLane));
 		var section_2 = sibling(section_1, 2);
 		var header_1 = child(section_2);
-		var button_13 = sibling(child(header_1));
+		var button_16 = sibling(child(header_1));
 		reset(header_1);
 		var div_13 = sibling(header_1, 2);
 		var div_14 = child(div_13);
-		var node_8 = child(div_14);
-		each(node_8, 17, () => get(agents), (agent) => agentKey(agent), ($$anchor, agent) => {
+		var node_9 = child(div_14);
+		each(node_9, 17, () => get(agents), (agent) => agentKey(agent), ($$anchor, agent) => {
 			const verification = /* @__PURE__ */ user_derived(() => agentVerification(get(agent)));
-			var div_15 = root_9$1();
+			var div_15 = root_10$1();
 			var div_16 = child(div_15);
 			let classes_2;
-			var button_14 = child(div_16);
+			var button_17 = child(div_16);
 			let classes_3;
-			var span = sibling(child(button_14), 2);
+			var span = sibling(child(button_17), 2);
 			var strong_2 = child(span);
 			var text_8 = only_child(strong_2, true);
 			var text_9 = only_child(sibling(strong_2), true);
 			reset(span);
-			reset(button_14);
-			var node_9 = sibling(button_14, 2);
+			reset(button_17);
+			var node_10 = sibling(button_17, 2);
 			var consequent_6 = ($$anchor) => {
 				var span_1 = root_8$1();
-				var node_10 = child(span_1);
+				var node_11 = child(span_1);
 				{
 					let $0 = /* @__PURE__ */ user_derived(() => `supervisor-row:${agentKey(get(agent))}`);
-					TaskVerificationStatus(node_10, {
+					TaskVerificationStatus(node_11, {
 						get owner() {
 							return get($0);
 						},
@@ -51893,21 +53081,22 @@ createHTML: (html) => {
 				reset(span_1);
 				append($$anchor, span_1);
 			};
-			if_block(node_9, ($$render) => {
+			if_block(node_10, ($$render) => {
 				if (get(verification)) $$render(consequent_6);
 			});
-			var button_15 = sibling(node_9, 2);
-			reset(div_16);
-			var node_11 = sibling(div_16, 2);
+			var node_12 = sibling(node_10, 2);
 			var consequent_7 = ($$anchor) => {
+				var div_17 = root_9$1();
+				var node_13 = child(div_17);
 				{
 					let $0 = /* @__PURE__ */ user_derived(() => `graph:${agentKey(get(agent))}`);
 					let $1 = /* @__PURE__ */ user_derived(() => get(snapshot).expanded !== false);
-					BoardConversationMenu($$anchor, {
+					BoardConversationMenu(node_13, {
 						get owner() {
 							return get($0);
 						},
 						label: "Supervisor settings",
+						compact: true,
 						get active() {
 							return get($1);
 						},
@@ -51942,87 +53131,97 @@ createHTML: (html) => {
 						$$slots: { default: true }
 					});
 				}
+				reset(div_17);
+				append($$anchor, div_17);
 			};
 			var d_1 = /* @__PURE__ */ user_derived(() => get(selectedAgent) === agentKey(get(agent)) && get(selected)?.source === "local");
-			if_block(node_11, ($$render) => {
+			if_block(node_12, ($$render) => {
 				if (get(d_1)) $$render(consequent_7);
 			});
-			action(sibling(node_11, 2), ($$node, $$action_arg) => cardSlot?.($$node, $$action_arg), () => `graph:${agentKey(get(agent))}`);
+			var button_18 = sibling(node_12, 2);
+			reset(div_16);
+			action(sibling(div_16, 2), ($$node, $$action_arg) => cardSlot?.($$node, $$action_arg), () => `graph:${agentKey(get(agent))}`);
 			reset(div_15);
 			template_effect(($0, $1, $2, $3) => {
 				classes_2 = set_class(div_16, 1, "agent-row-head svelte-wj6vyt", null, classes_2, { verified: !!get(verification) });
-				classes_3 = set_class(button_14, 1, "agent-row svelte-wj6vyt", null, classes_3, { selected: $0 });
-				set_attribute(button_14, "data-agent-key", $1);
+				classes_3 = set_class(button_17, 1, "agent-row svelte-wj6vyt", null, classes_3, { selected: $0 });
+				set_attribute(button_17, "data-agent-key", $1);
 				set_text(text_8, get(agent).name || "Supervisor");
 				set_text(text_9, $2);
-				set_attribute(button_15, "aria-label", `Actions for ${get(agent).name || "Supervisor"}`);
-				set_attribute(button_15, "aria-expanded", $3);
+				set_attribute(button_18, "aria-label", `Actions for ${get(agent).name || "Supervisor"}`);
+				set_attribute(button_18, "aria-expanded", $3);
 			}, [
 				() => get(selectedAgent) === agentKey(get(agent)),
 				() => agentKey(get(agent)),
 				() => association(get(agent)),
 				() => get(agentMenu) && agentKey(get(agentMenu)) === agentKey(get(agent))
 			]);
-			delegated("click", button_14, () => openAgent(get(agent)));
-			delegated("click", button_15, (event) => toggleAgentMenu(get(agent), event));
+			delegated("click", button_17, () => openAgent(get(agent)));
+			delegated("click", button_18, (event) => toggleAgentMenu(get(agent), event));
 			append($$anchor, div_15);
 		});
-		var node_12 = sibling(node_8, 2);
+		var node_14 = sibling(node_9, 2);
 		var consequent_8 = ($$anchor) => {
-			var div_18 = root_1$3();
-			action(div_18, ($$node, $$action_arg) => cardSlot?.($$node, $$action_arg), () => `graph:${get(selectedKey)}`);
-			append($$anchor, div_18);
-		};
-		var d_2 = /* @__PURE__ */ user_derived(() => get(selectedKey) && !get(agents).some((agent) => agentKey(agent) === get(selectedKey)));
-		if_block(node_12, ($$render) => {
-			if (get(d_2)) $$render(consequent_8);
-		});
-		var node_13 = sibling(node_12, 2);
-		var consequent_10 = ($$anchor) => {
-			var div_19 = root_11$1();
-			var p_3 = sibling(child(div_19), 2);
-			var text_10 = only_child(p_3, true);
-			var node_14 = sibling(p_3);
-			var consequent_9 = ($$anchor) => {
-				var button_16 = root_10$1();
-				delegated("click", button_16, newAgent);
-				append($$anchor, button_16);
-			};
-			if_block(node_14, ($$render) => {
-				if (get(selected)) $$render(consequent_9);
-			});
-			reset(div_19);
-			template_effect(() => set_text(text_10, get(selected) ? "Add an agent to coordinate and verify work in this project." : "Choose a project to see its agents."));
+			var div_19 = root_1$2();
+			action(div_19, ($$node, $$action_arg) => cardSlot?.($$node, $$action_arg), () => `graph:${get(selectedKey)}`);
 			append($$anchor, div_19);
 		};
-		if_block(node_13, ($$render) => {
+		var d_2 = /* @__PURE__ */ user_derived(() => get(selectedKey) && !get(agents).some((agent) => agentKey(agent) === get(selectedKey)));
+		if_block(node_14, ($$render) => {
+			if (get(d_2)) $$render(consequent_8);
+		});
+		var node_15 = sibling(node_14, 2);
+		var consequent_10 = ($$anchor) => {
+			var div_20 = root_12$1();
+			var p_3 = sibling(child(div_20), 2);
+			var text_10 = only_child(p_3, true);
+			var node_16 = sibling(p_3);
+			var consequent_9 = ($$anchor) => {
+				var button_19 = root_11$1();
+				delegated("click", button_19, newAgent);
+				append($$anchor, button_19);
+			};
+			if_block(node_16, ($$render) => {
+				if (get(selected)) $$render(consequent_9);
+			});
+			reset(div_20);
+			template_effect(() => set_text(text_10, get(selected) ? "Add an agent to coordinate and verify work in this project." : "Choose a project to see its agents."));
+			append($$anchor, div_20);
+		};
+		if_block(node_15, ($$render) => {
 			if (!get(agents).length) $$render(consequent_10);
 		});
 		reset(div_14);
 		bind_this(div_14, ($$value) => set(agentList, $$value), () => get(agentList));
-		var node_15 = sibling(div_14, 2);
+		var node_17 = sibling(div_14, 2);
 		var consequent_11 = ($$anchor) => {
-			var div_20 = root_12$1();
+			var div_21 = root_13$1();
 			let styles_2;
-			var strong_3 = child(div_20);
+			var strong_3 = child(div_21);
 			var text_11 = only_child(strong_3, true);
-			var button_17 = sibling(strong_3);
-			var button_18 = sibling(button_17);
-			reset(div_20);
-			bind_this(div_20, ($$value) => set(agentMenuElement, $$value), () => get(agentMenuElement));
+			var button_20 = sibling(strong_3);
+			var button_21 = sibling(button_20);
+			var button_22 = sibling(button_21);
+			var button_23 = sibling(button_22);
+			var button_24 = sibling(button_23);
+			reset(div_21);
+			bind_this(div_21, ($$value) => set(agentMenuElement, $$value), () => get(agentMenuElement));
 			template_effect(() => {
-				set_attribute(div_20, "aria-label", `Actions for ${get(agentMenu).name || "Supervisor"}`);
-				styles_2 = set_style(div_20, "", styles_2, {
+				set_attribute(div_21, "aria-label", `Actions for ${get(agentMenu).name || "Supervisor"}`);
+				styles_2 = set_style(div_21, "", styles_2, {
 					top: `${get(agentMenuPosition).top}px`,
 					left: `${get(agentMenuPosition).left}px`
 				});
 				set_text(text_11, get(agentMenu).name || "Supervisor");
 			});
-			delegated("click", button_17, renameSupervisor);
-			delegated("click", button_18, deleteSupervisor);
-			append($$anchor, div_20);
+			delegated("click", button_20, renameSupervisor);
+			delegated("click", button_21, () => get(agentMenu) && showWork(`graph:${agentKey(get(agentMenu))}`, "summary"));
+			delegated("click", button_22, () => get(agentMenu) && showWork(`graph:${agentKey(get(agentMenu))}`, "compare"));
+			delegated("click", button_23, () => get(agentMenu) && showWork(`graph:${agentKey(get(agentMenu))}`, "handoff"));
+			delegated("click", button_24, deleteSupervisor);
+			append($$anchor, div_21);
 		};
-		if_block(node_15, ($$render) => {
+		if_block(node_17, ($$render) => {
 			if (get(agentMenu)) $$render(consequent_11);
 		});
 		reset(div_13);
@@ -52031,18 +53230,18 @@ createHTML: (html) => {
 		bind_this(section_2, ($$value) => set(agentLane, $$value), () => get(agentLane));
 		reset(div_7);
 		bind_this(div_7, ($$value) => conversationLanes = $$value, () => conversationLanes);
-		var button_19 = sibling(div_7, 2);
-		var section_3 = sibling(button_19, 2);
+		var button_25 = sibling(div_7, 2);
+		var section_3 = sibling(button_25, 2);
 		var header_2 = child(section_3);
-		var div_21 = child(header_2);
-		var button_20 = sibling(div_21);
-		var text_12 = only_child(button_20, true);
+		var div_22 = child(header_2);
+		var button_26 = sibling(div_22);
+		var text_12 = only_child(button_26, true);
 		reset(header_2);
-		var div_22 = sibling(header_2, 2);
-		var node_16 = child(div_22);
+		var div_23 = sibling(header_2, 2);
+		var node_18 = child(div_23);
 		{
 			let $0 = /* @__PURE__ */ user_derived(() => get(selected)?.source === "ssh");
-			ProjectFileActivity(node_16, {
+			ProjectFileActivity(node_18, {
 				get work() {
 					return get(work);
 				},
@@ -52056,7 +53255,7 @@ createHTML: (html) => {
 				onOpen: openWorkFile
 			});
 		}
-		BoardFiles(sibling(node_16, 2), {
+		BoardFiles(sibling(node_18, 2), {
 			get project() {
 				return get(selected);
 			},
@@ -52068,130 +53267,130 @@ createHTML: (html) => {
 			},
 			onOpen: openWorkFile
 		});
-		reset(div_22);
+		reset(div_23);
 		reset(section_3);
 		reset(div_5);
 		bind_this(div_5, ($$value) => boardColumns = $$value, () => boardColumns);
 		bind_this(sibling(div_5, 2), ($$value) => parking = $$value, () => parking);
 		reset(section);
-		var node_18 = sibling(section, 2);
+		var node_20 = sibling(section, 2);
 		var consequent_13 = ($$anchor) => {
-			var div_24 = root_14$1();
-			var div_25 = child(div_24);
-			var form_1 = child(div_25);
+			var div_25 = root_15$1();
+			var div_26 = child(div_25);
+			var form_1 = child(div_26);
 			var input_2 = sibling(child(form_1), 6);
 			remove_input_defaults(input_2);
 			bind_this(input_2, ($$value) => set(chatTitleInput, $$value), () => get(chatTitleInput));
-			var node_19 = sibling(input_2, 2);
+			var node_21 = sibling(input_2, 2);
 			var consequent_12 = ($$anchor) => {
-				var p_4 = root_13$1();
+				var p_4 = root_14$1();
 				var text_13 = only_child(p_4, true);
 				template_effect(() => set_text(text_13, get(chatTitleError)));
 				append($$anchor, p_4);
 			};
-			if_block(node_19, ($$render) => {
+			if_block(node_21, ($$render) => {
 				if (get(chatTitleError)) $$render(consequent_12);
 			});
-			var div_26 = sibling(node_19, 2);
-			var button_21 = child(div_26);
+			var div_27 = sibling(node_21, 2);
+			var button_27 = child(div_27);
 			next();
-			reset(div_26);
+			reset(div_27);
 			reset(form_1);
+			reset(div_26);
 			reset(div_25);
-			reset(div_24);
 			template_effect(() => set_attribute(input_2, "aria-describedby", get(chatTitleError) ? "project-chat-title-error" : void 0));
 			event("submit", form_1, (event) => {
 				event.preventDefault();
 				submitChatTitle();
 			});
 			bind_value(input_2, () => get(chatTitle), ($$value) => set(chatTitle, $$value));
-			delegated("click", button_21, closeChatRename);
-			append($$anchor, div_24);
+			delegated("click", button_27, closeChatRename);
+			append($$anchor, div_25);
 		};
-		if_block(node_18, ($$render) => {
+		if_block(node_20, ($$render) => {
 			if (get(chatRenameDialog)) $$render(consequent_13);
 		});
-		var node_20 = sibling(node_18, 2);
+		var node_22 = sibling(node_20, 2);
 		var consequent_14 = ($$anchor) => {
-			var div_27 = root_15$1();
-			var div_28 = child(div_27);
-			var p_5 = sibling(child(div_28), 2);
+			var div_28 = root_16$1();
+			var div_29 = child(div_28);
+			var p_5 = sibling(child(div_29), 2);
 			var text_14 = only_child(child(p_5), true);
 			next();
 			reset(p_5);
-			var div_29 = sibling(p_5, 2);
-			var button_22 = child(div_29);
-			var button_23 = sibling(button_22);
+			var div_30 = sibling(p_5, 2);
+			var button_28 = child(div_30);
+			var button_29 = sibling(button_28);
+			reset(div_30);
 			reset(div_29);
 			reset(div_28);
-			reset(div_27);
 			template_effect(() => set_text(text_14, get(chatDeleteDialog).title || "New chat"));
-			delegated("click", button_22, closeChatDelete);
-			delegated("click", button_23, confirmDeleteProjectChat);
-			append($$anchor, div_27);
+			delegated("click", button_28, closeChatDelete);
+			delegated("click", button_29, confirmDeleteProjectChat);
+			append($$anchor, div_28);
 		};
-		if_block(node_20, ($$render) => {
+		if_block(node_22, ($$render) => {
 			if (get(chatDeleteDialog)) $$render(consequent_14);
 		});
-		var node_21 = sibling(node_20, 2);
+		var node_23 = sibling(node_22, 2);
 		var consequent_17 = ($$anchor) => {
-			var div_30 = root_19$1();
-			var node_22 = child(div_30);
+			var div_31 = root_20$1();
+			var node_24 = child(div_31);
 			var consequent_16 = ($$anchor) => {
-				var div_31 = root_17$1();
-				var form_2 = child(div_31);
+				var div_32 = root_18$1();
+				var form_2 = child(div_32);
 				var input_3 = sibling(child(form_2), 6);
 				remove_input_defaults(input_3);
 				bind_this(input_3, ($$value) => set(supervisorNameInput, $$value), () => get(supervisorNameInput));
-				var node_23 = sibling(input_3, 2);
+				var node_25 = sibling(input_3, 2);
 				var consequent_15 = ($$anchor) => {
-					var p_6 = root_16$1();
+					var p_6 = root_17$1();
 					var text_15 = only_child(p_6, true);
 					template_effect(() => set_text(text_15, get(supervisorNameError)));
 					append($$anchor, p_6);
 				};
-				if_block(node_23, ($$render) => {
+				if_block(node_25, ($$render) => {
 					if (get(supervisorNameError)) $$render(consequent_15);
 				});
-				var div_32 = sibling(node_23, 2);
-				var button_24 = child(div_32);
+				var div_33 = sibling(node_25, 2);
+				var button_30 = child(div_33);
 				next();
-				reset(div_32);
+				reset(div_33);
 				reset(form_2);
-				reset(div_31);
+				reset(div_32);
 				template_effect(() => set_attribute(input_3, "aria-describedby", get(supervisorNameError) ? "supervisor-name-error" : void 0));
 				event("submit", form_2, (event) => {
 					event.preventDefault();
 					submitSupervisorName();
 				});
 				bind_value(input_3, () => get(supervisorName), ($$value) => set(supervisorName, $$value));
-				delegated("click", button_24, closeSupervisorDialog);
-				append($$anchor, div_31);
+				delegated("click", button_30, closeSupervisorDialog);
+				append($$anchor, div_32);
 			};
 			var alternate_1 = ($$anchor) => {
-				var div_33 = root_18$1();
-				var p_7 = sibling(child(div_33), 2);
+				var div_34 = root_19$1();
+				var p_7 = sibling(child(div_34), 2);
 				var text_16 = only_child(child(p_7), true);
 				next();
 				reset(p_7);
-				var div_34 = sibling(p_7, 2);
-				var button_25 = child(div_34);
-				var button_26 = sibling(button_25);
+				var div_35 = sibling(p_7, 2);
+				var button_31 = child(div_35);
+				var button_32 = sibling(button_31);
+				reset(div_35);
 				reset(div_34);
-				reset(div_33);
 				template_effect(() => set_text(text_16, get(supervisorDialog).name));
-				delegated("click", button_25, closeSupervisorDialog);
-				delegated("click", button_26, confirmDeleteSupervisor);
-				append($$anchor, div_33);
+				delegated("click", button_31, closeSupervisorDialog);
+				delegated("click", button_32, confirmDeleteSupervisor);
+				append($$anchor, div_34);
 			};
-			if_block(node_22, ($$render) => {
+			if_block(node_24, ($$render) => {
 				if (get(supervisorDialog).kind === "rename") $$render(consequent_16);
 				else $$render(alternate_1, -1);
 			});
-			reset(div_30);
-			append($$anchor, div_30);
+			reset(div_31);
+			append($$anchor, div_31);
 		};
-		if_block(node_21, ($$render) => {
+		if_block(node_23, ($$render) => {
 			if (get(supervisorDialog)) $$render(consequent_17);
 		});
 		template_effect(($0) => {
@@ -52207,12 +53406,12 @@ createHTML: (html) => {
 			classes_1 = set_class(section_1, 1, "chat-lane lane svelte-wj6vyt", null, classes_1, { previewing: get(openChatIds).length > 0 });
 			set_text(text_3, get(selected) ? `↳ ${get(selected).name}` : "Conversations & forks");
 			button_5.disabled = !get(selected) || get(selected).source === "ssh";
-			button_13.disabled = !get(selected);
-			set_attribute(div_21, "hidden", get(layout).filesHidden);
-			set_attribute(button_20, "aria-label", get(layout).filesHidden ? "Show project files" : "Hide project files");
-			set_attribute(button_20, "title", get(layout).filesHidden ? "Show project files" : "Hide project files");
-			set_text(text_12, get(layout).filesHidden ? "‹" : "›");
+			button_16.disabled = !get(selected);
 			set_attribute(div_22, "hidden", get(layout).filesHidden);
+			set_attribute(button_26, "aria-label", get(layout).filesHidden ? "Show project files" : "Hide project files");
+			set_attribute(button_26, "title", get(layout).filesHidden ? "Show project files" : "Hide project files");
+			set_text(text_12, get(layout).filesHidden ? "‹" : "›");
+			set_attribute(div_23, "hidden", get(layout).filesHidden);
 		}, [() => `minmax(210px,${get(layout).focus ? get(layout).focus.startsWith("chat:") ? 3 : 1 : get(layout).chatShare}fr) var(--board-section-spacing) minmax(210px,${get(layout).focus ? get(layout).focus.startsWith("graph:") ? 3 : 1 : 1 - get(layout).chatShare}fr)`]);
 		delegated("pointerdown", button_3, (event) => resizeLane(event, "projects"));
 		delegated("keydown", button_3, (event) => resizeKey(event, "projects"));
@@ -52220,10 +53419,10 @@ createHTML: (html) => {
 		delegated("keydown", button_4, (event) => resizeKey(event, "chats"));
 		delegated("click", button_5, () => get(selected) && dispatch("new-chat", { root: get(selected).path }));
 		bind_value(input_1, () => get(chatQuery), ($$value) => set(chatQuery, $$value));
-		delegated("click", button_13, newAgent);
-		delegated("pointerdown", button_19, (event) => resizeLane(event, "files"));
-		delegated("keydown", button_19, (event) => resizeKey(event, "files"));
-		delegated("click", button_20, () => {
+		delegated("click", button_16, newAgent);
+		delegated("pointerdown", button_25, (event) => resizeLane(event, "files"));
+		delegated("keydown", button_25, (event) => resizeKey(event, "files"));
+		delegated("click", button_26, () => {
 			get(layout).filesHidden = !get(layout).filesHidden;
 			saveLayout();
 		});
@@ -52305,158 +53504,13 @@ createHTML: (html) => {
 		if (aliases[value]) return aliases[value];
 		return settingsCategories.some((category) => category.id === value) ? value : null;
 	}
-	var entries = [
-		{
-			section: "settings-general",
-			title: "Appearance",
-			description: "Choose the light or dark app theme.",
-			keywords: "appearance theme light dark colors contrast tema chiaro scuro",
-			selector: "#appearance-theme-select-picker-button"
-		},
-		{
-			section: "settings-general",
-			title: "Search engine",
-			description: "Choose the service used by the address bar.",
-			keywords: "search engine google bing duckduckgo browser ricerca",
-			selector: "#search-engine-select-picker-button"
-		},
-		{
-			section: "settings-ai",
-			title: "Codex account",
-			description: "Sign in with ChatGPT and check the connection.",
-			keywords: "login subscription account openai app server abbonamento",
-			selector: "[data-central-agent-svelte='app-server-account']"
-		},
-		{
-			section: "settings-ai",
-			title: "Reload saved chats",
-			description: "Refresh chats that already load automatically when the app opens.",
-			keywords: "history cronologia reload restart riavvio",
-			selector: "[data-native-chat-reload]"
-		},
-		{
-			section: "settings-ai",
-			title: "Subscription usage",
-			description: "Check limits and reset times reported by Codex.",
-			keywords: "usage rate limits token quota reset utilizzo",
-			selector: "[data-native-rate-limits]"
-		},
-		{
-			section: "settings-ai",
-			title: "Other AI accounts",
-			description: "Connect Claude Code, Cursor, Copilot, Google or OpenCode.",
-			keywords: "claude cursor copilot google antigravity opencode provider login",
-			selector: "[data-settings-other-providers]"
-		},
-		{
-			section: "settings-ai",
-			title: "Account options",
-			description: "Reconnect, refresh, use a device code or sign out.",
-			keywords: "login device code logout disconnect reconnect sign out",
-			selector: "[data-settings-account-options]"
-		},
-		{
-			section: "settings-ai",
-			title: "Repair Codex on Windows",
-			description: "Prepare the protected Codex environment if commands cannot run.",
-			keywords: "repair troubleshoot fix sandbox windows install elevated setup commands",
-			selector: "[data-native-sandbox-setup]"
-		},
-		{
-			section: "settings-agent",
-			title: "Personality",
-			description: "Choose how the selected agent communicates.",
-			keywords: "personality response style tono carattere",
-			selector: "[data-config-section='response']"
-		},
-		{
-			section: "settings-agent",
-			title: "Codex workspace access",
-			description: "Choose native execution access shared by every Codex agent.",
-			keywords: "codex permissions execution sandbox read only workspace write full access persistent permessi",
-			selector: "#codex-workspace-access-select-picker-button"
-		},
-		{
-			section: "settings-agent",
-			title: "Reasoning summaries",
-			description: "Choose the detail shown while Codex works.",
-			keywords: "reasoning summary concise detailed ragionamento",
-			selector: "#reasoning-summary-select-picker-button"
-		},
-		{
-			section: "settings-codex-tools",
-			title: "Codex Skills",
-			description: "Choose native instructions for the selected Codex conversation.",
-			keywords: "codex tools skills instructions strumenti",
-			selector: "[data-config-section='tools']"
-		},
-		{
-			section: "settings-codex-tools",
-			title: "Plugins",
-			description: "Inspect the user-facing plugins installed in Codex. Choose a plugin from the message composer.",
-			keywords: "codex tools apps plugins connectors strumenti",
-			selector: "[data-config-section='tools'] .native-apps"
-		},
-		{
-			section: "settings-agent",
-			title: "Supervisor tool confirmations",
-			description: "Choose when Supervisor's browser, terminal, SSH and project tools ask for confirmation.",
-			keywords: "supervisor action approval confirmations authorize approve terminal ssh permission autorizzazione",
-			selector: "#supervisor-permission-select-picker-button"
-		},
-		{
-			section: "settings-workspace",
-			title: "Project folders",
-			description: "Add a folder and check where agents work.",
-			keywords: "workspace directory files file cartella progetto",
-			selector: ".workspace-card"
-		},
-		{
-			section: "settings-servers",
-			title: "Add an SSH server",
-			description: "Save the address, user and optional key path.",
-			keywords: "vps ssh host ip key chiave port username connection",
-			selector: "#ssh-profile-form"
-		},
-		{
-			section: "settings-servers",
-			title: "Remote desktop",
-			description: "Open an RDP or VNC session through SSH.",
-			keywords: "rdp vnc remote desktop linux ssh tunnel",
-			selector: ".remote-desktop-card"
-		},
-		{
-			section: "settings-system",
-			title: "Windows applications",
-			description: "Share application windows with compatible agents.",
-			keywords: "window awareness computer desktop schermo controllo",
-			selector: ".system-card"
-		},
-		{
-			section: "settings-system",
-			title: "Emergency stop",
-			description: "Resume Windows control after the global emergency stop.",
-			keywords: "emergency stop resume blocco",
-			selector: ".system-safety"
-		}
-	];
-	var normalize = (value) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-	function searchSettings(query) {
-		const words = normalize(query.trim()).split(/\s+/).filter(Boolean);
-		if (!words.length) return [];
-		return entries.filter((entry) => {
-			const category = settingsCategories.find((category) => category.id === entry.section);
-			const text = normalize(`${entry.title} ${entry.description} ${entry.keywords} ${category.title}`);
-			return words.every((word) => text.includes(word));
-		});
-	}
 	//#endregion
 	//#region src/components/SettingsNavigation.svelte
 	var root$3 = /* @__PURE__ */ from_svg(`<path></path>`);
-	var root_1$2 = /* @__PURE__ */ from_html(`<button type="button" role="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="svelte-1lgjgx5"></svg> <span> </span></button>`);
-	var root_2$2 = /* @__PURE__ */ from_html(`<button type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="svelte-1lgjgx5"></svg> <span> </span></button>`);
-	var root_3$2 = /* @__PURE__ */ from_html(`<div class="settings-secondary-tabs svelte-1lgjgx5"><!> <button class="settings-secondary-collapse svelte-1lgjgx5" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="svelte-1lgjgx5"><path d="m18 15-6-6-6 6"></path></svg></button></div>`);
-	var root_4$2 = /* @__PURE__ */ from_html(`<div class="settings-nav-stack svelte-1lgjgx5"><div class="settings-primary-tabs svelte-1lgjgx5" role="tablist" aria-label="Settings groups"></div> <!></div>`);
+	var root_1$1 = /* @__PURE__ */ from_html(`<button type="button" role="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="svelte-1lgjgx5"></svg> <span> </span></button>`);
+	var root_2$1 = /* @__PURE__ */ from_html(`<button type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="svelte-1lgjgx5"></svg> <span> </span></button>`);
+	var root_3$1 = /* @__PURE__ */ from_html(`<div class="settings-secondary-tabs svelte-1lgjgx5"><!> <button class="settings-secondary-collapse svelte-1lgjgx5" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="svelte-1lgjgx5"><path d="m18 15-6-6-6 6"></path></svg></button></div>`);
+	var root_4$1 = /* @__PURE__ */ from_html(`<div class="settings-nav-stack svelte-1lgjgx5"><div class="settings-primary-tabs svelte-1lgjgx5" role="tablist" aria-label="Settings groups"></div> <!></div>`);
 	function SettingsNavigation($$anchor, $$props) {
 		push($$props, true);
 		let secondaryOpen = /* @__PURE__ */ state(true);
@@ -52520,10 +53574,10 @@ createHTML: (html) => {
 			const next = $$props.active && group.categories.includes($$props.active) ? $$props.active : group.categories[0];
 			$$props.onSelect(next);
 		}
-		var div = root_4$2();
+		var div = root_4$1();
 		var div_1 = child(div);
 		each(div_1, 21, () => settingsGroups, index, ($$anchor, group) => {
-			var button = root_1$2();
+			var button = root_1$1();
 			let classes;
 			var svg = child(button);
 			each(svg, 21, () => groupIconPaths[get(group).id], index, ($$anchor, path) => {
@@ -52550,11 +53604,11 @@ createHTML: (html) => {
 			var fragment = comment$1();
 			var node_1 = first_child(fragment);
 			var consequent = ($$anchor) => {
-				var div_2 = root_3$2();
+				var div_2 = root_3$1();
 				var node_2 = child(div_2);
 				each(node_2, 17, () => get(group).categories, index, ($$anchor, id) => {
 					const category = /* @__PURE__ */ user_derived(() => categories.get(get(id)));
-					var button_1 = root_2$2();
+					var button_1 = root_2$1();
 					let classes_1;
 					var svg_1 = child(button_1);
 					each(svg_1, 21, () => categoryIconPaths[get(category).id], index, ($$anchor, path) => {
@@ -52596,23 +53650,14 @@ createHTML: (html) => {
 	delegate(["click"]);
 	//#endregion
 	//#region src/components/SettingsShell.svelte
-	var root$2 = /* @__PURE__ */ from_html(`<button class="settings-search-clear svelte-1tso7p" type="button" aria-label="Clear settings search">×</button>`);
-	var root_1$1 = /* @__PURE__ */ from_html(`<kbd class="svelte-1tso7p">Ctrl K</kbd>`);
-	var root_2$1 = /* @__PURE__ */ from_html(`<button class="settings-result svelte-1tso7p" type="button"><span class="settings-result-category svelte-1tso7p"> </span> <strong> </strong><span class="svelte-1tso7p"> </span></button>`);
-	var root_3$1 = /* @__PURE__ */ from_html(`<div class="settings-empty svelte-1tso7p"><p class="svelte-1tso7p">No matching settings. Try a provider name, “permissions” or “projects”.</p><button type="button" class="action svelte-1tso7p">Clear search</button></div>`);
-	var root_4$1 = /* @__PURE__ */ from_html(`<div class="settings-results svelte-1tso7p" aria-label="Settings search results"></div>`);
-	var root_5$1 = /* @__PURE__ */ from_html(`<div class="settings-shell svelte-1tso7p" role="dialog" aria-modal="true" aria-labelledby="settings-title" tabindex="-1"><header class="settings-topbar svelte-1tso7p"><h1 class="svelte-1tso7p">Settings</h1> <div class="settings-search svelte-1tso7p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true" class="svelte-1tso7p"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m16 16 5 5"></path></svg> <input id="settings-search" type="search" placeholder="Find a setting…" aria-label="Search settings" autocomplete="off" maxlength="120" class="svelte-1tso7p"/> <!></div> <button id="settings-back" class="settings-back svelte-1tso7p" type="button" aria-label="Back to workspace" title="Back to workspace"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="svelte-1tso7p"><path d="m15 18-6-6 6-6"></path><path d="M9 12h11"></path></svg></button></header> <nav id="settings-nav" class="settings-nav svelte-1tso7p" aria-label="Settings categories"><!></nav> <div class="settings-main svelte-1tso7p"><div class="settings-page-head svelte-1tso7p"><div class="settings-page-head-inner svelte-1tso7p"><div class="settings-page-title svelte-1tso7p"><h2 id="settings-title" class="svelte-1tso7p"><span class="visually-hidden svelte-1tso7p">Settings:</span><span id="settings-category-title"> </span></h2> <p aria-live="polite" class="svelte-1tso7p"> </p></div></div></div> <div id="settings-content" class="settings-content svelte-1tso7p" tabindex="-1"><div class="settings-reading-column svelte-1tso7p"><!> <div class="settings-pages svelte-1tso7p"></div></div></div></div></div>`);
+	var root$2 = /* @__PURE__ */ from_html(`<div class="settings-shell svelte-1tso7p" role="dialog" aria-modal="true" aria-labelledby="settings-title" tabindex="-1"><header class="settings-topbar svelte-1tso7p"><h1 class="svelte-1tso7p">Settings</h1> <button id="settings-back" class="settings-back svelte-1tso7p" type="button" aria-label="Back to workspace" title="Back to workspace"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="svelte-1tso7p"><path d="m15 18-6-6 6-6"></path><path d="M9 12h11"></path></svg></button></header> <nav id="settings-nav" class="settings-nav svelte-1tso7p" aria-label="Settings categories"><!></nav> <div class="settings-main svelte-1tso7p"><div class="settings-page-head svelte-1tso7p"><div class="settings-page-head-inner svelte-1tso7p"><div class="settings-page-title svelte-1tso7p"><h2 id="settings-title" class="svelte-1tso7p"><span class="visually-hidden svelte-1tso7p">Settings:</span><span id="settings-category-title"> </span></h2> <p class="svelte-1tso7p"> </p></div></div></div> <div id="settings-content" class="settings-content svelte-1tso7p" tabindex="-1"><div class="settings-reading-column svelte-1tso7p"><div class="settings-pages svelte-1tso7p"></div></div></div></div></div>`);
 	function SettingsShell($$anchor, $$props) {
 		push($$props, true);
 		let active = /* @__PURE__ */ state("settings-general");
-		let query = /* @__PURE__ */ state("");
 		let shell;
 		let pages;
 		let content;
-		let search;
 		const category = /* @__PURE__ */ user_derived(() => settingsCategories.find((item) => item.id === get(active)));
-		const searching = /* @__PURE__ */ user_derived(() => Boolean(get(query).trim()));
-		const results = /* @__PURE__ */ user_derived(() => searchSettings(get(query)));
 		const scrollPositions = /* @__PURE__ */ new Map();
 		let mounted = false;
 		let visible = false;
@@ -52638,14 +53683,13 @@ createHTML: (html) => {
 			revealActiveContent();
 		}
 		function rememberScroll() {
-			if (content && !get(query).trim()) scrollPositions.set(get(active), content.scrollTop);
+			if (content) scrollPositions.set(get(active), content.scrollTop);
 		}
 		function select(sectionId, selector) {
 			const resolved = resolveSettingsId(sectionId);
 			if (!resolved || pages?.querySelector("dialog[open]")) return false;
 			rememberScroll();
 			set(active, resolved, true);
-			set(query, "");
 			applySelection();
 			const current = ++revision;
 			tick().then(() => {
@@ -52691,35 +53735,12 @@ createHTML: (html) => {
 			tick().then(() => {
 				if (visible && content) {
 					revealActiveContent();
-					content.scrollTop = get(searching) ? 0 : scrollPositions.get(get(active)) || 0;
+					content.scrollTop = scrollPositions.get(get(active)) || 0;
 				}
 			});
 		}
-		function filter(value) {
-			if (!get(query).trim()) rememberScroll();
-			set(query, value, true);
-			revision++;
-			if (content) content.scrollTop = value.trim() ? 0 : scrollPositions.get(get(active)) || 0;
-		}
-		function clearSearch() {
-			filter("");
-			search.focus();
-		}
-		function searchKey(event) {
-			if (event.key === "Escape" && get(query)) {
-				event.preventDefault();
-				event.stopPropagation();
-				clearSearch();
-			}
-		}
 		function keyboard(event) {
 			if (!visible) return;
-			if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
-				event.preventDefault();
-				search.focus();
-				search.select();
-				return;
-			}
 			if (event.key !== "Tab" || event.defaultPrevented || document.querySelector("dialog[open],.modal:not([hidden]),.workspace-confirm-backdrop")) return;
 			const controls = [...shell.querySelectorAll("button,input,select,textarea,summary,a[href],[tabindex=\"0\"]")].filter((control) => !control.matches(":disabled,[hidden]") && control.getClientRects().length && getComputedStyle(control).visibility !== "hidden");
 			const first = controls[0], last = controls.at(-1);
@@ -52749,30 +53770,9 @@ createHTML: (html) => {
 			select,
 			visibilityChanged
 		};
-		var div = root_5$1();
+		var div = root$2();
 		event("keydown", $window, keyboard);
-		var header = child(div);
-		var div_1 = sibling(child(header), 2);
-		var input = sibling(child(div_1), 2);
-		remove_input_defaults(input);
-		bind_this(input, ($$value) => search = $$value, () => search);
-		var node = sibling(input, 2);
-		var consequent = ($$anchor) => {
-			var button_1 = root$2();
-			delegated("click", button_1, clearSearch);
-			append($$anchor, button_1);
-		};
-		var alternate = ($$anchor) => {
-			append($$anchor, root_1$1());
-		};
-		if_block(node, ($$render) => {
-			if (get(query)) $$render(consequent);
-			else $$render(alternate, -1);
-		});
-		reset(div_1);
-		next(2);
-		reset(header);
-		var nav = sibling(header, 2);
+		var nav = sibling(child(div), 2);
 		SettingsNavigation(child(nav), {
 			get active() {
 				return get(active);
@@ -52780,74 +53780,33 @@ createHTML: (html) => {
 			onSelect: (id) => select(id)
 		});
 		reset(nav);
-		var div_2 = sibling(nav, 2);
+		var div_1 = sibling(nav, 2);
+		var div_2 = child(div_1);
 		var div_3 = child(div_2);
 		var div_4 = child(div_3);
-		var div_5 = child(div_4);
-		var h2 = child(div_5);
+		var h2 = child(div_4);
 		var text = only_child(sibling(child(h2)), true);
 		reset(h2);
 		var text_1 = only_child(sibling(h2, 2), true);
-		reset(div_5);
 		reset(div_4);
 		reset(div_3);
-		var div_6 = sibling(div_3, 2);
-		var div_7 = child(div_6);
-		var node_2 = child(div_7);
-		var consequent_1 = ($$anchor) => {
-			var div_8 = root_4$1();
-			each(div_8, 21, () => get(results), index, ($$anchor, result) => {
-				var button_2 = root_2$1();
-				var span_1 = child(button_2);
-				var text_2 = only_child(span_1, true);
-				var strong = sibling(span_1, 2);
-				var text_3 = only_child(strong, true);
-				var text_4 = only_child(sibling(strong), true);
-				reset(button_2);
-				template_effect(($0) => {
-					set_text(text_2, $0);
-					set_text(text_3, get(result).title);
-					set_text(text_4, get(result).description);
-				}, [() => settingsCategories.find((category) => category.id === get(result).section).title]);
-				delegated("click", button_2, () => select(get(result).section, get(result).selector));
-				append($$anchor, button_2);
-			}, ($$anchor) => {
-				var div_9 = root_3$1();
-				var button_3 = sibling(child(div_9));
-				reset(div_9);
-				delegated("click", button_3, clearSearch);
-				append($$anchor, div_9);
-			});
-			reset(div_8);
-			append($$anchor, div_8);
-		};
-		if_block(node_2, ($$render) => {
-			if (get(searching)) $$render(consequent_1);
-		});
-		var div_10 = sibling(node_2, 2);
-		bind_this(div_10, ($$value) => pages = $$value, () => pages);
-		reset(div_7);
-		reset(div_6);
-		bind_this(div_6, ($$value) => content = $$value, () => content);
 		reset(div_2);
+		var div_5 = sibling(div_2, 2);
+		var div_6 = child(div_5);
+		bind_this(child(div_6), ($$value) => pages = $$value, () => pages);
+		reset(div_6);
+		reset(div_5);
+		bind_this(div_5, ($$value) => content = $$value, () => content);
+		reset(div_1);
 		reset(div);
 		bind_this(div, ($$value) => shell = $$value, () => shell);
 		template_effect(() => {
-			set_value(input, get(query));
-			set_text(text, get(searching) ? "Search results" : get(category).title);
-			set_text(text_1, get(searching) ? `${get(results).length} ${get(results).length === 1 ? "setting" : "settings"} found` : get(category).description);
-			set_attribute(div_10, "hidden", get(searching));
+			set_text(text, get(category).title);
+			set_text(text_1, get(category).description);
 		});
-		delegated("keydown", div, searchKey);
-		delegated("input", input, (event) => filter(event.currentTarget.value));
 		append($$anchor, div);
 		return pop($$exports);
 	}
-	delegate([
-		"keydown",
-		"input",
-		"click"
-	]);
 	//#endregion
 	//#region src/lib/app-server-account.ts
 	function emptyAppServerAccount() {

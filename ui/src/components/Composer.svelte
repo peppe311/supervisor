@@ -6,6 +6,7 @@
   import NativeCommands from "./NativeCommands.svelte";
   import PluginPicker from "./PluginPicker.svelte";
   import LiveDiffStats from "./LiveDiffStats.svelte";
+  import CacheWindowTimer from "./CacheWindowTimer.svelte";
   import {consumeNativeCommand} from "../lib/native-commands";
   import { acceptsComposerReceipt } from "../lib/composer-receipt";
   import { mainDrafts as drafts } from "../lib/persisted-drafts";
@@ -348,6 +349,7 @@
       </button>
     </div>
     <LiveDiffStats />
+    <CacheWindowTimer />
   </div>
   <div class="composer-work-slot" bind:this={sendControl}>
     <button
@@ -406,7 +408,7 @@
 
 <style>
   .draft-warning { margin: var(--ca-space-2) 0; color: var(--ca-muted); font: var(--ca-type-body)/var(--ca-leading-body) var(--ca-font-body); }
-  .composer-actions { padding-inline-end:calc(var(--ca-control-compact) + var(--ca-space-4)); }
+  .composer-actions { flex-wrap:wrap; padding-inline-end:calc(var(--ca-control-compact) + var(--ca-space-4)); }
   .composer-work-slot { position:absolute;z-index:4;inset-inline-end:var(--ca-space-2);inset-block-end:var(--ca-space-2);display:grid;place-items:stretch;box-sizing:border-box;margin:0;width:var(--ca-control-compact);min-width:var(--ca-control-compact);height:var(--ca-control-compact);transform-origin:center; }
   .composer :global(.context-window-monitor), .model-config-note { padding-inline-end:calc(var(--ca-control-compact) + var(--ca-space-3)); }
   .composer-work-action { display:grid;place-items:center;box-sizing:border-box;grid-area:1/1;margin-left:0;width:var(--ca-control-compact);min-width:var(--ca-control-compact);height:var(--ca-control-compact);padding:var(--ca-space-1);border:0;border-radius:var(--ca-control-radius);background:var(--ca-accent);color:var(--ca-on-accent);box-shadow:none;cursor:pointer; }

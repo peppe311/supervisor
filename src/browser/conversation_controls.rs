@@ -163,6 +163,12 @@ impl BrowserApp {
         let graph_owner = owner.starts_with("graph:");
         let project_card_owner = self.is_project_chat_card_owner(owner);
         let supervised_owner = self.is_supervised_project_chat_owner(owner);
+        let board_history_update = event == "central-agent:app-server-conversation"
+            && owner.strip_prefix("chat:").is_some_and(|id| {
+                self.project_chats
+                    .iter()
+                    .any(|chat| chat.id == id && !chat.archived)
+            });
         let main_owner = !graph_owner && (!project_card_owner || owner == self.composer_owner());
         let script = format!(
             "window.dispatchEvent(new CustomEvent({}, {{ detail: {} }}));",
@@ -171,7 +177,7 @@ impl BrowserApp {
         );
         for panel in [
             (main_owner).then_some(self.agent_panel.as_ref()).flatten(),
-            (graph_owner || project_card_owner || supervised_owner)
+            (graph_owner || project_card_owner || supervised_owner || board_history_update)
                 .then_some(self.agent_graph_surface.as_ref())
                 .flatten(),
         ]

@@ -99,7 +99,28 @@ fn save(target: &Path, bytes: &[u8]) -> io::Result<()> {
     result
 }
 
+/// Seed only a newly allocated destination. A draft created in another
+/// window wins; a handoff must never replace it.
+fn seed(root: &Path, owner: &str, text: &str) -> Result<(), String> {
+    let current = access(root, owner, Action::Read)?;
+    if !current.revision.is_empty() || !current.text.is_empty() {
+        return Err("The new agent already has a draft; it was retained.".into());
+    }
+    access(
+        root,
+        owner,
+        Action::Write {
+            revision: current.revision,
+            text: text.into(),
+        },
+    )?;
+    Ok(())
+}
+
 impl BrowserApp {
+    pub(super) fn seed_work_draft(&self, owner: &str, text: &str) -> Result<(), String> {
+        seed(&self.data_dir.join("composer-drafts"), owner, text)
+    }
     pub(super) fn forget_composer_draft(&self, owner: &str) -> Result<(), String> {
         let root = self.data_dir.join("composer-drafts");
         let current = access(&root, owner, Action::Read)?;
@@ -156,6 +177,31 @@ impl BrowserApp {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn handoff_draft_is_durable_and_never_replaces_an_existing_draft() {
+        let temp = tempfile::tempdir().unwrap();
+        seed(
+            temp.path(),
+            "chat:new",
+            "Continue from the verified checkpoint.",
+        )
+        .unwrap();
+        assert_eq!(
+            access(temp.path(), "chat:new", Action::Read).unwrap().text,
+            "Continue from the verified checkpoint."
+        );
+        assert!(seed(temp.path(), "chat:new", "Replacement").is_err());
+        assert_eq!(
+            access(temp.path(), "chat:new", Action::Read).unwrap().text,
+            "Continue from the verified checkpoint."
+        );
+        assert!(
+            access(temp.path(), "chat:source", Action::Read)
+                .unwrap()
+                .text
+                .is_empty()
+        );
+    }
     #[test]
     fn saved_text_survives_reopen_and_is_isolated_by_conversation() {
         let temp = tempfile::tempdir().unwrap();

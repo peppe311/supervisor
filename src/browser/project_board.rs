@@ -4,6 +4,10 @@ use super::*;
 #[derive(Debug, Deserialize)]
 #[serde(tag = "type", rename_all = "snake_case")]
 pub(crate) enum Action {
+    Work {
+        request_id: String,
+        action: work_results::Action,
+    },
     CreateWorktree {
         root: String,
         name: String,
@@ -99,6 +103,10 @@ pub(super) fn chat_in_project(
 
 impl BrowserApp {
     pub(super) fn handle_project_board(&mut self, action: Action) {
+        if let Action::Work { request_id, action } = action {
+            self.handle_work_results(&request_id, action);
+            return;
+        }
         let card_owner = match &action {
             Action::SetChatProfile { chat_id, .. }
             | Action::SubmitChat { chat_id, .. }
@@ -125,6 +133,7 @@ impl BrowserApp {
 
     fn apply_project_board(&mut self, action: Action) -> Result<(), String> {
         match action {
+            Action::Work { .. } => unreachable!("work actions are handled separately"),
             Action::CreateWorktree { root, name } => self.create_board_worktree(&root, &name)?,
             Action::Select { source, id } => {
                 if source == "local" {

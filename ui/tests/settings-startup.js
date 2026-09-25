@@ -4,7 +4,7 @@ try {
   const assert=(condition,message)=>{if(!condition)throw new Error(message);};
   const flush=async()=>{for(let i=0;i<6;i++)await Promise.resolve();};
   const api=window.CentralAgentSvelte,view=document.getElementById('settings-view');
-  const content=document.getElementById('settings-content'),search=document.getElementById('settings-search');
+  const content=document.getElementById('settings-content');
   const source=document.getElementById('settings-sections-source');
   const pages=[...document.querySelectorAll('[data-settings-section]')];
   const nav=[...document.querySelectorAll('[data-settings-target]')];
@@ -28,7 +28,6 @@ try {
     accountUsage:{refreshing:false,loaded:false,current:false,summary:null,dailyUsageBuckets:null},
     workspaceMessages:{refreshing:false,loaded:false,current:false,featureEnabled:false,messages:[]},
     runtimeNotices:[],errors:{},chatReload:{loading:false,checked:false,total:0,loaded:0,unavailable:0,skipped:0}};
-  const setQuery=async value=>{search.value=value;search.dispatchEvent(new Event('input',{bubbles:true}));await flush();};
   const select=async id=>{assert(api.selectSettingsSection(id),`Cannot select ${id}`);await flush();};
   try {
     accountHost.addEventListener('central-agent:app-server-account',capture);
@@ -43,7 +42,8 @@ try {
     sessionAccessModal.hidden=true;
 
     assert(nav.length===7,'Settings must expose exactly seven categories');
-    assert(topbar?.querySelector('h1')?.textContent.trim()==='Settings' && topbar.contains(search),'Settings title or search is missing from the top bar');
+    assert(topbar?.querySelector('h1')?.textContent.trim()==='Settings','Settings title is missing from the top bar');
+    assert(!view.querySelector('#settings-search,.settings-search,.settings-results'),'The removed Settings search surface is still mounted');
     const back=topbar?.querySelector('#settings-back');
     assert(back?.getAttribute('aria-label')==='Back to workspace' && back.querySelector('svg[aria-hidden="true"]') && !back.querySelector('.settings-back-icon') && !back.textContent.trim(),'The workspace return action is not a bare accessible arrow');
     assert(navGroups.map(group=>group.textContent.trim()).join('|')==='Personal|AI|Workspace|Connections','Settings navigation groups are missing or out of order');
@@ -77,9 +77,11 @@ try {
       for(const width of [560,720,1920]) {
         view.style.width=`${width}px`;
         await flush();
-        const topbarBox=topbar.getBoundingClientRect(),navBox=document.getElementById('settings-nav').getBoundingClientRect(),contentBox=content.getBoundingClientRect();
-        assert(topbarBox.bottom<=navBox.top+1 && navBox.bottom<=contentBox.bottom,`${theme}/${width}: the top bar, settings groups and content are not ordered vertically`);
-        assert(parseFloat(getComputedStyle(topbar).borderBottomWidth)===0 && parseFloat(getComputedStyle(document.getElementById('settings-nav')).borderTopWidth)===0,`${theme}/${width}: a divider still separates settings search from content`);
+        const topbarBox=topbar.getBoundingClientRect(),navBox=document.getElementById('settings-nav').getBoundingClientRect(),pageHeadBox=view.querySelector('.settings-page-head').getBoundingClientRect();
+        assert(topbarBox.top<=1 && topbarBox.bottom<=navBox.top+1 && navBox.bottom<=pageHeadBox.top+1,`${theme}/${width}: the compact header, settings groups and content are not ordered from the top edge`);
+        const topbarStyle=getComputedStyle(topbar),shellStyle=getComputedStyle(shell),viewStyle=getComputedStyle(view);
+        assert(topbarBox.height<=45 && topbarStyle.backgroundColor===shellStyle.backgroundColor && viewStyle.backgroundColor===shellStyle.backgroundColor && topbarStyle.backgroundImage==='none' && viewStyle.backgroundImage==='none',`${theme}/${width}: Settings still has a raised top band or background gradient`);
+        assert(parseFloat(getComputedStyle(topbar).borderBottomWidth)===0 && parseFloat(getComputedStyle(document.getElementById('settings-nav')).borderTopWidth)===0,`${theme}/${width}: a divider still separates the Settings header from content`);
         assert(navGroups.every(group=>group.getClientRects().length),`${theme}/${width}: a primary settings group is hidden`);
         const activePrimary=view.querySelector('.settings-primary-tab.active'),themeStyle=getComputedStyle(document.documentElement);
         assert(activePrimary && activePrimary.getAttribute('aria-selected')==='true' && themeStyle.getPropertyValue('--ca-settings-selected-background').trim()!==themeStyle.getPropertyValue('--ca-settings-nav-background').trim(),`${theme}/${width}: the selected primary group has insufficient visual distinction`);
@@ -117,7 +119,7 @@ try {
             assert(weight(title)>weight(section) && weight(section)>weight(label) && weight(label)>weight(help) && weight(subtitle)<weight(section),`${theme}/${width}: settings headings and explanations have no clear weight order`);
             assert(help.getBoundingClientRect().top>=label.getBoundingClientRect().bottom,`${theme}/${width}: the setting explanation still shares the name's baseline`);
           }
-          const borderless=[search,back,primaryTabs,...view.querySelectorAll('.settings-primary-tab,.settings-secondary-tabs,.settings-secondary-tab,.settings-secondary-collapse,.settings-picker-button')];
+          const borderless=[back,primaryTabs,...view.querySelectorAll('.settings-primary-tab,.settings-secondary-tabs,.settings-secondary-tab,.settings-secondary-collapse,.settings-picker-button')];
           assert(borderless.every(control=>parseFloat(getComputedStyle(control).borderTopWidth)===0),`${theme}/${width}: a settings cylinder or selector still has a resting border`);
           assert(content.scrollWidth<=content.clientWidth+1,`${theme}/${width}: settings content overflows`);
         }
@@ -141,20 +143,6 @@ try {
     const accountText=accountHost.textContent;
     for(const removed of ['Advanced Codex settings','Account token activity','Workspace messages','Protocol diagnostics','Managed permission profiles','Codex MCP servers'])assert(!accountText.includes(removed),`${removed} is still visible in user settings`);
     for(const retained of ['Subscription usage & limits','Saved chats','Account options'])assert(accountText.includes(retained),`${retained} was removed`);
-
-    await setQuery('repair codex windows');
-    let result=[...view.querySelectorAll('.settings-result')].find(button=>button.textContent.includes('Repair Codex on Windows'));
-    assert(result,'Search missed the recovery action');result.click();await flush();
-    const repair=accountHost.querySelector('[data-native-sandbox-setup]');
-    const options=accountHost.querySelector('[data-settings-account-options]');
-    assert(!search.value && options.open && repair.getClientRects().length,'Search did not reveal the repair action inside Account options');
-
-    for(const removed of ['protocol diagnostics','feature flags','account token activity']) {
-      await setQuery(removed);
-      assert(!view.querySelector('.settings-result'),`${removed} remains searchable`);
-    }
-    search.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true,cancelable:true}));await flush();
-    assert(!search.value && document.activeElement===search,'Escape did not clear settings search');
 
     await select('settings-access');
     assert(!document.getElementById('settings-agent').hidden && !document.getElementById('settings-access').hidden,'The compatibility permission route did not open the merged category');
@@ -194,7 +182,7 @@ try {
     assert(!dialog.open,'Closing Settings stranded a modal');
     assert(originalControls.every(control=>document.getElementById(control.id)===control),'Settings navigation remounted a stable form control');
     assert(!api.selectSettingsSection('settings-privacy') && !api.selectSettingsSection('settings-advanced') && !api.selectSettingsSection('unknown-section'),'A removed or invalid category remains selectable');
-    assert(actions.length===0,'Settings navigation or search dispatched an account operation');
+    assert(actions.length===0,'Settings navigation dispatched an account operation');
   } finally {
     accountHost.removeEventListener('central-agent:app-server-account',capture);
     api.updateAppServerAccount(account);field.value=fieldValue;view.style.width=oldWidth;content.style.height=oldContentHeight;content.style.maxHeight=oldContentMaxHeight;sessionAccessModal.hidden=sessionAccessWasHidden;

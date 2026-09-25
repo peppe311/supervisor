@@ -5,6 +5,8 @@ conversation → supervisor → files mockup. `ProjectBoard.svelte` owns navigat
 `ProjectRegistry.svelte` owns explicit project onboarding. `ProjectChatTree.svelte`
 uses native ancestry, never inferred links from titles. Project selection is
 presentation/navigation, not an agent instruction or permission grant.
+Pinned projects appear first; rows otherwise retain their stable list order.
+Selecting a project updates the startup reopen target without moving its row.
 
 ## Card preservation
 
@@ -21,7 +23,8 @@ resizers, and a collapsible Files lane, use the same shared spacing and palette.
 Open cards, minimized state, selections and lane dimensions remain scoped per
 project while the current board instance is alive. They are presentation only:
 they are not written to the native session and never become agent instructions.
-A first prompt is still required to start a task or supervision.
+A first project-chat prompt starts the linked Supervisor only after native
+acceptance; association by itself does not start a model turn.
 
 The selected Supervisor exposes one compact **Supervisor settings** trigger for
 its **Supervised conversation** association. Its bounded popover opens without
@@ -29,8 +32,11 @@ moving the underlying card, uses the shared workspace picker, stays inside the
 viewport and closes through Escape or outside interaction. Project chats do not
 gain a duplicate settings menu.
 
-New task in a worktree is available from a local chat's actions. A native folder
-picker selects the parent for a new named directory outside the original root.
+New task in a worktree is available from a local chat's actions. Supervisor
+checks that the selected project is a Git repository with a commit containing
+files before opening the native folder picker. The picker selects the parent
+for a new named directory outside the original root; selecting or creating the
+parent itself does not put project files in that parent.
 Git creates a unique `codex/` branch from HEAD with hooks and checkout filters
 disabled. Dirty original files are not carried over or modified. The linked
 working copy becomes its own connected project with a named conversation; no
@@ -52,6 +58,10 @@ unmounting their input/history. Project-chat previews can reload from their
 original owners and durable drafts; the current board instance keeps each
 project's open-card arrangement while the app remains open.
 Closing a card remains distinct from stopping an agent.
+Project-menu Terminal and Git status actions open Supervisor's detached
+terminal while the board is visible; the docked terminal is intentionally
+hidden there. Git status on a non-Git folder gives an inline explanation rather
+than a disabled button with no feedback.
 Existing drafts, profiles, checkpoints, links, native bindings and conversation
 UUIDs retain their existing storage. No production chat/account data is copied.
 Cards without a connected project remain reachable in **Other saved agents**.
@@ -65,13 +75,16 @@ summaries, commands, file changes, tools, requests, final messages and turn stat
 reuse the same projection as the worker card; private reasoning and opaque tool
 payloads are never copied.
 
-When the Supervisor model receives the first explicit input, a bounded snapshot
-of the current or latest observed turn is appended as untrusted evidence and
-hidden from the visible user prompt. That request also arms continuous native
-supervision for the link. Turn start, plan updates, completed commands/tools/file
+When Codex accepts a prompt in a project chat, every valid linked native
+Supervisor starts automatically from a bounded snapshot of that worker turn.
+The snapshot is untrusted evidence, hidden from the visible user prompt. A
+direct Supervisor request can also arm continuous native supervision. Rejected
+and cancelled prompts do not start a Supervisor; queued prompts wait for native
+acceptance. Turn start, plan updates, completed commands/tools/file
 changes, pending decisions and turn completion become coalesced checkpoints;
 streaming text deltas do not create review calls. Each automatic checkpoint uses
-a read-only Supervisor turn and a strict `observe | steer` structured result.
+a read-only Supervisor turn without selected Skills or Apps and a strict
+`observe | steer` structured result.
 The final worker checkpoint receives one last review, after which the loop waits
 without polling until the linked conversation starts another turn.
 The same loop owns one compact delivery state rather than a separate workflow:
@@ -118,10 +131,11 @@ Prompt fields inside both project-chat cards and Supervisor cards use the same
 borderless filled surface, with focus communicated by the shared focus ring.
 Their Send, Stop and Resume control occupies the bottom-right corner with the
 same inset from the right and bottom edges, matching the main agent composer.
-An opened project chat uses its selector row as the heading of one continuous
-rounded card. The row and conversation share the chat-card surface and meet
-without a gap, border, shadow, seam or nested frame; spacing applies between
-complete chat groups and matches the Supervisor-card stack.
+An opened project chat or Supervisor uses its selector row as the heading of
+one continuous rounded card. The row and conversation share the chat-card
+surface and meet without a gap, border, shadow, seam or nested frame. The
+Supervisor association control sits in its heading beside the actions menu;
+spacing applies only between complete card groups in both stacks.
 Each project-chat and Supervisor card can be minimized from its header. The card
 then keeps its selector width but releases the portrait body from the vertical
 stack, leaving title, live collaboration state, Restore and Close visible. This
@@ -171,7 +185,44 @@ case-insensitively and SSH roots kept case-sensitive. At most 256 files per nati
 turn are displayed, and truncation is visible. Closing/interrupting or losing a
 runtime connection clears active markers while confirmed completed work remains.
 
-## Verification
+## Work summary, comparison and handoff
+
+The actions menu of a project chat or Supervisor now provides three compact
+flows. Work summary reads the current/latest recorded turn and shows its
+request, result, explicit command outcomes, file changes, recorded diffs and
+public activity. It does not generate a model summary, scan the disk or infer
+that tests passed. Missing details can load through the existing one-turn
+native history reader. Evidence is bounded in size; omissions are visible.
+
+Compare attempts displays two same-project reports before sending anything.
+Ask Supervisor invokes the existing native read-only reviewer in a selected
+idle Codex Supervisor. The original attempts and their revisions are checked
+again before dispatch. The reviewer may choose either result, a tie or
+insufficient evidence. No patch is selected or applied automatically; the
+answer and its reasoning summary remain in the reviewing conversation.
+
+Hand off creates a native fork, preserving the provider-owned conversation
+history and attachments. The requested next instruction is saved as a draft
+under the new owner and survives restart. After the native acknowledgement,
+Open new agent stays inside the board; the user chooses its model and sends the
+draft. Forks preserve context, not independent filesystem state. Other provider
+transcripts are never fed back as native Codex history. A rejected or uncertain
+fork retains the existing native recovery semantics, without replaying it.
+
+These operations add no background process, new database or autonomous loop.
+
+## Verification history
+
+Validation on 2026-09-22: the complete workspace verification passed, including
+the command-evidence, comparison eligibility and durable handoff-draft tests.
+The canonical package was rebuilt with `scripts/update-supervisor.ps1` and
+passed its hidden WebView startup and release-manifest checks. The new
+synthetic Work results flow covers both themes, report failures and missing
+outcomes, the shared selectors, exact owners/revisions, duplicate clicks,
+rejected comparison, native fork acknowledgement and late replies after close.
+Dialog bounds were checked alongside the board's supported layout widths.
+These checks do not use Computer Use, production chat data or account inference;
+they do not claim a live model comparison or a production-account fork.
 
 After the selective rollback of board points 3–7,
 `scripts/verify-workspace.ps1` passed 641 application tests and 182 native

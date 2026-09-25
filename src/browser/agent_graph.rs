@@ -2029,13 +2029,9 @@ impl BrowserApp {
                 scanning: self.project_scans_in_flight.contains(&metadata_key),
             }
         }));
-        projects.sort_by(|left, right| {
-            right
-                .pinned
-                .cmp(&left.pinned)
-                .then_with(|| right.last_opened_at_ms.cmp(&left.last_opened_at_ms))
-                .then_with(|| left.name.to_lowercase().cmp(&right.name.to_lowercase()))
-        });
+        // Keep the existing source order within each group. Opening a project updates its
+        // last-opened metadata, but must not move its row.
+        projects.sort_by_key(|project| !project.pinned);
         ProjectRegistryView {
             projects,
             ssh_profiles: self

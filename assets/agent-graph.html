@@ -481,6 +481,7 @@ body.expanded .graph-shell{position:fixed;inset:0;width:100vw;height:100vh;}
         if ([...select.options].some((option) => option.value === requested)) {
           if (select.value !== requested) select.value = requested;
         } else if (select.options.length) select.selectedIndex = 0;
+        select.dispatchEvent(new Event("central-agent:profile-sync"));
       }
       function populateAgentEffortAndSpeed(modelSelect, effortSelect, speedSelect, configuration = {}, selection = {}) {
         const model = (configuration.models || []).find((option) => option.model === modelSelect.value) || null;
@@ -895,7 +896,7 @@ body.expanded .graph-shell{position:fixed;inset:0;width:100vw;height:100vh;}
               if (event.detail.owner === `graph:${nodeKey}`) send("load_knowledge_agent_history", {...agentTarget(nodeKey),before:event.detail.before});
             });
             card.addEventListener("central-agent:slash-ui", (event) => {
-              if (event.detail.action === "model") card.querySelector('[data-role="model"]')?.focus();
+              if (event.detail.action === "model") card.querySelector('[data-profile-trigger="model"]')?.focus();
             });
           }
           card.hidden = false; card.classList.toggle("configuring", !binding);

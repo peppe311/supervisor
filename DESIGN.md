@@ -108,10 +108,10 @@ Supervisor is currently a Windows-first, local-first desktop application:
 | Browser | Live web page | Back, Forward, Reload, Home, address/search, independent WebViews, and direct tab drag into Agent as bounded visual context. |
 | Agent workspace | Project conversation | Projects and chats provide orientation; conversation, streamed work, artifacts, and composer form one vertically anchored workspace. |
 | Projects and Files | Local coding scope | Several projects and chat groups may stay expanded; one project is active for Explorer and future runs; file operations remain project-relative. |
-| Composer | Next user instruction | Auto-growing text input, file/context attachment, four-part agent configuration, Stop, and active-request delivery choices. No repeated chat-title/Chat banner or context report beside the prompt. |
-| Settings | Product configuration | A full application surface with search and one visible category at a time. Agent behavior and permissions remain separate from the selected conversation's Codex Skills and Apps. |
+| Composer | Next user instruction | Auto-growing text input, file/context attachment, four-part agent configuration, Stop, active-request delivery choices, and a compact estimated cache window when a fresh Codex report supports it. No repeated chat-title/Chat banner or context report beside the prompt. |
+| Settings | Product configuration | A full application surface with one visible category at a time. Browser tabs and navigation are absent; Agent behavior and permissions remain separate from the selected conversation's Codex Skills and Apps. |
 | Agent Graph | Project and agent topology | Four-column project board: explicit projects, project conversations and forks, supervisors, and project files. It never maps the underlying local or SSH filesystem. The board begins at the top of the window. A bare back arrow occupies a transparent 40px overlay flush with the upper-left edge, and every lane heading aligns with the icon's upper edge. The arrow remains transparent on hover while keyboard focus stays visible. Terminal, browser controls and redundant project/supervisor counts are absent. |
-| Graph agent window | One node-bound conversation | Select an agent to open its preserved card in the supervisors column; each agent keeps its history, four profile choices, approvals, artifacts and checkpoint, without a context report or tab/shell attachment menu. Project-chat and Supervisor prompt fields are borderless and retain a visible focus state; their Send, Stop and Resume control occupies the bottom-right corner with the same inset from the right and bottom edges, matching the main agent composer. |
+| Graph agent window | One node-bound conversation | Select an agent to open its preserved card in the supervisors column; each agent keeps its history, four profile choices, approvals, artifacts and checkpoint, without a full context report or tab/shell attachment menu. A compact cache estimate can appear beside prompt tools only for a fresh supported Codex report. Project-chat and Supervisor prompt fields are borderless and retain a visible focus state; their Send, Stop and Resume control occupies the bottom-right corner with the same inset from the right and bottom edges, matching the main agent composer. |
 | Terminal | Interactive shell session | Multiple direct ConPTY or SSH sessions, reorder, dock/detach, and bounded chat attachment with optional Follow live. |
 | Remote desktop | Remote Linux desktop | SSH-tunneled RDP or VNC, direct user input, file transfer, explicit Give agent control, and an immediately available stop path. |
 | Time Machine | Run-scoped code changes | Pre-change checkpoint, changed-file tree, language icons, aggregate diff statistics, unified diff, and full or single-file restore. |
@@ -288,6 +288,28 @@ rather than replace locally.
   the project disappears.
 
 ### Conversation, reasoning, and artifacts
+
+- Project-chat and Supervisor menus expose Work summary, Compare attempts and
+  Hand off. These are on-demand dialogs, not permanent dashboard panels.
+  Work summary shows the latest recorded turn, its request, reported result,
+  commands with actual exit codes, changed files, recorded diffs, plan state and
+  public activity. Missing tests remain unreported; turn completion is not proof
+  of correctness. Bounded or unloaded evidence is labelled, with explicit refresh
+  through the existing read-only native history path.
+- Compare attempts shows two same-project reports side by side and asks a
+  separate idle, initialized Codex Supervisor for an explicit native read-only
+  review. It uses the existing review/start path, never an automatic new loop.
+  The reviewer can prefer either attempt, a tie or insufficient evidence and
+  explains its decision in its own conversation. The current shared working
+  tree is not attributed to either recorded attempt and no diff is applied.
+  Confirmed report fingerprints and reviewer identity are revalidated in Rust.
+- Hand off uses a native Codex fork into a new independent conversation. This
+  preserves native history and attachments without replaying projected messages.
+  It retains an editable continuation as a durable unsent draft. Open the new
+  card, choose its profile and send when ready. Existing drafts and source
+  history remain intact; files remain shared, not copied or restored. Active
+  or uncertain sources cannot be handed off. Other providers retain evidence
+  summaries but cannot pretend to support native history transfer.
 
 - Preserve the shared chat/timeline rendering, Markdown, code blocks, links,
   attachments, activity disclosures and unified diff viewer. Provider adapters
@@ -602,9 +624,13 @@ rather than replace locally.
   to fill this disclosure.
 
 - Settings uses English labels and short explanations of effect and scope.
-  `SettingsShell.svelte` owns the top bar, static search, category heading,
-  category switching and reading column. The top bar keeps Settings at the left,
-  a wide searchable field in the center and a bare back arrow at the right.
+  `SettingsShell.svelte` owns the compact top bar, category heading, category
+  switching and reading column. The top bar keeps Settings at the left and a
+  bare back arrow at the right. Settings covers the complete application work
+  surface from its upper edge; browser tabs, address/navigation controls and
+  their backing strip are hidden until the user returns to Agent. The title row
+  begins at the upper edge and uses the exact application background, without a
+  lighter band, gradient or structural fill above the category controls.
   The arrow retains an accessible Back to workspace name without a surrounding
   circle or visible text. `SettingsNavigation.svelte` exposes a centered two-level selector: the
   primary row contains Personal, AI, Workspace and Connections, and a compact
@@ -614,21 +640,17 @@ rather than replace locally.
   Supervisor tool confirmations share Agents & permissions while retaining their
   legacy section ID and hooks. Privacy explanations and diagnostics are not
   preference categories. Keep existing native hooks and mounted controls while
-  useful legacy content is adopted once into this shell. Switching,
-  searching and reopening preserve drafts, selections, disclosures and each
+  useful legacy content is adopted once into this shell. Switching and
+  reopening preserve drafts, selections, disclosures and each
   category's reading position during the app session. Navigation sends no native
   action and cannot hide an open modal. Close owned dialogs before hiding Settings.
-  Search uses a local catalog of labels and aliases only; never index chat text,
-  account identifiers, credentials, file contents or unsaved form values. Results
-  open their category and reveal the indicated setting, then focus it.
-  Escape clears a nonempty search before the normal Settings close behavior.
   Use shared tokens for a bounded wide reading column, a clear display heading,
   body-sized labels and neutral controls. Selected primary and secondary tabs
   must remain obvious without relying on hue. In narrow windows, preserve the
   two navigation levels as horizontally scrollable rows without compressing
   their labels. Keep the page background continuous and remove obsolete legacy
   shell styling after migration.
-  Keep the top bar and search area free of a bottom divider. Use a fixed
+  Keep the compact top bar free of a bottom divider. Use a fixed
   typographic reading order: page title largest and strongest, page subtitle
   lighter, section heading smaller than the page title but larger than a control
   name, and each control explanation one step smaller and lighter than its name.
@@ -666,7 +688,7 @@ rather than replace locally.
   with the selected item marked. Longer access choices may add one short description.
   Preserve native select IDs as hidden compatibility controls, keyboard navigation,
   Escape/outside dismissal, focus return and acknowledgement-driven values.
-  Settings uses no resting borders on search, navigation cylinders, selectors,
+  Settings uses no resting borders on navigation cylinders, selectors,
   inputs, cards, confirmation surfaces, badges, disclosures or menu options. Separate selectable and
   written surfaces with fill, spacing, type, hover and selected states. Preserve
   visible keyboard focus even though resting outlines are absent.
@@ -1223,6 +1245,15 @@ rather than replace locally.
   behavior. Authentication remains owned by its CLI; never read native tokens.
 - Model/effort/speed options come from the connected provider catalog. Keep
   Claude Code automatic model discovery and the other existing catalog probes.
+- Claude Code runs on the user's Claude subscription. The adapter strips inherited
+  API keys, alternative endpoints and third-party backends. The provider status
+  names the plan reported by the CLI handshake (for example Claude Max) and
+  plainly warns when the sign-in bills per token instead. Subscription
+  usage-window reports appear in that same status, never as new chrome: warnings
+  from 70% used, a reached limit and extra usage, each with a relative reset time.
+  They are cleared at the reset. A reached limit is not an authentication failure
+  and does not ask to reconnect. A resumed Claude session is not sent the local
+  history again; a session that cannot resume in its own workspace is.
 - The project and agent graph remains provider-neutral and does not persist a separate knowledge store.
   A graph assignment does not imply browser, SSH or computer-control support.
 - Clearly distinguish unavailable capabilities from an authenticated provider.
@@ -1310,14 +1341,19 @@ settings surface.
 
 New isolated tasks use explicit native destination selection and real Git
 worktrees, shown as connected projects with their own conversations. Existing
-dirty files stay in the original checkout. No layout or project-creation action
-starts a model request.
+dirty files stay in the original checkout. Check that the source is a Git
+repository with committed files before opening the folder picker; the selected
+folder is the parent of the new named worktree. Explain this distinction in the
+dialog so an empty parent is not mistaken for the completed task. No layout or
+project-creation action starts a model request.
 
 - Open the board across the full application surface. Retire the canvas, force
   layout, zoom, filters and node dragging. Preserve native surface IDs and IPC
   only as inert compatibility hooks while Svelte owns the visible board.
-- The left column contains explicit pinned/recent project folders. The next two
-  columns contain project chats with their real fork trees and supervisor agents.
+- The left column contains explicit pinned/project folders. Selection keeps a
+  project in its current position; the saved active project is reopened at
+  startup. The next two columns contain project chats with their real
+  fork trees and supervisor agents.
   The last column shows files inside the selected project. At compact widths,
   scroll the column grid horizontally instead of shrinking the portrait cards.
 - Never enumerate a computer, drive, home or SSH server to populate this board.
@@ -1333,12 +1369,14 @@ starts a model request.
   or opaque tool payloads. Each Supervisor request receives a bounded snapshot
   of that same display-safe evidence so the model can assess the worker's latest
   turn. Association and creation alone do not run either agent or grant new
-  permissions. The first explicit request sent to a linked native Supervisor
-  arms an event-driven supervision loop for that association. Worker turn start,
+  permissions. An accepted prompt in the linked project conversation starts its
+  saved native Supervisor automatically; a rejected or cancelled prompt does not,
+  and a queued prompt waits for acceptance. A direct Supervisor request can also
+  arm the event-driven loop. Worker turn start,
   plan, completed tool/command/file checkpoints, pending requests and turn end
   are coalesced before starting another bounded Supervisor review; token deltas
   never trigger model calls. Automatic reviews use a structured decision and a
-  read-only turn. A completed worker gets one final review, then the loop remains
+  read-only turn without consuming the Supervisor's selected Skills or Apps. A completed worker gets one final review, then the loop remains
   dormant until that linked conversation starts work again. Invalid, archived
   and cross-project associations are rejected by Rust.
 - Reuse that supervision loop for one compact delivery state. Show Working for
@@ -1364,11 +1402,12 @@ starts a model request.
   Existing unassociated cards remain available under Other saved agents. The
   card implementation and persistence contract are recorded in
   docs/PROJECT_BOARD.md; never archive production chat data as a source snapshot.
-- In the Project chats lane, an opened conversation and its selector row form
-  one continuous card. The row acts as its heading; both parts share the chat
-  card surface, touch without an inner gap, border, shadow or second frame, and
-  keep one filled rounded silhouette. Separate chat groups retain the
-  Supervisor-card spacing.
+- In the Project chats and Supervisors lanes, an opened conversation and its
+  selector row form one continuous card. The row acts as its heading; both
+  parts share the chat-card surface, touch without an inner gap, border, shadow
+  or second frame, and keep one filled rounded silhouette. A Supervisor's
+  association control stays in that heading rather than separating it from
+  the conversation. Separate card groups retain the same spacing.
 - `Add project` owns one bounded dialog with four sources: New project (a name
   plus a native parent-folder picker), a native Windows folder picker for an
   existing project, a Git repository URL plus a native destination picker, and an
@@ -1408,6 +1447,12 @@ starts a model request.
   Supervisor. Removal never deletes the local folder, remote directory or cloned
   repository. `Ctrl+K` focuses registry search. Reopen the most recent local
   project by default without presenting a redundant checkbox in the registry.
+  Within pinned and unpinned groups, keep each row in place when selecting or
+  reopening a project.
+- Terminal and Git status actions launched from the board reveal Supervisor's
+  terminal in a separate window, since the docked terminal is hidden while the
+  board is open. Git status on a non-repository explains why it is unavailable
+  in the project lane instead of leaving an inert menu item.
 - Begin the four lanes directly below the 48px top-left return row. Do not repeat
   a `Workspace` eyebrow or the selected project name above the board; project
   selection is already clear in the projects lane.

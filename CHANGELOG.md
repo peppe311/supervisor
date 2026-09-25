@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.1.0-alpha.4 — project work review and Claude subscriptions
+
+- Project chat and Supervisor actions: Work summary from recorded turn evidence,
+  Compare attempts through a read-only native Supervisor review, and Hand off
+  to a native fork with a durable draft for the next instruction.
+- Pinned projects, New task in a Git worktree, and project-menu Terminal and Git
+  status actions from the project board.
+- Compact estimated cache window in the composer after a fresh native usage
+  report that includes cached input.
+- Claude Code: the provider status names the connected Claude plan and warns
+  when a sign-in bills per token. Subscription usage-limit warnings, reached
+  limits and extra usage appear with a relative reset time. Inherited API keys,
+  alternative endpoints and third-party backends no longer reach the CLI, and
+  resumed sessions no longer resend local history.
+- Binary privacy gate for release artifacts and the installer pipeline.
+
+## 0.1.0-alpha.3 — Windows installer
+
+- Per-user Windows installer for experimental unsigned alpha releases, with
+  Start menu entry, Installed Apps uninstall and preserved user data.
+
 ## 0.1.0-alpha.2 — corrected source publication
 
 - Fresh publication history, separate from the privately retained first attempt.

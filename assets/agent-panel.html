@@ -437,12 +437,12 @@
       body.settings-open .panel > header { display: none; }
       body.settings-closing .panel { grid-template-rows: auto minmax(0, 1fr); }
       body.settings-closing .panel > header { display: block; }
-      .settings-view { position: absolute; inset: 0; z-index: 20; min-height: 0; overflow: hidden; place-items: center; padding: clamp(18px, 2.6vw, 40px); background: #f3f3f4; }
+      .settings-view { position: absolute; inset: 0; z-index: 20; min-height: 0; overflow: hidden; place-items: center; padding: clamp(18px, 2.6vw, 40px); background: var(--ca-app-background); }
       .settings-view:not([hidden]) { display: grid; }
 
       body.settings-preparing .settings-shell { opacity: 0; transform: translateY(8px) scale(.992); }
       body.settings-opening .settings-shell { animation: settings-shell-in 180ms cubic-bezier(.2, .8, .2, 1) both; }
-      body.settings-closing .settings-view { background: var(--ca-surface); transition: background-color 150ms ease-out; }
+      body.settings-closing .settings-view { background: var(--ca-app-background); transition: background-color 150ms ease-out; }
       body.settings-closing .settings-shell { animation: settings-shell-out 160ms cubic-bezier(.4, 0, .8, .2) both; }
 
       .settings-section-copy { margin: 0 0 15px; color: #707070; font-size: 12px; line-height: 1.55; }
@@ -774,7 +774,7 @@
       /*__SVELTE_UI_CSS__*/
       html[data-agent-panel-detached="true"] body { border-right: 0; }
       :root[data-theme], body, .panel, main, header, .terminal-shell, .preview-section { background: var(--ca-surface); color: var(--ca-text); }
-      .settings-view { background: var(--ca-surface-2); }
+      .settings-view { background: var(--ca-app-background); }
 
       body, header, section, .terminal-shell, .advanced, .advanced > section:first-of-type { border-color: var(--ca-border); }
       h1 { color: var(--ca-text); }
@@ -975,13 +975,6 @@
       }
       .action.primary, .action.approve { border-color: var(--ca-accent); background: var(--ca-accent); color: #fff; box-shadow: 3px 3px 0 var(--ca-accent-soft); }
       .action.primary:hover:not(:disabled), .action.approve:hover:not(:disabled) { background: #1248d7; }
-
-      .settings-view {
-        background:
-          linear-gradient(var(--ca-grid-line) 1px, transparent 1px) 0 0 / 32px 32px,
-          linear-gradient(90deg, var(--ca-grid-line) 1px, transparent 1px) 0 0 / 32px 32px,
-          var(--ca-bg);
-      }
 
       .settings-view .preference-grid { grid-template-columns: minmax(0, 480px); }
       .provider-card, .workspace-card, .system-card { border-radius: var(--ca-radius-medium); box-shadow: 2px 2px 0 color-mix(in srgb, var(--ca-accent-strong) 7%, transparent); }

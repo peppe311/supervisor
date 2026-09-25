@@ -30,6 +30,7 @@ mod run_context;
 mod snapshot_delivery;
 mod submission_scope;
 mod supervision;
+mod work_results;
 use agent_graph::*;
 use anyhow::{Context, anyhow};
 use base64::{Engine as _, engine::general_purpose::STANDARD as BASE64_STANDARD};
@@ -99,9 +100,10 @@ use crate::{
     brand,
     capture_runtime::{self, CapturedWindowImage},
     claude_provider::{
-        self, ClaudePermissionRequest, ClaudePermissionResult, ClaudeProbeResult,
-        ClaudeProviderEvent, ClaudeRunHandle, ClaudeRunRequest, ClaudeRunResult, ClaudeStreamDelta,
-        ClaudeStreamKind, ClaudeToolFinished, ClaudeToolStarted,
+        self, ClaudeFailureKind, ClaudePermissionRequest, ClaudePermissionResult,
+        ClaudeProbeResult, ClaudeProviderEvent, ClaudeRunHandle, ClaudeRunRequest, ClaudeRunResult,
+        ClaudeStreamDelta, ClaudeStreamKind, ClaudeToolFinished, ClaudeToolStarted,
+        ClaudeUsageLimit,
     },
     commands::{
         ActionLogEntry, AgentCommand, AgentCommandRequest, AgentPanelMessage,
@@ -2202,6 +2204,10 @@ pub(crate) struct BrowserApp {
     claude_selection: AgentSelection,
     claude_session_id: Option<String>,
     claude_session_cwd: Option<String>,
+    /// Latest subscription usage window reported by Claude Code; transient.
+    claude_usage_limit: Option<ClaudeUsageLimit>,
+    /// Notice currently appended to the Claude provider detail.
+    claude_usage_notice: Option<String>,
     claude_jobs: HashMap<u64, ClaudeJob>,
     pending_claude_permissions: HashMap<String, PendingClaudePermission>,
     claude_tool_steps: HashMap<String, usize>,
@@ -2778,6 +2784,8 @@ impl BrowserApp {
             claude_selection,
             claude_session_id,
             claude_session_cwd,
+            claude_usage_limit: None,
+            claude_usage_notice: None,
             claude_jobs: HashMap::new(),
             pending_claude_permissions: HashMap::new(),
             claude_tool_steps: HashMap::new(),
@@ -4600,9 +4608,9 @@ impl BrowserApp {
         if !self.settings_open {
             return;
         }
-        // Expand the already-themed settings WebView while the outgoing browser
-        // surfaces remain visible above it. JavaScript will acknowledge a painted
-        // frame before those browser surfaces are hidden.
+        // Expand the already-themed settings WebView across the whole main surface.
+        // JavaScript acknowledges a painted frame before the outgoing browser
+        // content is hidden, so no native fallback background is exposed.
         self.layout_webviews();
         if let Some(panel) = &self.agent_panel
             && let Err(error) = panel.evaluate_script(
@@ -4773,7 +4781,7 @@ impl BrowserApp {
     }
 
     fn browser_tabs_visible(&self) -> bool {
-        !self.browser_panel_minimized && !self.settings_open && !self.agent_graph_open
+        !self.browser_panel_minimized && !self.settings_covering_main() && !self.agent_graph_open
     }
 
     fn active_toolbar_height(&self, window: &Window) -> u32 {
@@ -5423,7 +5431,7 @@ impl BrowserApp {
             AgentPanelMessage::RemoveRemoteProject { id } => self.remove_remote_project(&id),
             AgentPanelMessage::OpenProject { source, id } => self.open_project(&source, &id),
             AgentPanelMessage::OpenProjectTerminal { source, id, git } => {
-                self.open_project_terminal(&source, &id, git)
+                self.open_project_terminal(event_loop, &source, &id, git)
             }
             AgentPanelMessage::ShowProjectFolder { root } => self.show_project_folder(&root),
             AgentPanelMessage::RefreshProjectMetadata { source, id } => {
@@ -6980,32 +6988,78 @@ impl BrowserApp {
         }
     }
 
-    fn open_project_terminal(&mut self, source: &str, id: &str, git: bool) {
+    fn report_project_terminal_error(&mut self, error: String) {
+        if self.agent_graph_open {
+            self.conversation_event(
+                "central-agent:project-board-error",
+                json!({"owner":"graph:project-board","error":error}),
+            );
+        } else {
+            self.push_chat_message(ChatRole::System, error, Vec::new());
+            self.render_agent_panel();
+        }
+    }
+
+    fn reveal_project_terminal(&mut self, event_loop: &ActiveEventLoop) {
+        self.terminal_panel_visible = true;
+        if self.agent_graph_open || self.terminal_window.is_some() {
+            // The board deliberately hides the docked terminal. Show this
+            // user-requested session in Supervisor's detached terminal instead.
+            if let Err(error) = self.detach_terminal_panel(event_loop) {
+                self.report_project_terminal_error(format!(
+                    "Could not show the project terminal: {error}"
+                ));
+            }
+        } else {
+            self.layout_webviews();
+            self.render_toolbar();
+        }
+        self.render_agent_panel();
+    }
+
+    fn open_project_terminal(
+        &mut self,
+        event_loop: &ActiveEventLoop,
+        source: &str,
+        id: &str,
+        git: bool,
+    ) {
         if source == "local" {
-            let root = PathBuf::from(id);
+            let root = match fs::canonicalize(id) {
+                Ok(root) => root,
+                Err(_) => {
+                    self.report_project_terminal_error(
+                        "This project folder is no longer available. Reconnect it and try again."
+                            .into(),
+                    );
+                    return;
+                }
+            };
             if !self
                 .workspace
                 .project_roots()
                 .iter()
-                .any(|candidate| candidate.display().to_string().eq_ignore_ascii_case(id))
+                .any(|candidate| fs::canonicalize(candidate).is_ok_and(|known| known == root))
             {
+                self.report_project_terminal_error(
+                    "Reconnect this project before opening its terminal.".into(),
+                );
                 return;
             }
             let callback = self.terminal_callback();
             match self.terminal.open_in_directory(&root, callback) {
                 Ok(session_id) => {
-                    if git {
-                        let _ = self
+                    if git
+                        && let Err(error) = self
                             .terminal
-                            .write(session_id, "git status --short --branch\r");
+                            .write(session_id, "git status --short --branch\r")
+                    {
+                        self.report_project_terminal_error(error);
                     }
-                    self.terminal_panel_visible = true;
-                    self.layout_webviews();
-                    self.render_toolbar();
+                    self.reveal_project_terminal(event_loop);
                 }
-                Err(error) => self.push_chat_message(ChatRole::System, error, Vec::new()),
+                Err(error) => self.report_project_terminal_error(error),
             }
-            self.render_agent_panel();
             return;
         }
         if source == "ssh" {
@@ -7015,13 +7069,15 @@ impl BrowserApp {
                 .find(|project| project.id == id)
                 .cloned()
             else {
+                self.report_project_terminal_error(
+                    "Reconnect this SSH project before opening its terminal.".into(),
+                );
                 return;
             };
             let mut launch = match self.ssh.launch_spec(&project.ssh_profile_id) {
                 Ok(launch) => launch,
                 Err(message) => {
-                    self.ssh.set_message(message, true);
-                    self.render_agent_panel();
+                    self.report_project_terminal_error(message);
                     return;
                 }
             };
@@ -7036,15 +7092,12 @@ impl BrowserApp {
             launch.arguments.push(remote_command);
             let callback = self.terminal_callback();
             match self.terminal.open_ssh(launch, callback) {
-                Ok(_) => {
-                    self.terminal_panel_visible = true;
-                    self.layout_webviews();
-                    self.render_toolbar();
-                }
-                Err(message) => self.ssh.set_message(message, true),
+                Ok(_) => self.reveal_project_terminal(event_loop),
+                Err(message) => self.report_project_terminal_error(message),
             }
-            self.render_agent_panel();
+            return;
         }
+        self.report_project_terminal_error("Select a connected local or SSH project.".into());
     }
 
     fn show_project_folder(&mut self, root: &str) {
@@ -8561,6 +8614,7 @@ impl BrowserApp {
         if update.selection_changed {
             self.save_session();
         }
+        self.annotate_claude_usage();
         self.render_agent_panel();
     }
 
@@ -9718,9 +9772,18 @@ impl BrowserApp {
                 .and_then(|chat| chat.claude_session_cwd.clone())
         };
 
-        let conversation_history = if is_agent_graph_run
-            || (run_provider == AgentProviderKind::ClaudeCode && claude_session_id.is_some())
-        {
+        // A Claude session resumes only in its own workspace. Otherwise the run starts
+        // fresh and needs the local history, instead of silently losing the context.
+        let claude_main_cwd = submission_workspace
+            .clone()
+            .unwrap_or_else(|| self.data_dir.join("claude-workspace"));
+        let claude_resume_session_id = (run_provider == AgentProviderKind::ClaudeCode
+            && !is_agent_graph_run
+            && claude_session_cwd.as_deref()
+                == Some(claude_main_cwd.display().to_string().as_str()))
+        .then_some(claude_session_id)
+        .flatten();
+        let conversation_history = if is_agent_graph_run || claude_resume_session_id.is_some() {
             Vec::new()
         } else {
             self.project_conversation_history(chat_id)
@@ -9997,6 +10060,7 @@ impl BrowserApp {
                     let cwd_key = cwd.display().to_string();
                     self.claude_provider =
                         claude_provider::running_view(self.claude_provider.version.clone());
+                    self.annotate_claude_usage();
                     let proxy = self.proxy.clone();
                     let handle = claude_provider::run_async(
                         ClaudeRunRequest {
@@ -10076,9 +10140,7 @@ impl BrowserApp {
             self.main_runs.insert(submission_owner, runtime);
             match run_provider {
                 AgentProviderKind::ClaudeCode => {
-                    let cwd = submission_workspace
-                        .clone()
-                        .unwrap_or_else(|| self.data_dir.join("claude-workspace"));
+                    let cwd = claude_main_cwd;
                     if let Err(error) = fs::create_dir_all(&cwd) {
                         if let Some(run) = self.agent_run_for_id_mut(run_id) {
                             run.phase = AgentPhase::Error;
@@ -10091,12 +10153,10 @@ impl BrowserApp {
                         return;
                     }
                     let cwd_key = cwd.display().to_string();
-                    let resume_session_id = (claude_session_cwd.as_deref()
-                        == Some(cwd_key.as_str()))
-                    .then(|| claude_session_id.clone())
-                    .flatten();
+                    let resume_session_id = claude_resume_session_id;
                     self.claude_provider =
                         claude_provider::running_view(self.claude_provider.version.clone());
+                    self.annotate_claude_usage();
                     let proxy = self.proxy.clone();
                     let handle = claude_provider::run_async(
                         ClaudeRunRequest {
@@ -11137,6 +11197,12 @@ impl BrowserApp {
                 self.note_provider_event(request.run_id, "permission_requested");
                 self.handle_claude_permission_requested(request);
             }
+            ClaudeProviderEvent::UsageLimit(update) => {
+                self.note_provider_event(update.run_id, "usage_limit");
+                self.claude_usage_limit = Some(update.limit);
+                self.annotate_claude_usage();
+                self.render_agent_panel();
+            }
             ClaudeProviderEvent::Finished(result) => {
                 let run_id = result.run_id;
                 let outcome = if result.result.is_ok() {
@@ -11149,6 +11215,25 @@ impl BrowserApp {
                 self.finish_run_timing(run_id, outcome);
             }
         }
+    }
+
+    /// Keeps the latest subscription usage notice visible across provider status
+    /// rewrites until its window resets.
+    fn annotate_claude_usage(&mut self) {
+        let now = claude_provider::unix_now_secs();
+        if self
+            .claude_usage_limit
+            .as_ref()
+            .is_some_and(|limit| limit.has_reset(now))
+        {
+            self.claude_usage_limit = None;
+        }
+        self.claude_usage_notice = claude_provider::replace_usage_notice(
+            &mut self.claude_provider.detail,
+            self.claude_usage_notice.as_deref(),
+            self.claude_usage_limit.as_ref(),
+            now,
+        );
     }
 
     fn handle_claude_stream_delta(&mut self, delta: ClaudeStreamDelta) {
@@ -11419,6 +11504,7 @@ impl BrowserApp {
             }
             self.finish_run_when_quiescent(result.run_id);
             self.save_session();
+            self.annotate_claude_usage();
             self.render_agent_panel();
             return;
         }
@@ -11477,7 +11563,8 @@ impl BrowserApp {
                     );
                 }
             }
-            Err(message) => {
+            Err(failure) => {
+                let message = failure.message;
                 self.finalize_agent_activities(
                     result.run_id,
                     AgentStepStatus::Error,
@@ -11493,20 +11580,34 @@ impl BrowserApp {
                     format!("Claude Code run did not complete: {message}"),
                     Vec::new(),
                 );
-                let authentication_error = message.contains("401")
-                    || message.to_ascii_lowercase().contains("authentication")
-                    || message.to_ascii_lowercase().contains("oauth");
+                // Structured Claude Code errors first; text matching covers older CLIs.
+                let authentication_error = failure.kind == ClaudeFailureKind::Authentication
+                    || (failure.kind == ClaudeFailureKind::Other
+                        && (message.contains("401")
+                            || message.to_ascii_lowercase().contains("authentication")
+                            || message.to_ascii_lowercase().contains("oauth")));
                 if !self.has_claude_jobs() {
-                    self.claude_provider = if authentication_error {
-                        AgentProviderView::unavailable(
+                    let version = self.claude_provider.version.clone();
+                    self.claude_provider = match failure.kind {
+                        _ if authentication_error => AgentProviderView::unavailable(
                             "Anthropic rejected the saved Claude Code session. Choose Reconnect in Settings.",
-                            self.claude_provider.version.clone(),
-                        )
-                    } else {
-                        claude_provider::ready_view(
-                            self.claude_provider.version.clone(),
+                            version,
+                        ),
+                        // The appended usage notice names the window and its reset time.
+                        ClaudeFailureKind::UsageLimit => claude_provider::ready_view(
+                            version,
+                            "Subscription limit reached; runs can continue after the reset.",
+                        ),
+                        ClaudeFailureKind::Billing => claude_provider::ready_view(
+                            version,
+                            format!(
+                                "Anthropic declined the run for billing: {message}. Check this Claude account's plan or extra-usage settings."
+                            ),
+                        ),
+                        _ => claude_provider::ready_view(
+                            version,
                             format!("Last run ended with an error: {message}. Ready to retry."),
-                        )
+                        ),
                     };
                 }
             }
@@ -11514,6 +11615,7 @@ impl BrowserApp {
         self.finalize_run_artifacts(result.run_id);
         self.finish_run_when_quiescent(result.run_id);
         self.save_session();
+        self.annotate_claude_usage();
         self.render_agent_panel();
     }
 
@@ -14257,12 +14359,21 @@ impl BrowserApp {
         {
             warn!(%error, "failed to resize the toolbar");
         }
+        if let Some(toolbar) = &self.toolbar {
+            let visible = !self.settings_covering_main();
+            if visible && let Err(error) = toolbar.set_background_color(background) {
+                warn!(%error, "toolbar surface was not prepared before reveal");
+            }
+            if let Err(error) = toolbar.set_visible(visible) {
+                warn!(%error, "toolbar visibility was not updated");
+            }
+        }
 
         if let Some(panel) = &self.agent_panel {
             let bounds = if let Some(detached_window) = self.agent_panel_window.as_ref() {
                 full_window_bounds(detached_window)
             } else if self.settings_open {
-                settings_panel_bounds(window, self.active_toolbar_height(window))
+                settings_panel_bounds(window)
             } else if self.browser_panel_minimized {
                 browser_content_bounds_with_panel_width(
                     window,
@@ -16340,13 +16451,8 @@ fn agent_panel_bounds_with_width(window: &Window, panel_width: u32, top: u32) ->
     }
 }
 
-fn settings_panel_bounds(window: &Window, toolbar_height: u32) -> Rect {
-    let size = window.inner_size();
-    let toolbar_height = toolbar_height.min(size.height);
-    Rect {
-        position: PhysicalPosition::new(0, toolbar_height as i32).into(),
-        size: PhysicalSize::new(size.width, size.height.saturating_sub(toolbar_height)).into(),
-    }
+fn settings_panel_bounds(window: &Window) -> Rect {
+    full_window_bounds(window)
 }
 
 #[derive(Clone, Copy)]
@@ -16619,6 +16725,7 @@ pub(crate) fn check_ui_startup() -> anyhow::Result<()> {
                     let settings_probe = include_str!("../ui/tests/settings-startup.js");
                     let graph_launcher_probe =
                         include_str!("../ui/tests/graph-launcher-startup.js");
+                    let work_results_probe = include_str!("../ui/tests/work-results-startup.js");
                     let shell_layout_probe = include_str!("../ui/tests/shell-layout-startup.js");
                     let workspace_controls_probe =
                         include_str!("../ui/tests/workspace-controls-startup.js");
@@ -16665,6 +16772,7 @@ pub(crate) fn check_ui_startup() -> anyhow::Result<()> {
                             }}
                             if ('{name}' === 'graph') {{
                                 {graph_launcher_probe}
+                                {work_results_probe}
                                 document.documentElement.dataset.configurationProbeSurface = 'graph';
                                 {configuration_probe}
                             }}
@@ -17728,6 +17836,8 @@ mod tests {
         assert!(agent_ui_contains("class=\"settings-shell\""));
         assert!(agent_ui_contains("class=\"settings-topbar\""));
         assert!(agent_ui_contains("class=\"settings-main\""));
+        assert!(!agent_ui_contains("id=\"settings-search\""));
+        assert!(!SVELTE_SETTINGS_SHELL_SOURCE.contains("searchSettings"));
         assert!(SVELTE_SETTINGS_SOURCE.contains("data-settings-nav-group"));
         assert!(SVELTE_SETTINGS_SOURCE.contains("class=\"settings-primary-tabs\""));
         assert!(SVELTE_SETTINGS_SOURCE.contains("class=\"settings-secondary-tabs\""));
@@ -17743,6 +17853,26 @@ mod tests {
         assert!(AGENT_PANEL_HTML.contains("settings-preparing"));
         assert!(AGENT_PANEL_HTML.contains("settings-closing"));
         assert!(AGENT_PANEL_HTML.contains("sendControl(\"close_settings\")"));
+    }
+
+    #[test]
+    fn docked_settings_cover_the_browser_toolbar_and_full_window() {
+        let source = include_str!("browser.rs");
+        let layout = source
+            .split_once("fn layout_webviews(&self)")
+            .and_then(|(_, rest)| rest.split_once("fn layout_preview_webview"))
+            .map(|(body, _)| body)
+            .expect("webview layout must remain discoverable");
+        let bounds = source
+            .split_once("fn settings_panel_bounds(window: &Window)")
+            .and_then(|(_, rest)| rest.split_once("#[derive(Clone, Copy)]"))
+            .map(|(body, _)| body)
+            .expect("settings bounds must remain discoverable");
+
+        assert!(layout.contains("let visible = !self.settings_covering_main();"));
+        assert!(layout.contains("toolbar.set_visible(visible)"));
+        assert!(layout.contains("settings_panel_bounds(window)"));
+        assert!(bounds.contains("full_window_bounds(window)"));
     }
 
     #[test]

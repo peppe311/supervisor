@@ -7,12 +7,16 @@
   import BoardConversationMenu from './BoardConversationMenu.svelte';
   import ProjectFileActivity from './ProjectFileActivity.svelte';
   import TaskVerificationStatus from './TaskVerificationStatus.svelte';
+  import WorkResults from './WorkResults.svelte';
+  import type {WorkMode} from '../lib/work-results';
   import {boardLayout,readBoardLayout,writeBoardLayout,type BoardLayout} from '../lib/board-layout';
   import {isWorking,agentInProject,agentKey,projectChats,sameLocalPath,type BoardState,type BoardProject,type BoardAgent} from '../lib/project-board';
   import type {ProjectChat} from '../lib/chat-tree';
   let {eventTarget}:{eventTarget:HTMLElement}=$props();
   let snapshot=$state<BoardState>({});
   let registry:ProjectRegistry;
+  let workResults:WorkResults;
+  function showWork(owner:string,mode:WorkMode):void {chatMenu=null;agentMenu=null;workResults.open(owner,mode);}
   let selectedKey=$state('');
   let selectedChat=$state<string|null>(null);
   let selectedAgent=$state<string|null>(null);
@@ -252,7 +256,11 @@
     const bounds=(event.currentTarget as HTMLElement).getBoundingClientRect();
     agentMenuPosition={top:Math.max(8,Math.min(bounds.bottom+6,window.innerHeight-132)),left:Math.max(8,Math.min(bounds.right-196,window.innerWidth-204))};
     agentMenu=agent;
-    void tick().then(()=>agentMenuElement?.querySelector<HTMLButtonElement>('button')?.focus());
+    void tick().then(()=>{
+      if(!agentMenuElement)return;
+      agentMenuPosition={...agentMenuPosition,top:Math.max(8,Math.min(bounds.bottom+6,window.innerHeight-agentMenuElement.offsetHeight-8))};
+      agentMenuElement.querySelector<HTMLButtonElement>('button')?.focus();
+    });
   }
   function renameSupervisor():void {
     if(!agentMenu)return;
@@ -355,15 +363,16 @@
 </script>
 
 <svelte:window onkeydown={boardKeydown}/>
+<WorkResults bind:this={workResults} {eventTarget} projectKey={selectedKey} active={snapshot.expanded!==false}/>
 {#snippet chatCard(chat:ProjectChat)}
   <div class="inline-card-slot" use:cardSlot={`chat:${chat.id}`}></div>
 {/snippet}
 {#if isolate}
   <div class="board-dialog-backdrop" role="presentation"><div class="board-dialog" role="dialog" aria-modal="true" aria-labelledby="worktree-title"><form onsubmit={event=>{event.preventDefault();if(!isolateName.trim()){isolateError='Enter a task name.';return;}dispatch('backend',{backendAction:{type:'create_worktree',root:selected?.path,name:isolateName.trim()}});isolate=false;}}>
-    <h2 id="worktree-title">New isolated task</h2><p>Create a branch and a linked working folder from the current HEAD. Your existing uncommitted changes stay in this project. Choose the destination in the next step.</p>
+    <h2 id="worktree-title">New isolated task</h2><p>This requires a Git project with committed files. Supervisor creates a new branch from the current commit; uncommitted changes stay in the original project.</p>
     <label for="worktree-name">Task name</label><input id="worktree-name" bind:value={isolateName} maxlength="60" placeholder="For example, improve search"/>
-    <p>The worktree appears as its own project with a new conversation. Git history is shared; file changes remain separate.</p>
-    {#if isolateError}<p role="alert">{isolateError}</p>{/if}<div class="dialog-actions"><button type="button" onclick={()=>isolate=false}>Cancel</button><button class="dialog-primary" type="submit">Choose destination</button></div>
+    <p>Next, choose a parent folder. Supervisor creates a new subfolder named after this task, then opens it as a project with its own conversation.</p>
+    {#if isolateError}<p role="alert">{isolateError}</p>{/if}<div class="dialog-actions"><button type="button" onclick={()=>isolate=false}>Cancel</button><button class="dialog-primary" type="submit">Choose parent folder</button></div>
   </form></div></div>
 {/if}
 
@@ -387,7 +396,7 @@
           {:else}<div class="empty-state"><span class="empty-symbol" aria-hidden="true">↳</span><strong>{chatQuery?'No matching conversations':selected?.source==='ssh'?'SSH conversations':'A place for your work'}</strong><p>{selected?.source==='ssh'?'Open a supervisor to work in this remote project.':selected?'Start a conversation. Its forks stay grouped here.':'Choose a project to see its conversations.'}</p></div>{/if}
         </div>
         </div>
-        {#if chatMenu}<div class="chat-actions" bind:this={menuElement} role="group" aria-label="Conversation actions"><strong>{chatMenu.title}</strong><button type="button" onclick={()=>{if(chatMenu)chooseChat(chatMenu);}}>Open conversation</button><button type="button" data-chat-action="rename" onclick={renameProjectChat}>Rename</button><button type="button" onclick={()=>{newAgent();chatMenu=null;}}>Add supervisor to this chat</button><button type="button" data-chat-action="worktree" disabled={selected?.source!=='local'} onclick={()=>{isolate=true;isolateName='';isolateError='';chatMenu=null;}}>New task in a worktree</button><button type="button" onclick={()=>{dispatch('pin-chat',{chatId:chatMenu?.id,pinned:!chatMenu?.pinned});chatMenu=null;}}>{chatMenu.pinned?'Unpin conversation':'Pin conversation'}</button><button type="button" data-chat-action="delete" disabled={chatMenu.mutationLocked} onclick={deleteProjectChat}>Delete conversation</button><button type="button" onclick={()=>chatMenu=null}>Close</button></div>{/if}
+        {#if chatMenu}<div class="chat-actions" bind:this={menuElement} role="group" aria-label="Conversation actions"><strong>{chatMenu.title}</strong><button type="button" onclick={()=>{if(chatMenu)chooseChat(chatMenu);}}>Open conversation</button><button type="button" data-chat-action="rename" onclick={renameProjectChat}>Rename</button><button type="button" data-work-action="summary" onclick={()=>chatMenu&&showWork(`chat:${chatMenu.id}`,'summary')}>Work summary</button><button type="button" data-work-action="compare" onclick={()=>chatMenu&&showWork(`chat:${chatMenu.id}`,'compare')}>Compare attempts</button><button type="button" data-work-action="handoff" disabled={chatMenu.mutationLocked} onclick={()=>chatMenu&&showWork(`chat:${chatMenu.id}`,'handoff')}>Hand off</button><button type="button" onclick={()=>{newAgent();chatMenu=null;}}>Add supervisor to this chat</button><button type="button" data-chat-action="worktree" disabled={selected?.source!=='local'} onclick={()=>{isolate=true;isolateName='';isolateError='';chatMenu=null;}}>New task in a worktree</button><button type="button" onclick={()=>{dispatch('pin-chat',{chatId:chatMenu?.id,pinned:!chatMenu?.pinned});chatMenu=null;}}>{chatMenu.pinned?'Unpin conversation':'Pin conversation'}</button><button type="button" data-chat-action="delete" disabled={chatMenu.mutationLocked} onclick={deleteProjectChat}>Delete conversation</button><button type="button" onclick={()=>chatMenu=null}>Close</button></div>{/if}
       </section>
       <section bind:this={agentLane} class="agent-lane lane" aria-label="Supervisor agents" data-board-lane="supervisors">
         <header class="lane-heading"><div><h2>Supervisors</h2><p>Agents in this project</p></div><button type="button" class="icon-button" aria-label="New supervisor" disabled={!selected} onclick={newAgent}><svg class="plus-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10"/></svg></button></header>
@@ -400,19 +409,19 @@
               <span class="agent-copy"><strong>{agent.name||'Supervisor'}</strong><small>{association(agent)}</small></span>
             </button>
             {#if verification}<span class="agent-verification"><TaskVerificationStatus owner={`supervisor-row:${agentKey(agent)}`} {verification}/></span>{/if}
+            {#if selectedAgent===agentKey(agent)&&selected?.source==='local'}
+              <div class="agent-association-menu"><BoardConversationMenu owner={`graph:${agentKey(agent)}`} label="Supervisor settings" compact active={snapshot.expanded!==false}>
+                <SettingsPicker id="board-agent-chat" label="Supervised conversation" presentation="workspace" contained value={agent.projectChatId||''} options={[{value:'',label:'Whole project'},...chats.map(chat=>({value:chat.id,label:chat.title}))]} onSelect={value=>dispatch('link-chat',{nodeKey:agentKey(agent),chatId:value||null})}/>
+              </BoardConversationMenu></div>
+            {/if}
             <button type="button" class="agent-row-menu" data-supervisor-menu-trigger aria-label={`Actions for ${agent.name||'Supervisor'}`} aria-haspopup="menu" aria-expanded={agentMenu&&agentKey(agentMenu)===agentKey(agent)} onclick={(event)=>toggleAgentMenu(agent,event)}><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="4" cy="10" r="1"/><circle cx="10" cy="10" r="1"/><circle cx="16" cy="10" r="1"/></svg></button>
           </div>
-            {#if selectedAgent===agentKey(agent)&&selected?.source==='local'}
-              <BoardConversationMenu owner={`graph:${agentKey(agent)}`} label="Supervisor settings" active={snapshot.expanded!==false}>
-                <SettingsPicker id="board-agent-chat" label="Supervised conversation" presentation="workspace" contained value={agent.projectChatId||''} options={[{value:'',label:'Whole project'},...chats.map(chat=>({value:chat.id,label:chat.title}))]} onSelect={value=>dispatch('link-chat',{nodeKey:agentKey(agent),chatId:value||null})}/>
-              </BoardConversationMenu>
-            {/if}
             <div class="inline-card-slot" use:cardSlot={`graph:${agentKey(agent)}`}></div>
           </div>{/each}
           {#if selectedKey&&!agents.some(agent=>agentKey(agent)===selectedKey)}<div class="inline-card-slot" use:cardSlot={`graph:${selectedKey}`}></div>{/if}
           {#if !agents.length}<div class="empty-state"><span class="empty-symbol" aria-hidden="true">⌘</span><strong>Your supervisor, here</strong><p>{selected?'Add an agent to coordinate and verify work in this project.':'Choose a project to see its agents.'}</p>{#if selected}<button class="primary" type="button" onclick={newAgent}>Add supervisor</button>{/if}</div>{/if}
         </div>
-        {#if agentMenu}<div class="agent-actions" bind:this={agentMenuElement} role="menu" aria-label={`Actions for ${agentMenu.name||'Supervisor'}`} style:top={`${agentMenuPosition.top}px`} style:left={`${agentMenuPosition.left}px`}><strong>{agentMenu.name||'Supervisor'}</strong><button type="button" role="menuitem" data-supervisor-action="rename" onclick={renameSupervisor}>Rename</button><button type="button" role="menuitem" data-supervisor-action="delete" onclick={deleteSupervisor}>Delete</button></div>{/if}
+        {#if agentMenu}<div class="agent-actions" bind:this={agentMenuElement} role="menu" aria-label={`Actions for ${agentMenu.name||'Supervisor'}`} style:top={`${agentMenuPosition.top}px`} style:left={`${agentMenuPosition.left}px`}><strong>{agentMenu.name||'Supervisor'}</strong><button type="button" role="menuitem" data-supervisor-action="rename" onclick={renameSupervisor}>Rename</button><button type="button" role="menuitem" data-work-action="summary" onclick={()=>agentMenu&&showWork(`graph:${agentKey(agentMenu)}`,'summary')}>Work summary</button><button type="button" role="menuitem" data-work-action="compare" onclick={()=>agentMenu&&showWork(`graph:${agentKey(agentMenu)}`,'compare')}>Compare attempts</button><button type="button" role="menuitem" data-work-action="handoff" onclick={()=>agentMenu&&showWork(`graph:${agentKey(agentMenu)}`,'handoff')}>Hand off</button><button type="button" role="menuitem" data-supervisor-action="delete" onclick={deleteSupervisor}>Delete</button></div>{/if}
         </div>
       </section>
     </div>
@@ -518,15 +527,21 @@
   .project-chat-window-layer :global(.chat-entry .agent-console[data-central-agent-svelte="knowledge-agent-popup"]){--agent-card-background:var(--project-chat-surface);position:relative;left:auto;top:auto;box-sizing:border-box;width:100%;max-width:100%;height:auto;min-height:0;max-height:none;aspect-ratio:var(--agent-card-aspect-ratio,9/16);flex:0 0 auto;border:0;border-radius:var(--ca-radius-none);box-shadow:none}
   .project-chat-window-layer :global(.agent-console-header){cursor:default;touch-action:auto}
   .agent-list{display:grid;gap:var(--conversation-card-gap);flex-shrink:0;max-height:none;overflow:visible;scrollbar-gutter:auto}.agent-list:has(.empty-state){max-height:none}
-  .agent-row-shell{position:relative}.agent-row{display:flex;width:100%;align-items:center;text-align:left;gap:var(--ca-space-2);min-height:var(--ca-control-prominent);padding:var(--ca-space-3);padding-inline-end:calc(var(--ca-control-compact) + var(--ca-space-3))}.agent-row.selected{background:var(--ca-accent-soft)}
-  .agent-row-head.verified .agent-row{padding-inline-end:calc(var(--ca-control-compact) * 4)}.agent-verification{position:absolute;z-index:3;inset-block-start:50%;inset-inline-end:calc(var(--ca-control-compact) + var(--ca-space-3));transform:translateY(-50%)}
+  .agent-row-shell{position:relative;container-type:inline-size}.agent-row{display:flex;width:100%;align-items:center;text-align:left;gap:var(--ca-space-2);min-height:var(--ca-control-prominent);padding:var(--ca-space-3);padding-inline-end:calc(var(--ca-control-compact) + var(--ca-space-3))}.agent-row.selected{background:var(--ca-accent-soft)}
+  .agent-list :global(.agent-row-shell:has(.agent-console)){overflow:hidden;border-radius:var(--ca-radius-large);background:var(--project-chat-surface);box-shadow:none}
+  .agent-list :global(.agent-row-shell:has(.agent-console) .agent-row),.agent-list :global(.agent-row-shell:has(.agent-console) .agent-row.selected){border-radius:var(--ca-radius-none);background:transparent}
+  .agent-row-head:has(.agent-association-menu) .agent-row{padding-inline-end:calc(var(--ca-control-compact) * 2 + var(--ca-space-4) + var(--ca-space-2))}
+  .agent-row-head.verified .agent-row{padding-inline-end:calc(var(--ca-control-compact) * 4)}.agent-row-head.verified:has(.agent-association-menu) .agent-row{padding-inline-end:calc(var(--ca-control-compact) * 5)}.agent-verification{position:absolute;z-index:3;inset-block-start:50%;inset-inline-end:calc(var(--ca-control-compact) + var(--ca-space-3));transform:translateY(-50%)}
+  .agent-row-head:has(.agent-association-menu) .agent-verification{inset-inline-end:calc(var(--ca-control-compact) * 2 + var(--ca-space-4))}
+  .agent-association-menu{position:absolute;z-index:3;inset-block-start:50%;inset-inline-end:calc(var(--ca-control-compact) + var(--ca-space-2) + var(--ca-space-1));transform:translateY(-50%)}
+  @container (max-width:300px){.agent-row-head.verified:has(.agent-association-menu){padding-bottom:var(--ca-control-compact)}.agent-row-head.verified:has(.agent-association-menu) .agent-row{padding-inline-end:calc(var(--ca-control-compact) * 2 + var(--ca-space-4) + var(--ca-space-2))}.agent-row-head.verified:has(.agent-association-menu) .agent-verification{inset-block-start:auto;inset-block-end:0;inset-inline-start:var(--ca-space-3);inset-inline-end:auto;transform:none}.agent-row-head.verified:has(.agent-association-menu) .agent-association-menu,.agent-row-head.verified:has(.agent-association-menu) .agent-row-menu{inset-block-start:calc(50% - var(--ca-control-compact) / 2)}}
   .agent-row-menu{position:absolute;z-index:2;inset-block-start:50%;inset-inline-end:var(--ca-space-2);display:grid;width:var(--ca-control-compact);height:var(--ca-control-compact);place-items:center;padding:0;transform:translateY(-50%);background:transparent;color:var(--ca-muted)}.agent-row-menu:hover,.agent-row-menu[aria-expanded="true"]{background:var(--ca-surface-3);color:var(--ca-text)}.agent-row-menu svg{width:var(--ca-space-4);height:var(--ca-space-4);fill:currentColor;stroke:none}
   .agent-copy{display:grid;min-width:0;flex:1;gap:var(--ca-space-1)}.agent-copy strong{font-weight:550;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.agent-copy small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ca-muted);font-size:var(--ca-type-caption)}.agent-glyph{display:grid;place-items:center;color:var(--ca-icon)}
   .agent-window-layer{--conversation-scrollbar-track:var(--ca-app-background);display:flex;flex-direction:column;align-items:stretch;gap:var(--conversation-card-gap);overflow-y:auto;overflow-x:hidden;min-height:0;flex:1;padding:var(--ca-space-3) 0;scrollbar-width:thin;scrollbar-color:var(--ca-input) var(--conversation-scrollbar-track);overscroll-behavior:contain;isolation:isolate}
   .project-chat-window-layer::-webkit-scrollbar,.agent-window-layer::-webkit-scrollbar{background:var(--conversation-scrollbar-track)}
   .project-chat-window-layer::-webkit-scrollbar-track,.project-chat-window-layer::-webkit-scrollbar-corner,.agent-window-layer::-webkit-scrollbar-track,.agent-window-layer::-webkit-scrollbar-corner{background:var(--conversation-scrollbar-track)}
   .project-chat-window-layer::-webkit-scrollbar-thumb,.project-chat-window-layer::-webkit-scrollbar-thumb:hover,.agent-window-layer::-webkit-scrollbar-thumb,.agent-window-layer::-webkit-scrollbar-thumb:hover{border-color:var(--conversation-scrollbar-track);background:var(--ca-input)}
-  .agent-window-layer:empty{display:none}.agent-window-layer :global(.agent-console[data-central-agent-svelte="knowledge-agent-popup"]){position:relative;left:auto;top:auto;box-sizing:border-box;width:var(--supervisor-card-width,100%);max-width:100%;height:auto;min-height:0;max-height:none;aspect-ratio:var(--agent-card-aspect-ratio,9/16);flex:0 0 auto;border:3px solid var(--ca-accent-soft);border-radius:var(--ca-radius-large);box-shadow:none}
+  .agent-window-layer:empty{display:none}.agent-window-layer :global(.agent-row-shell .agent-console[data-central-agent-svelte="knowledge-agent-popup"]){--agent-card-background:var(--project-chat-surface);position:relative;left:auto;top:auto;box-sizing:border-box;width:100%;max-width:100%;height:auto;min-height:0;max-height:none;aspect-ratio:var(--agent-card-aspect-ratio,9/16);flex:0 0 auto;border:0;border-radius:var(--ca-radius-none);box-shadow:none}
   .chat-actions{position:absolute;inset:auto var(--ca-space-2) var(--ca-space-2);z-index:8;display:grid;gap:var(--ca-space-1);padding:var(--ca-space-3);border-radius:var(--ca-radius-large);box-shadow:var(--ca-shadow-float);background:var(--ca-surface)}.chat-actions strong{padding:var(--ca-space-2);font-weight:550;overflow-wrap:anywhere}.chat-actions button{text-align:left}
   .agent-actions{position:fixed;z-index:90;display:grid;width:196px;gap:var(--ca-space-1);padding:var(--ca-space-2);border-radius:var(--ca-radius-large);background:var(--ca-surface);box-shadow:var(--ca-shadow-float)}.agent-actions strong{padding:var(--ca-space-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:550}.agent-actions button{text-align:left;background:transparent}.agent-actions button:hover,.agent-actions button:focus-visible{background:var(--ca-surface-3)}
   .board-dialog-backdrop{position:fixed;z-index:100;inset:0;display:grid;place-items:center;padding:var(--ca-space-5);background:color-mix(in srgb,var(--ca-app-background) 72%,transparent);backdrop-filter:blur(6px)}.board-dialog{display:grid;width:min(420px,calc(100vw - 40px));gap:var(--ca-space-3);padding:var(--ca-space-5);border:0;border-radius:var(--ca-radius-large);background:var(--ca-surface);box-shadow:var(--ca-shadow-float);animation:board-dialog-in var(--ca-duration-deliberate) var(--ca-ease-emphasized)}.board-dialog form{display:grid;gap:var(--ca-space-3)}.board-dialog h2{font:680 var(--ca-type-settings-sidebar-title-compact)/1.2 var(--ca-font-display);letter-spacing:-.015em}.board-dialog p{color:var(--ca-muted);font-size:var(--ca-type-body);line-height:var(--ca-leading-body)}.board-dialog p strong{color:var(--ca-text)}.board-dialog label{font-weight:640}.board-dialog input{width:100%;box-sizing:border-box;min-height:42px;padding:0 var(--ca-space-3);border:0;border-radius:var(--ca-radius-medium);outline:0;background:var(--ca-surface-2);color:var(--ca-text)}.board-dialog input:focus{box-shadow:var(--ca-focus-ring)}.board-dialog .dialog-error{color:var(--ca-text);box-shadow:inset 3px 0 var(--ca-danger);padding-inline-start:var(--ca-space-3);font-size:var(--ca-type-caption)}.dialog-actions{display:flex;justify-content:flex-end;gap:var(--ca-space-2);margin-top:var(--ca-space-2)}.dialog-actions button{min-height:38px;padding:0 var(--ca-space-4);font-weight:640}.dialog-actions .dialog-primary{background:var(--ca-text);color:var(--ca-app-background)}
