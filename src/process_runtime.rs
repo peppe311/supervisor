@@ -2112,10 +2112,10 @@ mod tests {
         let result = runtime
             .start(
                 if cfg!(windows) {
-                    "Write-Output 'Local: http://127.0.0.1:4317/demo'; Start-Sleep -Seconds 5"
+                    "Write-Output 'Local: http://127.0.0.1:4317/demo'; Start-Sleep -Seconds 30"
                         .to_owned()
                 } else {
-                    "printf 'Local: http://127.0.0.1:4317/demo'; sleep 5".to_owned()
+                    "printf 'Local: http://127.0.0.1:4317/demo'; sleep 30".to_owned()
                 },
                 directory.path().to_path_buf(),
                 None,
@@ -2126,7 +2126,12 @@ mod tests {
             )
             .unwrap();
         let process_id = result.get("processId").and_then(Value::as_u64).unwrap();
-        let deadline = Instant::now() + Duration::from_secs(3);
+
+        // Cold PowerShell startup on hosted Windows runners can take several
+        // seconds. The loop stops at the first detection, so the generous
+        // deadline only matters on slow machines; the child outlives it and is
+        // cancelled below.
+        let deadline = Instant::now() + Duration::from_secs(20);
         while Instant::now() < deadline {
             if let Ok(event) = receiver.recv_timeout(Duration::from_millis(100)) {
                 runtime.handle_event(event);
