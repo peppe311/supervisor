@@ -100,7 +100,7 @@ fn read_turn(
 }
 
 impl BrowserApp {
-    pub(super) fn read_native_work_history(
+    pub(in crate::browser) fn read_native_work_history(
         &mut self,
         owner: &str,
         thread: &str,

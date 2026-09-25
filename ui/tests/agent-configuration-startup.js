@@ -31,6 +31,20 @@ try {
   const accessOptions=[{value:'readOnly',label:'Read only',allowed:true},{value:'workspaceWrite',label:'Project access',allowed:true},{value:'fullAccess',label:'Full access',allowed:true}];
   const emit=(patch={},accessPatch={},usagePatch={})=>target.dispatchEvent(new CustomEvent('central-agent:conversation-state',{detail:{owner,nativeUsage:{visible:true,connected:true,current:true,report:null,...usagePatch},nativeAccess:{visible:true,selected:'readOnly',summary:'auto',disabled:false,permissionsDisabled:false,options:accessOptions,...accessPatch},nativeConversation:{...view,...patch}}}));
   emit();await flush();
+  const cacheHost=popup?popup.querySelector('.graph-prompt-actions'):document.querySelector('.composer-actions');
+  assert(cacheHost&&!cacheHost.querySelector('[data-cache-window]'),'Cache timer appeared without a native usage report');
+  const cacheUsage={model:'gpt-6-sol',cacheReportAtMs:Date.now(),turnId:'cache-probe',activeTurnId:'cache-probe',report:{last:{cachedInputTokens:'2048'},total:{},modelContextWindow:null}};
+  emit({}, {}, cacheUsage);await flush();
+  const cacheTimer=cacheHost.querySelector('[data-cache-window="estimated"]');
+  assert(cacheTimer?.textContent.includes('Cache ~')&&cacheTimer.getBoundingClientRect().width>0,'A fresh Codex cache report did not show its compact estimate');
+  if(popup){
+    popup.style.setProperty('--agent-console-available-width','300px');await flush();
+    assert(cacheHost.scrollWidth<=cacheHost.clientWidth+1,'Cache estimate overflows a narrow graph prompt');
+    popup.style.removeProperty('--agent-console-available-width');
+  }
+  emit({}, {}, {...cacheUsage,current:false});await flush();
+  assert(!cacheHost.querySelector('[data-cache-window]'),'A stale cache report kept its timer');
+  emit();await flush();
   const groups=[...root.querySelectorAll('[data-config-section]')];
   const toggles=groups.map(group=>group.querySelector('.section-toggle')).filter(Boolean);
   const contents=groups.map(group=>group.querySelector('.configuration-content')).filter(Boolean);
@@ -48,9 +62,10 @@ try {
     const attach=popup.querySelector('.attach-file');
     const sendButton=popup.querySelector('[data-action="submit"]'),stopButton=popup.querySelector('[data-action="stop"]');
     const profile=[...popup.querySelectorAll('.graph-profile-fields select')];
+    const profileTriggers=[...popup.querySelectorAll('.graph-profile-fields [data-profile-trigger]')];
     const compatibility=popup.querySelector('.agent-console-compatibility');
     assert(compatibility?.hidden && compatibility.contains(popup.querySelector('[data-action="save"]')) && compatibility.contains(popup.querySelector('[data-role="mission"]')),'Assignment compatibility hooks are missing or mixed with live controls');
-    profile.forEach(select=>{select.add(new Option('Selected profile value',select.dataset.role));select.value=select.dataset.role;});
+    profile.forEach(select=>{select.add(new Option('Selected profile value',select.dataset.role));const alternate=new Option(`Alternate ${select.dataset.role}`,`alternate-${select.dataset.role}`);alternate.title='A second profile choice';select.add(alternate);select.value=select.dataset.role;});
     assert(minimizeButton?.nextElementSibling===profileToggle&&profileToggle.nextElementSibling===popup.querySelector('[data-action="close"]'),'Minimize, profile and Close controls are not ordered consistently');
     assert(profileMark?.querySelectorAll('path').length===2,'Graph profile control does not use the Supervisor mark');
     assert(profileToggle.getAttribute('aria-expanded')==='false' && profilePanel.hidden,'Profile menu does not start closed');
@@ -66,6 +81,28 @@ try {
     await flush();
     assert(profilePanel.hidden,'Graph profile exit did not hide after recomposing the mark');
     popup.style.setProperty('--ca-profile-motion-duration','0ms');
+    profileToggle.click();await flush();
+    assert(profileTriggers.map(button=>button.dataset.profileTrigger).join(',')==='provider,model,effort,speed'&&profileTriggers.every(button=>button.getClientRects().length)&&profile.every(select=>!select.getClientRects().length),'Graph profile must expose four custom pickers and keep native selectors hidden');
+    const providerTrigger=profileTriggers[0],providerMenu=popup.querySelector('[data-picker="provider"] .model-picker-menu');
+    let providerChanges=0;profile[0].addEventListener('change',()=>providerChanges++);
+    providerTrigger.click();await flush();
+    assert(!providerMenu.hidden&&providerTrigger.getAttribute('aria-expanded')==='true'&&providerMenu.querySelectorAll('[role="option"]').length===2,'Provider did not open the same option-list pattern as the main chat');
+    assert(providerMenu.querySelector('[data-value="provider"]').getAttribute('aria-selected')==='true'&&providerMenu.querySelector('.model-picker-option-description')?.textContent==='A second profile choice','Graph option selection or description is missing');
+    providerMenu.querySelector('[data-value="alternate-provider"]').click();await flush();
+    assert(profile[0].value==='alternate-provider'&&providerChanges===1&&providerMenu.hidden&&providerTrigger.querySelector('.model-picker-value').textContent==='Alternate provider'&&!profilePanel.hidden,'Choosing a graph provider did not update the native profile and visible value');
+    providerTrigger.click();providerMenu.querySelector('[data-value="provider"]').click();await flush();
+    assert(profile[0].value==='provider'&&providerChanges===2,'Restoring a graph provider did not notify its existing change handler');
+    const modelTrigger=profileTriggers[1],modelMenu=popup.querySelector('[data-picker="model"] .model-picker-menu');
+    modelTrigger.focus();modelTrigger.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowDown',bubbles:true,cancelable:true}));await flush();
+    assert(!modelMenu.hidden&&modelTrigger.getAttribute('aria-expanded')==='true','ArrowDown did not open the model picker');
+    await new Promise(resolve=>requestAnimationFrame(resolve));
+    assert(modelMenu.contains(document.activeElement),'Keyboard opening did not focus the selected model');
+    document.activeElement.dispatchEvent(new KeyboardEvent('keydown',{key:'End',bubbles:true,cancelable:true}));
+    assert(document.activeElement===modelMenu.querySelector('[data-value="alternate-model"]'),'End did not reach the last model option');
+    document.activeElement.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true,cancelable:true}));await flush();
+    assert(modelMenu.hidden&&!profilePanel.hidden&&document.activeElement===modelTrigger,'Escape did not close only the model options and return focus');
+    modelTrigger.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true,cancelable:true}));await flush();
+    assert(profilePanel.hidden&&document.activeElement===profileToggle,'A second Escape did not close the graph profile');
     const pluginControls=[];
     const pluginControl=event=>{if(event.detail?.action?.kind==='apps_control'){pluginControls.push(event.detail);event.preventDefault();event.stopImmediatePropagation();}};
     popup.addEventListener('central-agent:app-server-conversation-control',pluginControl,true);
@@ -115,7 +152,9 @@ try {
         const logTop=popup.querySelector('.graph-timeline').getBoundingClientRect().top;
         profileToggle.click();await flush();
         const visibleSelects=[...popup.querySelectorAll('select')].filter(select=>select.getClientRects().length);
-        assert(visibleSelects.map(select=>select.dataset.role).join(',')==='provider,model,effort,speed','Agent card exposes more than its four profile choices');
+        const visiblePickers=profileTriggers.filter(button=>button.getClientRects().length);
+        assert(!visibleSelects.length&&visiblePickers.map(button=>button.dataset.profileTrigger).join(',')==='provider,model,effort,speed','Agent card does not expose exactly four visible custom profile choices');
+        assert(getComputedStyle(visiblePickers[0]).backgroundColor!==getComputedStyle(profilePanel).backgroundColor,'The graph profile value is not distinguishable from its panel');
         assert(!popup.innerText.includes('Central Agent'),'Agent card repeats the old name or assignment metadata');
         const monitor=popup.querySelector('[data-native-usage="compact"]');
         assert(monitor?.getClientRects().length && monitor.textContent.replace(/\s/g,'')==='Context—' && !monitor.querySelector('details,table'),'Agent card context signal is missing, verbose or not compact');
@@ -126,13 +165,13 @@ try {
         assert(compatibility.getClientRects().length===0 && [...compatibility.querySelectorAll('input,select,button')].every(control=>!control.getClientRects().length),'Retired controls still reserve layout or enter the visible profile');
         assert(profile.every(select=>select.value===select.dataset.role && select.closest('.graph-profile-fields').scrollWidth<=select.closest('.graph-profile-fields').clientWidth+1),'A native update loses a profile choice or clips the compact profile');
         emit();await flush();assert(!profilePanel.hidden && Math.abs(logTop-popup.querySelector('.graph-timeline').getBoundingClientRect().top)<1,'Opening or updating the profile moved the transcript or closed the menu');
-        profile[0].dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true,cancelable:true}));await flush();
+        profileTriggers[0].dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true,cancelable:true}));await flush();
         assert(profilePanel.hidden && document.activeElement===profileToggle,'Escape did not close the profile and return keyboard focus');
         profileToggle.click();await flush();document.body.dispatchEvent(new PointerEvent('pointerdown',{bubbles:true}));await flush();assert(profilePanel.hidden,'An outside click did not close the profile');
       }
     }
     popup.dispatchEvent(new CustomEvent('central-agent:slash-ui',{detail:{owner,action:'model'}}));await flush();
-    assert(!profilePanel.hidden && document.activeElement===profile[1],'Model shortcut focused a hidden selector');
+    assert(!profilePanel.hidden && document.activeElement===profileTriggers[1],'Model shortcut did not focus the visible picker');
     profileToggle.click();await flush();
     const submissions=[];const capture=event=>submissions.push(event.detail);
     popup.addEventListener('central-agent:graph-submit',capture);

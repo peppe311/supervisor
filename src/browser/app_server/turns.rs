@@ -307,11 +307,14 @@ impl BrowserApp {
         let supervision_context = owner
             .strip_prefix("graph:")
             .and_then(|node_key| self.supervised_chat_context(node_key));
-        if let Some(thread) = self
-            .app_server
-            .conversations
-            .binding(owner)
-            .map(|binding| binding.thread_id.clone())
+        if !supervision_review
+            .as_ref()
+            .is_some_and(|review| review.automatic)
+            && let Some(thread) = self
+                .app_server
+                .conversations
+                .binding(owner)
+                .map(|binding| binding.thread_id.clone())
         {
             self.app_server.promote_apps(owner, &thread);
         }
@@ -432,6 +435,8 @@ impl BrowserApp {
         }
         if pending.cancelled {
             self.stop_app_server(owner);
+        } else {
+            self.begin_automatic_supervision(owner, turn_id);
         }
     }
 

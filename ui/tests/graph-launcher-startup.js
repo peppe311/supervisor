@@ -188,8 +188,9 @@ try {
       supervisorRowBeforeOpen.click();await flush();
       const cardA=document.querySelector('.agent-console[data-node-key="conversation:card-alpha"]');
       const selectedAgentRow=document.querySelector('[data-agent-key="conversation:card-alpha"]');
-      const cardStyle=getComputedStyle(cardA),selectedAgentStyle=getComputedStyle(selectedAgentRow);
-      assert(parseFloat(cardStyle.borderTopWidth)===3&&cardStyle.borderTopColor===selectedAgentStyle.backgroundColor,`${theme}: supervisor card border is not three pixels in the selected-card color`);
+      const supervisorShell=cardA.closest('.agent-row-shell'),cardStyle=getComputedStyle(cardA),shellStyle=getComputedStyle(supervisorShell);
+      assert(parseFloat(cardStyle.borderTopWidth)===0&&shellStyle.backgroundColor===cardStyle.backgroundColor&&shellStyle.boxShadow==='none',`${theme}: Supervisor selector and conversation retain a separate frame`);
+      assert(Math.abs(cardA.getBoundingClientRect().top-supervisorRowBeforeOpen.parentElement.getBoundingClientRect().bottom)<.6&&supervisorShell.contains(supervisorRowBeforeOpen),`${theme}: Supervisor selector and conversation do not meet as one card`);
       assert(Math.abs(selectedAgentRow.getBoundingClientRect().width-supervisorWidthBeforeOpen)<1,`${theme}: opening a Supervisor conversation shrank its selector card`);
       assert(Math.abs(cardA.getBoundingClientRect().width-selectedAgentRow.getBoundingClientRect().width)<1,`${theme}: supervisor conversation width does not match its selector card`);
       for(const width of [1024,1920,2560,3840]){
@@ -200,6 +201,7 @@ try {
       }
       boardShell.style.width='';await flush();
       const supervisorSettings=document.querySelector('[data-board-conversation-menu="graph:conversation:card-alpha"]');
+      assert(supervisorSettings?.closest('.agent-row-head')===selectedAgentRow.parentElement,`${theme}: Supervisor association control separates the selector from its chat`);
       const settingsTrigger=supervisorSettings.querySelector('.menu-trigger'),settingsPanel=supervisorSettings.querySelector('[popover]'),association=supervisorSettings.querySelector('[data-settings-picker="board-agent-chat"]'),associationButton=association?.querySelector('.settings-picker-button');
       assert(!settingsPanel.matches(':popover-open')&&associationButton&&!associationButton.getClientRects().length,`${theme}: Supervisor options are visible before opening the compact menu`);
       const conversationBefore=cardA.getBoundingClientRect();
@@ -231,9 +233,14 @@ try {
       assert(!sent.some(message=>/stop_knowledge_agent|close_chat_preview/.test(message.message_type)),`${theme}: minimizing a Supervisor stopped or closed its work`);
       supervisorMinimize.click();await flush();
       assert(cardA.dataset.cardMinimized==='false'&&inputA.form.getClientRects().length&&inputA.value==='Keep alpha draft'&&Math.abs(cardA.getBoundingClientRect().height/cardA.getBoundingClientRect().width-16/9)<.02,`${theme}: restoring a Supervisor did not recover its unchanged portrait card`);
+      const projectOrder=()=>[...document.querySelectorAll('[data-board-lane="projects"] .project-card[data-project-node]')].map(row=>row.dataset.projectNode);
+      const orderBeforeSelection=projectOrder();
+      assert(orderBeforeSelection.length===2,`${theme}: project order check has no rows`);
       window.CentralAgentSvelte.selectBoardProject('entity:beta');await flush();
       assert(sent.some(message=>message.message_type==='project_board'&&message.action.type==='select'&&message.action.id===projects[1].id),`${theme}: selecting a project did not reach Rust`);
+      projects[0].active=false;projects[1].active=true;projects[1].lastOpenedAtMs=999999;
       state.workspace={root:projects[1].path,entries:[{path:'beta.rs',kind:'file'}]};window.renderKnowledgeSurfaceState(state);await flush();
+      assert(projectOrder().join(',')===orderBeforeSelection.join(','),`${theme}: selecting a project moved its row after the last-opened update`);
       assert(cardA.hidden&&!document.querySelector('[data-chat-id="alpha-chat"]')&&!document.querySelector('[aria-label="Open alpha.rs"]'),`${theme}: alpha scope leaked into beta`);
       document.querySelector('[data-agent-key="conversation:card-beta"]').click();await flush();
       const cardB=document.querySelector('.agent-console[data-node-key="conversation:card-beta"]');
@@ -533,6 +540,14 @@ try {
       window.renderKnowledgeSurfaceState(state);await flush();await flush();
       const chatRow=document.querySelector(`[data-chat-id="${chatId}"]`),card=document.querySelector(`[data-project-chat-id="${chatId}"]`);
       assert(card&&card.closest('.chat-inline')?.previousElementSibling===chatRow,`${theme}: the retained project chat is not mounted directly below its row`);
+      const projectMenu=document.querySelector(`[data-project-node="${nodeKey}"] .project-menu`);
+      const gitStatus=()=>[...projectMenu.querySelectorAll('.menu-popover button')].find(button=>button.textContent==='Git status');
+      projectMenu.querySelector('.menu-toggle').click();await flush();gitStatus().click();await flush();
+      assert(document.querySelector('.git-notice')?.textContent.includes('not a Git repository')&&!sent.some(message=>message.message_type==='open_project_terminal'),`${theme}: a non-Git project silently ignored Git status or opened a hidden terminal`);
+      document.querySelector('.git-notice button').click();await flush();
+      state.projectRegistry.projects[0].metadata={gitRepository:true,gitBranch:'main',gitModified:0,worktreeCount:1};window.renderKnowledgeSurfaceState(state);await flush();
+      sent.length=0;projectMenu.querySelector('.menu-toggle').click();await flush();gitStatus().click();await flush();
+      assert(sent.some(message=>message.message_type==='open_project_terminal'&&message.source==='local'&&message.id===root&&message.git===true),`${theme}: Git status did not request the selected project's terminal`);
       document.querySelector(`[data-agent-key="${agentKey}"]`).click();await flush();
       const supervisorSettings=document.querySelector(`[data-board-conversation-menu="graph:${agentKey}"]`),supervisorPanel=supervisorSettings?.querySelector('[popover]');
       assert(supervisorSettings&&supervisorPanel&&!supervisorPanel.matches(':popover-open'),`${theme}: Supervisor association did not remain in a compact menu`);
@@ -551,8 +566,13 @@ try {
       supervisorPanel.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true,cancelable:true}));await flush();
       assert(!supervisorPanel.matches(':popover-open'),`${theme}: Escape did not close the compact Supervisor menu`);
       sent.length=0;document.querySelector(`[data-chat-id="${chatId}"] .workspace-row-menu`).click();await flush();document.querySelector('[data-chat-action="worktree"]').click();await flush();
-      const worktree=document.querySelector('[aria-labelledby="worktree-title"]'),name=worktree.querySelector('input');name.value='Isolated login';name.dispatchEvent(new Event('input',{bubbles:true}));worktree.querySelector('form').requestSubmit();await flush();
+      const worktree=document.querySelector('[aria-labelledby="worktree-title"]'),name=worktree.querySelector('input');
+      assert(worktree.textContent.includes('committed files')&&worktree.textContent.includes('parent folder')&&worktree.textContent.includes('new subfolder'),`${theme}: worktree dialog does not explain why a selected parent can remain empty`);
+      name.value='Isolated login';name.dispatchEvent(new Event('input',{bubbles:true}));worktree.querySelector('form').requestSubmit();await flush();
       assert(sent.some(message=>message.action?.type==='create_worktree'&&message.action.root===root&&message.action.name==='Isolated login'),`${theme}: isolated task did not reach native worktree creation with its project root`);
+      window.dispatchEvent(new CustomEvent('central-agent:project-board-error',{detail:{owner:'graph:project-board',error:'New task in a worktree requires a Git repository.'}}));await flush();
+      assert(document.querySelector('.board-error')?.textContent.includes('requires a Git repository'),`${theme}: worktree preflight error is not visible on the board`);
+      document.querySelector('.board-error button')?.click();await flush();
       window.renderKnowledgeSurfaceState({...state,expanded:false});await flush();
       assert(!supervisorPanel.matches(':popover-open'),`${theme}: closing the board left its compact menu floating`);
     }

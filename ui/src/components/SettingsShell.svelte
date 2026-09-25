@@ -1,13 +1,11 @@
 <script lang="ts">
   import {onMount,tick} from "svelte";
   import SettingsNavigation from "./SettingsNavigation.svelte";
-  import {resolveSettingsId,settingsCategories,searchSettings,type SettingsId} from "../lib/settings-catalog";
+  import {resolveSettingsId,settingsCategories,type SettingsId} from "../lib/settings-catalog";
   let {sections,source}:{sections:HTMLElement[];source:HTMLElement}=$props();
-  let active=$state<SettingsId>("settings-general"),query=$state("");
-  let shell:HTMLDivElement,pages:HTMLDivElement,content:HTMLDivElement,search:HTMLInputElement;
+  let active=$state<SettingsId>("settings-general");
+  let shell:HTMLDivElement,pages:HTMLDivElement,content:HTMLDivElement;
   const category=$derived(settingsCategories.find(item=>item.id===active)!);
-  const searching=$derived(Boolean(query.trim()));
-  const results=$derived(searchSettings(query));
   const scrollPositions=new Map<string,number>();
   let mounted=false,visible=false,revision=0;
 
@@ -36,13 +34,13 @@
     revealActiveContent();
   }
   function rememberScroll():void {
-    if(content && !query.trim())scrollPositions.set(active,content.scrollTop);
+    if(content)scrollPositions.set(active,content.scrollTop);
   }
   export function select(sectionId:string,selector?:string):boolean {
     const resolved=resolveSettingsId(sectionId);
     if(!resolved || pages?.querySelector('dialog[open]'))return false;
     rememberScroll();
-    active=resolved;query="";applySelection();
+    active=resolved;applySelection();
     const current=++revision;
     void tick().then(()=>{
       if(current!==revision || !mounted)return;
@@ -84,22 +82,10 @@
       return;
     }
     applySelection();
-    void tick().then(()=>{if(visible && content){revealActiveContent();content.scrollTop=searching?0:scrollPositions.get(active)||0;}});
-  }
-  function filter(value:string):void {
-    if(!query.trim())rememberScroll();
-    query=value;revision++;
-    if(content)content.scrollTop=value.trim()?0:scrollPositions.get(active)||0;
-  }
-  function clearSearch():void {filter("");search.focus();}
-  function searchKey(event:KeyboardEvent):void {
-    if(event.key==='Escape' && query) {event.preventDefault();event.stopPropagation();clearSearch();}
+    void tick().then(()=>{if(visible && content){revealActiveContent();content.scrollTop=scrollPositions.get(active)||0;}});
   }
   function keyboard(event:KeyboardEvent):void {
     if(!visible)return;
-    if((event.ctrlKey||event.metaKey) && event.key.toLowerCase()==="k") {
-      event.preventDefault();search.focus();search.select();return;
-    }
     if(event.key!=="Tab" || event.defaultPrevented || document.querySelector('dialog[open],.modal:not([hidden]),.workspace-confirm-backdrop'))return;
     const controls=[...shell.querySelectorAll<HTMLElement>('button,input,select,textarea,summary,a[href],[tabindex="0"]')].filter(control=>!control.matches(':disabled,[hidden]') && control.getClientRects().length && getComputedStyle(control).visibility!=="hidden");
     const first=controls[0],last=controls.at(-1);
@@ -120,14 +106,9 @@
 </script>
 
 <svelte:window onkeydown={keyboard} />
-<div bind:this={shell} class="settings-shell" role="dialog" aria-modal="true" aria-labelledby="settings-title" tabindex="-1" onkeydown={searchKey}>
+<div bind:this={shell} class="settings-shell" role="dialog" aria-modal="true" aria-labelledby="settings-title" tabindex="-1">
   <header class="settings-topbar">
     <h1>Settings</h1>
-    <div class="settings-search">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>
-      <input bind:this={search} id="settings-search" type="search" value={query} oninput={event=>filter(event.currentTarget.value)} placeholder="Find a setting…" aria-label="Search settings" autocomplete="off" maxlength="120" />
-      {#if query}<button class="settings-search-clear" type="button" aria-label="Clear settings search" onclick={clearSearch}>×</button>{:else}<kbd>Ctrl K</kbd>{/if}
-    </div>
     <button id="settings-back" class="settings-back" type="button" aria-label="Back to workspace" title="Back to workspace">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/><path d="M9 12h11"/></svg>
     </button>
@@ -137,26 +118,14 @@
     <div class="settings-page-head">
       <div class="settings-page-head-inner">
         <div class="settings-page-title">
-          <h2 id="settings-title"><span class="visually-hidden">Settings: </span><span id="settings-category-title">{searching?"Search results":category.title}</span></h2>
-          <p aria-live="polite">{searching?`${results.length} ${results.length===1?"setting":"settings"} found`:category.description}</p>
+          <h2 id="settings-title"><span class="visually-hidden">Settings: </span><span id="settings-category-title">{category.title}</span></h2>
+          <p>{category.description}</p>
         </div>
       </div>
     </div>
     <div bind:this={content} id="settings-content" class="settings-content" tabindex="-1">
       <div class="settings-reading-column">
-        {#if searching}
-          <div class="settings-results" aria-label="Settings search results">
-            {#each results as result}
-              <button class="settings-result" type="button" onclick={()=>select(result.section,result.selector)}>
-                <span class="settings-result-category">{settingsCategories.find(category=>category.id===result.section)!.title}</span>
-                <strong>{result.title}</strong><span>{result.description}</span>
-              </button>
-            {:else}
-              <div class="settings-empty"><p>No matching settings. Try a provider name, “permissions” or “projects”.</p><button type="button" class="action" onclick={clearSearch}>Clear search</button></div>
-            {/each}
-          </div>
-        {/if}
-        <div bind:this={pages} class="settings-pages" hidden={searching}></div>
+        <div bind:this={pages} class="settings-pages"></div>
       </div>
     </div>
   </div>
@@ -165,36 +134,23 @@
 <style>
   :global([data-central-agent-svelte="settings-shell"]) {width:100%;height:100%;min-width:0;min-height:0;container-type:inline-size;container-name:settings;}
   .settings-shell {display:grid;width:100%;height:100%;max-width:none;min-width:0;min-height:0;grid-template-rows:auto auto minmax(0,1fr);overflow:hidden;border:0;border-radius:var(--ca-radius-none);box-shadow:none;background:var(--ca-app-background);color:var(--ca-text);font:var(--ca-type-body)/var(--ca-leading-body) var(--ca-font-body);}
-  .settings-topbar {display:grid;grid-template-columns:minmax(10rem,1fr) minmax(20rem,56rem) minmax(10rem,1fr);align-items:center;gap:var(--ca-space-8);min-width:0;padding:var(--ca-space-5) var(--ca-space-8) var(--ca-space-3);border:0;box-shadow:none;}
+  .settings-topbar {display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:var(--ca-space-4);min-width:0;padding:0 var(--ca-space-8);border:0;background:var(--ca-app-background);box-shadow:none;}
   .settings-topbar h1 {margin:0;font:670 var(--ca-type-settings-sidebar-title)/1.2 var(--ca-font-display);letter-spacing:-.02em;text-transform:none;}
-  .settings-search {display:flex;align-items:center;gap:var(--ca-space-3);min-width:0;min-height:calc(var(--ca-control-prominent) + var(--ca-space-3));padding-inline:var(--ca-space-4);border:0;border-radius:var(--ca-pill);background:var(--ca-settings-selectable-background);box-shadow:none;color:var(--ca-muted);transition:background-color var(--ca-duration-fast) var(--ca-ease-standard),box-shadow var(--ca-duration-fast) var(--ca-ease-standard);}
-  .settings-search:focus-within {background:var(--ca-input);box-shadow:var(--ca-focus-ring);}
-  .settings-search svg {width:20px;height:20px;flex:0 0 auto;}
-  .settings-search input {width:100%;min-width:0;padding:var(--ca-space-2) 0;border:0;outline:0;background:transparent;color:var(--ca-text);font:500 var(--ca-type-body)/var(--ca-leading-body) var(--ca-font-body);}
-  .settings-search input::-webkit-search-cancel-button {display:none;}
-  .settings-search button {display:grid;min-width:var(--ca-control-compact);min-height:var(--ca-control-compact);place-items:center;border:0;background:transparent;color:var(--ca-muted);font:inherit;cursor:pointer;}
-  .settings-search kbd {margin-left:auto;padding:var(--ca-space-1) var(--ca-space-2);border:0;border-radius:var(--ca-radius-small);background:var(--ca-surface-3);color:var(--ca-muted);font:550 var(--ca-type-caption)/var(--ca-leading-compact) var(--ca-font-body);white-space:nowrap;}
-  .settings-back {display:grid;width:calc(var(--ca-control-prominent) + var(--ca-space-3));height:calc(var(--ca-control-prominent) + var(--ca-space-3));place-items:center;justify-self:end;padding:0;border:0;border-radius:var(--ca-radius-none);background:transparent;color:var(--ca-muted);cursor:pointer;transition:color var(--ca-duration-fast) var(--ca-ease-standard);}
+  .settings-back {display:grid;width:var(--ca-control-prominent);height:var(--ca-control-prominent);place-items:center;justify-self:end;padding:0;border:0;border-radius:var(--ca-radius-none);background:transparent;color:var(--ca-muted);cursor:pointer;transition:color var(--ca-duration-fast) var(--ca-ease-standard);}
   .settings-back:hover {background:transparent;color:var(--ca-text);}
   .settings-back svg {width:20px;height:20px;}
   :global(body.settings-open .workspace-confirm-dialog),:global(body.settings-open #full-access-modal .modal-card),:global(body.settings-open #full-access-modal .modal-icon),:global(body.settings-open #full-access-modal .action) {border:0;}
   button:focus-visible {outline:2px solid var(--ca-settings-control-focus);outline-offset:var(--ca-space-1);}
-  .settings-nav {min-width:0;min-height:0;padding:var(--ca-space-3) var(--ca-space-8) var(--ca-space-5);overflow:visible;}
+  .settings-nav {min-width:0;min-height:0;padding:0 var(--ca-space-8) var(--ca-space-3);overflow:visible;}
   .settings-main {display:grid;grid-template-rows:auto minmax(0,1fr);min-width:0;min-height:0;overflow:hidden;}
-  .settings-page-head {padding:var(--ca-space-3) var(--ca-space-12) var(--ca-space-4);border:0;background:transparent;}
+  .settings-page-head {padding:0 var(--ca-space-12) var(--ca-space-4);border:0;background:transparent;}
   .settings-page-head-inner,.settings-reading-column {width:100%;max-width:var(--ca-settings-content-width);margin-inline:auto;min-width:0;}
   .settings-page-title {min-width:0;}
   h2 {margin:0;font:700 var(--ca-type-settings-title)/1.15 var(--ca-font-display);letter-spacing:-.025em;}
   .visually-hidden {position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
   .settings-page-title p {max-width:48rem;margin:var(--ca-space-2) 0 0;color:var(--ca-muted);font:400 var(--ca-type-settings-subtitle)/var(--ca-leading-body) var(--ca-font-body);}
   .settings-content {min-width:0;min-height:0;overflow:auto;padding:0 var(--ca-space-12) var(--ca-space-12);background:transparent;scroll-behavior:auto;scrollbar-gutter:stable;}
-  .settings-pages,.settings-results {min-width:0;}
-  .settings-pages[hidden] {display:none;}
-  .settings-result {position:relative;display:grid;gap:var(--ca-space-1);width:100%;padding:var(--ca-space-4) var(--ca-space-12) var(--ca-space-4) var(--ca-space-4);margin-bottom:var(--ca-space-2);border:0;border-radius:var(--ca-radius-medium);text-align:left;background:var(--ca-settings-selectable-background);color:var(--ca-text);font:inherit;cursor:pointer;}
-  .settings-result:hover {background:var(--ca-settings-selectable-hover);}
-  .settings-result::after {position:absolute;top:50%;right:var(--ca-space-6);width:var(--ca-space-2);height:var(--ca-space-2);border-right:2px solid currentColor;border-bottom:2px solid currentColor;content:"";transform:translateY(-50%) rotate(-45deg);}
-  .settings-result-category,.settings-result>span:last-child,.settings-empty p {color:var(--ca-muted);}
-  .settings-result-category {font-size:var(--ca-type-caption);}
+  .settings-pages {min-width:0;}
   .settings-pages :global([data-settings-section]) {margin:0;padding:0;min-width:0;border:0;border-radius:var(--ca-radius-none);background:transparent;box-shadow:none;}
   .settings-pages :global([data-settings-section][hidden]) {display:none;}
   .settings-pages :global([data-settings-section] > .settings-section-copy) {max-width:48rem;margin:0 0 var(--ca-space-6);}
@@ -251,7 +207,7 @@
   .settings-pages :global(details[open]:not([data-settings-section]) > summary) {margin-bottom:var(--ca-space-4);}
   .settings-pages :global(details[open]:not([data-settings-section]) > summary::after),.settings-pages :global(.section-toggle[aria-expanded="true"]::after) {transform:translateY(-65%) rotate(45deg);}
   .settings-pages :global(details:not([data-settings-section]) > summary:hover),.settings-pages :global(.section-toggle:hover),.settings-pages :global(select:hover:not(:disabled)),.settings-pages :global(.model-picker-button:hover:not(:disabled)),.settings-pages :global(.action:hover:not(:disabled)),.settings-pages :global(.mini-action:hover:not(:disabled)),.settings-pages :global(.provider-card button:hover:not(:disabled)),.settings-pages :global(.native-configuration button:hover:not(:disabled)),.settings-pages :global(.native-access button:hover:not(:disabled)) {background:var(--ca-settings-selectable-hover);color:var(--ca-text);}
-  .settings-result:focus-visible,.settings-pages :global(:is(summary,button,input,select,textarea):focus-visible) {outline:2px solid var(--ca-settings-control-focus);outline-offset:var(--ca-space-1);}
+  .settings-pages :global(:is(summary,button,input,select,textarea):focus-visible) {outline:2px solid var(--ca-settings-control-focus);outline-offset:var(--ca-space-1);}
   .settings-pages :global(:is(button,input,select,textarea):disabled) {opacity:.55;cursor:not-allowed;}
 
   .settings-pages :global(.settings-picker) {position:relative;display:grid;width:100%;min-width:0;max-width:none;gap:var(--ca-space-2);}
@@ -277,18 +233,17 @@
   .settings-pages :global(#settings-agent[data-settings-presentation="settings-codex-tools"] .codex-tools-copy) {display:block;margin:0 0 var(--ca-space-4);}
 
   @media (prefers-reduced-motion:reduce) {
-    .settings-search,.settings-back,.settings-result,.settings-pages :global(details:not([data-settings-section]) > summary),.settings-pages :global(details:not([data-settings-section]) > summary::after),.settings-pages :global(.section-toggle),.settings-pages :global(.section-toggle::after) {transition:none;}
+    .settings-back,.settings-pages :global(details:not([data-settings-section]) > summary),.settings-pages :global(details:not([data-settings-section]) > summary::after),.settings-pages :global(.section-toggle),.settings-pages :global(.section-toggle::after) {transition:none;}
     .settings-pages :global(.settings-picker-menu) {animation:none;}
   }
   @container settings (max-width:980px) {
-    .settings-topbar {grid-template-columns:minmax(0,1fr) auto;gap:var(--ca-space-3);padding:var(--ca-space-4);}
+    .settings-topbar {gap:var(--ca-space-3);padding:0 var(--ca-space-4);}
     .settings-topbar h1 {grid-column:1;grid-row:1;align-self:center;}
     .settings-back {grid-column:2;grid-row:1;}
-    .settings-search {grid-column:1/-1;grid-row:2;}
-    .settings-nav {padding:var(--ca-space-2) var(--ca-space-4) var(--ca-space-4);overflow:hidden;}
+    .settings-nav {padding:0 var(--ca-space-4) var(--ca-space-3);overflow:hidden;}
   }
   @container settings (max-width:760px) {
-    .settings-page-head {padding:var(--ca-space-4) var(--ca-space-4) var(--ca-space-3);}
+    .settings-page-head {padding:0 var(--ca-space-4) var(--ca-space-3);}
     h2 {font-size:var(--ca-type-display);}
     .settings-content {padding:0 var(--ca-space-4) var(--ca-space-8);scrollbar-gutter:auto;}
     .settings-pages :global(.ssh-form-grid),.settings-pages :global(.remote-desktop-grid) {grid-template-columns:minmax(0,1fr);}
@@ -302,7 +257,5 @@
   @container settings (max-width:520px) {
     .settings-back {width:calc(var(--ca-control-prominent) + var(--ca-space-3));padding:0;justify-content:center;}
     .settings-topbar h1 {font-size:var(--ca-type-settings-sidebar-title-compact);}
-    .settings-search {min-height:var(--ca-control-default);}
-    .settings-search kbd {display:none;}
   }
 </style>

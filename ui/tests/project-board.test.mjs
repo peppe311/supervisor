@@ -2,6 +2,31 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {activityFiles,fileActivityLabel,fileWorkLabel,agentInProject,agentKey,projectChats,fileRows,sameLocalPath} from '../src/lib/project-board.ts';
 import {boardLayout,readBoardLayout,writeBoardLayout} from '../src/lib/board-layout.ts';
+import {comparisonReady,commandOutcome} from '../src/lib/work-results.ts';
+
+test('work comparisons require complete idle reports and a separate native reviewer',()=>{
+  const a={owner:'chat:a',loaded:true,busy:false,partial:false,remote:false,pendingRequests:0};
+  const b={...a,owner:'chat:b'};
+  const reviewer={owner:'graph:r',reviewer:true,busy:false,threadId:'native-reviewer'};
+  assert.equal(comparisonReady(a,b,reviewer),true);
+  for(const patch of [{loaded:false},{busy:true},{partial:true},{remote:true},{pendingRequests:1}]){
+    assert.equal(comparisonReady({...a,...patch},b,reviewer),false);
+    assert.equal(comparisonReady(a,{...b,...patch},reviewer),false);
+  }
+  assert.equal(comparisonReady(a,a,reviewer),false);
+  for(const patch of [{owner:a.owner},{owner:b.owner},{busy:true},{reviewer:false},{threadId:null}]){
+    assert.equal(comparisonReady(a,b,{...reviewer,...patch}),false);
+  }
+  assert.equal(comparisonReady(null,b,reviewer),false);
+});
+
+test('missing command outcomes are never presented as a successful check',()=>{
+  assert.equal(commandOutcome({status:'succeeded',exitCode:0}),'Exit 0');
+  assert.equal(commandOutcome({status:'completed',exitCode:1}),'Exit 1');
+  assert.equal(commandOutcome({status:'completed',exitCode:null}),'Exit not reported');
+  assert.equal(commandOutcome({status:'failed',exitCode:null}),'Failed');
+  assert.equal(commandOutcome({status:'stopped',exitCode:null}),'Stopped');
+});
 
 test('board layout keeps bounded presentation state only',()=>{
   const restored=boardLayout({selectedChat:'a',openChats:['a','a','b',null],minimized:['chat:a'],projectsWidth:Infinity,filesWidth:9000,chatShare:-4,execute:'never',permissions:'full'});

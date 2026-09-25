@@ -243,13 +243,39 @@ fn run_git(binary: &Path, root: &Path, arguments: &[&str]) -> Result<String, Str
 }
 
 /// An isolated working copy is a user project, never a disposable build cache.
+pub(crate) fn validate_task_worktree_source(root: &Path) -> Result<PathBuf, String> {
+    let root = fs::canonicalize(root).map_err(|e| e.to_string())?;
+    let binary = crate::git_diff::find_git().ok_or("Install Git before creating a worktree.")?;
+    let repository = run_git(&binary, &root, &["rev-parse", "--show-toplevel"]).map_err(|_| {
+        "New task in a worktree requires a Git repository. Commit the project files first."
+            .to_owned()
+    })?;
+    if fs::canonicalize(repository.trim()).map_err(|e| e.to_string())? != root {
+        return Err(
+            "Add the repository root as a project before creating an isolated task.".into(),
+        );
+    }
+    run_git(&binary, &root, &["rev-parse", "--verify", "HEAD"])
+        .map_err(|_| "Create the first commit before using worktrees.".to_owned())?;
+    if run_git(&binary, &root, &["ls-tree", "--name-only", "HEAD"])?
+        .trim()
+        .is_empty()
+    {
+        return Err(
+            "The current Git commit contains no files. Commit the project files before creating a worktree."
+                .into(),
+        );
+    }
+    Ok(root)
+}
+
 pub(crate) fn create_task_worktree(
     root: &Path,
     parent: &Path,
     name: &str,
 ) -> Result<PathBuf, String> {
     let name = validate_new_project_name(name)?;
-    let root = fs::canonicalize(root).map_err(|e| e.to_string())?;
+    let root = validate_task_worktree_source(root)?;
     let parent = fs::canonicalize(parent).map_err(|e| e.to_string())?;
     if !parent.is_dir() || parent.starts_with(&root) {
         return Err("Choose a destination outside the original project.".into());
@@ -261,14 +287,6 @@ pub(crate) fn create_task_worktree(
         );
     }
     let binary = crate::git_diff::find_git().ok_or("Install Git before creating a worktree.")?;
-    let repository = run_git(&binary, &root, &["rev-parse", "--show-toplevel"])?;
-    if fs::canonicalize(repository.trim()).map_err(|e| e.to_string())? != root {
-        return Err(
-            "Add the repository root as a project before creating an isolated task.".into(),
-        );
-    }
-    run_git(&binary, &root, &["rev-parse", "--verify", "HEAD"])
-        .map_err(|_| "Create the first commit before using worktrees.".to_owned())?;
     let slug: String = name
         .chars()
         .map(|ch| {
@@ -851,6 +869,46 @@ mod tests {
         );
         assert!(create_task_worktree(&source, &source, "nested").is_err());
         assert!(create_task_worktree(&source, parent.path(), "../escape").is_err());
+    }
+
+    #[test]
+    fn task_worktree_rejects_projects_without_committed_files_before_creating_a_folder() {
+        let parent = tempfile::tempdir().unwrap();
+        let source = parent.path().join("source");
+        fs::create_dir(&source).unwrap();
+        fs::write(source.join("draft.txt"), "not committed").unwrap();
+        assert!(
+            validate_task_worktree_source(&source)
+                .unwrap_err()
+                .contains("requires a Git repository")
+        );
+        assert!(!parent.path().join("isolated").exists());
+
+        let binary = crate::git_diff::find_git().expect("Git is required for worktree tests");
+        run_git(&binary, &source, &["init"]).unwrap();
+        run_git(
+            &binary,
+            &source,
+            &[
+                "-c",
+                "user.name=Fixture",
+                "-c",
+                "user.email=fixture@example.test",
+                "-c",
+                "commit.gpgSign=false",
+                "commit",
+                "--allow-empty",
+                "-m",
+                "empty fixture",
+            ],
+        )
+        .unwrap();
+        assert!(
+            create_task_worktree(&source, parent.path(), "isolated")
+                .unwrap_err()
+                .contains("current Git commit contains no files")
+        );
+        assert!(!parent.path().join("isolated").exists());
     }
 
     #[test]

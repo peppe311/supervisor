@@ -34,6 +34,34 @@ fn graph_branch(source: &AgentGraphBinding, title: &str) -> AgentGraphBinding {
 }
 
 impl BrowserApp {
+    pub(in crate::browser) fn handoff_native_branch(
+        &mut self,
+        owner: &str,
+        title: &str,
+        root: &str,
+        continuation: &str,
+    ) -> Result<(String, Option<String>), String> {
+        if owner.starts_with("graph:")
+            && self.agent_graph_bindings.len() >= MAX_AGENT_GRAPH_BINDINGS
+        {
+            return Err("The project agent limit has been reached.".into());
+        }
+        self.create_native_branch(owner, title, root, None)?;
+        let destination = self
+            .app_server
+            .last_branches
+            .get(owner)
+            .ok_or("The handoff destination was not allocated")?
+            .owner
+            .clone();
+        // This is a local unsent draft; native fork alone preserves the actual
+        // transcript and attachments, without feeding a projected history back.
+        // The native request was already sent. A local draft-write failure
+        // must not be reported as a failed fork and invite a duplicate retry.
+        let warning = self.seed_work_draft(&destination, continuation).err()
+            .map(|error|format!("The new conversation is being created, but its continuation draft could not be saved. Keep the instruction above and paste it into the new agent: {error}"));
+        Ok((destination, warning))
+    }
     /// Allocate and durably save the local owner before a native operation can
     /// create a thread for it. The destination contains no copied transcript,
     /// provider session or permission consent.

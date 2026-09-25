@@ -208,14 +208,21 @@ impl BrowserApp {
         if submission.scope.is_none() {
             self.validate_initial_submission(submission)?;
         }
-        let native_access = self.app_server.access();
+        let automatic_review = submission
+            .supervision_review
+            .as_ref()
+            .is_some_and(|review| review.automatic);
+        let native_access = supervision::review_access(
+            submission.supervision_review.as_ref(),
+            self.app_server.access(),
+        );
         let skill_owner = if let Some(launch) = &submission.agent_graph_launch {
             format!("graph:{}", launch.node_key)
         } else {
             self.composer_owner()
         };
         let native_summary = self.app_server.summary(&skill_owner);
-        if submission.provider == AgentProviderKind::CodexAppServer {
+        if submission.provider == AgentProviderKind::CodexAppServer && !automatic_review {
             let directory = submission_checkpoint_root(
                 self.workspace.root(),
                 submission.agent_graph_launch.as_ref(),
@@ -257,9 +264,11 @@ impl BrowserApp {
             ),
         });
         if submission.provider == AgentProviderKind::CodexAppServer {
-            self.app_server
-                .promote_skills(&skill_owner, submission.owner().unwrap());
-            self.emit_app_server_skills(submission.owner().unwrap(), None);
+            if !automatic_review {
+                self.app_server
+                    .promote_skills(&skill_owner, submission.owner().unwrap());
+                self.emit_app_server_skills(submission.owner().unwrap(), None);
+            }
             self.app_server
                 .inherit_summary(submission.owner().unwrap().into(), native_summary);
         }
@@ -363,8 +372,12 @@ impl BrowserApp {
             .scope
             .as_ref()
             .ok_or("The request has no conversation owner.")?;
+        let expected_access = supervision::review_access(
+            submission.supervision_review.as_ref(),
+            self.app_server.access(),
+        );
         if submission.provider == AgentProviderKind::CodexAppServer
-            && scope.native_access != self.app_server.access()
+            && scope.native_access != expected_access
         {
             return Err("Shared Codex permissions changed. Review this prompt and its access profile before resubmitting.".into());
         }

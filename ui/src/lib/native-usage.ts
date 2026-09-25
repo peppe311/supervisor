@@ -8,6 +8,7 @@ export type Breakdown = Record<Counter, string | null>;
 export interface NativeUsage {
   visible: boolean; connected: boolean; current: boolean;
   turnId: string | null; activeTurnId: string | null;
+  model: string | null; cacheReportAtMs: number | null;
   report: {last: Breakdown; total: Breakdown; modelContextWindow: string | null} | null;
 }
 const record = (value:unknown):Record<string,unknown> => value && typeof value === "object" ? value as Record<string,unknown> : {};
@@ -19,6 +20,8 @@ export function usageSnapshot(detail:unknown, owner:string):NativeUsage|null {
   const view=record(data.nativeUsage), report=record(view.report);
   return {visible:view.visible === true,connected:view.connected === true,current:view.current === true,
     turnId:typeof view.turnId === "string" ? view.turnId : null,activeTurnId:typeof view.activeTurnId === "string" ? view.activeTurnId : null,
+    model:typeof view.model === "string" ? view.model : null,
+    cacheReportAtMs:typeof view.cacheReportAtMs === "number" && Number.isSafeInteger(view.cacheReportAtMs) && view.cacheReportAtMs>0 ? view.cacheReportAtMs : null,
     report:view.report && typeof view.report === "object" ? {last:breakdown(report.last),total:breakdown(report.total),modelContextWindow:count(report.modelContextWindow)} : null};
 }
 export function formatUsage(value:string|null|undefined):string {

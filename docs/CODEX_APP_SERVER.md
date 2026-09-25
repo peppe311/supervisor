@@ -1592,6 +1592,17 @@ turn labels the prior report appropriately. Provider/owner changes cannot borrow
 another conversation's counters. No new telemetry polling, local persistence,
 token estimate, billing calculation, prompt limit or context override is introduced.
 
+The composer now also shows a compact **estimated cache window** after a fresh,
+owner-scoped native usage event reports cached-input or cache-write tokens for
+GPT-5.6 or later. The local receipt time starts a 30-minute reference countdown;
+the model is captured with that event so a later profile change cannot relabel an
+older report. After 30 minutes the label becomes `30m+`, not an expiry claim.
+The App Server reports token counts but no cache expiration or exact model-call
+time, and this transient timer disappears after a restart, disconnect, stale
+report or unknown model. The 30-minute minimum for these API model families is
+documented at https://developers.openai.com/api/docs/guides/prompt-caching;
+Codex subscription retention is not separately guaranteed by that API guide.
+
 Usage increment verification (2026-09-07): the complete workspace script passed
 with `RUST_TEST_THREADS=1` (437 Rust tests, 2 ignored), frontend checks/build,
 three usage-presentation tests, 29 outbound/19 decision contract samples and three

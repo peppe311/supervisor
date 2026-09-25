@@ -21,6 +21,18 @@ pub(super) struct ReviewDispatch {
     pub(super) expected_turn_id: Option<String>,
     pub(super) terminal: bool,
     pub(super) generation: u64,
+    pub(super) automatic: bool,
+}
+
+pub(super) fn review_access(
+    review: Option<&ReviewDispatch>,
+    selected: central_agent_codex_runtime::api::Access,
+) -> central_agent_codex_runtime::api::Access {
+    if review.is_some_and(|review| review.automatic) {
+        central_agent_codex_runtime::api::Access::ReadOnly
+    } else {
+        selected
+    }
 }
 
 #[derive(Clone, Debug)]
@@ -115,15 +127,32 @@ pub(super) fn review_output_schema() -> Value {
 pub(super) fn review_instructions(review: &ReviewDispatch) -> String {
     let turn = review.expected_turn_id.as_deref().unwrap_or("unavailable");
     format!(
-        "{REVIEW_CONTROL_PREFIX}You are the saved Supervisor for the linked worker. Review the supplied public observed-agent snapshot against the user's supervision goal and your prior reviews. Check progress, tool outcomes, file changes, pending requests, errors and whether the worker is still following the task. Do not expose or infer private chain of thought. Do not execute or modify the worker's task yourself. Return only the required structured decision. Choose `steer` for a specific correction. On a terminal snapshot, choose `observe` only when the work appears complete and the available evidence contains no unresolved failure, blocker or required validation; otherwise choose `steer` with the exact next instruction. On a live snapshot, choose `observe` when no correction is needed now. The host will independently verify the saved link and exact active turn before delivering a live correction; a terminal correction is surfaced as work that needs revision. Observed turn: {turn}. Terminal snapshot: {}.",
+        "{REVIEW_CONTROL_PREFIX}You are the saved Supervisor for the linked worker. Review the supplied public observed-agent snapshot against the linked user's latest task, any explicit supervision goal, and your prior reviews. Check progress, tool outcomes, file changes, pending requests, errors and whether the worker is still following the task. Do not expose or infer private chain of thought. Do not execute or modify the worker's task yourself. Return only the required structured decision. Choose `steer` for a specific correction. On a terminal snapshot, choose `observe` only when the work appears complete and the available evidence contains no unresolved failure, blocker or required validation; otherwise choose `steer` with the exact next instruction. On a live snapshot, choose `observe` when no correction is needed now. The host will independently verify the saved link and exact active turn before delivering a live correction; a terminal correction is surfaced as work that needs revision. Observed turn: {turn}. Terminal snapshot: {}.",
         review.terminal
     )
 }
 
 fn automatic_review_prompt() -> String {
     format!(
-        "{AUTOMATIC_REVIEW_PREFIX}A meaningful worker checkpoint arrived. Re-evaluate the linked agent now using the attached observed-agent snapshot and the supervision objective already present in this conversation."
+        "{AUTOMATIC_REVIEW_PREFIX}The linked project conversation started or reached a meaningful checkpoint. Review the latest user request and the public worker evidence in the attached observed-agent snapshot. Use the linked user's request as the task objective, along with any explicit supervision instructions already present in this conversation."
     )
+}
+
+fn validated_supervised_chat_id<'a>(
+    binding: &'a AgentGraphBinding,
+    chats: &[ProjectChat],
+) -> Option<&'a str> {
+    if binding.provider != AgentProviderKind::CodexAppServer {
+        return None;
+    }
+    let chat_id = binding.project_chat_id.as_deref()?;
+    project_board::chat_in_project(
+        chats,
+        chat_id,
+        binding.project_directory.as_deref(),
+        binding.ssh_profile_id.is_some(),
+    )
+    .then_some(chat_id)
 }
 
 fn notification_turn_id(params: &Value) -> Option<String> {
@@ -175,15 +204,7 @@ impl BrowserApp {
         if binding.provider != AgentProviderKind::CodexAppServer {
             return None;
         }
-        let chat_id = binding.project_chat_id.as_deref()?;
-        if !project_board::chat_in_project(
-            &self.project_chats,
-            chat_id,
-            binding.project_directory.as_deref(),
-            binding.ssh_profile_id.is_some(),
-        ) {
-            return None;
-        }
+        let chat_id = validated_supervised_chat_id(binding, &self.project_chats)?;
         let target_owner = format!("chat:{chat_id}");
         Some((format!("graph:{node_key}"), target_owner))
     }
@@ -247,7 +268,55 @@ impl BrowserApp {
             expected_turn_id: worker_turn_id,
             terminal: active_turn.is_none(),
             generation: state.generation,
+            automatic: false,
         })
+    }
+
+    /// An accepted worker prompt starts supervision for every valid saved link.
+    /// Rejected, queued and cancelled prompts do not start a Supervisor turn.
+    pub(super) fn begin_automatic_supervision(&mut self, worker_owner: &str, turn_id: &str) {
+        let Some(chat_id) = worker_owner.strip_prefix("chat:") else {
+            return;
+        };
+        if turn_id.is_empty() {
+            return;
+        }
+        let nodes = self
+            .agent_graph_bindings
+            .iter()
+            .filter(|binding| {
+                validated_supervised_chat_id(binding, &self.project_chats) == Some(chat_id)
+            })
+            .map(AgentGraphBinding::node_key)
+            .collect::<Vec<_>>();
+        if nodes.is_empty() {
+            return;
+        }
+        for node_key in nodes {
+            let state = self
+                .supervision_loops
+                .entry(node_key)
+                .or_insert_with(|| LoopState {
+                    target_owner: worker_owner.to_owned(),
+                    worker_turn_id: Some(turn_id.to_owned()),
+                    generation: 0,
+                    dirty: false,
+                    terminal: false,
+                    result: None,
+                });
+            if state.target_owner != worker_owner {
+                *state = LoopState {
+                    target_owner: worker_owner.to_owned(),
+                    worker_turn_id: Some(turn_id.to_owned()),
+                    generation: state.generation.saturating_add(1),
+                    dirty: false,
+                    terminal: false,
+                    result: None,
+                };
+            }
+        }
+        self.mark_supervision_checkpoint(worker_owner, Some(turn_id.to_owned()), false);
+        self.render_agent_graph_surface();
     }
 
     pub(super) fn automatic_supervision_active(&self, node_key: &str) -> bool {
@@ -358,7 +427,12 @@ impl BrowserApp {
         let nodes = self
             .supervision_loops
             .iter()
-            .filter(|(_, state)| state.target_owner == target_owner)
+            .filter(|(node_key, state)| {
+                state.target_owner == target_owner
+                    && self
+                        .supervision_target(node_key)
+                        .is_some_and(|(_, target)| target == target_owner)
+            })
             .map(|(node, _)| node.clone())
             .collect::<Vec<_>>();
         for node_key in nodes {
@@ -449,11 +523,9 @@ impl BrowserApp {
             expected_turn_id,
             terminal,
             generation,
+            automatic: true,
         };
         submission.supervision_review = Some(review);
-        if let Some(scope) = submission.scope.as_mut() {
-            scope.native_access = central_agent_codex_runtime::api::Access::ReadOnly;
-        }
         if let Some(state) = self.supervision_loops.get_mut(&node_key) {
             state.dirty = false;
         }
@@ -611,6 +683,92 @@ mod tests {
     use super::*;
 
     #[test]
+    fn automatic_supervision_requires_a_native_same_project_link() {
+        let chat: ProjectChat = serde_json::from_value(json!({
+            "id":"worker", "projectRoot":"C:/work/a", "title":"Worker",
+            "pinned":false, "archived":false, "createdAtMs":1,
+            "updatedAtMs":1, "messages":[]
+        }))
+        .unwrap();
+        let binding = AgentGraphBinding {
+            project_chat_id: Some("worker".into()),
+            project_directory: Some("C:/work/a".into()),
+            provider: AgentProviderKind::CodexAppServer,
+            ..AgentGraphBinding::default()
+        };
+        assert_eq!(
+            validated_supervised_chat_id(&binding, std::slice::from_ref(&chat)),
+            Some("worker")
+        );
+        assert!(
+            validated_supervised_chat_id(
+                &AgentGraphBinding {
+                    project_directory: Some("C:/work/b".into()),
+                    ..binding.clone()
+                },
+                std::slice::from_ref(&chat)
+            )
+            .is_none()
+        );
+        assert!(
+            validated_supervised_chat_id(
+                &AgentGraphBinding {
+                    ssh_profile_id: Some("remote".into()),
+                    ..binding.clone()
+                },
+                std::slice::from_ref(&chat)
+            )
+            .is_none()
+        );
+        assert!(
+            validated_supervised_chat_id(
+                &AgentGraphBinding {
+                    provider: AgentProviderKind::ClaudeCode,
+                    ..binding.clone()
+                },
+                std::slice::from_ref(&chat)
+            )
+            .is_none()
+        );
+        assert!(
+            validated_supervised_chat_id(
+                &binding,
+                &[ProjectChat {
+                    archived: true,
+                    ..chat
+                }]
+            )
+            .is_none()
+        );
+        assert!(is_review_control_input(&automatic_review_prompt()));
+        let dispatch = ReviewDispatch {
+            node_key: "supervisor".into(),
+            target_owner: "chat:worker".into(),
+            expected_turn_id: Some("turn".into()),
+            terminal: false,
+            generation: 1,
+            automatic: true,
+        };
+        assert_eq!(
+            review_access(
+                Some(&dispatch),
+                central_agent_codex_runtime::api::Access::FullAccess
+            ),
+            central_agent_codex_runtime::api::Access::ReadOnly
+        );
+        assert_eq!(
+            review_access(
+                Some(&ReviewDispatch {
+                    automatic: false,
+                    ..dispatch
+                }),
+                central_agent_codex_runtime::api::Access::FullAccess
+            ),
+            central_agent_codex_runtime::api::Access::FullAccess
+        );
+    }
+
+    #[test]
     fn stale_corrections_cannot_be_delivered() {
         assert!(correction_is_current(false, Some("t"), Some("t")));
         for (terminal, expected, active) in [
@@ -652,6 +810,7 @@ mod tests {
             expected_turn_id: Some("turn".into()),
             terminal: true,
             generation: 1,
+            automatic: true,
         });
         assert!(terminal_prompt.contains("needs revision"));
 

@@ -4,6 +4,7 @@ use crate::model_notices::{self, ModelNotice, Notice};
 use serde::Serialize;
 use serde_json::{Value, json};
 use std::collections::{BTreeMap, HashMap};
+use std::time::{SystemTime, UNIX_EPOCH};
 
 #[derive(Clone, Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -127,6 +128,12 @@ pub struct Thread {
     pub token_usage: Option<Value>,
     pub token_usage_turn_id: Option<String>,
     pub token_usage_current: bool,
+    /// Local receipt time for an actual native usage notification, never history data.
+    #[serde(skip)]
+    pub token_usage_observed_at_ms: Option<u64>,
+    /// The model at the time of that report; later profile changes cannot relabel it.
+    #[serde(skip)]
+    pub token_usage_model: Option<String>,
     pub settings: Option<crate::thread_settings::ThreadSettings>,
     pub settings_current: bool,
     /// P3 backend metadata is not projected into the WebView or persisted.
@@ -157,6 +164,8 @@ impl Thread {
             token_usage: None,
             token_usage_turn_id: None,
             token_usage_current: false,
+            token_usage_observed_at_ms: None,
+            token_usage_model: None,
             settings: None,
             settings_current: false,
             metadata: None,
@@ -251,6 +260,8 @@ impl Mirror {
         thread.token_usage = None;
         thread.token_usage_turn_id = None;
         thread.token_usage_current = false;
+        thread.token_usage_observed_at_ms = None;
+        thread.token_usage_model = None;
         thread.notices.clear();
     }
 
@@ -531,6 +542,15 @@ impl Mirror {
             thread.token_usage = Some(params["tokenUsage"].clone());
             thread.token_usage_turn_id = Some(turn_id.into());
             thread.token_usage_current = true;
+            thread.token_usage_model = thread
+                .settings_current
+                .then_some(thread.settings.as_ref())
+                .flatten()
+                .map(|settings| settings.model.clone());
+            thread.token_usage_observed_at_ms = SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .ok()
+                .and_then(|duration| u64::try_from(duration.as_millis()).ok());
             return Ok(true);
         }
         if matches!(method, "turn/started" | "turn/completed") {
@@ -1261,6 +1281,45 @@ mod tests {
             .notify("thread/tokenUsage/updated", &samples[1])
             .unwrap();
         assert!(mirror.thread("usage-thread").unwrap().token_usage_current);
+    }
+    #[test]
+    fn cache_report_records_local_receipt_and_original_model_only_for_fresh_usage() {
+        let settings: Value =
+            serde_json::from_str(include_str!("../tests/thread-settings.json")).unwrap();
+        let mut mirror = Mirror::default();
+        mirror.notify("thread/settings/updated", &settings).unwrap();
+        mirror
+            .notify(
+                "thread/tokenUsage/updated",
+                &json!({
+                    "threadId":"native-a","turnId":"turn-a",
+                    "tokenUsage":{"last":{"cachedInputTokens":100},"total":{}}
+                }),
+            )
+            .unwrap();
+        let thread = mirror.thread("native-a").unwrap();
+        assert_eq!(thread.token_usage_model.as_deref(), Some("fixture-model"));
+        assert!(
+            thread
+                .token_usage_observed_at_ms
+                .is_some_and(|time| time > 0)
+        );
+
+        let mut changed = settings.clone();
+        changed["threadSettings"]["model"] = json!("gpt-6-sol");
+        mirror.notify("thread/settings/updated", &changed).unwrap();
+        assert_eq!(
+            mirror
+                .thread("native-a")
+                .unwrap()
+                .token_usage_model
+                .as_deref(),
+            Some("fixture-model")
+        );
+        mirror.invalidate_history("native-a");
+        let thread = mirror.thread("native-a").unwrap();
+        assert!(thread.token_usage_observed_at_ms.is_none());
+        assert!(thread.token_usage_model.is_none());
     }
     #[test]
     fn absent_usage_is_not_zero_and_diff_does_not_destroy_items() {

@@ -54,6 +54,7 @@
   let sshDirectory = $state("");
   let sshName = $state("");
   let menuId = $state<string | null>(null);
+  let gitNotice = $state("");
   let removeProject = $state<ProjectCard | null>(null);
   let importWasActive = false;
   let observedAddRequestId = 0;
@@ -65,7 +66,7 @@
     return !normalized || `${project.name}\n${project.path}\n${project.sshProfileName || ""}\n${project.metadata?.stack?.join(" ") || ""}`.toLocaleLowerCase().includes(normalized);
   }));
   const pinned = $derived(projects.filter(project => project.pinned));
-  const recent = $derived(projects.filter(project => !project.pinned));
+  const unpinned = $derived(projects.filter(project => !project.pinned));
 
   export function update(next: RegistryState): void {
     registry = {
@@ -98,6 +99,7 @@
   }
 
   function action(name: string, detail: Record<string, unknown> = {}): void {
+    if (name !== "git") gitNotice = "";
     eventTarget.dispatchEvent(new CustomEvent("central-agent:project-registry", {
       bubbles: true,
       detail: { action: name, ...detail },
@@ -142,6 +144,18 @@
   }
 
   function cardKey(project: ProjectCard): string { return `${project.source}:${project.id}`; }
+
+  function requestGitStatus(project: ProjectCard): void {
+    menuId = null;
+    if (project.scanning) {
+      gitNotice = `Git status for ${project.name} is still being detected. Try again shortly.`;
+    } else if (!project.metadata?.gitRepository) {
+      gitNotice = `${project.name} is not a Git repository. Add a Git project or initialize and commit this folder first.`;
+    } else {
+      gitNotice = "";
+      action("git", { source: project.source, id: project.id });
+    }
+  }
 
   function requestRemove(project: ProjectCard): void {
     menuId = null;
@@ -207,6 +221,9 @@
   {#if registry.import.message && !addOpen}
     <div class:error={registry.import.error} class="registry-status" role="status">{registry.import.message}</div>
   {/if}
+  {#if gitNotice}
+    <div class="registry-status git-notice" role="status"><span>{gitNotice}</span><button type="button" aria-label="Dismiss Git status message" onclick={() => gitNotice = ""}>×</button></div>
+  {/if}
 
   <div class="project-list">
     {#if pinned.length}
@@ -215,9 +232,9 @@
         {@render projectCard(project)}
       {/each}
     {/if}
-    <h3>{pinned.length ? "Recent" : "Recent projects"}</h3>
-    {#if recent.length}
-      {#each recent as project (cardKey(project))}
+    <h3>Projects</h3>
+    {#if unpinned.length}
+      {#each unpinned as project (cardKey(project))}
         {@render projectCard(project)}
       {/each}
     {:else if !pinned.length}
@@ -254,7 +271,7 @@
               {#if compact}<button type="button" onclick={() => {action("start-agent", { source: project.source, id: project.id, nodeKey: project.nodeKey }); menuId = null;}}>New supervisor</button>{/if}
               <button type="button" onclick={() => { action("terminal", { source: project.source, id: project.id }); menuId = null; }}>Open terminal</button>
               {#if project.source === "local"}<button type="button" onclick={() => { action("folder", { root: project.id }); menuId = null; }}>Show folder</button>{/if}
-              <button type="button" disabled={!project.metadata?.gitRepository} onclick={() => { action("git", { source: project.source, id: project.id }); menuId = null; }}>Git status</button>
+              <button type="button" onclick={() => requestGitStatus(project)}>Git status</button>
               <button type="button" aria-label={project.pinned ? "Unpin project" : "Pin project"} onclick={() => { action("pin", { source: project.source, id: project.id, pinned: !project.pinned }); menuId = null; }}>{project.pinned ? "Unpin" : "Pin project"}</button>
               <button type="button" onclick={() => { action("refresh", { source: project.source, id: project.id }); menuId = null; }}>Refresh metadata</button>
               <button class="remove" type="button" onclick={() => requestRemove(project)}>Remove from Supervisor</button>
@@ -403,6 +420,10 @@
   .drop-folder strong,.project-title strong,.add-choice strong{font-weight:650}
   .drop-folder small,.project-title small,.add-choice small{overflow:hidden;color:var(--ca-muted);font-size:var(--ca-type-caption);text-overflow:ellipsis;white-space:nowrap}
   .registry-status,.form-status{padding:var(--ca-space-2) var(--ca-space-3);border-radius:var(--ca-radius-medium);background:var(--ca-surface-2);color:var(--ca-muted);font-size:var(--ca-type-caption)}
+  .git-notice{display:flex;align-items:start;gap:var(--ca-space-2)}
+  .git-notice span{flex:1;min-width:0;overflow-wrap:anywhere}
+  .git-notice button{flex:0 0 auto;padding:0;border:0;background:transparent;color:var(--ca-text);cursor:pointer}
+  .git-notice button:focus-visible{box-shadow:var(--ca-focus-ring)}
   .registry-status.error,.form-status.error,.detected-note.error{color:var(--ca-text)}
   .project-list{display:flex;min-height:0;flex:1;flex-direction:column;gap:var(--ca-space-2);overflow:auto;padding-right:2px}
   .project-list h3{padding:var(--ca-space-2) 2px 0;color:var(--ca-muted);font:650 var(--ca-type-caption)/1.2 var(--ca-font-body);text-transform:uppercase;letter-spacing:.06em}

@@ -36,7 +36,7 @@ impl BrowserApp {
         }
     }
 
-    pub(super) fn prepare_native_review(
+    pub(in crate::browser) fn prepare_native_review(
         &mut self,
         owner: &str,
         expected_directory: &str,

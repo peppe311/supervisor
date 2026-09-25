@@ -20,9 +20,12 @@ impl BrowserApp {
             return Err("Wait for the current project operation to finish.".into());
         }
         crate::project_registry::validate_new_project_name(name)?;
+        // Reject non-Git or empty-commit projects before Windows asks the user
+        // to create/select a parent folder that would otherwise remain empty.
+        crate::project_registry::validate_task_worktree_source(&root)?;
         let name = name.trim().to_owned();
         let Some(parent) = rfd::FileDialog::new()
-            .set_title("Choose the parent folder for the isolated task")
+            .set_title(format!("Choose the parent folder for {name}"))
             .set_directory(root.parent().unwrap_or(&root))
             .pick_folder()
         else {

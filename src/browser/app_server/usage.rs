@@ -32,6 +32,8 @@ fn projection(thread: Option<&Thread>, visible: bool, connected: bool) -> Value 
         "current": connected && thread.is_some_and(|t| t.token_usage_current),
         "turnId": thread.and_then(|t| t.token_usage_turn_id.as_ref()),
         "activeTurnId": thread.and_then(Thread::active_turn).map(|t| &t.id),
+        "model": thread.and_then(|t| t.token_usage_model.as_ref()),
+        "cacheReportAtMs": thread.and_then(|t| t.token_usage_observed_at_ms),
         "report":usage.map(|u| json!({"last":breakdown(&u["last"]),"total":breakdown(&u["total"]),"modelContextWindow":count(&u["modelContextWindow"])}))})
 }
 impl BrowserApp {
@@ -66,6 +68,12 @@ mod tests {
         assert_eq!(value["report"]["total"]["totalTokens"], "9007199254740993");
         assert!(!value.to_string().contains("private"));
         assert_eq!(value["current"], true);
+        assert!(
+            value["cacheReportAtMs"]
+                .as_u64()
+                .is_some_and(|time| time > 0)
+        );
+        assert!(value["model"].is_null());
         mirror.disconnect();
         assert_eq!(projection(mirror.thread("a"), true, true)["current"], false);
         assert_eq!(

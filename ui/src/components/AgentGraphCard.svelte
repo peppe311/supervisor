@@ -10,6 +10,7 @@
   import NativeConversation from "./NativeConversation.svelte";
   import PluginPicker from "./PluginPicker.svelte";
   import LiveDiffStats from "./LiveDiffStats.svelte";
+  import CacheWindowTimer from "./CacheWindowTimer.svelte";
   import FileAttachments from "./FileAttachments.svelte";
   import TaskVerificationStatus from "./TaskVerificationStatus.svelte";
   import type {TaskVerification} from "../lib/task-verification";
@@ -328,6 +329,7 @@
         <PluginPicker {eventTarget} {owner} compact />
         <LiveDiffStats {eventTarget} {owner} />
       {:else}<span class="steer-label">Steer active turn</span>{/if}
+      <CacheWindowTimer {eventTarget} {owner} />
     </div>
     <div class="graph-work-slot" bind:this={sendControl}>
       <button class="graph-work-action" data-action="stop" data-work-action="stop" type="button" aria-label={stopping ? "Stopping work" : "Stop work"} title={stopping ? "Waiting for work to stop" : "Stop work"} hidden={!canStop || steeringObserved} disabled={stopping} onclick={stopWork}>
@@ -372,7 +374,7 @@
   .agent-console-compose textarea:focus { outline: 0; box-shadow: none; }
   .graph-prompt-field { position:relative; display:grid; min-width:0; padding:var(--ca-space-1); border:0; border-radius:var(--ca-radius-medium); background:var(--ca-input); }
   .graph-prompt-field:focus-within { box-shadow: var(--ca-focus-ring); }
-  .graph-prompt-actions { display:flex; align-items:center; padding:0 calc(var(--ca-control-compact) + var(--ca-space-4)) 0 var(--ca-space-1); }
+  .graph-prompt-actions { display:flex; flex-wrap:wrap; align-items:center; gap:0 var(--ca-space-1); padding:0 calc(var(--ca-control-compact) + var(--ca-space-4)) 0 var(--ca-space-1); }
   .graph-work-slot { position:absolute;inset-inline-end:var(--ca-space-2);inset-block-end:var(--ca-space-2);display:grid;place-items:stretch;box-sizing:border-box;margin:0;width:var(--ca-control-compact);min-width:var(--ca-control-compact);height:var(--ca-control-compact);transform-origin:center; }
   .agent-console-compose .graph-work-action { display: grid; place-items: center; box-sizing: border-box; flex: 0 0 auto; margin-left: auto; width: var(--ca-control-compact); min-width: var(--ca-control-compact); height: var(--ca-control-compact); padding: var(--ca-space-1); border: 0; border-radius: var(--ca-control-radius); color: var(--ca-on-accent); background: var(--ca-accent); box-shadow: none; cursor: pointer; }
   .agent-console-compose .graph-work-slot .graph-work-action { grid-area:1/1;margin-left:0; }
